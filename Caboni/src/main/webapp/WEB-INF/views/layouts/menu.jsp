@@ -4,79 +4,106 @@
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 	<div class="sb-sidenav-menu">
 		<div class="nav">
-			<div class="sb-sidenav-menu-heading">Core</div>
-			<a class="nav-link" href="index.html">
-				<div class="sb-nav-link-icon">
-					<i class="fas fa-tachometer-alt"></i>
-				</div> Dashboard
-			</a>
-			<div class="sb-sidenav-menu-heading">Interface</div>
+		
+			
+			
+			
+			<div class="sb-sidenav-menu-heading">기능</div>
+			
 			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-				data-bs-target="#collapseLayouts" aria-expanded="false"
-				aria-controls="collapseLayouts">
-				<div class="sb-nav-link-icon">
-					<i class="fas fa-columns"></i>
-				</div> Layouts
+				data-bs-target="#collapseGt" aria-expanded="false"
+				aria-controls="collapseGt">
+				공통정보관리
 				<div class="sb-sidenav-collapse-arrow">
 					<i class="fas fa-angle-down"></i>
 				</div>
 			</a>
-			<div class="collapse" id="collapseLayouts"
+			<div class="collapse" id="collapseGt"
 				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
-					<a class="nav-link" href="layout-static.html">Static Navigation</a>
-					<a class="nav-link" href="layout-sidenav-light.html">Light
-						Sidenav</a>
+					<a class="nav-link" href="#">공통코드 관리</a>
+					<a class="nav-link" href="#">거래처정보 관리</a>
+					<a class="nav-link" href="#">자재정보 관리</a>
+					<a class="nav-link" href="#">제품 BOM 관리</a>
+					<a class="nav-link" href="#">공정코드 관리</a>
+					<a class="nav-link" href="#">불량코드 관리</a>
 				</nav>
 			</div>
+			
 			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-				data-bs-target="#collapsePages" aria-expanded="false"
-				aria-controls="collapsePages">
-				<div class="sb-nav-link-icon">
-					<i class="fas fa-book-open"></i>
-				</div> Pages
+				data-bs-target="#collapseEk" aria-expanded="false"
+				aria-controls="collapseEk">
+				영업관리
 				<div class="sb-sidenav-collapse-arrow">
 					<i class="fas fa-angle-down"></i>
 				</div>
 			</a>
-			<div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
-				data-bs-parent="#sidenavAccordion">
-				<nav class="sb-sidenav-menu-nested nav accordion"
-					id="sidenavAccordionPages">
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-						data-bs-target="#pagesCollapseAuth" aria-expanded="false"
-						aria-controls="pagesCollapseAuth"> Authentication
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
-					</a>
-					<div class="collapse" id="pagesCollapseAuth"
-						aria-labelledby="headingOne"
-						data-bs-parent="#sidenavAccordionPages">
-						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="login.html">Login</a> <a
-								class="nav-link" href="register.html">Register</a> <a
-								class="nav-link" href="password.html">Forgot Password</a>
-						</nav>
-					</div>
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-						data-bs-target="#pagesCollapseError" aria-expanded="false"
-						aria-controls="pagesCollapseError"> Error
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
-					</a>
-					<div class="collapse" id="pagesCollapseError"
-						aria-labelledby="headingOne"
-						data-bs-parent="#sidenavAccordionPages">
-						<nav class="sb-sidenav-menu-nested nav">
-							<a class="nav-link" href="401.html">401 Page</a> <a
-								class="nav-link" href="404.html">404 Page</a> <a
-								class="nav-link" href="500.html">500 Page</a>
-						</nav>
-					</div>
+			<div class="collapse" id="collapseEk"
+				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+				<nav class="sb-sidenav-menu-nested nav">
+					<a class="nav-link" href="#">수주 관리</a>
+					<a class="nav-link" href="#">생산의뢰조회 관리</a>
+					<a class="nav-link" href="#">영업재고 관리</a>
+					<a class="nav-link" href="#">출하 관리</a>
+					<a class="nav-link" href="#">배송 관리</a>
 				</nav>
 			</div>
+			
+			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+				data-bs-target="#collapseJj" aria-expanded="false"
+				aria-controls="collapseJj">
+				자재관리
+				<div class="sb-sidenav-collapse-arrow">
+					<i class="fas fa-angle-down"></i>
+				</div>
+			</a>
+			<div class="collapse" id="collapseJj"
+				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+				<nav class="sb-sidenav-menu-nested nav">
+					<a class="nav-link" href="#">발주 관리</a>
+					<a class="nav-link" href="#">입출고 관리</a>
+					<a class="nav-link" href="#">자재LOT 관리</a>
+					<a class="nav-link" href="#">자재재고 조회</a>
+				</nav>
+			</div>
+			
+			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+				data-bs-target="#collapseSs" aria-expanded="false"
+				aria-controls="collapseSs">
+				생산관리
+				<div class="sb-sidenav-collapse-arrow">
+					<i class="fas fa-angle-down"></i>
+				</div>
+			</a>
+			<div class="collapse" id="collapseSs"
+				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+				<nav class="sb-sidenav-menu-nested nav">
+					<a class="nav-link" href="#">생산계획 관리</a>
+					<a class="nav-link" href="#">생산지시 관리</a>
+					<a class="nav-link" href="#">생산지시 조회</a>
+					<a class="nav-link" href="#">공정 모니터링</a>
+					<a class="nav-link" href="#">생산일정 조회</a>
+					<a class="nav-link" href="#">불량내역 조회</a>
+				</nav>
+			</div>
+			
+			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+				data-bs-target="#collapseSb" aria-expanded="false"
+				aria-controls="collapseSb">
+				설비관리
+				<div class="sb-sidenav-collapse-arrow">
+					<i class="fas fa-angle-down"></i>
+				</div>
+			</a>
+			<div class="collapse" id="collapseSb"
+				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+				<nav class="sb-sidenav-menu-nested nav">
+					<a class="nav-link" href="#">각 설비 관리</a>
+				</nav>
+			</div>
+			
+			
+			
 			<div class="sb-sidenav-menu-heading">Addons</div>
 			<a class="nav-link" href="charts.html">
 				<div class="sb-nav-link-icon">
@@ -91,6 +118,6 @@
 	</div>
 	<div class="sb-sidenav-footer">
 		<div class="small">Logged in as:</div>
-		Start Bootstrap
+		Carboni
 	</div>
 </nav>
