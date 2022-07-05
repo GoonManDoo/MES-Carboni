@@ -9,10 +9,15 @@
 
 <P>  Caboni </P>
 
+<a href="matList.do">재고</a>
+
+<p><a href="prodplan.do">생산계획</a></p>
+
 <a href="contract.do">수주관리</a><br>
 <a href="productrequest.do">생산의뢰관리</a><br>
 <a href="goodsstk.do">제품재고관리</a><br>
 <a href="shipping.do">출하관리</a><br>
 <a href="deliver.do">배송관리</a>
+
 </body>
-</html>
+</html> 
