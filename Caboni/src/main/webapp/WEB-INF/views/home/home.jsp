@@ -10,6 +10,7 @@
 <P>  Caboni </P>
 
 <p> 조준희(브랜치명wh)</p>
+<a href="matList.do">재고</a>
 
 </body>
-</html>
+</html> 
