@@ -10,17 +10,15 @@
         <meta name="author" content="" />
         <title>matList.jsp</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-        <link href="resources/css/styles.css" rel="stylesheet" />
         <link href="resources/css/matStyle.css" rel="stylesheet" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 
 
-           <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-           <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+         <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+         <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
    		 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
         <script >
         $(function(){
         	
@@ -73,12 +71,9 @@
         </script>
         
 <style>
-
-
-
-
-
-
+.ui-datepicker table {
+    font-size: 10px;
+}
 
 </style>
 </head>
