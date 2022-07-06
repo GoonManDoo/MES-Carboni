@@ -15,6 +15,7 @@ public class CommonController {
 	public String costomer() {
 		return "common/costomer";
 	}
+	
 	@RequestMapping("/matinfo.do")
 	public String matInfo(){
 		return "common/matinfo";
