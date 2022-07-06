@@ -31,7 +31,7 @@
     		  var dialog = makeModal();
     		  dialog.dialog("open");
     	  })
-      })
+      });
       
       function makeModal(){
         	var dialog =$("#dialog").dialog({
@@ -47,29 +47,37 @@
         		}
         	});
         	return dialog;
-        }
+        };
+      
+        
         
         function contentsAdd(){
         	
         }
+        
+        
+       
+        	 /*데이트피커*/
+            $('.rdt').datepicker({
+            	dateFormat: "yy-mm-dd",
+            	 changeMonth: true,
+                 changeYear: true
+            });
         })
+       
+        
+        
+        
         /* 그리드 표만들기 */
         /* 그리드 펑션!*/
         </script>
         
 <style>
-span{
-
-	padding: 10px;
-}
 
 
 
-.btnright{
- margin-left: 90%;
- 
- 
-}
+
+
 
 
 </style>
@@ -83,8 +91,8 @@ span{
                             <div class="card-header">
                                 
                                 <div class="card-button btnlist"  >
-                                    <button type="button" id="btnModal" >발주</button>
-                                    <input type="submit" value="저장">
+                                    <button type="button" id="btnModal" class="btn btn-secondary btn-block" >발주</button>
+                                    <input type="submit" value="저장" class="btn btn-secondary btn-block">
                                 </div>
                                 </div>
                                 </div>
@@ -92,7 +100,7 @@ span{
                                 <div class="card mb-4 table-center">
                                    <div>
                                     <span>해당일자</span>
-                                    <input type="date"><span>~</span><input type="date">
+                                    <input name="rdt" class="rdt"><span>~</span><input name="rdt" class="rdt">
                                     </div>
                                     <br>
                                     <div>
@@ -106,14 +114,15 @@ span{
                                     </div>
                                     <br>
                                     <div class="btnright"> 
-                                        <button> 조회</button>
-                                        <button> 주문</button>
+                                        <button class="btn btn-secondary btn-block"> 조회</button>
+                                        <button class="btn btn-secondary btn-block"> 주문</button>
                                     </div>
                                 </div>
                             </div>
+                            <div class="container-fluid px-4">
+                            <div id="grid" >
                             
-                            <div id="grid">
-                            
+                             </div>
                              </div>
                              <!-- 그리드 내용 만들기  -->
                              <script >

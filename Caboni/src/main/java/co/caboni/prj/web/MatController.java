@@ -15,7 +15,7 @@ public class MatController {
 	//모달 내용 반환 
 	@RequestMapping("/matAdd.do")
 	public String matAdd() {
-		return "mat/matAdd";
+		return "modal/matAdd";
 	}
 	
 	

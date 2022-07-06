@@ -13,7 +13,19 @@
   	</definition>
   	
   	
+  	<definition name="modal.homepage" template="/WEB-INF/views/modalLayout/modal.jsp">
+  	 <put-attribute name="title" value="modal" />
+	    <put-attribute name="body" value="" />
+  	</definition>
+  	
+  	<definition name="modal/*" extends="modal.homepage">
+  		<put-attribute name="body" value="/WEB-INF/views/modal/{1}.jsp"/>
+  	</definition>
+
   	<definition name="*/*" extends="myapp.homepage">
   		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
   	</definition>
+  	
+  	
+  	
 </tiles-definitions>
