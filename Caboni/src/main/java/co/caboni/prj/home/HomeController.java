@@ -1,4 +1,4 @@
-package co.caboni.prj;
+package co.caboni.prj.home;
 
 import java.text.DateFormat;
 import java.util.Date;
