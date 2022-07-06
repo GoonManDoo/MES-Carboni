@@ -20,5 +20,17 @@ public class CommonController {
 	public String matInfo(){
 		return "common/matinfo";
 	}
+	@RequestMapping("/bom.do")
+	public String bom() {
+		return "common/bom";
+	}
+	@RequestMapping("/procinfo.do")
+	public String procInfo() {
+		return "common/procinfo";
+	}
+	@RequestMapping("/errinfo.do")
+	public String errInfo() {
+		return "common/errinfo";
+	}
 
 }
