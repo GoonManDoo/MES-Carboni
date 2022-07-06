@@ -12,4 +12,15 @@ public class MatController {
 	public String matList(Model model) {
 	 return "mat/matList";
 	}
+	//모달 내용 반환 
+	@RequestMapping("/matAdd.do")
+	public String matAdd() {
+		return "mat/matAdd";
+	}
+	
+	
+	@RequestMapping("/matInsert.do")
+	public String matInsert(Model model) {
+		return "mat/matInsert";
+	}
 }

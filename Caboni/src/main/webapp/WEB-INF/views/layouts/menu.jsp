@@ -61,7 +61,7 @@
 				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
 					<a class="nav-link" href="matList.do">발주 관리</a>
-					<a class="nav-link" href="#">입출고 관리</a>
+					<a class="nav-link" href="matInsert.do">입출고 관리</a>
 					<a class="nav-link" href="#">자재LOT 관리</a>
 					<a class="nav-link" href="#">자재재고 조회</a>
 				</nav>
