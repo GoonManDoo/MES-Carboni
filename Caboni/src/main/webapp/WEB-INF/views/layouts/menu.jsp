@@ -78,7 +78,7 @@
 			<div class="collapse" id="collapseSs"
 				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
-					<a class="nav-link" href="#">생산계획 관리</a>
+					<a class="nav-link" href="prodplan.do">생산계획 관리</a>
 					<a class="nav-link" href="#">생산지시 관리</a>
 					<a class="nav-link" href="#">생산지시 조회</a>
 					<a class="nav-link" href="#">공정 모니터링</a>
