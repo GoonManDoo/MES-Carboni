@@ -3,11 +3,10 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Caboni</title>
+	<title>Carboni</title>
 </head>
 <body>
 
-<P>  Caboni </P>
 
 <a href="matList.do">재고</a><br>
 

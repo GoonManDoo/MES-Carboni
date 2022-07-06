@@ -8,7 +8,7 @@ public class ProdController {
 	
 	@RequestMapping("/prodplan.do")
 	public String ProdPlan() {
-		return "produce/prodplan";
+		return "produce/prodPlan";
 	}
 	
 	
