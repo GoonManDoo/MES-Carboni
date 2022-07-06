@@ -41,11 +41,11 @@
 			<div class="collapse" id="collapseEk"
 				aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
-					<a class="nav-link" href="#">수주 관리</a>
-					<a class="nav-link" href="#">생산의뢰조회 관리</a>
-					<a class="nav-link" href="#">영업재고 관리</a>
-					<a class="nav-link" href="#">출하 관리</a>
-					<a class="nav-link" href="#">배송 관리</a>
+					<a class="nav-link" href="contract.do">수주 관리</a>
+					<a class="nav-link" href="productrequest.do">생산의뢰조회 관리</a>
+					<a class="nav-link" href="goodsstk.do">영업재고 관리</a>
+					<a class="nav-link" href="shipping.do">출하 관리</a>
+					<a class="nav-link" href="deliver.do">배송 관리</a>
 				</nav>
 			</div>
 			
