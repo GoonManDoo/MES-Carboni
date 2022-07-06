@@ -13,6 +13,7 @@
         <link href="resources/css/styles.css" rel="stylesheet" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+        <link href="resources/css/matstyle.css" rel="stylesheet" />
 
            <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
            <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -51,7 +52,7 @@
         }
         })
         /* 그리드 표만들기 */
-        
+        /* 그리드 펑션!*/
         </script>
 <style>
 	
@@ -98,6 +99,7 @@
                             <div id="grid">
                             
                              </div>
+                             <!-- 그리드 내용 만들기  -->
                              <script >
                              const gridData = [];
                              (function() {
