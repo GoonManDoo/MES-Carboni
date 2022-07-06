@@ -5,7 +5,14 @@
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<style>
+	.tui-datepicker {
+		z-index: 99;
+	}
+</style>
 </head>
 <body class="sb-nav-fixed">
 	<div class="container-fluid px-4">
@@ -22,8 +29,41 @@
 		</div>
 		<div class="card mb-2">
 			<div class="card-body">
-				<form>
-					<div class="row">
+				<!-- 입력폼 -->
+				<form autocomplete="off">
+					<div class="grid-option-area">
+						<div class="col-6">
+						<table class="table table-bbs table-write">
+							<tbody>
+								<tr>
+									<th>계획일자</th>
+									<td colspan="6">
+										<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+											<input type="text" id="planDt" aria-label="Date-Time" tabindex="1">
+											<span class="tui-ico-date"></span>
+										</div>
+										<div id="wrapper" style="margin-top: -1px;"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>생산계획명</th>
+									<td>
+										<input type="text" id="planDt" class="form-control" style="width:500px;" maxlength="10" tabindex="2">
+									</td>
+									<td colspan="5">
+								</tr>
+								<tr>
+									<th>특이사항</th>
+									<td>
+										<input type="text" id="planDt" class="form-control" style="width:500px;" maxlength="10" tabindex="2">
+									</td>
+									<td colspan="5">
+								</tr>
+							</tbody>
+						</table>
+						</div>
+					</div>
+					<!-- <div class="row">
 						<div class="col">
 							<label>계획일자</label> <span class="form-floating">
 								<input class="form-control" style="width: 400px;" type="date"><br>
@@ -45,12 +85,12 @@
 								<div class="col form-floating mb-0 mb-md-0">
 									<input class="form-control" style="width: 200px;" type="date"><br>
 								</div>
-								<!-- 버튼 -->
+								버튼
 								<div class="col">
 									<button class="btn btn-secondary btn-block">읽기</button></div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 				</form>
 			</div>
 		</div>
@@ -103,72 +143,98 @@
 		</div>
 	</div>
 	
+	
+	<!-- 스크립트 -->
+	
+	<!-- dataForm -->
 	<script type="text/javascript">
-		jQuery(function($){ 
-			$("datatablesSimple").DataTable(); 
-		}); 
+		
+		const datepicker = new tui.DatePicker('#wrapper', {
+			date: new Date(),
+			input: {
+				element: '#planDt',
+				format: 'yyyy-MM-dd'
+			},
+			language: 'ko'
+			
+		});
+	</script>
+	
+	<!-- 전체표 불필요한 부분 제거 -->
+	<script type="text/javascript">
+		(function(){
+			$('#datatablesSimple').DataTable({
+				"lengthChange": false,
+				"info": false,
+				"paging": false
+			})
+		})();
+			
+	</script>
+	
+	<!-- 필요자재체크 -->
+	<script type="text/javascript">
+		const gridData = [];
+		
+		(function() {
+			for (let i = 0; i < 10; i += 1) {
+				gridData.push({
+					c1 : (i + 1),
+					c2 : ((i + 5) % 8) * 100 + i,
+					c3 : ((i + 3) % 7) * 60,
+					c4 : ((i + 3) % 7) * 60,
+					c5 : ((i + 3) % 7) * 60,
+					c6 : ((i + 3) % 7) * 60,
+					c7 : ((i + 3) % 7) * 60,
+					c8 : ((i + 3) % 7) * 60,
+					c9 : ((i + 3) % 7) * 60,
+	
+				});
+			}
+		})();
+	
+		const grid = new tui.Grid({
+			el : document.getElementById('grid'),
+			data : gridData,
+			scrollX : false,
+			rowHeaders : [ 'rowNum' ],
+			columns : [ {
+				header : '제품코드',
+				name : 'c2',
+				align : 'center'
+			}, {
+				header : '제품명',
+				name : 'c3',
+				align : 'center'
+			}, {
+				header : '자재코드',
+				name : 'c4',
+				align : 'center'
+			}, {
+				header : '자재명',
+				name : 'c5',
+				align : 'center'
+			}, {
+				header : '소요량(개당)',
+				name : 'c6',
+				align : 'center'
+			}, {
+				header : '필요량',
+				name : 'c7',
+				align : 'center'
+			}, {
+				header : '재고량',
+				name : 'c8',
+				align : 'center'
+			}, {
+				header : '부족량',
+				name : 'c9',
+				align : 'center'
+			} ]
+		});
+		
+		
 	</script>
 </body>
-<script>
-	const gridData = [];
-	
-	(function() {
-		for (let i = 0; i < 10; i += 1) {
-			gridData.push({
-				c1 : (i + 1),
-				c2 : ((i + 5) % 8) * 100 + i,
-				c3 : ((i + 3) % 7) * 60,
-				c4 : ((i + 3) % 7) * 60,
-				c5 : ((i + 3) % 7) * 60,
-				c6 : ((i + 3) % 7) * 60,
-				c7 : ((i + 3) % 7) * 60,
-				c8 : ((i + 3) % 7) * 60,
-				c9 : ((i + 3) % 7) * 60,
 
-			});
-		}
-	})();
-
-	const grid = new tui.Grid({
-		el : document.getElementById('grid'),
-		data : gridData,
-		scrollX : false,
-		rowHeaders : [ 'rowNum' ],
-		columns : [ {
-			header : '제품코드',
-			name : 'c2',
-			align : 'center'
-		}, {
-			header : '제품명',
-			name : 'c3',
-			align : 'center'
-		}, {
-			header : '자재코드',
-			name : 'c4',
-			align : 'center'
-		}, {
-			header : '자재명',
-			name : 'c5',
-			align : 'center'
-		}, {
-			header : '소요량(개당)',
-			name : 'c6',
-			align : 'center'
-		}, {
-			header : '필요량',
-			name : 'c7',
-			align : 'center'
-		}, {
-			header : '재고량',
-			name : 'c8',
-			align : 'center'
-		}, {
-			header : '부족량',
-			name : 'c9',
-			align : 'center'
-		} ]
-	});
-	
-	
-</script>
 </html>
