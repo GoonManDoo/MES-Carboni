@@ -44,7 +44,7 @@ span {
 </style>
 <body class="sb-nav-fixed">
             <div class="container-fluid px-4">
-               <h1 class="mt-4">수주 관리</h1>
+               <h2 class="mt-4">수주 관리</h2>
                   <div class="card-header" id = "btn">
                   <div style="display:flex; justify-content: flex-end;">
                      <button class="btn btn-secondary">조회</button>
@@ -67,7 +67,7 @@ span {
                      <table id="datatablesSimple">
                         <thead>
                            <tr>
-                              <th><input type="checkbox"></th>
+                             <th><input type="checkbox"></th>
                              <th>수주코드</th>
 							 <th>제품코드</th>
 							 <th>수주수량</th>
@@ -99,6 +99,7 @@ span {
 							  <td>Y</td>
 			               </tr>
                         </tbody>
+                        
                      </table>
                   </div>
                </div>
