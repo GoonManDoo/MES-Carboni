@@ -8,6 +8,5 @@
 <body>
 
 
-<a href="matList.do">재고</a><br>
 </body>
 </html> 

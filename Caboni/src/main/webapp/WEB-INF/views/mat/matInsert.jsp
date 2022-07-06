@@ -14,9 +14,32 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
 <title>matInsert</title>
 <style>
+li{
+	list-style:none;
+	}
+.subtitle{
+
+	text-decoration: none;
+	font-size: 20px;
+	margin:2px 0px 2px; 
+	width:400px;
+	
+}
 
 
 </style>
+<script >
+	$(function(){
+		 /*데이트피커*/
+        $('.rdt').datepicker({
+        	dateFormat: "yy-mm-dd",
+        	 changeMonth: true,
+             changeYear: true,
+             dayNamesMin:['월','화','수','목','금','토','일']
+        });
+	})
+
+</script>
 </head>
 <body>
  <div class="container-fluid px-4">
@@ -25,8 +48,8 @@
   		<div class="card mb-4">
            <div class="card-header">
                <div class="card-button btnlist"  >
-                     <button type="button">삭제</button>
-                     <input type="submit" value="저장">
+                     <button type="button" class="btn btn-secondary btn-block">삭제</button>
+                     <input type="submit" value="저장" class="btn btn-secondary btn-block">
                </div>
            </div>
         </div>
@@ -34,7 +57,7 @@
         <div class="card mb-4 table-center w-50" >
 	           <div>
 	           <span>입고일자</span>
-	           <input type="date"><span>~</span><input type="date">
+	           <input name="rdt" class="rdt"><span>~</span><input name="rdt" class="rdt">
 	           </div>
 	         <br>
 	           <div>
@@ -47,17 +70,28 @@
 	           <input type="text">
 	           </div>
         </div>
-        <div>
-        	<div>발주조회</div>
+        <div class="col-5 border">
+        <div class="grid-option-area mt-1">
+        <ul>
+        	<li >
+        		<h3  class="subtitle">발주조회 </h3>
+        	</li>
+        	<li >
+        	</li>
+        
+        
+        </ul>
+        	<label>발주조회</label>       	
         	<div>
-        		<input type="date"><span>~</span><input type="date">
-        		<button type="button"></button>
+        		<input name="rdt" class="rdt"><span>~</span><input name="rdt" class="rdt">
+        		<button type="button" class="btn btn-secondary btn-block">검색</button>
         	
         	</div>
-        
+        </div>
         </div>
         
         
+        	
    
    
    
