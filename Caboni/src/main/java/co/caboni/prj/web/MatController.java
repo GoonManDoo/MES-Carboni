@@ -1,4 +1,4 @@
-package co.caboni.prj.mat.web;
+package co.caboni.prj.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

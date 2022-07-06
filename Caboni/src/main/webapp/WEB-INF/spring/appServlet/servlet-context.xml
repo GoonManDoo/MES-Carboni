@@ -40,7 +40,7 @@
 		<beans:property name="maxInMemorySize" value="1073741824" />
 	</beans:bean>
 	
-	<context:component-scan base-package="co.caboni.prj" />
+	<context:component-scan base-package="co.caboni.prj.home" />
 	
 	
 	

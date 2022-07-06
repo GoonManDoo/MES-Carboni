@@ -1,4 +1,4 @@
-package co.caboni.prj.prod.web;
+package co.caboni.prj.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
