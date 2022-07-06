@@ -2,12 +2,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="false"%>
 <head>
-<link rel="stylesheet"
-	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-<link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
-<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <style>
 	.tui-datepicker {
 		z-index: 99;
