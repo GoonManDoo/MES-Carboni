@@ -19,6 +19,9 @@
 .mg5 {
 	margin-top:5px;
 }
+.tbold {
+	font-weight: 700;
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -42,7 +45,7 @@
 			<div class="card-body">
 				<!-- 입력폼 -->
 				<form autocomplete="off">
-					<div class="container"
+					<div class="container-fluid"
 						style="display: flex; flex-flow: row wrap; justify-content: space-between;">
 						<!-- 계획일자, 생산계획명, 특이사항 -->
 						<div class="item col-6">
@@ -93,10 +96,10 @@
 											<!-- 시작일 -->
 											<div
 												class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-												<input id="startpicker-input" type="text"
+												<input id="planDtS" type="text"
 													class="form-control" aria-label="Date"> <span
 													class="tui-ico-date"></span>
-												<div id="startpicker-container" style="margin-left: -1px;"></div>
+												<div id="planDtS-wapper" style="margin-left: -1px;"></div>
 											</div>
 
 											<span class="mg5">~</span>
@@ -104,11 +107,11 @@
 											<!-- 종료일 -->
 											<div
 												class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-												<input id="endpicker-input" type="text" class="form-control"
+												<input id="planDtE" type="text" class="form-control"
 													aria-label="Date"> <span class="tui-ico-date"></span>
-												<div id="endpicker-container" style="margin-left: -1px;"></div>
+												<div id="planDtE-wapper" style="margin-left: -1px;"></div>
 											</div>
-											<button class="btn btn-secondary btn-block">읽기</button>
+											<button type="button" class="btn btn-secondary btn-block">읽기</button>
 										</div>
 									</li>
 								</ul>
@@ -148,22 +151,22 @@
 				<i class="fas fa-table me-1"></i>
 			</div>
 			<div class="card-body">
-				<div class="container" style="display:flex; justify-content: space-between;">
-					<div class="item">제품코드</div>
+				<div class="container-fluid" style="display:flex; justify-content: space-between;">
+					<div class="item tbold">제품코드</div>
 					<div class="item"><input type="text" class="form-control ht" maxlength="10" style="height:28px;"></div>
-					<div class="item">제품명</div>
+					<div class="item tbold">제품명</div>
 					<div class="item"><input type="text" class="form-control ht" maxlength="10" style="height:28px;"></div>
-					<div class="item">고객사</div>
+					<div class="item tbold">고객사</div>
 					<div class="item"><input type="text" class="form-control ht" maxlength="10" style="height:28px;"></div>
-					<div class="item">지시량</div>
+					<div class="item tbold">지시량</div>
 					<div class="item"><input type="text" class="form-control ht" maxlength="10" style="height:28px;"></div><br>
 				</div>
-				<div class="container" style="display:flex; justify-content: space-between;">
+				<div class="container-fluid" style="display:flex; justify-content: space-between;">
 					<div style="width: 49%;" class="item">
-						<div class="container" style="margin-top:10px; display:flex; justify-content: space-between;">
-							<div class="item mg5">자재코드</div>
+						<div class="container-fluid" style="margin-top:10px; display:flex; justify-content: space-between;">
+							<div class="item mg5 tbold">자재코드</div>
 							<div class="item mg5"><input type="text" class="form-control ht" maxlength="7" style="height:28px;"></div>
-							<div class="item mg5">자재명</div>
+							<div class="item mg5 tbold">자재명</div>
 							<div class="item mg5"><input type="text" class="form-control ht" maxlength="7" style="height:28px;"></div>
 							<div class="item"><button type="button" class="btn btn-secondary" style="margin-right: 5px;">검색</button></div>
 						</div>
@@ -181,6 +184,36 @@
 
 	<!-- 스크립트 -->
 	<script type="text/javascript">
+	
+		/* 지시일자 */
+		const datepicker = new tui.DatePicker('#wrapper', {
+			date : new Date(),
+			input : {
+				element : '#planDt',
+				format : 'yyyy-MM-dd'
+			},
+			language : 'ko'
+	
+		});
+	
+		/* 미지시 계획조회 */
+		var today = new Date();
+		var picker = new tui.DatePicker.createRangePicker({
+			startpicker : {
+				date : today,
+				input : '#planDtS',
+				container : '#planDtS-wapper'
+			},
+			endpicker : {
+				date : today,
+				input : '#planDtE',
+				container : '#planDtE-wapper'
+			},
+			selectableRanges : [ [
+					today,
+					new Date(today.getFullYear() + 1, today.getMonth(), today
+							.getDate()) ] ]
+		});
 	
 		
 		/* 자재목록 */
