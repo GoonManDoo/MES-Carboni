@@ -35,5 +35,11 @@ public class SalesController {
 	public String deliver() {
 		return "sales/deliver";
 	}
+	
+	//모달 내용 반환 
+		@RequestMapping("/contractModal.do")
+		public String contractModal() {
+			return "modal/contractModal";
+		}
 
 }

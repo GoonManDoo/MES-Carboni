@@ -94,12 +94,21 @@ button {
         .hidden {
           display: none;
         }
+        .rradio{
+        width:120px;
+        }
+        
+   .nameing{ 
+	margin-right:1160px; 
+   }
+        
 </style>
 <body class="sb-nav-fixed">
 	<div class="container-fluid px-4">
 		<h2 class="mt-4">생산의뢰조회</h2>
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
+			<p class="nameing">홈>영업관리>생산의뢰조회</p>
 				<button class="btn btn-secondary">조회</button>
 				<button class="btn btn-secondary">등록</button>
 				<button class="btn btn-secondary">삭제</button>
@@ -107,12 +116,19 @@ button {
 		</div>
 		<div class="card mb-4" id="pageing">
 			<div class="card-body">
-				<span> 수주일자<input type="date" name="startCNDATE"
-					id="startCNDATE" />~ <input type="date" name="endCNDATE"
-					id="endCNDATE" /><br> 마감일자<input type="date"
-					name="startCNDATE" id="startCNDATE" />~ <input type="date"
-					name="endCNDATE" id="endCNDATE" /><br> 제품코드<input type="text"
-					id="leftinput"><br>
+				<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" />~ 
+				             <input type="date" name="endCNDATE" id="endCNDATE" /><br> 
+				       마감일자<input type="date" name="startCNDATE" id="startCNDATE" />~ 
+				             <input type="date" name="endCNDATE" id="endCNDATE" />
+				            
+				            <form method="get" action="form-action.html">
+						      <a>마감여부</a>
+						      <label><input type="radio" name="fruit" value="apple" class="rradio"> 완료</label>
+						      <label><input type="radio" name="fruit" value="banana" class="rradio"> 미완료</label>
+						    </form>
+				            
+				        
+					   제품코드<input type="text" id="leftinput"><br>
 				</span>
 			</div>
 		</div>
@@ -122,6 +138,8 @@ button {
   <div class="bg"></div>
   <div class="modalBox">
     <p>모달창 테스트</p>
+    <a>마감여부</a>
+						   
     <button class="closeBtn">✖</button>
   </div>
 </div>
@@ -130,19 +148,18 @@ button {
   const open = () => {
     document.querySelector(".modal").classList.remove("hidden");
   }
-
   const close = () => {
     document.querySelector(".modal").classList.add("hidden");
   }
-
   document.querySelector(".openBtn").addEventListener("click", open);
   document.querySelector(".closeBtn").addEventListener("click", close);
   document.querySelector(".bg").addEventListener("click", close);
-
 </script>
+		
+		
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 전체
+				<i class="fas fa-table me-1"></i> 생산의뢰목록
 			</div>
 			<div class="card-body">
 				<table id="datatablesSimple">
