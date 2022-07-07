@@ -53,12 +53,16 @@ input {
 .dataTable-input {
 	height: 40px;
 }
+.nameing{ 
+	margin-right:1160px; 
+   }
 </style>
 <body class="sb-nav-fixed">
 	<div class="container-fluid px-4">
 		<h2 class="mt-4">영업재고관리</h2>
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
+			<p class="nameing">홈>영업관리>영업재고관리</p>
 				<button class="btn btn-secondary">조회</button>
 				<button class="btn btn-secondary">등록</button>
 				<button class="btn btn-secondary">삭제</button>
@@ -68,13 +72,13 @@ input {
 			<div class="card-body">
 				 <span> 정산일자<input type="date" name="startCNDATE" id="startCNDATE" />~
 		                     <input type="date" name="endCNDATE" id="endCNDATE" /><br>
-                        제품코드<input type="text" id="leftinput"><br>
+                        제품코드<input type="text" id="leftinput" placeholder="모달창추가"><br>
                      </span> 
 			</div>
 		</div>
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 전체
+				<i class="fas fa-table me-1"></i> 제품재고목록
 			</div>
 			<div class="card-body">
 				<table id="datatablesSimple">
