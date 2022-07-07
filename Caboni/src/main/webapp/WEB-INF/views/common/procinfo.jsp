@@ -7,11 +7,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <style>
+h1 {
+	margin: 20px 10px 10px 20px;
+}
+
 #menu {
 	float: right;
+	margin-right: 20px;
+	text-align: right;
 }
 
 #container {
@@ -22,11 +27,14 @@
 
 	<h1>공정코드 관리</h1>
 	<div id="menu">
-		<a href="#">홈</a> > <a href="#">기준정보관리</a> > 공정코드 관리
+		<a href="/">홈</a> > 기준정보관리 > <b>공정코드관리</b>
+	</div>
+	<div id="btns" class="card-header">
+		<button type="button" class="btn btn-secondary">추가</button>
+		<button type="button" class="btn btn-secondary">저장</button>
+		<button type="button" class="btn btn-secondary">삭제</button>
 	</div>
 	<div id="container">
-
-
 		<div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-table me-1"></i> 코드상세
@@ -54,8 +62,6 @@
 				</table>
 			</div>
 		</div>
-
 	</div>
-
 </body>
 </html>

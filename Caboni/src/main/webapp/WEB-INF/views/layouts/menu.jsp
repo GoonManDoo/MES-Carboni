@@ -12,7 +12,7 @@
 
 			<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
 				data-bs-target="#collapseGt" aria-expanded="false"
-				aria-controls="collapseGt"> 공통정보관리
+				aria-controls="collapseGt"> 기준정보관리
 				<div class="sb-sidenav-collapse-arrow">
 					<i class="fas fa-angle-down"></i>
 				</div>
@@ -57,9 +57,11 @@
 			<div class="collapse" id="collapseJj" aria-labelledby="headingOne"
 				data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
-					<a class="nav-link" href="matList.do">발주 관리</a> <a class="nav-link"
-						href="matInsert.do">입출고 관리</a> <a class="nav-link" href="#">자재LOT
-						관리</a> <a class="nav-link" href="#">자재재고 조회</a>
+					<a class="nav-link" href="matList.do">발주 관리</a>
+					<a class="nav-link" href="matInsert.do">입고 관리</a>
+					<a class="nav-link" href="#">출고 관리</a>
+					<a class="nav-link" href="matLot.do">자재LOT 관리</a>
+					<a class="nav-link" href="#">자재재고 조회</a>
 				</nav>
 			</div>
 
@@ -73,10 +75,12 @@
 			<div class="collapse" id="collapseSs" aria-labelledby="headingOne"
 				data-bs-parent="#sidenavAccordion">
 				<nav class="sb-sidenav-menu-nested nav">
-					<a class="nav-link" href="prodplan.do">생산계획 관리</a> <a
-						class="nav-link" href="#">생산지시 관리</a> <a class="nav-link" href="#">생산지시
-						조회</a> <a class="nav-link" href="#">공정 모니터링</a> <a class="nav-link"
-						href="#">생산일정 조회</a> <a class="nav-link" href="#">불량내역 조회</a>
+					<a class="nav-link" href="prodplan.do">생산계획 관리</a>
+					<a class="nav-link" href="prodorder.do">생산지시 관리</a>
+					<a class="nav-link" href="#">생산지시 조회</a>
+					<a class="nav-link" href="#">공정 모니터링</a>
+					<a class="nav-link" href="#">생산일정 조회</a>
+					<a class="nav-link" href="#">불량내역 조회</a>
 				</nav>
 			</div>
 
@@ -95,8 +99,8 @@
 			</div>
 
 			<div class="sb-sidenav-menu-heading">사원</div>
-			<a class="nav-link" href="#"> 사원관리 </a>
-			<a class="nav-link" href="#"> 권한관리 </a>
+			<a class="nav-link" href="employee.do"> 사원관리 </a>
+			<a class="nav-link" href="authority.do"> 권한관리 </a>
 		</div>
 	</div>
 	<div class="sb-sidenav-footer">

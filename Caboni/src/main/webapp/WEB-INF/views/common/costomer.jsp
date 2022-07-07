@@ -7,12 +7,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <style>
+h1 {
+	margin: 20px 10px 10px 20px;
+}
+
 #myf {
 	margin: 10px;
 	width: 600px;
+	clear: both;
 }
 
 #myf>label {
@@ -22,6 +26,8 @@
 
 #menu {
 	float: right;
+	margin-right: 20px;
+	text-align: right;
 }
 </style>
 <body>
@@ -30,12 +36,13 @@
 
 		<h1>거래처정보관리</h1>
 		<div id="menu">
-			<a href="#">홈</a> > <a href="#">기준정보관리</a> > 거래처정보관리
+			<a href="/">홈</a> > 기준정보관리 > <b>거래처정보관리</b>
+		</div>
+		<div id="btns" class="card-header">
+			<button type="button" class="btn btn-secondary">저장</button>
+			<button type="button" class="btn btn-secondary">삭제</button>
 		</div>
 		<form action="#" id="myf">
-			<input type="submit" value="저장">
-			<button type="button">삭제</button>
-			<hr>
 			<label for="csCode">거래처코드</label> <input type="text" id="csCode">
 			<label for="csName">거래처명</label> <input type="text" id="csName">
 			<label for="csNum">사업자등록번호</label> <input type="text" id="csNum">
