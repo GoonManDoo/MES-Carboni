@@ -7,9 +7,12 @@
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <style>
+h1 {
+	margin: 20px 10px 10px 20px;
+}
+
 #container {
 	width: 100%;
 	clear: both;
@@ -29,6 +32,8 @@
 
 #menu {
 	float: right;
+	margin-right: 20px;
+	text-align: right;
 }
 </style>
 </head>
@@ -36,7 +41,11 @@
 <body>
 	<h1>공통코드 관리</h1>
 	<div id="menu">
-		<a href="#">홈</a> > <a href="#">기준정보관리</a> > 공통코드관리
+		<a href="/">홈</a> > 기준정보관리 > <b>공통코드관리</b>
+	</div>
+	<div id="btns" class="card-header">
+		<button type="button" class="btn btn-secondary">새자료</button>
+		<button type="button" class="btn btn-secondary">저장</button>
 	</div>
 	<div id="container">
 		<div class="left">
