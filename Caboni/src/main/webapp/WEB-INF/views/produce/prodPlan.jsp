@@ -42,7 +42,7 @@
 			<div class="card-body">
 				<!-- 입력폼 -->
 				<form autocomplete="off" id="dataForm">
-					<div class="container"
+					<div class="container-fluid"
 						style="display: flex; flex-flow: row wrap; justify-content: space-between;">
 						<!-- 계획일자, 생산계획명, 특이사항 -->
 						<div class="item col-6">
@@ -107,7 +107,7 @@
 													aria-label="Date"> <span class="tui-ico-date"></span>
 												<div id="planDtE-wapper" style="margin-left: -1px;"></div>
 											</div>
-											<button class="btn btn-secondary btn-block">읽기</button>
+											<button type="button" class="btn btn-secondary btn-block" id="unprodBtn">읽기</button>
 										</div>
 									</li>
 								</ul>
@@ -152,12 +152,43 @@
 		</div>
 	</div>
 
-	<h1>
-		<a href="prodorder.do">생산지시</a>
-	</h1>
-
+	<div id="unproduct" title="미생산 주문조회"></div>
 	<!-- 스크립트 -->
 	<script type="text/javascript">
+		
+		/* 미생산주문 모달 */
+		$(function(){
+			$('#unprodBtn').on('click', function(){
+				$('#unproduct').load('prodPlanUnprd.do', function(){
+					var unproduct = unprodModal();
+					unproduct.dialog('open')
+				})
+			})
+		})
+		
+		function unprodModal() {
+			var dialog = $('#unproduct').dialog({
+				 autoOpen: false, // 자동오픈 false
+			    height: 700,
+			    width: 700,
+			    modal: false,
+			    buttons : {
+					"확인" : productAdd,
+					"취소" : function() {
+						unproduct.dialog("close");
+					}
+				}
+			})
+			$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
+			$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+			return dialog;
+		}
+		
+		function productAdd() {
+			
+		}
+	
+	
 		/* 계획일자 */
 		const datepicker = new tui.DatePicker('#wrapper', {
 			date : new Date(),
