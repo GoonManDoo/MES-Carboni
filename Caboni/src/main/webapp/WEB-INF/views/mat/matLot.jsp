@@ -11,16 +11,17 @@
   <main id="container">
       <div class="container-fluid px-4">
          <h1 class="mt-4">자재 LOT조정관리</h1>
-         <form>
             <div class="card mb-4">
 					<div class="card-header">
-						<div class="card-button btnlist">
+						<div class="card-button btnlist" style="display: flex; justify-content: flex-end;">
 							<button type="button" class="btn btn-secondary btn-block">삭제</button>
 							<input type="submit" value="저장"
 								class="btn btn-secondary btn-block">
 						</div>
 					</div>
 				</div>
+				  </div>
+				  <div class="card mb-4 table-center container-fluid px-4" >
          <table>
             <tr>
                <th>정산일자</th>
@@ -41,6 +42,7 @@
                <td colspan="4"><input type="text"></td>
             </tr>
          </table>
+         </div>
          <div>
             <div>
                <button type="button" id="btnModal" class="btn btn-secondary btn-block">추가</button>
@@ -49,9 +51,8 @@
                <button type="button" class="btn btn-secondary btn-block">삭제</button>
             </div>
          </div>
-      </form>
       <div id="grid"></div>
-      </div>
+    
 </main>
 <script>
     var datepicker = new tui.DatePicker('#wrapper', {
