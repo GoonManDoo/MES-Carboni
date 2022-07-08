@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
 <style>
 h1 {
 	margin: 20px 10px 10px 20px;
@@ -39,6 +40,7 @@ h1 {
 			<a href="/">홈</a> > 기준정보관리 > <b>거래처정보관리</b>
 		</div>
 		<div id="btns" class="card-header">
+			<button type="button" class="btn btn-secondary">새자료</button>
 			<button type="button" class="btn btn-secondary">저장</button>
 			<button type="button" class="btn btn-secondary">삭제</button>
 		</div>

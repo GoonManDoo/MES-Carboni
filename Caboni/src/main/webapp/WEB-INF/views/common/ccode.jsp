@@ -7,7 +7,8 @@
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
 <style>
 h1 {
 	margin: 20px 10px 10px 20px;
@@ -35,6 +36,15 @@ h1 {
 	margin-right: 20px;
 	text-align: right;
 }
+#myf {
+	margin: 10px;
+	width: 900px;
+	clear: both;
+}
+#myf>label {
+	width: 80px;
+	font-size: 80%;
+}
 </style>
 </head>
 
@@ -46,7 +56,16 @@ h1 {
 	<div id="btns" class="card-header">
 		<button type="button" class="btn btn-secondary">새자료</button>
 		<button type="button" class="btn btn-secondary">저장</button>
+		<button type="button" class="btn btn-secondary">삭제</button>
 	</div>
+	<form action="#" id="myf">
+		<label for="cCodeid">코드ID</label> <input type="text" id="cCodeid">
+		<label for="cExplain">코드설명</label> <input type="text" id="cExplain">
+		<label for="cName">코드명</label> <input type="text" id="cName">
+		<label for="cExplaind">코드상세</label> <input type="text" id="cExplaind">
+		<label for="cClass">코드분류</label> <input type="text" id="cClass">
+		<label for="cNote">비고</label> <input type="text" id="cNote">
+	</form>
 	<div id="container">
 		<div class="left">
 			<div id="grid"></div>
@@ -60,7 +79,7 @@ h1 {
 					<table id="datatablesSimple">
 						<thead>
 							<tr>
-								<th><input type="checkbox"></th>
+								<th><input type="radio"></th>
 								<th>코드ID</th>
 								<th>코드명</th>
 								<th>코드상세</th>
@@ -70,9 +89,17 @@ h1 {
 						</thead>
 						<tbody>
 							<tr>
-								<td><input type="checkbox"></td>
+								<td><input type="radio" name="code"></td>
 								<td>002</td>
 								<td>영업의뢰</td>
+								<td>001</td>
+								<td>001</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><input type="radio" name="code"></td>
+								<td>003</td>
+								<td>수주의뢰</td>
 								<td>001</td>
 								<td>001</td>
 								<td></td>
