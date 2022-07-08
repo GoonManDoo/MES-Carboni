@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ page session="false" %>
 <!DOCTYPE html>
 <html>
@@ -24,7 +25,7 @@ body {
 #container #backimg {
 	width: 100%;
 	height: 100%;
-	background-image: url(img/carboniBack.jpg);
+	background-image: url(/resources/assets/img/carboniBack.jpg);
 	background-repeat: no-repeat;
 	filter: brightness(70%);
 }
@@ -52,7 +53,7 @@ body {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-65%, -60%);
+	transform: translate(-25%, -60%);
 	border-top: 6px solid rgba(239, 239, 239);
 	border-bottom: 6px solid rgba(239, 239, 239);
 	overflow: hidden;
@@ -64,7 +65,7 @@ body {
 	position: absolute;
 	white-space: nowrap;
 	font-size: 70px;
-	top: 50%;
+	top: 20%;
 	left: 50%;
 	transform: translate(-75%, -130%);
 	text-align: center;
@@ -131,12 +132,13 @@ input[placeholder] {
 
 <body>
 	<div id="container">
-		<img id="backimg" src="img/carboniBack.jpg" alt="backimg">
+		<img id="backimg" src="/resources/assets/img/carboniBack.jpg" alt="backimg">
+		<div class="v368_1920">
 		<form action="#" id="idid">
 			<div id="headline">
 				<p>Carboni : MES</p>
 			</div>
-			<div class="v368_1920"></div>
+			
 			<div id="textboxes">
 				<label for="memberId"></label> <input type="text" name="memberId"
 					placeholder="ID 를 입력해주세요"> <label for="memberPw"></label> <input
@@ -144,6 +146,8 @@ input[placeholder] {
 			</div>
 			<button>Login</button>
 		</form>
+		</div>
+		</div>
 	</div>
 </body>
 </html>
