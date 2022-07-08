@@ -1,14 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link href="css/styles.css" rel="stylesheet" />
 </head>
 <style>
-  #container {
+#container {
     width: 100vw;
     height: auto;
   }
@@ -35,6 +39,16 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
+  .inframe2 {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 149px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
 
   .frame {
     position: absolute;
@@ -42,7 +56,7 @@
     width: 520px;
     height: 490px;
     padding: 20px;
-    rgba(254, 254, 254, 0);
+    background: rgba(254, 254, 254, 0);
     border: 4px solid rgba(218, 218, 218, 1);
     box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.1);
 
@@ -81,11 +95,11 @@
     position:relative;
     float:left;
     height: 213px;
-width: 218px;
-border-radius: 0px;
-background: rgba(255, 255, 255, 0.01);
-box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
-margin-top: 20px;
+    width: 218px;
+    border-radius: 0px;
+    background: rgba(255, 255, 255, 0.01);
+    box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
   }
       .listinner{
         position: absolute;
@@ -182,7 +196,8 @@ box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
     font-family: Inter;
     font-size: 20px;
     font-weight: 500;
-    line-height: 0px;
+    line-height: 40px;
+    letter-spacing: 0em;
     margin-left: 5px;
     text-align: left;
   }
@@ -213,10 +228,23 @@ left:80%;
     text-decoration-line: none;
   }
 
-#sysupdate{
- bottom: -20%;
+  .butarea{
+    
+    position: relative;
+    width: 100%;
+    height: auto;
 
-}
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sysupdate {
+    position: absolute;
+    left: 469px;
+  }
+
+
 
 </style>
 
@@ -236,28 +264,28 @@ left:80%;
             <button class="produp"><a href="">공정 등록하기 ></a></button>
             <div class="listinner">
               <div class="listinframe">
-                <img class="number" src="img/1.svg" alt="1">
+                <img class="number" src="/resources/assets/img/1.svg" alt="1">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/2.svg" alt="2">
+                <img class="number" src="/resources/assets/img/2.svg" alt="2">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/3.svg" alt="3">
+                <img class="number" src="/resources/assets/img/3.svg" alt="3">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/4.svg" alt="4">
+                <img class="number" src="/resources/assets/img/4.svg" alt="4">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
@@ -291,32 +319,32 @@ left:80%;
             <p class="maintitle">2nd Machine</p>
             <p class="subtitle">48-spindle braiding mech</p>
           </div>
-          <div class="list">
+         <div class="list">
             <button class="produp"><a href="">공정 등록하기 ></a></button>
             <div class="listinner">
               <div class="listinframe">
-                <img class="number" src="img/1.svg" alt="1">
+                <img class="number" src="/resources/assets/img/1.svg" alt="1">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/2.svg" alt="2">
+                <img class="number" src="/resources/assets/img/2.svg" alt="2">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/3.svg" alt="3">
+                <img class="number" src="/resources/assets/img/3.svg" alt="3">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/4.svg" alt="4">
+                <img class="number" src="/resources/assets/img/4.svg" alt="4">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
@@ -350,39 +378,40 @@ left:80%;
             <p class="maintitle">3rd Machine</p>
             <p class="subtitle">96-spindle braiding mech</p>
           </div>
-          <div class="list">
+          
+         <div class="list">
             <button class="produp"><a href="">공정 등록하기 ></a></button>
             <div class="listinner">
               <div class="listinframe">
-                <img class="number" src="img/1.svg" alt="1">
+                <img class="number" src="/resources/assets/img/1.svg" alt="1">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/2.svg" alt="2">
+                <img class="number" src="/resources/assets/img/2.svg" alt="2">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/3.svg" alt="3">
+                <img class="number" src="/resources/assets/img/3.svg" alt="3">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/4.svg" alt="4">
+                <img class="number" src="/resources/assets/img/4.svg" alt="4">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
             </div>
           </div>
-
+          
           <div class="donut">
             <p class="do-maintitle">Graph</p>
             <hr>
@@ -409,32 +438,33 @@ left:80%;
             <p class="maintitle">4th Machine</p>
             <p class="subtitle">128-spindle braiding mech</p>
           </div>
+          
           <div class="list">
             <button class="produp"><a href="">공정 등록하기 ></a></button>
             <div class="listinner">
               <div class="listinframe">
-                <img class="number" src="img/1.svg" alt="1">
+                <img class="number" src="/resources/assets/img/1.svg" alt="1">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/2.svg" alt="2">
+                <img class="number" src="/resources/assets/img/2.svg" alt="2">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/3.svg" alt="3">
+                <img class="number" src="/resources/assets/img/3.svg" alt="3">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
               </div>
 
               <div class="listinframe">
-                <img class="number" src="img/4.svg" alt="4">
+                <img class="number" src="/resources/assets/img/4.svg" alt="4">
                 <div class="prodname">
                   <div class="percent"></div>
                 </div>
@@ -460,22 +490,13 @@ left:80%;
      
       </div>
      
-
-    <button id="sysupdate">
-      <a href=""><img src="img/설비 등록 버튼.svg" alt="sysupdate"></a>
-    </button>
-
+     <div class="inframe2">
+          <button class="sysupdate" href=""><img src="/resources/assets/img/newProdSys.svg" alt="sysupdate"></button>
+    </div>
+      
     </div>
     
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
+    </div>
+
 </body>
-
-</html>
-
-
-
 </html>
