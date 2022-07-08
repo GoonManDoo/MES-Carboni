@@ -22,6 +22,17 @@ h1 {
 #container {
 	clear: both;
 }
+#myf {
+	margin: 10px;
+	clear: both;
+	width: 550px;
+	display: none;
+}
+
+#myf>label {
+	width: 60px;
+	font-size: 80%;
+}
 </style>
 <body>
 
@@ -30,10 +41,15 @@ h1 {
 		<a href="/">홈</a> > 기준정보관리 > <b>불량코드관리</b>
 	</div>
 	<div id="btns" class="card-header">
-		<button type="button" class="btn btn-secondary">추가</button>
-		<button type="button" class="btn btn-secondary">저장</button>
+		<button type="button" class="btn btn-secondary" id="newbtn">신규</button>
+		<button type="button" class="btn btn-secondary" id="savbtn">저장</button>
 		<button type="button" class="btn btn-secondary">삭제</button>
 	</div>
+	<form action="#" id="myf">
+		<label for="eiCode">불량코드</label> <input type="text" id="eiCode">
+		<label for="eiName">불량명</label> <input type="text" id="eiCode">
+		<label for="eiNote">비고</label> <input type="text" id="eiNote">
+	</form>
 	<div id="container">
 		<div class="card mb-4">
 			<div class="card-header">
@@ -128,4 +144,12 @@ h1 {
 		</div>
 	</div>
 </body>
+<script>
+	$('#newbtn').click(function() {
+		$('#myf').show();
+	})
+	$('#savbtn').click(function() {
+		$('#myf').hide();
+	})
+</script>
 </html>

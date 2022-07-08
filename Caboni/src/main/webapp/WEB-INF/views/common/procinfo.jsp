@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
 <style>
 h1 {
 	margin: 20px 10px 10px 20px;
@@ -22,7 +23,20 @@ h1 {
 #container {
 	clear: both;
 }
+
+#myf {
+	margin: 10px;
+	clear: both;
+	width: 550px;
+	display: none;
+}
+
+#myf>label {
+	width: 60px;
+	font-size: 80%;
+}
 </style>
+
 <body>
 
 	<h1>공정코드 관리</h1>
@@ -30,10 +44,20 @@ h1 {
 		<a href="/">홈</a> > 기준정보관리 > <b>공정코드관리</b>
 	</div>
 	<div id="btns" class="card-header">
-		<button type="button" class="btn btn-secondary">추가</button>
-		<button type="button" class="btn btn-secondary">저장</button>
+		<button type="button" class="btn btn-secondary" id="newbtn">신규</button>
+		<button type="button" class="btn btn-secondary" id="savbtn">저장</button>
 		<button type="button" class="btn btn-secondary">삭제</button>
 	</div>
+	<form action="#" id="myf">
+		<label for="piCode">공정코드</label> <input type="text" id="piCode">
+		<label for="piName">공정명</label> <input type="text" id="piName">
+		<label for="piDate">소요일수</label> <input type="text" id="piDate">
+		<label for="piNote">비고</label> <input type="text" id="piNote">
+		<label for="pione">1차공정</label> <input type="text" id="pione">
+		<label for="pitwo">2차공정</label> <input type="text" id="pitwo">
+		<label for="pithree">3차공정</label> <input type="text" id="pithree">
+		<label for="pifour">4차공정</label> <input type="text" id="pifour">
+	</form>
 	<div id="container">
 		<div class="card mb-4">
 			<div class="card-header">
@@ -64,4 +88,13 @@ h1 {
 		</div>
 	</div>
 </body>
+<script>
+	$('#newbtn').click(function() {
+		$('#myf').show();
+	})
+	$('#savbtn').click(function() {
+		$('#myf').hide();
+	})
+	
+</script>
 </html>

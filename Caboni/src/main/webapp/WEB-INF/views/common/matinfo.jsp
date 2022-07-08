@@ -7,9 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+<link rel="stylesheet"
+	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
 
 <style>
 h1 {
@@ -47,6 +49,12 @@ label {
 fieldset {
 	width: 560px;
 }
+
+#subbtn {
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 10px;
+}
 </style>
 
 <body>
@@ -79,7 +87,9 @@ fieldset {
 					<label for="miMax">MAX재고</label> <input type="text" id="miMax">
 					<label for="miMin">MIN재고</label> <input type="text" id="miMin">
 				</fieldset>
-				<input type="submit" value="상세정보">
+				<fieldset id="subbtn">
+					<input type="submit" class="btn btn-secondary" value="재고정보">
+				</fieldset>
 			</form>
 		</div>
 	</div>
