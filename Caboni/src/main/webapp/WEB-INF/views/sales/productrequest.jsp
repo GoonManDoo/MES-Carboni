@@ -1,13 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="false"%>
-<head>
-<link rel="stylesheet"
-	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
-</head>
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 .btn-secondary {
 	margin-left: 20px;
@@ -54,10 +50,11 @@ input {
 	height: 40px;
 }
 button {
-          background-color: #F9B514;
+          background-color: #808080;
           padding: 5px 10px;
           border-radius: 4px;
           cursor: pointer;
+					color: white;
         }
 
         .modal {
@@ -74,7 +71,6 @@ button {
         .modal .bg {
           width: 100%;
           height: 100%;
-          background-color: rgba(0, 0, 0, 0.6);
         }
 
         .modalBox {
@@ -99,16 +95,17 @@ button {
         }
         
    .nameing{ 
-	margin-right:1160px; 
+	float:right; 
+	font-size: medium;
+	font-weight: normal;
    }
         
 </style>
 <body class="sb-nav-fixed">
 	<div class="container-fluid px-4">
-		<h2 class="mt-4">생산의뢰조회</h2>
+		 <h2 class="mt-4">생산의뢰관리 <p class="nameing">홈>영업관리>생산의뢰관리</p></h2>
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-			<p class="nameing">홈>영업관리>생산의뢰조회</p>
 				<button class="btn btn-secondary">조회</button>
 				<button class="btn btn-secondary">등록</button>
 				<button class="btn btn-secondary">삭제</button>
@@ -128,36 +125,14 @@ button {
 						    </form>
 				            
 				        
-					   제품코드<input type="text" id="leftinput"><br>
+					   제품코드<input type="text" id="leftinput" placeholder="제품코드입력" readonly="readonly"><br>
 				</span>
 			</div>
 		</div>
 		<!-- 모달 -->
-<button class="openBtn">모달창</button>
-<div class="modal hidden">
-  <div class="bg"></div>
-  <div class="modalBox">
-    <p>모달창 테스트</p>
-    <a>마감여부</a>
-						   
-    <button class="closeBtn">✖</button>
-  </div>
-</div>
-
-<script>
-  const open = () => {
-    document.querySelector(".modal").classList.remove("hidden");
-  }
-  const close = () => {
-    document.querySelector(".modal").classList.add("hidden");
-  }
-  document.querySelector(".openBtn").addEventListener("click", open);
-  document.querySelector(".closeBtn").addEventListener("click", close);
-  document.querySelector(".bg").addEventListener("click", close);
-</script>
+	
 		
-		
-		<div class="card mb-4">
+		<!-- <div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-table me-1"></i> 생산의뢰목록
 			</div>
@@ -199,23 +174,19 @@ button {
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </body>
 <div class="container-fluid px-4">
 	<div class="card mb-4">
 		<div class="card-header">
-			<i class="fas fa-table me-1"></i> 미정
+			<i class="fas fa-table me-1"></i> 생산의뢰목록
 		</div>
 		<div id="grid"></div>
 	</div>
 </div>
 
-<script type="text/javascript">
-	jQuery(function($) {
-		$("datatablesSimple").DataTable();
-	});
-</script>
+   <div id="search" title="제품검색" style="text-align: center;">       </div>
 </body>
 <script>
 	const gridData = [];
@@ -231,8 +202,6 @@ button {
 				c6 : ((i + 3) % 7) * 60,
 				c7 : ((i + 3) % 7) * 60,
 				c8 : ((i + 3) % 7) * 60,
-				c9 : ((i + 3) % 7) * 60,
-
 			});
 		}
 	})();
@@ -241,40 +210,77 @@ button {
 		el : document.getElementById('grid'),
 		data : gridData,
 		scrollX : false,
-		rowHeaders : [ 'rowNum' ],
+		rowHeaders : [ 'rowNum', 'checkbox' ],
 		columns : [ {
-			header : '제품코드',
+			header : '의뢰번호',
 			name : 'c2',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '제품명',
+			header : '제품코드',
 			name : 'c3',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '자재코드',
+			header : '거래처코드',
 			name : 'c4',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '자재명',
+			header : '수주일자',
 			name : 'c5',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '소요량(개당)',
+			header : '납기일자',
 			name : 'c6',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '필요량',
+			header : '마감일자',
 			name : 'c7',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '재고량',
+			header : '마감여부',
 			name : 'c8',
-			align : 'center'
-		}, {
-			header : '부족량',
-			name : 'c9',
-			align : 'center'
-		} ]
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+			}]
+	});
+	
+	//거래처정보 모달
+	$(function() {
+		var dialog = makeModal();
+
+		$("#leftinput").on("click", function() {
+
+			$("#search").load('proName.do', function() {
+
+				dialog.dialog("open");
+			})
+		});
+
+		function contentsAdd() {
+		}
+
+		//모달 만들기
+		function makeModal() {
+			var dialog = $("#search").dialog({
+				autoOpen : false,
+				height : 700,
+				width : 700,
+				modal : true,
+			});
+			return dialog;
+		}
 	});
 </script>
 </html>

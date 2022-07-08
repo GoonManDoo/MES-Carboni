@@ -1,12 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="false"%>
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-<link rel="stylesheet"
-	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
+
 </head>
 <style>
 .btn-secondary {
@@ -53,16 +52,17 @@ input {
 .dataTable-input {
 	height: 40px;
 }
-.nameing{ 
-	margin-right:1160px; 
+ .nameing{ 
+	float:right; 
+	font-size: medium;
+	font-weight: normal;
    }
 </style>
 <body class="sb-nav-fixed">
 	<div class="container-fluid px-4">
-		<h2 class="mt-4">영업재고관리</h2>
+		 <h2 class="mt-4">영업재고관리 <p class="nameing">홈>영업관리>영업재고관리</p></h2>
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-			<p class="nameing">홈>영업관리>영업재고관리</p>
 				<button class="btn btn-secondary">조회</button>
 				<button class="btn btn-secondary">등록</button>
 				<button class="btn btn-secondary">삭제</button>
@@ -130,11 +130,7 @@ input {
 	</div>
 </div>
 
-<script type="text/javascript">
-	jQuery(function($) {
-		$("datatablesSimple").DataTable();
-	});
-</script>
+
 </body>
 <script>
 	const gridData = [];
@@ -146,12 +142,6 @@ input {
 				c2 : ((i + 5) % 8) * 100 + i,
 				c3 : ((i + 3) % 7) * 60,
 				c4 : ((i + 3) % 7) * 60,
-				c5 : ((i + 3) % 7) * 60,
-				c6 : ((i + 3) % 7) * 60,
-				c7 : ((i + 3) % 7) * 60,
-				c8 : ((i + 3) % 7) * 60,
-				c9 : ((i + 3) % 7) * 60,
-
 			});
 		}
 	})();
@@ -170,28 +160,12 @@ input {
 			name : 'c3',
 			align : 'center'
 		}, {
-			header : '자재코드',
+			header : '재고량',
 			name : 'c4',
 			align : 'center'
 		}, {
-			header : '자재명',
+			header : '안전재고',
 			name : 'c5',
-			align : 'center'
-		}, {
-			header : '소요량(개당)',
-			name : 'c6',
-			align : 'center'
-		}, {
-			header : '필요량',
-			name : 'c7',
-			align : 'center'
-		}, {
-			header : '재고량',
-			name : 'c8',
-			align : 'center'
-		}, {
-			header : '부족량',
-			name : 'c9',
 			align : 'center'
 		} ]
 	});
