@@ -1,12 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="false"%>
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-<link rel="stylesheet"
-	href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
 </head>
 <style>
 .btn-secondary {
@@ -53,16 +51,17 @@ input {
 .dataTable-input {
 	height: 40px;
 }
-.nameing{ 
-	margin-right:1190px; 
+ .nameing{ 
+	float:right; 
+	font-size: medium;
+	font-weight: normal;
    }
 </style>
 <body class="sb-nav-fixed">
 	<div class="container-fluid px-4">
-		<h2 class="mt-4">배송관리</h2>
+		 <h2 class="mt-4">배송 관리 <p class="nameing">홈>영업관리>배송관리</p></h2>
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-			<p class="nameing">홈>영업관리>배송관리</p>
 				<button class="btn btn-secondary">조회</button>
 				<button class="btn btn-secondary">등록</button>
 				<button class="btn btn-secondary">삭제</button>
