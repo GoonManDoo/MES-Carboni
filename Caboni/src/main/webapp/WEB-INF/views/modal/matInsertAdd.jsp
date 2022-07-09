@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,28 +7,56 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>입고추가</h1>
-<div class="container" >
 
-    <table border="1">
-       <tr>
-            <th><input type="checkbox"></th>
-            <th>발주일자</th>
-            <th>발주코드</th>
-            <th>입고처명</th>
-            <th>자재명</th>
-            <th>규격</th>
-            <th>자재단위</th>
-       </tr>
-       <tr>
-       <!-- function 기능 들어갈 곳  -->
-        
+	<div class="container-fluid px-4">
+		<div class="card mb-4">
+			<!--  그리드에 정보 끌어올수있는 기능-->
+			<div id="gridcomp"></div>
+		</div>
+	</div>
+	<button type="button" id="btnModal" class="btn btn-secondary"
+		style="margin-right: 5px;">확인</button>
+	<button type="button" id="btnModal" class="btn btn-secondary"
+		style="margin-right: 5px;">취소</button>
 
-       </tr>
-    
-    </table>
-  
-</div>
+
+	<script>
+		$(function() {
+
+			let grid = new tui.Grid({
+				el : document.getElementById('gridcomp'),
+
+				scrollX : false,
+				rowHeaders : [ 'checkbox' ],
+				bodyHeight : 420,
+				columns : [ {
+					header : '발주일자',
+					align : 'center',
+				}, {
+					header : '발주코드',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '입고체명',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '자재명',
+					align : 'center',
+				}, {
+					header : '자재코드',
+					align : 'center',
+				}, {
+					header : '자재단위',
+					align : 'center',
+				} ]
+			});
+		})
+	</script>
 
 </body>
+
+
 </html>
