@@ -69,7 +69,7 @@
 										<td colspan="5">
 									</tr>
 									<tr>
-										<th>특이사항</th>
+										<th>비  고</th>
 										<td><input type="text" id="remark" class="form-control ht"
 											style="width: 500px;" maxlength="10" tabindex="2"></td>
 										<td colspan="3">
@@ -95,9 +95,9 @@
 											<!-- 시작일 -->
 											<div
 												class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-												<input id="planDtS" type="text" class="form-control"
-													aria-label="Date"> <span class="tui-ico-date"></span>
-												<div id="planDtS-wapper" style="margin-left: -1px;"></div>
+												<input id="requestDtS" type="text" class="form-control"
+													aria-label="Date" name="requestDtS"> <span class="tui-ico-date"></span>
+												<div id="requestDtS-wapper" style="margin-left: -1px;"></div>
 											</div>
 
 											<span class="mg5">~</span>
@@ -105,9 +105,9 @@
 											<!-- 종료일 -->
 											<div
 												class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-												<input id="planDtE" type="text" class="form-control"
-													aria-label="Date"> <span class="tui-ico-date"></span>
-												<div id="planDtE-wapper" style="margin-left: -1px;"></div>
+												<input id="requestDtE" type="text" class="form-control"
+													aria-label="Date" name="requestDtE"> <span class="tui-ico-date"></span>
+												<div id="requestDtE-wapper" style="margin-left: -1px;"></div>
 											</div>
 											<button type="button" class="btn btn-secondary btn-block" id="unprodBtn">읽기</button>
 										</div>
@@ -134,7 +134,7 @@
 	<div class="container-fluid px-4">
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 목록
+				<i class="fas fa-table me-1"></i> 생산제품목록
 			</div>
 			<div class="card-body">
 				<div id="total"></div>
@@ -146,50 +146,80 @@
 	<div class="container-fluid px-4">
 		<div class="card mb-4">
 			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 필요자재
+				<i class="fas fa-table me-1"></i> 필요자재체크
 			</div>
 			<div class="card-body">
 				<div id="matneed"></div>
 			</div>
 		</div>
 	</div>
-
-	<div id="unproduct" title="미생산 주문조회"></div>
+	
+	<div id="prodModal"></div>
 	<!-- 스크립트 -->
 	<script type="text/javascript">
 		
-		/* 미생산주문 모달 */
 		$(function(){
-			$('#unprodBtn').on('click', function(){
-				$('#unproduct').load('prodPlanUnprd.do', function(){
-					var unproduct = unprodModal();
-					unproduct.dialog('open')
+			
+			// 모달----------------------------------------
+			var dialog = makeModal();
+			
+			/* 생산계획조회 모달 */
+			$('#searchBtn').on('click', function(){
+				$('.ui-dialog-title').html('생산계획조회');
+				$('#prodModal').load('prodPlanModal.do', function(){
+					dialog.dialog({
+						buttons: {
+							"확인": planView,
+							"취소": function(){
+								$(this).dialog('close')
+							}
+						}
+					})
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					dialog.dialog('open')
 				})
 			})
+			function planView(){
+				
+			}
+			
+			
+			/* 미생산주문 모달 */
+			$('#unprodBtn').on('click', function(){
+				$('.ui-dialog-title').html('미생산주문조회');
+				$('#prodModal').load('requestModal.do', function(){
+					dialog.dialog({
+						buttons: {
+							"확인": requestAdd,
+							"취소": function(){
+								$(this).dialog('close')
+							}
+						}
+					})
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					dialog.dialog('open')
+				})
+			})
+			function requestAdd(){
+				
+			}
+			
+			/* 모달틀 */
+			function makeModal() {
+				var dialog = $("#prodModal").dialog({
+					autoOpen : false,
+					height : 600,
+					width : 700,
+					modal : true,
+				});
+				$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
+				return dialog;
+			}
 		})
 		
-		function unprodModal() {
-			var dialog = $('#unproduct').dialog({
-				 autoOpen: false, // 자동오픈 false
-			    height: 700,
-			    width: 700,
-			    modal: false,
-			    buttons : {
-					"확인" : productAdd,
-					"취소" : function() {
-						unproduct.dialog("close");
-					}
-				}
-			})
-			$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
-			$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-			return dialog;
-		}
+		// 모달끝--------------------------------------------
 		
-		function productAdd() {
-			
-		}
-	
+		// 달력---------------------------------------------
 	
 		/* 계획일자 */
 		const datepicker = new tui.DatePicker('#wrapper', {
@@ -202,24 +232,29 @@
 
 		});
 
-		/* 미생산 주문조회 */
+		/* 미생산 주문조회 달력 */
 		var today = new Date();
 		var picker = new tui.DatePicker.createRangePicker({
 			startpicker : {
 				date : today,
-				input : '#planDtS',
-				container : '#planDtS-wapper'
+				input : '#requestDtS',
+				container : '#requestDtS-wapper'
 			},
 			endpicker : {
 				date : today,
-				input : '#planDtE',
-				container : '#planDtE-wapper'
+				input : '#requestDtE',
+				container : '#requestDtE-wapper'
 			},
 			selectableRanges : [ [
 					today,
 					new Date(today.getFullYear() + 1, today.getMonth(), today
-							.getDate()) ] ]
+							.getDate()) ] ],
+			language : 'ko'
 		});
+		
+		// 달력끝------------------------------------------
+		
+		// 그리드---------------------------------------------
 
 		/* 필요자재 */
 		const selectMat = [];
@@ -263,7 +298,7 @@
 			el : document.getElementById('total'),
 			data : totalPd,
 			scrollX : false,
-			rowHeaders : [ 'checkbox', 'rowNum' ],
+			rowHeaders : [ 'checkbox' ],
 			columns : [ {
 				header: '제품코드',
 				align: 'center'
@@ -296,10 +331,19 @@
 				align : 'center'
 			} ]
 		});
+		
+		// 그리드끝------------------------------------------
 
+		
+		// 버튼---------------------------------------------
+		
+		/* 생산계획조회 */
+		$('#searchBtn').on('click', function(){
+			
+		})
+		
 		/* 새자료 */
 		$(document).on('click', '#resetBtn', function() {
-			console.log("리셋")
 			fnFormClear();
 		})
 
@@ -312,6 +356,8 @@
 			picker.endpicker.setDate(new Date());
 			grid.resetData(gridData);
 		}
+		
+		// 버튼끝------------------------------------------
 	</script>
 	</th:block>
 </body>

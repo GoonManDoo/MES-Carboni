@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+	<style>
+			table {
+				border-collapse: separate;
+  				border-spacing: 0 10px;
+			}
+			.tui-datepicker {
+				z-index: 99;
+			}
+			
+			.grid-option-area {
+				-webkit-box-pack: justify;
+				justify-content: space-between;
+				min-height: 36px;
+				margin-bottom: 10px;
+			}
+			
+			.ht {
+				height: 28px;
+			}
+			
+			.tbold {
+				font-weight: 700;
+			}
+			
+			.mb5 {
+				margin-bottom: 5px;
+			}
+			
+			.mt5 {
+				margin-top: 5px;
+			}
+			
+			.mr5 {
+				margin-right: 5px;
+			}
+			
+			.mr10 {
+				margin-right: 10px;
+			}
+		</style>
+</head>
+<body class="sb-nav-fixed">
+	<th:block layout:fragment="main">
+		
+		<div class="container-fluid px-4">
+			<h1 class="mt-4">생산지시조회</h1>
+			
+			<div class="card mb-2">
+				<div class="card-body">
+					<!-- 입력폼 -->
+					<form autocomplete="off">
+						<div class="container-fluid">
+							<!-- 계획일자, 생산계획명, 특이사항 -->
+							<div class="item col-6">
+								<table>
+									<tbody>
+										<tr>
+											<th><label style="width: 100px;">지시번호</label></th>
+											<td><input type="text"
+												class="form-control ht" style="width: 200px;"></td>
+										</tr>
+										<tr>
+											<th><label style="width: 100px;">지시명</label></th>
+											<td><input type="text"
+												class="form-control ht" style="width: 200px;"></td>
+										</tr>
+										<tr>
+											<th><label for="orderStDt">지시일자</label></th>
+											<td>
+												<!-- 시작일 -->
+												<div
+													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+													<input id="orderDtS" type="text" class="form-control"
+														aria-label="Date"> <span class="tui-ico-date"></span>
+													<div id="orderDtS-wapper" style="margin-left: -1px;"></div>
+												</div>
+
+												<span class="mt5">~</span>
+
+												<!-- 종료일 -->
+												<div
+													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+													<input id="orderDtE" type="text" class="form-control"
+														aria-label="Date"> <span class="tui-ico-date"></span>
+													<div id="orderDtE-wapper" style="margin-left: -1px;"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th>지시상태</th>
+											<td>
+												<input type="radio" id="unprocess" class="mr5"><label for="unprocess" class="mr10">미공정</label>
+												<input type="radio" id="processing" class="mr5"><label for="processing" class="mr10">공정진행</label>
+												<input type="radio" id="all" class="mr5"><label for="all">전체</label>
+											</td>
+										</tr>
+										<tr>
+											<th>제품코드</th>
+											<td><input type="text" id="planDt"
+												class="form-control ht mr5" style="width: 200px; display:inline-block;"><label id="pcodeModal" style="display:inline-block;">🔍</label></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</form>
+					<!-- 입력폼 끝  -->
+				</div>
+			</div>
+			
+			<!-- 조회버튼 -->
+			<div class="card mb-2">
+				<div class="card-header">
+					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" class="btn btn-secondary"
+							style="margin-right: 5px;">조회</button>
+						<button type="button" class="btn btn-secondary"
+							style="margin-right: 5px;">새자료</button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+		<!-- 전체 표 -->
+		<div class="container-fluid px-4">
+			<div class="card mb-4">
+				<div class="card-body">
+					<div id="orderList"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="modal"></div>
+	
+		<!-- 스크립트 -->
+		<script type="text/javascript">
+		
+			$(function(){
+				
+				// 모달----------------------------------------
+				var dialog = makeModal();
+				
+				/* 제품코드조회 모달 */
+				$('#pcodeModal').on('click', function(){
+					$('.ui-dialog-title').html('제품코드조회');
+					$('#modal').load('productCodeModal.do', function(){
+						dialog.dialog({
+							buttons: {
+								"확인": prodSelec,
+								"취소": function(){
+									$(this).dialog('close')
+								}
+							}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						dialog.dialog('open')
+					})
+				})
+				function prodSelec(){
+					
+				}
+				
+				/* 모달틀 */
+				function makeModal() {
+					var dialog = $("#modal").dialog({
+						autoOpen : false,
+						height : 600,
+						width : 700,
+						modal : true,
+					});
+					$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
+					return dialog;
+				}
+				
+				// 모달끝---------------------------------------
+				
+			})
+		
+
+		
+			// 달력-----------------------------------------
+			/* 지시일자 */
+			var today = new Date();
+			var picker = new tui.DatePicker.createRangePicker({
+				startpicker : {
+					date : today,
+					input : '#orderDtS',
+					container : '#orderDtS-wapper'
+				},
+				endpicker : {
+					date : today,
+					input : '#orderDtE',
+					container : '#orderDtE-wapper'
+				},
+				selectableRanges : [ [
+						today,
+						new Date(today.getFullYear() + 1, today.getMonth(),
+								today.getDate()) ] ],
+				language : 'ko'
+			});
+			// 달력 끝---------------------------------------
+			
+			// 그리드 ---------------------------------------
+			/* 지시목록 */
+			const totalPlan = [];
+	
+			const pdGrid = new tui.Grid({
+				el : document.getElementById('orderList'),
+				data : totalPlan,
+				scrollX : false,
+				columns : [ {
+					header: '지시번호',
+					align: 'center'
+				}, {
+					header : '제품코드',
+					align : 'center'
+				}, {
+					header : '제품명',
+					align : 'center'
+				}, {
+					header : '공정코드',
+					align : 'center'
+				}, {
+					header : '1차공정',
+					align : 'center'
+				}, {
+					header : '2차공정',
+					align : 'center'
+				}, {
+					header : '3차공정',
+					align : 'center'
+				}, {
+					header : '4차공정',
+					align : 'center'
+				}, {
+					header : '지시수량',
+					align : 'center'
+				}, {
+					header : '생산수량',
+					align : 'center'
+				}, {
+					header : '지시상태',
+					align : 'center'
+				}, {
+					header : '작업시작일',
+					align : 'center'
+				}, {
+					header : '비고',
+					align : 'center'
+				} ]
+			});
+		</script>
+	</th:block>
+</body>
+</html>

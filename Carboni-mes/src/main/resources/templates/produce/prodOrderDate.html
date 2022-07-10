@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+	<!-- 캘린더 cdn -->
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
+	<link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
+	<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
+	<style>
+		a {
+		 color: #4e4e4e;
+		}
+	</style>
+</head>
+<body class="sb-nav-fixed">
+	<th:block layout:fragment="main">
+		<div class="container-fluid px-4">
+			<h1 class="mt-4">생산일정조회</h1>
+			
+			<!-- 캘린더 -->
+			<div style="width:95%; margin:20px auto;">
+				<div id='calendar'></div>
+			</div>
+			
+			
+		</div>
+		
+		<!-- 스크립트 -->
+		<script type="text/javascript">
+			$(function(){
+				
+				var orderCal = document.getElementById('calendar');
+				var calendar = new FullCalendar.Calendar(orderCal, {
+					themeSystem: 'default',
+					initialView: 'dayGridMonth'
+				});
+				calendar.render();
+				
+			})
+		</script>
+	</th:block>
+</body>
+</html>

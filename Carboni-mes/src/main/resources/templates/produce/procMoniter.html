@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+<style>
+h5 {
+	font-weight: 700;
+	margin-bottom: 15px;
+}
+
+ul.tabs {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+ul.tabs li {
+	display: inline-block;
+	background: #898989;
+	color: white;
+	font-weight: 700;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+ul.tabs li.current {
+	background: #e0e0e0;
+	color: black;
+	font-weight: 700;
+}
+
+.tab-content {
+	display: none;
+	background: #e0e0e0;
+	padding: 5px;
+}
+
+.tab-content.current {
+	display: inherit;
+}
+
+.g1 {
+	padding: 15px;
+	height: 150px;
+}
+
+.g2 {
+	padding: 15px;
+	margin-top: 10px;
+	height: 250px;
+}
+
+.g3 {
+	padding: 15px;
+	margin-top: 10px;
+	height: 410px;
+}
+
+.g4 {
+	margin: 10px;
+}
+
+#manageBtn {
+	text-align: center;
+	margin-top: 90px;
+}
+
+#start, #end {
+	display: inline-block;
+	width: 150px;
+	height: 150px;
+	background: #ddd;
+	line-height: 150px;
+	text-align: center;
+	font-size: 2em;
+}
+
+#error {
+	display: inline-block;
+	width: 150px;
+	text-align: center;
+}
+
+#plus, #minus {
+	width: 50px;
+	height: 50px;
+	background: #ddd;
+	line-height: 50px;
+	text-align: center;
+}
+
+#emerStop {
+	width: 100px;
+	background: #ddd;
+	height: 30px;
+	margin: 5px;
+}
+
+.item.mone {
+	grid-column: 1;
+	grid-row: 1/4;
+	margin-right: 10px;
+}
+
+.item.mtwo {
+	grid-column: 2/5;
+	grid-row: 1/2;
+}
+
+.item.mthree {
+	grid-column: 2/5;
+	grid-row: 2/4;
+	margin-top: 0;
+}
+
+.proc {
+	margin-bottom: 10px;
+}
+.ig {
+		margin: 10px 0 10px 0;
+		padding: 15px;
+}
+</style>
+</head>
+<body class="sb-nav-fixed">
+	<th:block layout:fragment="main">
+
+		<div class="container-fluid px-4">
+			<h1 class="mt-4" style="margin-bottom: 20px;">공정모니터링</h1>
+
+			<!-- 탭 -->
+			<ul class="tabs">
+				<li class="tab-link current" data-tab="tab-1">공정진행관리</li>
+				<li class="tab-link" data-tab="tab-2">공정모니터링</li>
+			</ul>
+
+			<!-- 내용 -->
+			<!-- 공정진행관리 -->
+			<div id="tab-1" class="tab-content current">
+				<div style="background: white; padding-bottom: 5px;">
+					<div class="container-fluid"
+						style="display: flex; flex-flow: row wrap; justify-content: flex-start;">
+						<div class="item" style="width: 500px; margin: 10px 10px 0 0;">
+							<div class="border g1">
+								<h5>생산공정라인</h5>
+								<div style="margin: 20px; line-height: 60px;">
+									<label class="fw" style="width: 80px; text-align: center;">공정코드</label>
+									<select
+										style="width: 100px; height: 28px; display: inline-block;">
+										<option>코드1</option>
+										<option>코드2</option>
+										<option>코드3</option>
+									</select>
+								</div>
+							</div>
+							<div class="border g2">
+								<div id="orderContent1"></div>
+							</div>
+						</div>
+						<div class="item" style="flex-grow: 1;">
+							<div class="border g3">
+								<h5>공정 가동관리</h5>
+								<div id="manageBtn">
+									<div id="start">시작</div>
+									<div id="end">종료</div>
+									<div id="error">
+										<label>불량률</label><br> <label id="plus">+</label> <label
+											id="minus">-</label><br> <label id="emerStop">긴급중단</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+					</div>
+					<div>
+						<div class="border g4">
+							<div id="orderContent2"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div id="tab-2" class="tab-content">
+				
+				<!-- div style="background: white; padding-bottom: 5px;">
+					<div class="container-fluid"
+						style="display: flex; flex-flow: row wrap; justify-content: flex-start;">
+						<div class="item">
+							<div class="border">
+								<h5>공정진행상황</h5>
+								<div class="border proc">공정1</div>
+								<div class="border proc">공정2</div>
+								<div class="border proc">공정3</div>
+								<div class="border">공정4</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="border">
+								<h5>온도</h5>
+							</div>
+						</div>
+						<div class="item">
+							<div class="border">
+								<h5>생산</h5>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<div class="container-fluid"
+					style="display: grid; background: white;">
+					<div class="item ig mone border">
+						<h5>공정진행상황</h5>
+						<div class="border proc">공정1</div>
+						<div class="border proc">공정2</div>
+						<div class="border proc">공정3</div>
+						<div class="border">공정4</div>
+					</div>
+					<div class="item ig mtwo border">
+						<h5>온도</h5>
+					</div>
+					<div class="item ig mthree border">
+						<h5>생산</h5>
+						<div id="process"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- 스크립트 -->
+		<script type="text/javascript">
+			// 그리드---------------------------------------------
+			/* 공정진행관리 - 지시내용 */
+			const orderContent1 = [];
+
+			const Grid1 = new tui.Grid({
+				el : document.getElementById('orderContent1'),
+				data : orderContent1,
+				scrollX : false,
+				columns : [ {
+					header : '지시번호',
+					align : 'center'
+				}, {
+					header : '공정차수',
+					align : 'center'
+				}, {
+					header : '상세공정',
+					align : 'center'
+				}, {
+					header : '목표수량',
+					align : 'center'
+				}, {
+					header : '순서',
+					align : 'center'
+				}, {
+					header : '담당자',
+					align : 'center'
+				} ]
+			});
+
+			/* 공정진행관리 - 지시상세내용 */
+			const orderContent2 = [];
+
+			const Grid2 = new tui.Grid({
+				el : document.getElementById('orderContent2'),
+				data : orderContent2,
+				scrollX : false,
+				columns : [ {
+					header : '지시번호',
+					align : 'center'
+				}, {
+					header : '공정코드',
+					align : 'center'
+				}, {
+					header : '상세공정',
+					align : 'center'
+				}, {
+					header : '설비코드',
+					align : 'center'
+				}, {
+					header : '시작시간',
+					align : 'center'
+				}, {
+					header : '종료시간',
+					align : 'center'
+				}, {
+					header : '목표수량',
+					align : 'center'
+				}, {
+					header : '생산량',
+					align : 'center'
+				}, {
+					header : '불량량',
+					align : 'center'
+				}, {
+					header : '현재상태',
+					align : 'center'
+				} ]
+			});
+
+			/* 공정모니터링 - 생산 */
+			const processList = [];
+
+			const Grid3 = new tui.Grid({
+				el : document.getElementById('process'),
+				data : processList,
+				scrollX : false,
+				columns : [ {
+					header : '지시번호',
+					align : 'center'
+				}, {
+					header : '제품명',
+					align : 'center'
+				}, {
+					header : '공정코드',
+					align : 'center'
+				}, {
+					header : '1차공정',
+					align : 'center'
+				}, {
+					header : '2차공정',
+					align : 'center'
+				}, {
+					header : '3차공정',
+					align : 'center'
+				}, {
+					header : '4차공정',
+					align : 'center'
+				}, {
+					header : '설비코드',
+					align : 'center'
+				}, {
+					header : '가동상태',
+					align : 'center'
+				}, {
+					header : '목표수량',
+					align : 'center'
+				}, {
+					header : '로스율',
+					align : 'center'
+				} ]
+			});
+
+			// 그리드끝------------------------------------------
+
+			$(function() {
+
+				//	탭--------------------------------------
+				$('ul.tabs li').click(function() {
+					var tab_id = $(this).attr('data-tab');
+
+					$('ul.tabs li').removeClass('current');
+					$('.tab-content').removeClass('current');
+
+					$(this).addClass('current');
+					$("#" + tab_id).addClass('current');
+				})
+				// 탭끝-------------------------------------
+
+			})
+		</script>
+	</th:block>
+
+</body>
+</html>
