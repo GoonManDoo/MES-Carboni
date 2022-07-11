@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="main">
+  <head>
+    <meta charset="UTF-8">
+    <title>설비 등록</title>
+    </head>
+<style>
+  .prodResiFrame{
+    height: 650px;
+  width: 620px;
+  border-radius: 20px;
+  flex-wrap: wrap;
+  border: black;
+  
+  }
+  
+  .prodResiFrame .title{
+    font-family: Inter;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 36px;
+  letter-spacing: 0em;
+  text-align: center;
+  display:block;
+  margin-top: 1px;
+  }
+  .prodResiFrame .contentInnerFrame{
+    width:620px;
+    height:559px;
+    border-top:3px solid rgba(240,240,240,1)
+  }
+  
+  
+  .prodResiFrame .contentFrame{
+  width:475px;
+  height: 428px;
+  margin-top: 182px;
+  margin-left:72px;
+  }
+  
+  .prodResiFrame .question1{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  .prodResiFrame .question2{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  .prodResiFrame .question3{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  .prodResiFrame .question4{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  
+  .prodResiFrame .buttonBar{
+    width: 322px;
+    height: 57px;
+    margin-left: 149px;
+  }
+  
+  .prodResiFrame .queFrame{
+    width: 475px;
+    height: 38px;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+  
+  }
+</style>  
+<body>
+  <div class="prodResiFrame">
+    <div class="title">
+      <p>설비 등록</p>
+    </div>
+      <div class="contentInnerFrame">
+        <!-- 위쪽 경계선만 나오는 프레임 -->
+        <div class="contentFrame">
+          <!-- 내부 컨텐츠 감싸는 프레임 -->
+
+          <div class="queFrame">
+              <div class="question1">
+                <p>기체 순번</p>
+              </div>
+          </div>
+
+          <div class="queFrame">
+              <div class="question2">
+                <p>기체 이름</p>
+              </div>
+          </div>
+
+          <div class="queFrame">
+            <div class="question3">
+              <p>등록일/시간</p>
+              <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+            </div>
+          </div>
+
+
+          <div class="queFrame">
+            <div class="question4">
+              <p>관리자</p>
+              <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+            </div>
+          </div>
+
+          <div class="buttonBar">
+            <button class="cancle">
+              <img src="/static/assets/img/cancel.svg" alt="취소">
+            </button>
+            <button class="accept">
+              <img src="/static/assets/img/accept.svg" alt="확인">
+            </button>
+          </div>
+        </div>
+        
+      </div>
+  </div>
+</body>
+    </th:block>
+</html>

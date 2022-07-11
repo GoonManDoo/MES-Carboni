@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="main">
+  <head>
+    <meta charset="UTF-8">
+    <title>자세히 보기</title>
+    </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Sit on top */
+      padding-top: 100px;
+      /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      overflow: auto;
+      /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0);
+      /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      height: 745px;
+      width: 1271px;
+      border-radius: 20px;
+
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .mainFrame1 {
+      height: 685px;
+      width: 1190px;
+      border: 1px solid black;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 31px;
+      margin-left: 42px;
+      padding: 0px;
+      justify-content: space-around;
+      align-content: space-around;
+    }
+    .list1 {
+      position:
+        relative;
+      float:
+        left;
+      height: 232px;
+      width: 410px;
+      border-radius: 0px;
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
+      /* margin-top: 0px; */
+      /* padding-top: 35px; */
+      /* padding-left: 19px; */
+    }
+
+    .list2{
+      position:
+        relative;
+      float:
+        left;
+      height: 270px;
+      width: 736px;
+      /* left: 493px; */
+      border-radius: 0px;
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
+      margin-top: 0px;
+      /* padding-top: 35px; */
+      /* padding-left: 19px; */
+    }
+
+      
+
+    .list3 {
+      position:
+        relative;
+      float:
+        left;
+      height: 390px;
+      width: 410px;
+      border-radius: 0px;
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
+      /* margin-top: 0px; */
+      /* padding-top: 35px; */
+      /* padding-left: 19px; */
+    }
+
+    .list4{
+      position:
+        relative;
+      float:
+        left;
+      height: 390px;
+      width: 736px;
+      border-radius: 0px;
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
+      /* margin-top: 0px; */
+      /* padding-top: 35px; */
+      /* padding-left: 19px; */
+    }    
+
+    .ProdMaintitle {
+      font-family: Inter;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 27px;
+      letter-spacing: 0em;
+      text-align: left;
+      float: left;
+      margin-left: 29px;
+      margin-top: 26px;
+    }
+
+    .listinner {
+      position: absolute;
+      bottom: 0;
+      width: 369px;
+      height: 347px;
+      box-sizing: border-box;
+      /* padding-top: 20px; */
+      /* padding-left: 10px; */
+      left: 21px;
+      top: 67px;
+      border-top: 2px solid rgba(240, 240, 240, 1);
+    }
+
+    .areaGraph{
+      position: absolute;
+      width: 736px;
+      height: 289px;
+      box-sizing: border-box;
+      border-top: 2px solid rgba(240, 240, 240, 1);
+      bottom: 0px;
+    }
+
+    .innerlistFrame{
+      display: flex;
+      flex-wrap: wrap;
+      height: 228px;
+      width: 697px;
+      margin-top: 21px;
+      margin-left: 19px;
+      align-content: space-between;
+    }
+
+    .guageFrame{
+      height: 100px;
+      width: 697px;
+      border: 1px solid #F0F0F0
+      
+    }
+    .conditionArea{
+      height: 189px;
+      width: 345px;
+      margin-left: 31px;
+      margin-top: 21px;
+    }
+
+    .prodname {
+      height: 34px;
+      width: 278px;
+      border-radius: 7px;
+      background: rgba(240, 240, 240, 1);
+      /* right: 30%; */
+    }
+
+    .produp {
+      font-size:
+        xx-small;
+      line-height: 10px;
+      letter-spacing: 0em;
+      text-align: left;
+      background-color: white;
+      border:
+        none;
+      float: right;
+      margin-top: 48px;
+      margin-right: 29px;
+    }
+ 
+    a {
+      text-decoration: none;
+    }
+
+
+    .sang{
+      
+      font-family: Inter;
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+
+    }
+
+    .joong{
+      text-align: center;
+      margin-top: 1px;
+      
+
+    }
+
+    .ha{
+
+    }
+
+
+    .number {
+      margin-right: 13px;
+    }
+
+    .listinframe {
+      height: 34px;
+      width: 337px;
+      margin-top: 35px;
+      margin-bottom: 23px;
+      display: flex;
+      margin-left: 7px;
+    }
+
+    .percent {
+      height: 30px;
+      border-radius: 4px;
+      float: right;
+      margin: 2px;
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Modal Example</h2>
+
+  <!-- Trigger/Open The Modal -->
+  <button id="myBtn">Open Modal</button>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+
+      <div class="mainFrame1">
+
+        <div class="list1">
+          <div class="conditionArea">
+            <div class="sang">
+              <p>설비상태</p>
+            </div>
+            <div class="joong">
+              <p>가동여부</p>
+            </div>
+            <div class="ha">
+              <article class="pettiAdmin">
+                <p>관리자</p>
+                <p>percent:75%</p>
+              </article>
+              <p></p>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+          
+  
+        </div>
+
+        <div class="list2">
+          <div class="innerlistFrame">
+            <div class="guageFrame">
+                <p>가동일</p>
+            </div>
+            <div class="guageFrame">
+              <p>정기점검</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="list3">
+          <p class="ProdMaintitle">현재 공정 순서</p>
+
+          <button class="produp"><a href="">공정 등록하기 ></a></button>
+          <div class="listinner">
+            <div class="listinframe">
+              <img class="number" src="img/1_big.svg" alt="1">
+              <div class="prodname">
+                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+
+            <div class="listinframe">
+              <img class="number" src="img/2_big.svg" alt="2">
+              <div class="prodname">
+                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+
+            <div class="listinframe">
+              <img class="number" src="img/3_bigsvg.svg" alt="3">
+              <div class="prodname">
+                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+
+            <div class="listinframe">
+              <img class="number" src="img/4_big.svg" alt="4">
+              <div class="prodname">
+                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="list4">
+          <div class="areaGraph">
+            
+          </div>
+        </div>
+        
+
+
+      </div>
+
+     
+
+    </div>
+
+    
+
+</body>
+
+</html>
