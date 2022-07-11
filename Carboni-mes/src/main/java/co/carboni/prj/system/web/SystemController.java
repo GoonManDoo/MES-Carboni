@@ -42,7 +42,7 @@ public class SystemController {
 	}
 	
 	//설비 등록
-	@RequestMapping("ProdResist/.do")
+	@RequestMapping("ProdResist.do")
 	public String ProdResist() {
 		return "system/modal/ProdResist";
 	}

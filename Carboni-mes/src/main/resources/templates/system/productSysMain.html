@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
-  <th:block layout:fragment="main">
+ <th:block layout:fragment="main">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link href="css/styles.css" rel="stylesheet" />
 </head>
 <style>
 #container {
@@ -253,6 +252,10 @@ left:80%;
 </style>
 
 <body>
+
+<div id="Show" > </div>
+
+
   <div id="container">
     <div class="mainframe">
 
@@ -265,7 +268,7 @@ left:80%;
             <p class="subtitle">48-spindle braiding mech</p>
           </div>
           <div class="list">
-            <button class="produp"><a href="">공정 등록하기 ></a></button>
+            <button class="produp">공정 등록하기</button>
             <div class="listinner">
               <div class="listinframe">
                 <img class="number" src="/assets/img/1.svg" alt="1">
@@ -311,7 +314,7 @@ left:80%;
 
         </div>
       
-        <button class="link"><a href="">자세히 보기 ></a></button>
+        <div id="detail"><button class="link">자세히 보기 ></button></div>
      
       </div>
 
@@ -490,22 +493,55 @@ left:80%;
 
         </div>
       
-        <button class="link"><a href="">자세히 보기 ></a></button>
+        <button class="link">자세히 보기 > </button>
      
       </div>
      
      <div class="inframe2">
-          <button class="sysupdate" href=""><img src="/assets/img/newProdSys.svg" alt="sysupdate"></button>
+          <button class="sysupdate"><img src="/assets/img/newProdSys.svg" alt="sysupdate"></button>
     </div>
       
     </div>
     
     </div>
+<div id="Show" title="" style="text-align: center;">       </div>
 
-</body>
 <script>
-      
+
+$(function() {
+	//모달1 -> 자세히 보기
+	var dialog = makeModal();
+	$("#detail").on("click", function() {
+		/* 첫번째 $는 불러올 창을 만드는 div의 id. 2번째의 .do가 실질적으로 불러와지는 페이지. */
+		$("#Show").load('detailShow.do', function() {
+			dialog.dialog("open");
+		})
+	});
+	function contentsAdd() {
+	}
+
+	
+	
+	//모달2 -> 설비 추가하기
+	$(".sysupdate").on("click", function() {
+		$("#Show").load('ProdResist.do', function() {
+			dialog.dialog("open");
+		})
+	});
+
+	//모달틀 -> 재사용 (모달이 여러개일 경우 확인, 취소 버튼 만들지 않기(버튼마다 다른 기능을 사용해야하므로))
+	function makeModal() {
+		var dialog = $("#Show").dialog({
+			autoOpen : false,
+			height : 700,
+			width : 700,
+			modal : true,
+		});
+		return dialog;
+	}
+});
     </script>
-</script>
- </th:block>
+
+ </body>
+  </th:block>
 </html>

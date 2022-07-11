@@ -1,40 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}">
-  <th:block layout:fragment="main">
-  <head>
-    <meta charset="UTF-8">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>자세히 보기</title>
     </head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+
     body {
       font-family: Arial, Helvetica, sans-serif;
     }
 
     /* The Modal (background) */
-    .modal {
-      display: none;
-      /* Hidden by default */
-      position: fixed;
-      /* Stay in place */
-      z-index: 1;
-      /* Sit on top */
-      padding-top: 100px;
-      /* Location of the box */
-      left: 0;
-      top: 0;
-      width: 100%;
-      /* Full width */
-      height: 100%;
-      /* Full height */
-      overflow: auto;
-      /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0);
-      /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4);
-      /* Black w/ opacity */
-    }
+    
+ 
 
     /* Modal Content */
     .modal-content {
@@ -63,7 +44,7 @@
       cursor: pointer;
     }
 
-    .mainFrame1 {
+    .modalmainFrame1 {
       height: 685px;
       width: 1190px;
       border: 1px solid black;
@@ -75,7 +56,7 @@
       justify-content: space-around;
       align-content: space-around;
     }
-    .list1 {
+    .modallist1 {
       position:
         relative;
       float:
@@ -90,7 +71,7 @@
       /* padding-left: 19px; */
     }
 
-    .list2{
+    .modallist2{
       position:
         relative;
       float:
@@ -108,7 +89,7 @@
 
       
 
-    .list3 {
+    .modallist3 {
       position:
         relative;
       float:
@@ -123,7 +104,7 @@
       /* padding-left: 19px; */
     }
 
-    .list4{
+    .modallist4{
       position:
         relative;
       float:
@@ -138,7 +119,7 @@
       /* padding-left: 19px; */
     }    
 
-    .ProdMaintitle {
+    .modalProdMaintitle {
       font-family: Inter;
       font-size: 22px;
       font-weight: 500;
@@ -150,7 +131,7 @@
       margin-top: 26px;
     }
 
-    .listinner {
+    .modallistinner {
       position: absolute;
       bottom: 0;
       width: 369px;
@@ -163,7 +144,7 @@
       border-top: 2px solid rgba(240, 240, 240, 1);
     }
 
-    .areaGraph{
+    .modalareaGraph{
       position: absolute;
       width: 736px;
       height: 289px;
@@ -172,7 +153,7 @@
       bottom: 0px;
     }
 
-    .innerlistFrame{
+    .modalinnerlistFrame{
       display: flex;
       flex-wrap: wrap;
       height: 228px;
@@ -182,20 +163,20 @@
       align-content: space-between;
     }
 
-    .guageFrame{
+    .modalguageFrame{
       height: 100px;
       width: 697px;
       border: 1px solid #F0F0F0
       
     }
-    .conditionArea{
+    .modalconditionArea{
       height: 189px;
       width: 345px;
       margin-left: 31px;
       margin-top: 21px;
     }
 
-    .prodname {
+    .modalprodname {
       height: 34px;
       width: 278px;
       border-radius: 7px;
@@ -203,7 +184,7 @@
       /* right: 30%; */
     }
 
-    .produp {
+    .modalprodup {
       font-size:
         xx-small;
       line-height: 10px;
@@ -216,13 +197,13 @@
       margin-top: 48px;
       margin-right: 29px;
     }
- 
-    a {
+
+    modala {
       text-decoration: none;
     }
 
 
-    .sang{
+    .modalsang{
       
       font-family: Inter;
         font-size: 20px;
@@ -233,23 +214,23 @@
 
     }
 
-    .joong{
+    .modaljoong{
       text-align: center;
       margin-top: 1px;
       
 
     }
 
-    .ha{
-
+    .modalha{
+		text-decoration:none;
     }
 
 
-    .number {
+    .modalnumber {
       margin-right: 13px;
     }
 
-    .listinframe {
+    .modallistinframe {
       height: 34px;
       width: 337px;
       margin-top: 35px;
@@ -258,7 +239,7 @@
       margin-left: 7px;
     }
 
-    .percent {
+    .modalpercent {
       height: 30px;
       border-radius: 4px;
       float: right;
@@ -270,10 +251,8 @@
 
 <body>
 
-  <h2>Modal Example</h2>
 
-  <!-- Trigger/Open The Modal -->
-  <button id="myBtn">Open Modal</button>
+
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
@@ -281,18 +260,18 @@
     <!-- Modal content -->
     <div class="modal-content">
 
-      <div class="mainFrame1">
+      <div class="modalmainFrame1">
 
-        <div class="list1">
-          <div class="conditionArea">
-            <div class="sang">
+        <div class="modallist1">
+          <div class="modalconditionArea">
+            <div class="modalsang">
               <p>설비상태</p>
             </div>
-            <div class="joong">
+            <div class="modaljoong">
               <p>가동여부</p>
             </div>
-            <div class="ha">
-              <article class="pettiAdmin">
+            <div class="modalha">
+              <article class="modalpettiAdmin">
                 <p>관리자</p>
                 <p>percent:75%</p>
               </article>
@@ -305,54 +284,54 @@
   
         </div>
 
-        <div class="list2">
-          <div class="innerlistFrame">
-            <div class="guageFrame">
-                <p>가동일</p>
-            </div>
-            <div class="guageFrame">
-              <p>정기점검</p>
-            </div>
-          </div>
-        </div>
+        <div class="modallist2">
+          <div class="modalinnerlistFrame">
+            <div class="modalguageFrame">
 
-        <div class="list3">
-          <p class="ProdMaintitle">현재 공정 순서</p>
-
-          <button class="produp"><a href="">공정 등록하기 ></a></button>
-          <div class="listinner">
-            <div class="listinframe">
-              <img class="number" src="img/1_big.svg" alt="1">
-              <div class="prodname">
-                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
-              </div>
             </div>
+            <div class="modalguageFrame">
 
-            <div class="listinframe">
-              <img class="number" src="img/2_big.svg" alt="2">
-              <div class="prodname">
-                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
-              </div>
-            </div>
-
-            <div class="listinframe">
-              <img class="number" src="img/3_bigsvg.svg" alt="3">
-              <div class="prodname">
-                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
-              </div>
-            </div>
-
-            <div class="listinframe">
-              <img class="number" src="img/4_big.svg" alt="4">
-              <div class="prodname">
-                <div class="percent"> <img src="img/dropdown.svg" alt="dropdown"></div>
-              </div>
             </div>
           </div>
         </div>
 
-        <div class="list4">
-          <div class="areaGraph">
+        <div class="modallist3">
+          <p class="modalProdMaintitle">현재 공정 순서</p>
+
+          <button class="modalprodup">공정 등록하기 </button>
+          <div class="modallistinner">
+            <div class="modallistinframe">
+              <img class="modalnumber" src="/assets/img/1_big.svg" alt="1">
+              <div class="modalprodname">
+                <div class="modalpercent"> <img src="/assets/img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+
+            <div class="modallistinframe">
+              <img class="modalnumber" src="/assets/img/2_big.svg" alt="2">
+              <div class="modalprodname">
+                <div class="modalpercent"> <img src="/assets/img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+
+            <div class="modalistinframe">
+              <img class="modalnumber" src="/assets/img/3_big.svg" alt="3">
+              <div class="modalprodname">
+                <div class="modalpercent"> <img src="/assets/img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+
+            <div class="modallistinframe">
+              <img class="modalnumber" src="img/4_big.svg" alt="4">
+              <div class="modalprodname">
+                <div class="modalpercent"> <img src="/assets/img/dropdown.svg" alt="dropdown"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modallist4">
+          <div class="modalreaGraph">
             
           </div>
         </div>
@@ -364,8 +343,11 @@
      
 
     </div>
+    </div>
 
-    
+    <script>
+
+    </script>
 
 </body>
 
