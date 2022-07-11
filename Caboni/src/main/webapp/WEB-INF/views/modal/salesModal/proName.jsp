@@ -19,7 +19,7 @@
 <body>
 	<div class="container">
 		<div class="title">
-			●제품명<input type="text" id="input" placeholder="제품명"> ●제품코드<input type="text" id="input" placeholder="제품코드">
+			제품명<input type="text" id="input" placeholder="제품명"> 제품코드<input type="text" id="input" placeholder="제품코드">
 			<button class="btn btn-secondary">조회</button>
 			<br>
 

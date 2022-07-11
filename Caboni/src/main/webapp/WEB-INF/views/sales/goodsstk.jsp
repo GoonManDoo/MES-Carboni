@@ -72,49 +72,8 @@ input {
 			<div class="card-body">
 				 <span> 정산일자<input type="date" name="startCNDATE" id="startCNDATE" />~
 		                     <input type="date" name="endCNDATE" id="endCNDATE" /><br>
-                        제품코드<input type="text" id="leftinput" placeholder="모달창추가"><br>
+                        제품코드<input type="text" id="leftinput" placeholder="제품코드입력"><br>
                      </span> 
-			</div>
-		</div>
-		<div class="card mb-4">
-			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 제품재고목록
-			</div>
-			<div class="card-body">
-				<table id="datatablesSimple">
-					<thead>
-						<tr>
-							<td><input type="checkbox"></td>
-							<th>제품코드</th>
-							<th>제품명</th>
-							<th>재고량</th>
-							<th>안전재고</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox"></td>
-							<th>013</th>
-							<th>다리미</th>
-							<th>11개</th>
-							<th>6개</th>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<th>011</th>
-							<th>다리미</th>
-							<th>10개</th>
-							<th>5개</th>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<th>016</th>
-							<th>콘센트</th>
-							<th>20개</th>
-							<th>0개</th>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</div>
@@ -124,12 +83,12 @@ input {
 <div class="container-fluid px-4">
 	<div class="card mb-4">
 		<div class="card-header">
-			<i class="fas fa-table me-1"></i> 미정
+			<i class="fas fa-table me-1"></i> 제품재고목록
 		</div>
 		<div id="grid"></div>
 	</div>
 </div>
-
+<div id="search" title="제품검색" style="text-align: center;">       </div>
 
 </body>
 <script>
@@ -142,6 +101,8 @@ input {
 				c2 : ((i + 5) % 8) * 100 + i,
 				c3 : ((i + 3) % 7) * 60,
 				c4 : ((i + 3) % 7) * 60,
+				c5 : ((i + 3) % 7) * 60,
+				c6 : ((i + 3) % 7) * 60,
 			});
 		}
 	})();
@@ -150,48 +111,69 @@ input {
 		el : document.getElementById('grid'),
 		data : gridData,
 		scrollX : false,
-		rowHeaders : [ 'rowNum' ],
+		rowHeaders : [ 'rowNum', 'checkbox' ],
 		columns : [ {
 			header : '제품코드',
 			name : 'c2',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
 			header : '제품명',
 			name : 'c3',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
 			header : '재고량',
 			name : 'c4',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		}, {
+			header : '단위',
+			name : 'c5',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
 			header : '안전재고',
-			name : 'c5',
-			align : 'center'
+			name : 'c6',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		} ]
 	});
-</script>
 
-<!-- 모달 -->
-<script>
-var modal = document.getElementById('myModal');
-var btn = document.getElementById('write');
-var span = document.getElementByClassName("close")[0];
-$(document).ready(function(){
-	btn.onclick = function(event) {
-		modal.style.display = "block";
-	}
-	noticeList();
-});
+	//제품정보 모달
+	$(function() {
+		var dialog = makeModal();
 
-span.onclick = function(event) {
-	modal.style.display = "none";
-}
+		$("#leftinput").on("click", function() {
 
-window.onclick = function(event) {
-	if(event.target == modal) {
-		modal.style.display = "none";
-	}
-}
+			$("#search").load('proName.do', function() {
 
-</script>
+				dialog.dialog("open");
+			})
+		});
+
+		function contentsAdd() {
+		}
+
+		//모달 만들기
+		function makeModal() {
+			var dialog = $("#search").dialog({
+				autoOpen : false,
+				height : 700,
+				width : 700,
+				modal : true,
+			});
+			return dialog;
+		}
+	});
+	
+	</script>
+
+
+
 </html>
