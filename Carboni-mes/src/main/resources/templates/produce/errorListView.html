@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+	<style>
+			table {
+				border-collapse: separate;
+  				border-spacing: 0 10px;
+			}
+			.tui-datepicker {
+				z-index: 99;
+			}
+			
+			.grid-option-area {
+				-webkit-box-pack: justify;
+				justify-content: space-between;
+				min-height: 36px;
+				margin-bottom: 10px;
+			}
+			
+			.ht {
+				height: 28px;
+			}
+			
+			.tbold {
+				font-weight: 700;
+			}
+			
+			.mb5 {
+				margin-bottom: 5px;
+			}
+			
+			.mt5 {
+				margin-top: 5px;
+			}
+			
+			.mr5 {
+				margin-right: 5px;
+			}
+			
+			.mr10 {
+				margin-right: 10px;
+			}
+		</style>
+</head>
+<body class="sb-nav-fixed">
+	<th:block layout:fragment="main">
+		
+		<div class="container-fluid px-4">
+			<h1 class="mt-4">불량내역조회</h1>
+			
+			<div class="card mb-2">
+				<div class="card-body">
+					<!-- 입력폼 -->
+					<form autocomplete="off">
+						<div class="container-fluid">
+							<!-- 계획일자, 생산계획명, 특이사항 -->
+							<div class="item col-6">
+								<table>
+									<tbody>
+										<tr>
+											<th><label style="width: 100px;">작업일자</label></th>
+											<td>
+												<!-- 시작일 -->
+												<div
+													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+													<input id="procDtS" type="text" class="form-control"
+														aria-label="Date"> <span class="tui-ico-date"></span>
+													<div id="procDtS-wapper" style="margin-left: -1px;"></div>
+												</div>
+
+												<span class="mt5">~</span>
+
+												<!-- 종료일 -->
+												<div
+													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+													<input id="procDtE" type="text" class="form-control"
+														aria-label="Date"> <span class="tui-ico-date"></span>
+													<div id="procDtE-wapper" style="margin-left: -1px;"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th><label>지시번호</label></th>
+											<td><input type="text"
+												class="form-control ht" style="width: 200px;"></td>
+										</tr>
+										<tr>
+											<th>진행상태</th>
+											<td>
+												<select style="width:100px; height:28px; display: inline-block;">
+													<option value="equipError">설비불량</option>
+													<option value="matError">자재불량</option>
+													<option value="prodError">제품불량</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</form>
+					<!-- 입력폼 끝  -->
+				</div>
+			</div>
+			
+			<!-- 조회버튼 -->
+			<div class="card mb-2">
+				<div class="card-header">
+					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" class="btn btn-secondary"
+							style="margin-right: 5px;">조회</button>
+						<button type="button" class="btn btn-secondary"
+							style="margin-right: 5px;">새자료</button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+		<!-- 전체 표 -->
+		<div class="container-fluid px-4">
+			<div class="card mb-4">
+				<div class="card-body">
+					<div id="errorList"></div>
+				</div>
+			</div>
+		</div>
+		
+
+		<!-- 스크립트 -->
+		<script type="text/javascript">
+			// 달력-----------------------------------------
+			/* 지시일자 */
+			var today = new Date();
+			var picker = new tui.DatePicker.createRangePicker({
+				startpicker : {
+					date : today,
+					input : '#procDtS',
+					container : '#procDtS-wapper'
+				},
+				endpicker : {
+					date : today,
+					input : '#procDtE',
+					container : '#procDtE-wapper'
+				},
+				selectableRanges : [ [
+						today,
+						new Date(today.getFullYear() + 1, today.getMonth(),
+								today.getDate()) ] ],
+				language : 'ko'
+			});
+			// 달력 끝---------------------------------------
+			
+			// 그리드 ---------------------------------------
+			/* 지시목록 */
+			const totalPlan = [];
+	
+			const pdGrid = new tui.Grid({
+				el : document.getElementById('errorList'),
+				data : totalPlan,
+				scrollX : false,
+				columns : [ {
+					header: '작업번호',
+					align: 'center'
+				}, {
+					header : '공정코드',
+					align : 'center'
+				}, {
+					header : '제품명',
+					align : 'center'
+				}, {
+					header : '불량코드',
+					align : 'center'
+				}, {
+					header : '불량명',
+					align : 'center'
+				}, {
+					header : '불량내역',
+					align : 'center'
+				}, {
+					header : '불량일자',
+					align : 'center'
+				} ]
+			});
+		</script>
+	</th:block>
+</body>
+</html>

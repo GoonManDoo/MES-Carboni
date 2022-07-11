@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<style>
+		.cb {
+			text-align:center;
+			margin-top: 10px;
+		}
+		.tui-datepicker {
+			z-index: 99;
+		}
+		.fw {
+			font-weight: 700;
+			margin-right: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container" style="padding:20px;">
+		
+		<!-- 생산지시관리 - 생신지시조회 모달 -->
+		<!-- 작성일자 검색 -->
+		<form class="container-fluid" id="searchForm" name="searchForm">
+			<div class="search-area search-area-border" style="width: 100%;">
+				<ul style="list-style: none;">
+					<li><label class="fw">지시일자</label> 
+					<!-- 시작일 -->
+						<div
+							class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+							<input id="orderDtS" type="text" class="form-control"
+								aria-label="Date" name="orderDtS"> <span
+								class="tui-ico-date"></span>
+							<div id="orderDtS-wapper" style="margin-left: -1px;"></div>
+						</div> 
+						
+						<span class="mg5">~</span> 
+						
+						<!-- 종료일 -->
+						<div
+							class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+							<input id="orderDtE" type="text" class="form-control"
+								aria-label="Date" name="orderDtE"> <span
+								class="tui-ico-date"></span>
+							<div id="orderDtE-wapper" style="margin-left: -1px;"></div>
+						</div>
+						<button type="button" class="ml-1 mw50 btn-sm btn-secondary"
+							id="unprodBtn">검색</button></li>
+				</ul>
+			</div>
+		</form>
+		
+		<!-- 진행상태 구분 -->
+		<div class="container-fluid" style="margin-top: 40px; margin-bottom: 10px;">
+			<div>
+				<label class="fw">진행상태</label>
+				<select style="width:100px; height:28px; display: inline-block;">
+					<option value="unprocess">미공정</option>
+					<option value="processing">공정진행</option>
+				</select>
+			</div>
+		</div>
+		
+		<!-- 그리드 -->
+      <div id="orderList"></div>
+      		
+	</div>
+	
+	<!-- 스크립트 -->
+	<script type="text/javascript">
+	
+		$(function(){
+			// 생산계획목록 그리드------------------------
+			const planList = [];
+			
+			const grid = new tui.Grid({
+		      el: document.getElementById('orderList'),
+		      data: planList,
+		      columns: [
+		        {
+		          header: '지시일자',
+		          align : 'center'
+		        },
+		        {
+		          header: '지시번호',
+		          align : 'center'
+		        },
+		        {
+		          header: '지시명',
+		          align : 'center'
+		        },
+		        {
+		          header: '비고',
+		          align : 'center'
+		        }
+		      ]
+	    	});
+			// 그리드 끝-------------------------------
+			
+			// 달력-----------------------------------
+			/* 작성일자 */
+			var today = new Date();
+			var picker = new tui.DatePicker.createRangePicker({
+				startpicker : {
+					date : today,
+					input : '#orderDtS',
+					container : '#orderDtS-wapper'
+				},
+				endpicker : {
+					date : today,
+					input : '#orderDtE',
+					container : '#orderDtE-wapper'
+				},
+				selectableRanges : [ [
+						today,
+						new Date(today.getFullYear() + 1, today.getMonth(),
+								today.getDate()) ] ],
+				language : 'ko'
+			});
+			// 달력끝-----------------------------------
+			
+		})
+		
+	
+	</script>
+</body>
+</html>

@@ -3,14 +3,10 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
 <head>
-</head>
-<body class="sb-nav-fixed">
-	<th:block layout:fragment="main">
 		<style>
 			.tui-datepicker {
 				z-index: 99;
 			}
-			
 			.grid-option-area {
 				-webkit-box-pack: justify;
 				justify-content: space-between;
@@ -29,19 +25,27 @@
 			.tbold {
 				font-weight: 700;
 			}
+			.marr {
+			   margin-left: 20px;
+			   margin-right: 20px;
+			   text-align: center;
+			}
 		</style>
+</head>
+<body class="sb-nav-fixed">
+	<th:block layout:fragment="main">
 		<div class="container-fluid px-4">
 			<h1 class="mt-4">생산지시관리</h1>
 			<div class="card mb-2">
 				<div class="card-header">
 					<div style="display: flex; justify-content: flex-end;">
-						<button type="button" class="btn btn-secondary"
+						<button type="button" id="searchBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">조회</button>
-						<button type="button" class="btn btn-secondary"
+						<button type="button" id="resetBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">새자료</button>
-						<button type="button" class="btn btn-secondary"
+						<button type="button" id="saveBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">저장</button>
-						<button type="button" class="btn btn-secondary"
+						<button type="button" id="removeBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">삭제</button>
 					</div>
 				</div>
@@ -49,7 +53,7 @@
 			<div class="card mb-2">
 				<div class="card-body">
 					<!-- 입력폼 -->
-					<form autocomplete="off">
+					<form autocomplete="off" id="dataForm">
 						<div class="container-fluid"
 							style="display: flex; flex-flow: row wrap; justify-content: space-between;">
 							<!-- 계획일자, 생산계획명, 특이사항 -->
@@ -61,7 +65,7 @@
 											<td colspan="6">
 												<div
 													class="tui-datepicker-input tui-datetime-input tui-has-focus">
-													<input type="text" class="form-control" id="planDt"
+													<input type="text" class="form-control" id="orderDt"
 														aria-label="Date-Time" tabindex="1"> <span
 														class="tui-ico-date"></span>
 												</div>
@@ -76,7 +80,7 @@
 											<td colspan="5">
 										</tr>
 										<tr>
-											<th>특이사항</th>
+											<th>비  고</th>
 											<td><input type="text" id="remark"
 												class="form-control ht" style="width: 500px;" maxlength="10"
 												tabindex="2"></td>
@@ -117,7 +121,7 @@
 														aria-label="Date"> <span class="tui-ico-date"></span>
 													<div id="planDtE-wapper" style="margin-left: -1px;"></div>
 												</div>
-												<button type="button" class="btn btn-secondary btn-block">읽기</button>
+												<button type="button" id="unorderBtn" class="btn btn-secondary btn-block">읽기</button>
 											</div>
 										</li>
 									</ul>
@@ -142,84 +146,138 @@
 		<div class="container-fluid px-4">
 			<div class="card mb-4">
 				<div class="card-header">
-					<i class="fas fa-table me-1"></i> 목록
+					<i class="fas fa-table me-1"></i> 계획목록
 				</div>
 				<div class="card-body">
-					<div id="total"></div>
+					<div id="totalPlan"></div>
 				</div>
 			</div>
 		</div>
 
 		<!-- 필요자재, 공정  -->
 		<div class="container-fluid px-4">
-			<div class="card mb-4">
-				<div class="card-header">
-					<i class="fas fa-table me-1"></i>
-				</div>
+			<div class="card mb-2">
 				<div class="card-body">
-					<div class="container-fluid"
-						style="display: flex; justify-content: space-between;">
-						<div class="item tbold">제품코드</div>
-						<div class="item">
-							<input type="text" class="form-control ht" maxlength="10"
-								style="height: 28px;">
-						</div>
-						<div class="item tbold">제품명</div>
-						<div class="item">
-							<input type="text" class="form-control ht" maxlength="10"
-								style="height: 28px;">
-						</div>
-						<div class="item tbold">고객사</div>
-						<div class="item">
-							<input type="text" class="form-control ht" maxlength="10"
-								style="height: 28px;">
-						</div>
-						<div class="item tbold">지시량</div>
-						<div class="item">
-							<input type="text" class="form-control ht" maxlength="10"
-								style="height: 28px;">
-						</div>
-						<br>
-					</div>
-					<div class="container-fluid"
-						style="display: flex; justify-content: space-between;">
-						<div style="width: 49%;" class="item">
-							<div class="container-fluid"
-								style="margin-top: 10px; display: flex; justify-content: space-between;">
-								<div class="item mg5 tbold">자재코드</div>
-								<div class="item mg5">
-									<input type="text" class="form-control ht" maxlength="7"
-										style="height: 28px;">
-								</div>
-								<div class="item mg5 tbold">자재명</div>
-								<div class="item mg5">
-									<input type="text" class="form-control ht" maxlength="7"
-										style="height: 28px;">
-								</div>
-								<div class="item">
-									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;">검색</button>
+					<!-- 선택한 제품 정보 -->
+					<div class="container-fluid" style="display:flex; flex-flow: row wrap; justify-content: space-evenly; margin-bottom:15px;">
+	               <div class="item">
+	                  <span class="tbold marr">제품코드</span>
+	                  <input type="text" class="form-control ht" style="width: 200px; display:inline-block; height:28px;" readonly>
+	               </div>
+	               <div class="item">
+	                  <span class="tbold marr">제품명</span>
+	                  <input type="text" class="form-control ht" style="width: 200px; display:inline-block; height:28px;" readonly>
+	               </div>
+	               <div class="item">
+	                  <span class="tbold marr">고객사</span>
+	                  <input type="text" class="form-control ht" style="width: 200px; display:inline-block; height:28px;" readonly>
+	               </div>
+	               <div class="item">
+	                  <span class="tbold marr">지시량</span>
+	                  <input type="text" class="form-control ht" style="width: 200px; display:inline-block; height:28px;" readonly>
+	               </div>
+            	</div>
+					
+					<!-- 자재, 공정 -->
+					<div class="container-fluid mt-1" style="overflow:auto; flex-flow: row wrap; display: flex; justify-content: space-between;">
+						<!-- 제품자재 -->
+						<div class="item" style="min-width:49%;">
+							<div class="container" style="display:flex; float:left; justify-content: space-between;">
+								<div class="item-fluid">
+			                  <span class="tbold marr mg5">자재코드</span>
+			                  <input type="text" class="form-control ht mg5" style="width: 150px; display:inline-block;">
+		               	</div>
+		               	<div class="item-fluid">
+			                  <span class="tbold marr mg5">자재명</span>
+			                  <input type="text" class="form-control ht mg5" style="width: 150px; display:inline-block;">
+	               		</div>
+								<div class="item btn-group">
+									<button type="button" class="btn btn-secondary">검색</button>
 								</div>
 							</div>
-							<div class="mg5">
-								<div id="matlist" style="margin-top: 10px;"></div>
+							<div class="mg5" style="margin-top:50px;">
+								<div id="matlist"></div>
 							</div>
 						</div>
-						<div style="width: 49%;" class="item">
-							<div id="prclist" style="margin-top: 15px;"></div>
+						<div class="item" style="min-width: 49%;">
+							<div id="prclist" style="margin-top:15px;"></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<div id="prodModal"></div>
 
 		<!-- 스크립트 -->
 		<script type="text/javascript">
+		
+			$(function(){
+			
+				// 모달----------------------------------------
+				var dialog = makeModal();
+				
+				/* 생산지시조회 모달 */
+				$('#searchBtn').on('click', function(){
+					$('.ui-dialog-title').html('생산지시조회');
+					$('#prodModal').load('prodOrderModal.do', function(){
+						dialog.dialog({
+							buttons: {
+								"확인": orderView,
+								"취소": function(){
+									$(this).dialog('close')
+								}
+							}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						dialog.dialog('open')
+					})
+				})
+				function orderView(){
+					
+				}
+				
+				
+				/* 미지시계획 모달 */
+				$('#unorderBtn').on('click', function(){
+					$('.ui-dialog-title').html('미지시계획조회');
+					$('#prodModal').load('unorderModal.do', function(){
+						dialog.dialog({
+							buttons: {
+								"확인": planAdd,
+								"취소": function(){
+									$(this).dialog('close')
+								}
+							}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						dialog.dialog('open')
+					})
+				})
+				function planAdd(){
+					
+				}
+				
+				/* 모달틀 */
+				function makeModal() {
+					var dialog = $("#prodModal").dialog({
+						autoOpen : false,
+						height : 600,
+						width : 700,
+						modal : true,
+					});
+					$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
+					return dialog;
+				}
+			})
+		
+		
+			// 달력-----------------------------------------
 			/* 지시일자 */
 			const datepicker = new tui.DatePicker('#wrapper', {
 				date : new Date(),
 				input : {
-					element : '#planDt',
+					element : '#orderDt',
 					format : 'yyyy-MM-dd'
 				},
 				language : 'ko'
@@ -242,7 +300,54 @@
 				selectableRanges : [ [
 						today,
 						new Date(today.getFullYear() + 1, today.getMonth(),
-								today.getDate()) ] ]
+								today.getDate()) ] ],
+				language : 'ko'
+			});
+			// 달력 끝---------------------------------------
+			
+			// 그리드 ---------------------------------------
+			/* 계획목록 */
+			const totalPlan = [];
+
+			const pdGrid = new tui.Grid({
+				el : document.getElementById('totalPlan'),
+				data : totalPlan,
+				scrollX : false,
+				rowHeaders : [ 'checkbox' ],
+				columns : [ {
+					header: '계획번호',
+					align: 'center'
+				}, {
+					header : '계획명',
+					align : 'center'
+				}, {
+					header : '제품명',
+					align : 'center'
+				}, {
+					header : '납기일자',
+					align : 'center'
+				}, {
+					header : '공정코드',
+					align : 'center'
+				}, {
+					header : '계획량',
+					align : 'center'
+				}, {
+					header : '지시량',
+					align : 'center'
+				}, {
+					header : '생산구분',
+					align : 'center'
+				}, {
+					header : '작업시작일',
+					align : 'center'
+				}, {
+					header : '비고',
+					align : 'center'
+				}, {
+					header : '담당자',
+					align : 'center'
+				} ]
 			});
 
 			/* 자재목록 */
@@ -281,7 +386,7 @@
 					header : '순번',
 					align : 'center'
 				}, {
-					header : '공정명',
+					header : '공정코드',
 					align : 'center'
 				}, {
 					header : '1차공정',
@@ -300,6 +405,7 @@
 					align : 'center'
 				} ]
 			});
+			// 그리드끝-----------------------------------
 		</script>
 	</th:block>
 </body>

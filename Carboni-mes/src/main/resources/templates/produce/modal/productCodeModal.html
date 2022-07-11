@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	
+	<!-- 생산지시조회 - 제품코드조회 모달 -->
+	
+	<div id="container" style="padding:20px;">
+		<form class="container-fluid" id="searchForm" name="searchForm">
+			<div>
+				<input id="productName" type="text" class="form-control ht" style="width: 250px; margin-bottom:20px;">
+			</div>
+		</form>
+		<div id="codeList"></div>
+	</div>
+	
+	<!-- 스크립트 -->
+	<script type="text/javascript">
+		$(function(){
+			
+			// 생산의뢰목록 그리드------------------------
+			const orderList = [];
+			
+			const grid = new tui.Grid({
+		      el: document.getElementById('codeList'),
+		      data: orderList,
+		      columns: [
+		        {
+		          header: '제품코드',
+		          align : 'center'
+		        },
+		        {
+		          header: '제품명',
+		          align : 'center'
+		        }
+		      ]
+	    	});
+			// 그리드 끝-------------------------------
+			
+		})
+	</script>
+
+</body>
+</html>

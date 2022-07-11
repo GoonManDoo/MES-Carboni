@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	
+	<!-- 생산계획관리 - 미생산의뢰조회 모달 -->
+	
+	<div id="container" style="padding:20px;">
+		<div id="requestList"></div>
+	</div>
+	
+	<!-- 스크립트 -->
+	<script type="text/javascript">
+		$(function(){
+			
+			// 생산의뢰목록 그리드------------------------
+			const orderList = [];
+			
+			const grid = new tui.Grid({
+		      el: document.getElementById('requestList'),
+		      data: orderList,
+		      columns: [
+		        {
+		          header: '의뢰번호',
+		          align : 'center'
+		        },
+		        {
+		          header: '수주일자',
+		          align : 'center'
+		        },
+		        {
+		          header: '거래처코드',
+		          align : 'center'
+		        },
+		        {
+		          header: '마감일자',
+		          align : 'center'
+		        }
+		      ]
+	    	});
+			// 그리드 끝-------------------------------
+			
+		})
+	</script>
+
+</body>
+</html>
