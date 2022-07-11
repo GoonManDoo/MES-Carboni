@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
-
+<th:block layout:fragment="main">
 <head>
   <meta charset="UTF-8">
   <title>Insert title here</title>
@@ -153,5 +153,5 @@
     $('#myf').hide();
   })
 </script>
-
+</th:block>
 </html>
