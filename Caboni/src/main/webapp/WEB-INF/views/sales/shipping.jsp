@@ -73,53 +73,19 @@ input {
 		                     <input type="date" name="endCNDATE" id="endCNDATE" /><br>
 		                출고일자<input type="date" name="startCNDATE" id="startCNDATE" />~
 		                     <input type="date" name="endCNDATE" id="endCNDATE" /><br>
-                        제품코드<input type="text" id="leftinput"><br>
+                        제품코드<input type="text" id="leftinput" placeholder="제품코드입력"><br>
                      </span> 
 			</div>
 		</div>
-		<div class="card mb-4">
-			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 출하목록
-			</div>
-			<div class="card-body">
-				<table id="datatablesSimple">
-					<thead>
-						<tr>
-							<td><input type="checkbox"></td>
-							<th>수주번호</th>
-							<th>제품코드</th>
-							<th>수주수량</th>
-							<th>총출하수량</th>
-							<th>금번출하수량</th>
-							<th>출고일자</th>
-							<th>납기일자</th>
-							<th>진행상태</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox"></td>
-							<th>a01</th>
-							<th>001</th>
-							<th>10개</th>
-							<th>8개</th>
-							<th>1개</th>
-							<th>20-01-01</th>
-							<th>20-01-01</th>
-							<th>진행중</th>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
 	</div>
-</body>
 
+<div id="search" title="제품검색" style="text-align: center;">       </div>
+</body>
 	
 <div class="container-fluid px-4">
 	<div class="card mb-4">
 		<div class="card-header">
-			<i class="fas fa-table me-1"></i> 미정
+			<i class="fas fa-table me-1"></i> 출하관리
 		</div>
 		<div id="grid"></div>
 	</div>
@@ -155,64 +121,85 @@ input {
 		el : document.getElementById('grid'),
 		data : gridData,
 		scrollX : false,
-		rowHeaders : [ 'rowNum' ],
+		rowHeaders : [ 'rowNum', 'checkbox' ],
 		columns : [ {
-			header : '제품코드',
+			header : '수주번호',
 			name : 'c2',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '제품명',
+			header : '제품코드',
 			name : 'c3',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '자재코드',
+			header : '수주수량',
 			name : 'c4',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '자재명',
+			header : '총출하수량',
 			name : 'c5',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '소요량(개당)',
+			header : '금번출하수량',
 			name : 'c6',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '필요량',
+			header : '출고일자',
 			name : 'c7',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '재고량',
+			header : '납기일자',
 			name : 'c8',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		}, {
-			header : '부족량',
+			header : '진행상태',
 			name : 'c9',
-			align : 'center'
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
 		} ]
 	});
-</script>
 
-<!-- 모달 -->
-<script>
-var modal = document.getElementById('myModal');
-var btn = document.getElementById('write');
-var span = document.getElementByClassName("close")[0];
-$(document).ready(function(){
-	btn.onclick = function(event) {
-		modal.style.display = "block";
-	}
-	noticeList();
-});
+	//제품정보 모달
+	$(function() {
+		var dialog = makeModal();
 
-span.onclick = function(event) {
-	modal.style.display = "none";
-}
+		$("#leftinput").on("click", function() {
 
-window.onclick = function(event) {
-	if(event.target == modal) {
-		modal.style.display = "none";
-	}
-}
+			$("#search").load('proName.do', function() {
 
-</script>
+				dialog.dialog("open");
+			})
+		});
+
+		function contentsAdd() {
+		}
+
+		//모달 만들기
+		function makeModal() {
+			var dialog = $("#search").dialog({
+				autoOpen : false,
+				height : 700,
+				width : 700,
+				modal : true,
+			});
+			return dialog;
+		}
+	});
+	
+	</script>
+
 </html>

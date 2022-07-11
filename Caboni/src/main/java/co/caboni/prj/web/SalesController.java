@@ -48,4 +48,16 @@ public class SalesController {
 		return "modal/salesModal/proName";
 	}
 
+	// 배송정보모달
+	@RequestMapping("/deliverModal.do")
+	public String deliverModal() {
+		return "modal/salesModal/deliverModal";
+	}
+
+	// 배송정보모달
+	@RequestMapping("/shippingingModal.do")
+	public String shippingingModal() {
+		return "modal/salesModal/shippingingModal";
+	}
+
 }
