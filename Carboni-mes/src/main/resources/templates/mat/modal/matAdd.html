@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>matAdd modal</title>
+<style>
+.title {
+	text-align: center;
+	padding: 10px;
+}
+
+table {
+	margin: 0 auto;
+	width: 100%;
+}
+</style>
+</head>
+<body>
+	<div id="dialog">
+		<div class="container">
+			<div class="title">
+				거래처명<input type="text" id="input">
+				<button class="btn btn-secondary">검색</button>
+				<br>
+
+			</div>
+			<table border="1">
+				<tr>
+
+				</tr>
+				<tr>
+					<!-- function 기능 들어갈 곳  -->
+
+				</tr>
+			</table>
+		</div>
+		<div class="container-fluid px-4">
+			<div class="card mb-4">
+
+				<div id="gridcomp"></div>
+			</div>
+		</div>
+
+
+		<script>
+			$(function() {
+				const totaldata = [];
+
+				(function() {
+					for (let i = 0; i < 20; i += 1) {
+						totaldata.push({
+							c1 : (i + 1),
+							c2 : ((i + 5) % 8) * 100 + i,
+							c3 : ((i + 3) % 7) * 60,
+							c4 : ((i + 3) % 7) * 60,
+							c5 : ((i + 3) % 7) * 60,
+						});
+					}
+				})();
+
+				let grid = new tui.Grid({
+					el : document.getElementById('gridcomp'),
+					data : totaldata,
+					scrollX : false,
+					rowHeaders : [ 'checkbox' ],
+					bodyHeight : 430,
+					columns : [ {
+						header : '거래처코드',
+						align : 'center',
+					}, {
+						header : '거래처명',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '자재명',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '자재코드',
+						align : 'center',
+					}, {
+						header : '규격',
+						align : 'center',
+					}, {
+						header : '자재단위',
+						align : 'center',
+					}, {
+						header : '주문수량',
+						align : 'center',
+						editor : 'text',
+					} ]
+				});
+			})
+		</script>
+		<table>
+		</table>
+	</div>
+</body>
+</html>

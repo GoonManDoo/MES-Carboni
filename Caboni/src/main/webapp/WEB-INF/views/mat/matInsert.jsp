@@ -23,12 +23,7 @@
 				height : 700,
 				width : 700,
 				modal : true,
-				buttons : {
-					"확인" : contentsAdd,
-					"취소" : function() {
-						dialog.dialog("close");
-					}
-				}
+				
 			});
 			return dialog;
 		}
