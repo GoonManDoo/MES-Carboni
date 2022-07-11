@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="main">
+  <head>
+    <meta charset="UTF-8">
+    <title>설비 폐기 확인</title>
+    </head>
+<style>
+  .DisposalSYS-checking{
+  height: 165px;
+  width: 337px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 1);
+  }
+</style>
+<body>
+  
+  <div class="DisposalSYS-checking">
+    <div class="title">
+      <p>설비 폐기 확인</p>
+    </div>
+    <div class="content">
+      <div class="contentInnerFrame">
+        <!-- 위쪽 경계선만 나오는 프레임 -->
+        <div class="contentFrame">
+          <!-- 내부 컨텐츠 감싸는 프레임 -->
+          <div class="question1">
+            <p>설비 폐기를 진행하시겠습니까?</p>
+          </div>
+          <div class="question2">
+            <p>한번 시작된 폐기 과정은 되돌릴 수 업습니다<br>
+                  충분히 주의하신 후 진행해 주세요</p>
+          </div>
+          <div class="buttonBar">
+          <button class="cancle">
+            <img src="/static/assets/img/cancel.svg" alt="취소">
+          </button>
+          <button class="accept">
+            <img src="/static/assets/img/accept.svg" alt="확인">
+          </button>
+        </div>
+
+        </div>
+        
+      </div>
+    </div>
+
+  </div>
+</body>
+    </th:block>
+</html>

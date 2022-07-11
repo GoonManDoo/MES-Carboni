@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="main">
+  <head>
+    <meta charset="UTF-8">
+    <title>관리자 등록</title>
+    </head>
+<style>
+  .empListFrame{
+    height: 650px;
+  width: 370px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 1);
+  }
+  
+  .empListFrame .title{
+    font-family: Inter;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 34px;
+  letter-spacing: 0em;
+  text-align: left;
+  display:block;
+  margin-top: 1px;
+  }
+  
+  .empListFrame .contentInnerFrame{
+    width:370px;
+    height:559px;
+    border-top:3px solid rgba(240,240,240,1)
+  }
+  
+  .empListFrame .contentFrame{
+  width:335px;
+  height: 494px;
+  margin-top: 33px;
+  margin-left:17px;
+  }
+  
+  .empListFrame .bigFrame{
+    width: 300px;
+    height: 150px;
+    margin-bottom:92px;
+    margin-left:18px;
+    border-left: 2px solid rgba(195, 195, 195, 1) ;
+  }
+  
+  .empListFrame .question1{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  .empListFrame .question2{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  .empListFrame .question3{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  .empListFrame .question4{
+    height: 38px;
+  width: 341px;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  }
+  
+  .empListFrame .queFrame{
+    width: 279px;
+    height: 38px;
+    flex-wrap: wrap;
+  }
+  
+  .jeong{
+    float: left;
+    width: 335px;
+    height: 150px;
+    flex-wrap: wrap;
+  }
+  
+  .boo{
+    float: left;
+    width: 335px;
+    height: 150px;
+    flex-wrap: wrap;
+  }
+  
+  .empListFrame .buttonBar{
+    width:262px;
+    height: 57px;
+    margin-left: 54px;
+  }
+  
+  </style>
+<body>
+  <div class="empListFrame">
+    <div class="title">
+      <p>관리자 등록</p>
+    </div>
+    <div class="content">
+      <div class="contentInnerFrame">
+        <!-- 위쪽 경계선만 나오는 프레임 -->
+        <div class="contentFrame">
+          <!-- 내부 컨텐츠 감싸는 프레임 -->
+          <div class="jeong">
+
+            <p class="gorvTitle">정</p>
+
+            <div class="bigFrame">
+            <div class="queFrame">
+                <div class="question1">
+                  <p>이름</p>
+                  <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+                </div>
+              </div>
+
+            <div class="queFrame">
+                <div class="question2">
+                  <p>부서</p>
+                  <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+                </div>
+            </div>
+
+          </div>
+        </div>
+          
+          <div class="boo">
+
+            <p class="gorvAdminTitle">부</p>
+
+            <div class="bigFrame">
+
+              <div class="queFrame">
+                  <div class="question1">
+                    <p>이름</p>
+                    <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+                  </div>
+                </div>
+  
+              <div class="queFrame">
+                  <div class="question2">
+                    <p>부서</p>
+                    <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+                  </div>
+              </div>
+  
+            </div>
+
+        </div>
+
+        <div class="buttonBar">
+          <button class="cancle">
+            <img src="/static/assets/img/cancel.svg" alt="취소">
+          </button>
+          <button class="accept">
+            <img src="/static/assets/img/accept.svg" alt="확인">
+          </button>
+        </div>
+        </div>
+        
+      </div>
+    </div>
+
+  </div>
+</body>
+    </th:block>
+</html>
+

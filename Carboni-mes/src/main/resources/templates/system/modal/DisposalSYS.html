@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="main">
+  <head>
+    <meta charset="UTF-8">
+    <title>설비 폐기</title>
+    </head>
+<style>
+.DisposalSYS{
+height: 543px;
+width: 400px;
+border-radius: 10px;
+border:solid black;
+}
+
+.DisposalSYS .title{
+  font-family: Inter;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 36px;
+  letter-spacing: 0em;
+  /* text-align: center; */
+  display: block;
+  margin-top: 66px;
+  margin-left: 138px;
+}
+
+.DisposalSYS .contentFrame{
+  width: 341px;
+  height: 308px;
+  margin-top: 54px;
+  margin-left: 30px;
+  margin-bottom: 55px;
+}
+
+.DisposalSYS .question{
+  position: relative;
+  height: 50px;
+  width: 341px;
+  display: flex;
+  border-radius: 7px;
+  background: rgba(240, 240, 240, 1);
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  align-content: stretch;
+  justify-content: space-evenly;
+}
+
+.conten{
+  position: absolute;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  margin-top: 13px;
+  display: block;
+}
+.but{
+
+}
+
+.buttonBar{
+  /* width:262px; */
+  /* height: -133px; */
+  margin-left: 0px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.DisposalSYS-checking{
+  position: absolute;
+  height: 165px;
+width: 337px;
+border-radius: 14px;
+background: rgba(255, 255, 255, 1);
+
+}
+</style>
+<body>
+  <div class="DisposalSYS">
+    <div class="title">
+      설비 폐기
+    </div>
+    <div class="content">
+      <div class="contentInnerFrame">
+        <!-- 위쪽 경계선만 나오는 프레임 -->
+        <div class="contentFrame">
+          <!-- 내부 컨텐츠 감싸는 프레임 -->
+          <div class="question">
+            <p class="conten">기기 노후화</p>
+            <button class="but"><img src="/static/assets/img/checkUnClick.svg" alt="체크벝"></button>
+          </div>
+
+          <div class="question">
+            <p class="conten">미사용 설비</p>
+            <button class="but"><img src="/static/assets/img/checkUnClick.svg" alt="체크벝"></button>
+          </div>
+          <div class="question">
+            <p class="conten">직접입력</p>
+          </div>
+
+          <div class="buttonBar">
+          <button class="cancle">
+            <img src="/static/assets/img/cancel.svg" alt="취소">
+          </button>
+          <button class="accept">
+            <img src="/static/assets/img/accept.svg" alt="확인">
+          </button>
+        </div>
+
+        </div>
+        
+      </div>
+    </div>
+
+  </div>
+</body>
+    </th:block>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}">
+  <th:block layout:fragment="main">
+  <head>
+    <meta charset="UTF-8">
+    <title>설비 점검 확인</title>
+    </head>
+<style>
+  
+</style>
+<body>
+  <div class="SYSCheck-confirm">
+    <div class="title">
+      <p>설비 점검-확인</p>
+    </div>
+      <div class="checkInfo">
+        <p>결재가 필요한 항목입니다.<br>
+        결재 시작 시 되돌릴 수 없습니다. 진행하시겠습니까?</p>
+      </div>
+      <div class="buttonBar">
+        <button class="cancle">
+          <img src="/static/assets/img/cancel.svg" alt="취소">
+        </button>
+        <button class="accept">
+          <img src="/static/assets/img/accept.svg" alt="확인">
+        </button>
+      </div>
+  </div>
+</body>
+    </th:block>
+</html>
