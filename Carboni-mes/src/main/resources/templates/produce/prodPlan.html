@@ -186,18 +186,25 @@
 			
 			/* 미생산주문 모달 */
 			$('#unprodBtn').on('click', function(){
-				$('.ui-dialog-title').html('미생산주문조회');
-				$('#prodModal').load('requestModal.do', function(){
-					dialog.dialog({
-						buttons: {
-							"확인": requestAdd,
-							"취소": function(){
-								$(this).dialog('close')
+				var startDt = $('#requestDtS').val()
+				var endDt = $('#requestDtE').val()
+				$.ajax({
+					url : 'requestDtSearch',
+					data : JSON.stringify({ startDt, endDt })
+				}).done(function(){
+					$('.ui-dialog-title').html('미생산주문조회');
+					$('#prodModal').load('requestModal.do', function(){
+						dialog.dialog({
+							buttons: {
+								"확인": requestAdd,
+								"취소": function(){
+									$(this).dialog('close')
+								}
 							}
-						}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						dialog.dialog('open')
 					})
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-					dialog.dialog('open')
 				})
 			})
 			function requestAdd(){
@@ -215,14 +222,16 @@
 				$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
 				return dialog;
 			}
+		// 모달끝--------------------------------------------
+		
+		
 		})
 		
-		// 모달끝--------------------------------------------
 		
 		// 달력---------------------------------------------
 	
 		/* 계획일자 */
-		const datepicker = new tui.DatePicker('#wrapper', {
+		const datepicker1 = new tui.DatePicker('#wrapper', {
 			date : new Date(),
 			input : {
 				element : '#planDt',
@@ -234,7 +243,7 @@
 
 		/* 미생산 주문조회 달력 */
 		var today = new Date();
-		var picker = new tui.DatePicker.createRangePicker({
+		const datepicker2 = new tui.DatePicker.createRangePicker({
 			startpicker : {
 				date : today,
 				input : '#requestDtS',
@@ -337,27 +346,33 @@
 		
 		// 버튼---------------------------------------------
 		
-		/* 생산계획조회 */
+		/* 생산계획 조회 */
 		$('#searchBtn').on('click', function(){
 			
 		})
 		
 		/* 새자료 */
-		$(document).on('click', '#resetBtn', function() {
+		$('#resetBtn').on('click', function() {
 			fnFormClear();
 		})
 
 		function fnFormClear() {
 			document.getElementById('dataForm').reset();
 			$('#planDt').val('');
-			datepicker.setDate(new Date());
+			datepicker1.setDate(new Date());
 			/* 왜 리셋이 안될까... */
-			picker.startpicker.setDate(new Date());
-			picker.endpicker.setDate(new Date());
+			datepicker2.setStartDate(new Date());
+			datepicker2.setEndDate(new Date());
 			grid.resetData(gridData);
 		}
 		
+		/* 생산계획 등록 */
+		
+		/* 생산계획 삭제 */
+		
+		
 		// 버튼끝------------------------------------------
+		
 	</script>
 	</th:block>
 </body>

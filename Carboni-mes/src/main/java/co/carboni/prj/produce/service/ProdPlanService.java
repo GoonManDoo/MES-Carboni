@@ -8,8 +8,8 @@ public interface ProdPlanService {
 	
 	// 생산계획조회
 	
-	// 미생산주문조회
-	public List<ProdPlanVO> findUnprod();
+	// 미생산주문조회 - 기간검색
+	public List<ProdPlanVO> findUnprod(ProdPlanVO prodPlanVO);
 		
 	// 생산계획등록
 
