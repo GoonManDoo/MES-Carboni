@@ -1,10 +1,19 @@
 package co.carboni.prj.produce.web;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import co.carboni.prj.produce.service.ProdPlanService;
+import co.carboni.prj.produce.vo.ProdPlanVO;
 
 @Controller
 public class ProdController {
+	
+	public ProdPlanService sr;
 	
 	@RequestMapping("/login")
 	public String login() {
@@ -27,6 +36,13 @@ public class ProdController {
 	@RequestMapping("/requestModal.do")
 	public String unprodModal() {
 		return "produce/modal/requestModal";
+	}
+	
+	// 생산계획관리 - 미생산의뢰조회 모달 - 기간검색
+	@RequestMapping("requestDtSearch")
+	@ResponseBody
+	public List<ProdPlanVO> requestDtSearch(@RequestBody ProdPlanVO ProdPlanVO) {
+		return sr.findUnprod(ProdPlanVO);
 	}
 	
 	// 생산지시관리

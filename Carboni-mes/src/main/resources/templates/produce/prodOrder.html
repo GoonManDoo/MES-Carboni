@@ -274,7 +274,7 @@
 		
 			// 달력-----------------------------------------
 			/* 지시일자 */
-			const datepicker = new tui.DatePicker('#wrapper', {
+			const datepicker1 = new tui.DatePicker('#wrapper', {
 				date : new Date(),
 				input : {
 					element : '#orderDt',
@@ -286,7 +286,7 @@
 
 			/* 미지시 계획조회 */
 			var today = new Date();
-			var picker = new tui.DatePicker.createRangePicker({
+			var datepicker2 = new tui.DatePicker.createRangePicker({
 				startpicker : {
 					date : today,
 					input : '#planDtS',
@@ -406,6 +406,25 @@
 				} ]
 			});
 			// 그리드끝-----------------------------------
+			
+			// 버튼 -------------------------------------
+			
+				/* 새자료 */
+				$('#resetBtn').on('click', function() {
+					fnFormClear();
+				})
+		
+				function fnFormClear() {
+					document.getElementById('dataForm').reset();
+					$('#orderDt').val('');
+					datepicker1.setDate(new Date());
+					/* 왜 리셋이 안될까... */
+					datepicker2.setStartDate(new Date());
+					datepicker2.setEndDate(new Date());
+					grid.resetData(gridData);
+				}
+			
+			// 버튼 끝 ----------------------------------
 		</script>
 	</th:block>
 </body>
