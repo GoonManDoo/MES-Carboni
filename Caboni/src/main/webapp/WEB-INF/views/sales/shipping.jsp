@@ -61,7 +61,7 @@ input {
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
 				<button class="btn btn-secondary">진행상태변경</button>
-				<button class="btn btn-secondary">미출고건조회</button>
+				<button class="btn btn-secondary" id="rightinput">미출고건조회</button>
 				<button class="btn btn-secondary">조회</button>
 				<button class="btn btn-secondary">등록</button>
 				<button class="btn btn-secondary">삭제</button>
@@ -91,11 +91,7 @@ input {
 	</div>
 </div>
 
-<script type="text/javascript">
-	jQuery(function($) {
-		$("datatablesSimple").DataTable();
-	});
-</script>
+
 </body>
 <script>
 	const gridData = [];
@@ -173,22 +169,25 @@ input {
 		} ]
 	});
 
-	//제품정보 모달
 	$(function() {
+		//모달1 -> 제품정보
 		var dialog = makeModal();
-
 		$("#leftinput").on("click", function() {
-
 			$("#search").load('proName.do', function() {
+				dialog.dialog("open");
+			})
+		});
+		function contentsAdd() {
+		}
 
+		//모달2 -> 미출고건조회
+		$("#rightinput").on("click", function() {
+			$("#search").load('shippingingModal.do', function() {
 				dialog.dialog("open");
 			})
 		});
 
-		function contentsAdd() {
-		}
-
-		//모달 만들기
+		//모달틀 -> 재사용 (모달이 여러개일 경우 확인, 취소 버튼 만들지 않기(버튼마다 다른 기능을 사용해야하므로))
 		function makeModal() {
 			var dialog = $("#search").dialog({
 				autoOpen : false,

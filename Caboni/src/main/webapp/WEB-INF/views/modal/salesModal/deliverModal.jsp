@@ -56,38 +56,26 @@
 					rowHeaders : [ 'rowNum', 'checkbox' ],
 					bodyHeight : 420,
 					columns : [ {
-						header : '배송번호',
+						header : '거래처코드',
 						name : 'c2',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
-						header : '제품코드',
+						header : '거래처명',
 						name : 'c3',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
-						header : '제품명',
+						header : '사업자번호',
 						name : 'c4',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
-						header : '출하수량',
+						header : '전화번호',
 						name : 'c5',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '거래처코드',
-						name : 'c6',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '출고일자',
-						name : 'c7',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
