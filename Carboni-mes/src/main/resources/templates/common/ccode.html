@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
-
+<th:block layout:fragment="main">
 <head>
   <link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
   <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
@@ -130,5 +130,5 @@
     }]
   });
 </script>
-
+</th:block>
 </html>
