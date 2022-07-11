@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class prodPlanVo {
+public class ProdPlanVO {
 	
 	// 생산계획
 	public String ppnum; // 생산계획번호
