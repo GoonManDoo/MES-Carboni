@@ -9,46 +9,7 @@
 	rel="stylesheet" />
 
 
-<script>
-	$(function() {
-		//버튼클릭
-		var dialog = makeModal();
-		$("#btnModal").on("click", function() {
-			$('.ui-dialog-title').html('발주내용');
-			$("#dialog").load('matAdd.do', function() {
-				dialog.dialog("open");
-			})
-		});
 
-		function makeModal() {
-			var dialog = $("#dialog").dialog({
-				autoOpen : false,
-				height : 700,
-				width : 700,
-				modal : true,
-				buttons : {
-					"확인" : contentsAdd,
-					"취소" : function() {
-						$(this).dialog('close')
-					}
-				}
-
-			});
-			$('.ui-dialog-buttonset').children().attr('class',
-					'btn btn-secondary')
-			$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
-			return dialog;
-		}
-		;
-
-		function contentsAdd() {
-
-		}
-
-	});
-	/* 그리드 표만들기 */
-	/* 그리드 펑션!*/
-</script>
 <style>
 .tui-datepicker {
 	z-index: 99;
@@ -66,7 +27,7 @@
 </head>
 <body>
 	<th:block layout:fragment="main">
-		<main id="container">
+		<div>
 			<!-- 전체감싸는 div -->
 			<div class="container-fluid px-4">
 				<h1>발주관리</h1>
@@ -74,9 +35,9 @@
 				<div class="card mb-4">
 					<div class="card-header">
 						<div style="display: flex; justify-content: flex-end;">
-							<button type="button" id="saveBtn" class="btn btn-secondary"
+							<button type="button" id="btnModal" class="btn btn-secondary"
 								style="margin-right: 5px;">발주</button>
-							<button type="button" id="removeBtn" class="btn btn-secondary"
+							<button type="button" id="saveBtn" class="btn btn-secondary"
 								style="margin-right: 5px;">저장</button>
 						</div>
 					</div>
@@ -156,7 +117,7 @@
 			<div id="dialog" title="발주내용"></div>
 
 			<!-- 그리드 내용 만들기  -->
-			<script>
+			<script type="text/javascript">
 				/* 입고일자 데이터 피커  */
 				var today = new Date();
 				var picker = tui.DatePicker.createRangePicker({
@@ -232,11 +193,50 @@
 					} ]
 				});
 
+				$(function() {
+					//버튼클릭
+					var dialog = makeModal();
+					$("#btnModal").on("click", function() {
+						$('.ui-dialog-title').html('발주내용');
+						$("#dialog").load('matAdd.do', function() {
+							dialog.dialog("open");
+						})
+					})
+
+					function makeModal() {
+						var dialog = $("#dialog").dialog({
+							autoOpen : false,
+							height : 700,
+							width : 700,
+							modal : true,
+							buttons : {
+								"확인" : contentsAdd,
+								"취소" : function() {
+									$(this).dialog('close')
+								}
+							}
+
+						});
+						$('.ui-dialog-buttonset').children().attr('class',
+								'btn btn-secondary')
+						$('.ui-dialog-titlebar-close').html('X').css('border',
+								'none')
+						return dialog;
+					}
+					;
+
+					function contentsAdd() {
+
+					}
+
+				});
+				/* 그리드 표만들기 */
+				/* 그리드 펑션!*/
 				/* 	 grid.on('scrollEnd', () => {
 					      grid.appendRows(createRows());
 					    }) */
 			</script>
-		</main>
+		</div>
 	</th:block>
 </body>
 </html>
