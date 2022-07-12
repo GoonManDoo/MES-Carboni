@@ -62,8 +62,9 @@ span {
 .title {
 	text-align: center;
 	margin-bottom: 10px;
-	margin-top: -30px;
+	margin-top: -10px;
 }
+
 </style>
 </head>
 
@@ -86,7 +87,10 @@ span {
 			</div>
 			<div class="card mb-4" id="pageing">
 				<div class="card-body">
-					<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 거래처명<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br> 제품코드<input type="text" id="rightinput" class="input" placeholder="제품코드 검색" readonly="readonly"><br>
+					<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
+					<input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 
+					거래처명<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br> 
+					제품코드<input type="text" id="rightinput" class="input" placeholder="제품코드 검색" readonly="readonly"><br>
 					</span>
 				</div>
 			</div>
@@ -107,8 +111,7 @@ span {
 		<div id="modal">
 
 			<div id="contractModal" style="padding: 20px;" title="거래처조회">
-				<div id="contractModal" style="padding: 20px" title="거래처조회">
-					<div class="container">
+			<div class="container">
 			<div class="title">
 				거래처명<input type="text" class="input" placeholder="거래처명"> 
 				거래처코드<input type="text" class="input" placeholder="거래처코드">
@@ -122,39 +125,36 @@ span {
 					<!-- function 기능 들어갈 곳  -->
 				</tr>
 			</table>
-		</div>
+			</div>
 		<div class="container-fluid px-4">
 			<div class="card mb-4">
-				<div class="card-header">
+				<div class="card-header" style="text-align: center;">
 					<i class="fas fa-table me-1"></i> 거래처정보
 				</div>
 				<div id="gridcomp"></div>
 			</div>
 		</div>
 				</div>
-			</div>
+			
 
 			<div id="prodNameModal" style="padding: 20px;" title="제품정보조회">
-				<div class="container">
+			<div class="container">
 		<div class="title">
 			제품명<input type="text" class="input" placeholder="제품명"> 
 			제품코드<input type="text" class="input" placeholder="제품코드">
 			<button class="btn btn-secondary">조회</button><br>
-
 		</div>
 		<table border="1">
 			<tr>
-
 			</tr>
 			<tr>
 				<!-- function 기능 들어갈 곳  -->
-
 			</tr>
 		</table>
-	</div>
+		</div>
 	<div class="container-fluid px-4">
 		<div class="card mb-4">
-			<div class="card-header">
+			<div class="card-header" style="text-align: center;">
 				<i class="fas fa-table me-1"></i> 제품정보
 			</div>
 			<div id="gridpro"></div>
@@ -252,7 +252,7 @@ span {
 				function makeModal(e) {
 					var dialog = $(e).dialog({
 						autoOpen : false,
-						height : 600,
+						height : 700,
 						width : 700,
 						modal : true,
 					});
@@ -285,9 +285,9 @@ span {
 				}
 
 				/* 제품정보 모달 */
-				$("#searchBtn").on("click", function() {
-							$("#searchmodal").css('display', '')
-							log.dialog({
+				$("#rightinput").on("click", function() {
+							$("#prodNameModal").css('display', '')
+							modal2.dialog({
 								buttons : {
 									'확인' : giup,
 									'취소' : function() {
@@ -296,7 +296,7 @@ span {
 								}
 							})
 							$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-							log.dialog('open')
+							modal2.dialog('open')
 							gomo.refreshLayout();
 						})
 				/*확인 눌렀을떄 */
@@ -307,7 +307,7 @@ span {
 				/* 그리드 표만들기 */
 				/* 그리드 펑션!*/
 
-				/*발주 모달안의 그리드 거래처 모달 그리드*/
+				/*거래처 모달 그리드*/
 				const totaldata = [];
 
 				let barmo = new tui.Grid({
@@ -343,22 +343,26 @@ span {
 				const giupdata = [];
 
 				let gomo = new tui.Grid({
-					el : document.getElementById('gridcomp'),
+					el : document.getElementById('gridpro'),
 					data : giupdata,
 					scrollX : false,
-					rowHeaders : [ 'checkbox' ],
+					rowHeaders : [ 'rowNum', 'checkbox' ],
 					bodyHeight : 430,
 					columns : [ {
-						header : '거래처코드',
-						align : 'center',
-					}, {
-						header : '거래처명',
+						header : '제품코드',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
-						header : '사업자등록번호',
+						header : '제품명',
 						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '제품단위',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
 					} ]
 				});
 			})
