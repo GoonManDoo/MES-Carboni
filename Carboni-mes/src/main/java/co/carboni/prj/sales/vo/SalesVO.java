@@ -17,6 +17,8 @@ public class SalesVO {
 	public Date cndate;     //수주일자
 	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	public Date cnperiod;   //납기일자
+	public String cscode;   //거래처코드(fk)
+	public String gicode;   //제품코드(fk) 
 	
 	
 	//생산의뢰관리
@@ -25,13 +27,15 @@ public class SalesVO {
 	public Date prclose;    //마감일자
 	public String prstatus; //마감여부
 	
-	//출하관리
+	
+	//출하관리 & 거래처코드, 제품코드는 DB에서 변수에 담아서 사용하기!
 	public String shnum;    //출하번호
 	public int sham;        //출하수량
 	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	public Date shdate;     //출고일자
 	public String shstatus; //진행상태
 	public int shdam;       //금번출하수량
+	
 	
 	//배송관리
 	public String dnum;     //배송번호
