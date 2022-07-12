@@ -93,7 +93,6 @@
 						<div class="item col-5 border"
 							style="width: 600px; height: 100px; margin: 10px;">
 							<div class="grid-option-area mt-1">
-								<form id="unprod">
 									<ul style="list-style: none;">
 										<li>
 											<h3 class="subtitle"
@@ -125,7 +124,6 @@
 											</div>
 										</li>
 									</ul>
-								</form>
 							</div>
 						</div>
 					</div>
@@ -277,9 +275,30 @@
 				$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 				modal2.dialog('open')
 				rqGrid.refreshLayout();
+				var startDt = $('#requestDtS').val()
+				var endDt = $('#requestDtE').val()
+				$.ajax({
+					url: 'unprodList',
+					method: 'POST',
+					data : { startDt, endDt },
+					success: function(result) {
+						rqGrid.resetData(result)
+					}
+				})
 			})
-			function requestAdd(){
-				
+			/* 미생산주문조회 후 생산할 제품 계획에 등록 */
+			function requestAdd() {
+				const result = rqGrid.getCheckedRows();
+				const orderNum = result.map((e)=>{return e.prnum}) // 배열에 반복문값 담아주기
+				console.log(orderNum)
+				$.ajax({
+					url: 'planProduct',
+					method: 'POST',
+					data: { 'orderNum' : orderNum },
+					success: function(rs) {
+						pdGrid.resetData(rs)
+					}
+				})
 			}
 			
 			
@@ -295,6 +314,7 @@
 				return dialog;
 			}
 		// 모달끝--------------------------------------------
+		
 		
 		// 그리드---------------------------------------------
 
@@ -343,65 +363,78 @@
 			rowHeaders : [ 'checkbox' ],
 			columns : [ {
 				header: '제품코드',
+				name: 'gicode',
 				align: 'center'
 			}, {
 				header : '제품명',
+				name: 'giname',
 				align : 'center'
 			}, {
 				header : '규격',
+				name: 'giunit',
 				align : 'center'
 			}, {
 				header : '의뢰번호',
+				name: 'prnum',
 				align : 'center'
 			}, {
 				header : '납기일자',
+				name: 'cnperiod',
 				align : 'center'
 			}, {
 				header : '주문량',
+				name: 'cnam',
 				align : 'center'
 			}, {
 				header : '기계획량',
-				align : 'center'
+				name: 'ppdam',
+				align : 'center',
+				editor: 'text'
 			}, {
 				header : '미계획량',
-				align : 'center'
+				name : 'uplam',
+				align : 'center',
+				editor: 'text'
 			}, {
 				header : '작업일자',
-				align : 'center'
-			}, {
-				header : '비고',
-				align : 'center'
+				name: 'ppddate',
+				align : 'center',
+				editor: 'text'
 			} ]
 		});
 		
-		// 생산의뢰목록 모달 그리드------------------------
+		/* 미생산주문목록 그리드 */
 		const orderList = [];
 			
 		const rqGrid = new tui.Grid({
 		      el: document.getElementById('requestList'),
 		      data: orderList,
+		      rowHeaders : [ 'checkbox' ],
 		      columns: [
 		        {
 		          header: '의뢰번호',
+		          name: 'prnum',
 		          align : 'center'
 		        },
 		        {
-		          header: '수주일자',
-		          align : 'center'
-		        },
-		        {
-		          header: '거래처코드',
+		          header: '수주번호',
+		          name: 'cnnum',
 		          align : 'center'
 		        },
 		        {
 		          header: '마감일자',
+		          name: 'prclose',
+		          align : 'center'
+		        },
+		        {
+		          header: '마감여부',
+		          name: 'prstatus',
 		          align : 'center'
 		        }
 		     ]
 	    });
-		// 생산의뢰목록 그리드 끝-------------------------------
 		
-		// 생산계획목록 그리드------------------------
+		/* 생산계획목록 그리드 */
 		const planList = [];
 			
 		const planGrid = new tui.Grid({
@@ -426,7 +459,6 @@
 		       }
 		     ]
 	    });
-		// 생산계획목록 그리드 끝-------------------------------
 		
 		// 그리드끝------------------------------------------
 		
@@ -490,9 +522,7 @@
 		
 
 		
-		// 버튼---------------------------------------------
-		
-		/* 생산계획 조회 */
+		// 버튼 함수---------------------------------------------
 		
 		/* 새자료 */
 		$('#resetBtn').on('click', function() {
@@ -511,6 +541,7 @@
 		/* 생산계획 등록 */
 		
 		/* 생산계획 삭제 */
+		
 		
 		
 		// 버튼끝------------------------------------------

@@ -5,9 +5,15 @@
 	<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
 		SELECT * FROM PRODREQ
 		WHERE
-		PRCLOSE >= TO_DATE(#{e.startDt}, 'YY/MM/DD')
+		PRCLOSE >= TO_DATE(#{startDt}, 'YYYY/MM/DD')
 		AND
-		TO_DATE(#{e.endDt}, 'YY/MM/DD') >= PRCLOSE
+		TO_DATE(#{endDt}, 'YYYY/MM/DD') >= PRCLOSE
+		AND
+		PRSTATUS = 'N'
+	</select>
+	
+	<select id="findProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+			
 	</select>
 	
 </mapper>

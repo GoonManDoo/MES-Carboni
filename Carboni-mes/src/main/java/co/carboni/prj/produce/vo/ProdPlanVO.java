@@ -24,5 +24,11 @@ public class ProdPlanVO {
 	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	public Date ppddate; // 작업일자
 	
+	// 미생산주문조회
+	public String prnum; // 의뢰번호
+	public String cnnum; // 수주번호
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	public Date prclose; // 마감일자
+	public String prstatus; // 마감여부
 	
 }
