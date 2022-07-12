@@ -42,6 +42,9 @@
 			.mr10 {
 				margin-right: 10px;
 			}
+			 #modal {
+				display: none;
+			}
 		</style>
 </head>
 <body class="sb-nav-fixed">
@@ -136,7 +139,22 @@
 			</div>
 		</div>
 		
-		<div id="modal"></div>
+		
+		
+		<!-- 모달 -->
+		<div id="modal">
+			<div id="pCodeModal" title="제품코드조회">
+				<form class="container-fluid" id="searchForm" name="searchForm">
+					<div>
+						<input id="productName" type="text" class="form-control ht" style="width: 250px; margin-bottom:20px;">
+					</div>
+				</form>
+				<div id="codeList"></div>
+			</div>
+		</div>
+	
+	
+	
 	
 		<!-- 스크립트 -->
 		<script type="text/javascript">
@@ -144,31 +162,30 @@
 			$(function(){
 				
 				// 모달----------------------------------------
-				var dialog = makeModal();
+				var modal1 = makeModal('#pCodeModal');
 				
 				/* 제품코드조회 모달 */
 				$('#pcodeModal').on('click', function(){
-					$('.ui-dialog-title').html('제품코드조회');
-					$('#modal').load('productCodeModal.do', function(){
-						dialog.dialog({
-							buttons: {
-								"확인": prodSelec,
-								"취소": function(){
-									$(this).dialog('close')
-								}
+					$('#pCodeModal').css('display', '')
+					modal1.dialog({
+						buttons: {
+							"확인": prodSelec,
+							"취소": function(){
+								$(this).dialog('close')
 							}
-						})
-						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-						dialog.dialog('open')
+						}
 					})
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					modal1.dialog('open')
+					codeGrid.refreshLayout();
 				})
 				function prodSelec(){
 					
 				}
 				
 				/* 모달틀 */
-				function makeModal() {
-					var dialog = $("#modal").dialog({
+				function makeModal(e) {
+					var dialog = $(e).dialog({
 						autoOpen : false,
 						height : 600,
 						width : 700,
@@ -255,6 +272,26 @@
 					align : 'center'
 				} ]
 			});
+			
+			/* 제품코드 모달 */
+			const codeList = [];
+			
+			const codeGrid = new tui.Grid({
+		      el: document.getElementById('codeList'),
+		      data: codeList,
+		      columns: [
+		        {
+		          header: '제품코드',
+		          align : 'center'
+		        },
+		        {
+		          header: '제품명',
+		          align : 'center'
+		        }
+		      ]
+	    	});
+			
+			// 그리드 끝-----------------------------------
 		</script>
 	</th:block>
 </body>

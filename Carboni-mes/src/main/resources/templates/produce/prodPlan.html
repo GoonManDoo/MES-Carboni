@@ -20,6 +20,17 @@
 .mg5 {
 	margin-top:5px;
 }
+ #modal {
+	display: none;
+}
+.cb {
+	text-align:center;
+	margin-top: 10px;
+}
+.fw {
+	font-weight: 700;
+	margin-right: 10px;
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -82,37 +93,39 @@
 						<div class="item col-5 border"
 							style="width: 600px; height: 100px; margin: 10px;">
 							<div class="grid-option-area mt-1">
-								<ul style="list-style: none;">
-									<li>
-										<h3 class="subtitle"
-											style="margin: 15px 0px 2px; width: 400px; font-size: 16px; font-weight: bold;">미생산
-											주문 조회</h3>
-									</li>
-									<li class="mt-1 grid-option-area"
-										style="margin: 10px; padding: 5px 0px 0px 5px;">
-										<div>
-											<label for="requestStDt" class="mg5">납기일자</label>
-											<!-- 시작일 -->
-											<div
-												class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-												<input id="requestDtS" type="text" class="form-control"
-													aria-label="Date" name="requestDtS"> <span class="tui-ico-date"></span>
-												<div id="requestDtS-wapper" style="margin-left: -1px;"></div>
+								<form id="unprod">
+									<ul style="list-style: none;">
+										<li>
+											<h3 class="subtitle"
+												style="margin: 15px 0px 2px; width: 400px; font-size: 16px; font-weight: bold;">미생산
+												주문 조회</h3>
+										</li>
+										<li class="mt-1 grid-option-area"
+											style="margin: 10px; padding: 5px 0px 0px 5px;">
+											<div>
+												<label for="requestStDt" class="mg5">납기일자</label>
+												<!-- 시작일 -->
+												<div
+													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+													<input id="requestDtS" type="text" class="form-control"
+														aria-label="Date" name="requestDtS"> <span class="tui-ico-date"></span>
+													<div id="requestDtS-wapper" style="margin-left: -1px;"></div>
+												</div>
+	
+												<span class="mg5">~</span>
+	
+												<!-- 종료일 -->
+												<div
+													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+													<input id="requestDtE" type="text" class="form-control"
+														aria-label="Date" name="requestDtE"> <span class="tui-ico-date"></span>
+													<div id="requestDtE-wapper" style="margin-left: -1px;"></div>
+												</div>
+												<button type="button" class="btn btn-secondary btn-block" id="unprodBtn">읽기</button>
 											</div>
-
-											<span class="mg5">~</span>
-
-											<!-- 종료일 -->
-											<div
-												class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-												<input id="requestDtE" type="text" class="form-control"
-													aria-label="Date" name="requestDtE"> <span class="tui-ico-date"></span>
-												<div id="requestDtE-wapper" style="margin-left: -1px;"></div>
-											</div>
-											<button type="button" class="btn btn-secondary btn-block" id="unprodBtn">읽기</button>
-										</div>
-									</li>
-								</ul>
+										</li>
+									</ul>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -154,66 +167,125 @@
 		</div>
 	</div>
 	
-	<div id="prodModal"></div>
+	
+	
+	
+	
+	
+	<!-- 모달 -->
+	<div id="modal">
+	
+		<div id="planModal" style="padding:20px;" title="생산계획조회">
+			<!-- 생산계획관리 - 생산계획조회 모달 -->
+			<!-- 작성일자 검색 -->
+			<form class="container-fluid" id="searchForm" name="searchForm">
+				<div class="search-area search-area-border" style="width: 100%;">
+					<ul style="list-style: none;">
+						<li><label class="fw">계획일자</label> 
+						<!-- 시작일 -->
+							<div
+								class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+								<input id="pplanDtS" type="text" class="form-control"
+									aria-label="Date" name="pplanDtS"> <span
+									class="tui-ico-date"></span>
+								<div id="pplanDtS-wapper" style="margin-left: -1px;"></div>
+							</div> 
+							
+							<span class="mg5">~</span> 
+							
+							<!-- 종료일 -->
+							<div
+								class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+								<input id="pplanDtE" type="text" class="form-control"
+									aria-label="Date" name="pplanDtE"> <span
+									class="tui-ico-date"></span>
+								<div id="pplanDtE-wapper" style="margin-left: -1px;"></div>
+							</div>
+							<button type="button" class="ml-1 mw50 btn-sm btn-secondary"
+								id="planBtn">검색</button></li>
+					</ul>
+				</div>
+			</form>
+			
+			<!-- 진행상태 구분 -->
+			<div class="container-fluid" style="margin-top: 40px; margin-bottom: 10px;">
+				<div>
+					<label class="fw">진행상태</label>
+					<select style="width:100px; height:28px; display: inline-block;">
+						<option value="unorder">미지시</option>
+						<option value="ordering">지시진행</option>
+					</select>
+				</div>
+			</div>
+			
+			<!-- 그리드 -->
+	      <div id="planList"></div>
+		</div>
+		
+		<div id="requestModal" style="padding:20px;" title="미생산주문조회">
+			<div id="requestList"></div>
+		</div>
+	
+	</div>
+	
+	
+	
+	
+	
+	
 	<!-- 스크립트 -->
 	<script type="text/javascript">
 		
 		$(function(){
 			
 			// 모달----------------------------------------
-			var dialog = makeModal();
+			var modal1 = makeModal("#planModal")
+			var modal2 = makeModal("#requestModal")
+			
 			
 			/* 생산계획조회 모달 */
 			$('#searchBtn').on('click', function(){
-				$('.ui-dialog-title').html('생산계획조회');
-				$('#prodModal').load('prodPlanModal.do', function(){
-					dialog.dialog({
-						buttons: {
-							"확인": planView,
-							"취소": function(){
-								$(this).dialog('close')
-							}
+				$('#planModal').css('display', '')
+				modal1.dialog({
+					buttons: {
+						"확인": planView,
+						"취소": function(){
+							$(this).dialog('close')
 						}
-					})
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-					dialog.dialog('open')
+					}
 				})
+				$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+				modal1.dialog('open')
+				planGrid.refreshLayout();
 			})
-			function planView(){
+			function planView() {
 				
 			}
 			
 			
 			/* 미생산주문 모달 */
 			$('#unprodBtn').on('click', function(){
-				var startDt = $('#requestDtS').val()
-				var endDt = $('#requestDtE').val()
-				$.ajax({
-					url : 'requestDtSearch',
-					data : JSON.stringify({ startDt, endDt })
-				}).done(function(){
-					$('.ui-dialog-title').html('미생산주문조회');
-					$('#prodModal').load('requestModal.do', function(){
-						dialog.dialog({
-							buttons: {
-								"확인": requestAdd,
-								"취소": function(){
-									$(this).dialog('close')
-								}
-							}
-						})
-						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-						dialog.dialog('open')
-					})
+				$('#requestModal').css('display', '')
+				modal2.dialog({
+					buttons: {
+						"확인": requestAdd,
+						"취소": function(){
+							$(this).dialog('close')
+						}
+					}
 				})
+				$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+				modal2.dialog('open')
+				rqGrid.refreshLayout();
 			})
 			function requestAdd(){
 				
 			}
 			
+			
 			/* 모달틀 */
-			function makeModal() {
-				var dialog = $("#prodModal").dialog({
+			function makeModal(e) {
+				var dialog = $(e).dialog({
 					autoOpen : false,
 					height : 600,
 					width : 700,
@@ -223,45 +295,6 @@
 				return dialog;
 			}
 		// 모달끝--------------------------------------------
-		
-		
-		})
-		
-		
-		// 달력---------------------------------------------
-	
-		/* 계획일자 */
-		const datepicker1 = new tui.DatePicker('#wrapper', {
-			date : new Date(),
-			input : {
-				element : '#planDt',
-				format : 'yyyy-MM-dd'
-			},
-			language : 'ko'
-
-		});
-
-		/* 미생산 주문조회 달력 */
-		var today = new Date();
-		const datepicker2 = new tui.DatePicker.createRangePicker({
-			startpicker : {
-				date : today,
-				input : '#requestDtS',
-				container : '#requestDtS-wapper'
-			},
-			endpicker : {
-				date : today,
-				input : '#requestDtE',
-				container : '#requestDtE-wapper'
-			},
-			selectableRanges : [ [
-					today,
-					new Date(today.getFullYear() + 1, today.getMonth(), today
-							.getDate()) ] ],
-			language : 'ko'
-		});
-		
-		// 달력끝------------------------------------------
 		
 		// 그리드---------------------------------------------
 
@@ -341,15 +374,125 @@
 			} ]
 		});
 		
+		// 생산의뢰목록 모달 그리드------------------------
+		const orderList = [];
+			
+		const rqGrid = new tui.Grid({
+		      el: document.getElementById('requestList'),
+		      data: orderList,
+		      columns: [
+		        {
+		          header: '의뢰번호',
+		          align : 'center'
+		        },
+		        {
+		          header: '수주일자',
+		          align : 'center'
+		        },
+		        {
+		          header: '거래처코드',
+		          align : 'center'
+		        },
+		        {
+		          header: '마감일자',
+		          align : 'center'
+		        }
+		     ]
+	    });
+		// 생산의뢰목록 그리드 끝-------------------------------
+		
+		// 생산계획목록 그리드------------------------
+		const planList = [];
+			
+		const planGrid = new tui.Grid({
+		     el: document.getElementById('planList'),
+		     data: planList,
+		     columns: [
+		       {
+		         header: '계획일자',
+		         align : 'center'
+		       },
+		       {
+		         header: '계획번호',
+		         align : 'center'
+		       },
+		       {
+		         header: '계획명',
+		         align : 'center'
+		       },
+		       {
+		         header: '비고',
+		         align : 'center'
+		       }
+		     ]
+	    });
+		// 생산계획목록 그리드 끝-------------------------------
+		
 		// 그리드끝------------------------------------------
+		
+		})
+		
+		
+		// 달력---------------------------------------------
+	
+		/* 계획일자 */
+		const datepicker1 = new tui.DatePicker('#wrapper', {
+			date : new Date(),
+			input : {
+				element : '#planDt',
+				format : 'yyyy-MM-dd'
+			},
+			language : 'ko'
+
+		});
+
+		/* 미생산 주문조회 모달 달력 */
+		var today = new Date();
+		var range = new Date(today.getFullYear() + 1, today.getMonth(),
+								today.getDate());
+		const datepicker2 = new tui.DatePicker.createRangePicker({
+			startpicker : {
+				date : today,
+				input : '#requestDtS',
+				container : '#requestDtS-wapper'
+			},
+			endpicker : {
+				date : today,
+				input : '#requestDtE',
+				container : '#requestDtE-wapper'
+			},
+			selectableRanges : [ [
+					today,
+					range ] ],
+			language : 'ko'
+		});
+		
+		/* 생산계획 작성일자 모달 달력 */
+		var picker = new tui.DatePicker.createRangePicker({
+			startpicker : {
+				date : today,
+				input : '#pplanDtS',
+				container : '#pplanDtS-wapper'
+			},
+			endpicker : {
+				date : today,
+				input : '#pplanDtE',
+				container : '#pplanDtE-wapper'
+			},
+			selectableRanges : [ [
+					today,
+					range ] ],
+			language : 'ko'
+		});
+		
+		// 달력끝------------------------------------------
+		
+		
 
 		
 		// 버튼---------------------------------------------
 		
 		/* 생산계획 조회 */
-		$('#searchBtn').on('click', function(){
-			
-		})
 		
 		/* 새자료 */
 		$('#resetBtn').on('click', function() {
@@ -360,7 +503,6 @@
 			document.getElementById('dataForm').reset();
 			$('#planDt').val('');
 			datepicker1.setDate(new Date());
-			/* 왜 리셋이 안될까... */
 			datepicker2.setStartDate(new Date());
 			datepicker2.setEndDate(new Date());
 			grid.resetData(gridData);

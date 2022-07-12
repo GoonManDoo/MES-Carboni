@@ -3,7 +3,11 @@
 <mapper namespace="co.carboni.prj.produce.mapper.ProdPlanMapper">
 
 	<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT 
+		SELECT * FROM PRODREQ
+		WHERE
+		PRCLOSE >= TO_DATE(#{e.startDt}, 'YY/MM/DD')
+		AND
+		TO_DATE(#{e.endDt}, 'YY/MM/DD') >= PRCLOSE
 	</select>
 	
 </mapper>
