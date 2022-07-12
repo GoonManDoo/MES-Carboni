@@ -13,10 +13,13 @@ public class MatServiceImpl implements MatService {
 	private MatMapper map;
 
 	@Override
-	public List<MatVO> noticeSelectList(MatVO vo) {
-		return null;
+	public List<MatVO> matordselect(MatVO vo) {
+		return map.matordselect(vo);
 	}
 
-
+	@Override
+	public List<MatVO> matcostomer(MatVO vo) {
+		return map.matcostomer(vo);
+	}
 
 }

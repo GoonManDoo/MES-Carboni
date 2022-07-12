@@ -28,6 +28,8 @@ public class MatVO {
 	private String msdiv; // 입출 구분
 	private String msnote; // 비고
 
+
+
 	// 자재발주 관리
 	private String monum; // 발주번호
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -38,6 +40,8 @@ public class MatVO {
 	private int momatam; // 자재량
 	private int moaskam; // 주문수량
 	private String mostatus; // 발주상태
+	private String moname; //자재명
+	private String mocostomer; //거래처명
 
 	// 자재재고
 	private String matnum; // 재고관리번호

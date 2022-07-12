@@ -11,6 +11,10 @@
 
 
 <style>
+  #modal {
+
+      display: none;
+    }
 .tui-datepicker {
 	z-index: 99;
 }
@@ -78,7 +82,7 @@
 											<td style="width: 200px;"><input type="text"
 												class="form-control ht" tabindex="2" style="width: 200px;"></td>
 											<td style="width: 50px;"><button type="button"
-													class="btn btn-secondary" style="margin-right: 5px;">🔍</button></td>
+													class="btn btn-secondary" style="margin-right: 5px;" id="searchBtn">🔍</button></td>
 											<th style="width: 100px;"><label>업체명</label></th>
 											<td><input type="text" class="form-control ht" readonly
 												style="width: 200px;"></td>
@@ -88,7 +92,7 @@
 											<td style="width: 200px;"><input type="text"
 												class="form-control ht" tabindex="2" style="width: 200px;"></td>
 											<td style="width: 50px;"><button type="button"
-													class="btn btn-secondary" style="margin-right: 5px;">🔍</button></td>
+													class="btn btn-secondary" style="margin-right: 5px;" id="codeBtn">🔍</button></td>
 											<th style="width: 100px;"><label>자재명</label></th>
 											<td><input type="text" class="form-control ht" readonly
 												style="width: 200px;"></td>
@@ -100,9 +104,9 @@
 							<div class="container-fluid px-4 mb-2">
 								<div style="display: flex; justify-content: flex-end;">
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;">추가</button>
+										style="margin-right: 5px;">조회</button>
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;">삭제</button>
+										style="margin-right: 5px;">주문</button>
 								</div>
 							</div>
 						</form>
@@ -113,8 +117,24 @@
 			<div class="container-fluid px-4">
 				<div id="grid"></div>
 			</div>
+			
+			<div id="modal">
+			
+				<div id="reqmodal" title="요청내용">
+					<div id="gridcomp"></div>
+				</div>
 
-			<div id="dialog" title="발주내용"></div>
+				<div id="searchmodal" title="기업 명">
+					<div id="goupgrid"></div>
+				</div>
+				
+				<div id="codemodal" title="자재코드">
+					<div id="codegrid"></div>
+				</div>
+				
+				
+				
+			</div>
 
 			<!-- 그리드 내용 만들기  -->
 			<script type="text/javascript">
@@ -136,18 +156,10 @@
 							new Date(today.getFullYear() + 1, today.getMonth(),
 									today.getDate()) ] ]
 				});
+				
+				/* 메인의 그리드 */
 				const gridData = [];
-				(function() {
-					for (let i = 0; i < 20; i += 1) {
-						gridData.push({
-							c1 : (i + 1),
-							c2 : ((i + 5) % 8) * 100 + i,
-							c3 : ((i + 3) % 7) * 60,
-							c4 : ((i + 3) % 7) * 60,
-							c5 : ((i + 3) % 7) * 60,
-						});
-					}
-				})();
+			
 
 				const grid = new tui.Grid({
 					el : document.getElementById('grid'),
@@ -185,6 +197,9 @@
 						header : '자재량',
 						align : 'center'
 					}, {
+						header : '주문수량',
+						align : 'center'
+					}, {
 						header : '발주상태',
 						align : 'center'
 					}, {
@@ -192,49 +207,172 @@
 						align : 'center'
 					} ]
 				});
-
+		
 				$(function() {
-					//버튼클릭
-					var dialog = makeModal();
-					$("#btnModal").on("click", function() {
-						$('.ui-dialog-title').html('발주내용');
-						$("#dialog").load('matAdd.do', function() {
-							dialog.dialog("open");
-						})
-					})
-
-					function makeModal() {
-						var dialog = $("#dialog").dialog({
+					
+					/*메이크 모달*/
+					function makeModal(e) {
+						var dialog = $(e).dialog({
 							autoOpen : false,
-							height : 700,
+							height : 600,
 							width : 700,
 							modal : true,
-							buttons : {
-								"확인" : contentsAdd,
-								"취소" : function() {
-									$(this).dialog('close')
-								}
-							}
-
 						});
-						$('.ui-dialog-buttonset').children().attr('class',
-								'btn btn-secondary')
 						$('.ui-dialog-titlebar-close').html('X').css('border',
 								'none')
 						return dialog;
 					}
-					;
-
-					function contentsAdd() {
+					
+					var dia= makeModal("#reqmodal")
+					
+					var log=makeModal("#searchmodal")
+					
+					var cdmo=makeModal("#codemodal")
+					
+					/*발주 요청 모달*/
+					$("#btnModal").on("click",function(){
+						$("#reqmodal").css('display','')
+						dia.dialog({
+							buttons :{
+								'확인': check,
+								'취소' : function(){
+									$(this).dialog('close')
+								}
+							}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						dia.dialog('open')
+						barmo.refreshLayout();
+						
+					})
+					/*발주 요청에서 확인버튼 눌렀을떄 */
+					function check(){
+						
+					}
+					
+					/* 기업목록 모달 */
+					$("#searchBtn").on("click",function(){
+						$("#searchmodal").css('display','')
+						log.dialog({
+							buttons :{
+								'확인': giup,
+								'취소' : function(){
+									$(this).dialog('close')
+								}
+							}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						log.dialog('open')
+						gomo.refreshLayout();
+					})
+					/*기업모달에서 확인 눌렀을떄 */
+				function giup() {
 
 					}
+					
+					/*자재코드 모달*/
+					$("#codeBtn").on("click", function(){
+						$("#codemodal").css('display','')
+						cdmo.dialog({
+							buttons : {
+								'확인' : cdcheck,
+								'취소' : function(){
+									$(this).dialog('close')
+								}
+							}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						cdmo.dialog('open')
+						jamo.refreshLayout();
+					})
+					/*자재검색 확인 눌렀을때 */
+					function cdcheck(){
+						
+					}
 
-				});
 				/* 그리드 표만들기 */
 				/* 그리드 펑션!*/
-				/* 	 grid.on('scrollEnd', () => {
-					      grid.appendRows(createRows());
-					    }) */
+
+				/*발주 모달안의 그리드*/
+					const totaldata = [];
+
+					let barmo = new tui.Grid({
+						el : document.getElementById('gridcomp'),
+						data : totaldata,
+						scrollX : false,
+						rowHeaders : [ 'checkbox' ],
+						bodyHeight : 430,
+						columns : [ {
+							header : '요청번호',
+							align : 'center',
+						}, {
+							header : '자재코드',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '자재명',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '발주요청량',
+							align : 'center',
+						} ]
+					});
+					
+					/*업체명*/
+					const  giupdata = [];
+
+					let gomo= new tui.Grid({
+						el : document.getElementById('goupgrid'),
+						data :  giupdata,
+						scrollX : false,
+						rowHeaders : [ 'checkbox' ],
+						bodyHeight : 430,
+						columns : [ {
+							header : '거래처코드',
+							align : 'center',
+						}, {
+							header : '거래처명',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '사업자등록번호',
+							align : 'center',
+						}, {
+							header : '전화번호',
+							align : 'center',
+						}]
+					});
+					/*자재코드 검색 그리드*/
+					const jadata =[];
+					
+					let jamo=new tui.Grid({
+						el : document.getElementById('codegrid'),
+						data :  giupdata,
+						scrollX : false,
+						rowHeaders : [ 'checkbox' ],
+						bodyHeight : 430,
+						columns : [ {
+							header : '자재코드',
+							align : 'center',
+						}, {
+							header : '자재명',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '규격',
+							align : 'center',
+						}, {
+							header : '자재단위',
+							align : 'center',
+						}]
+					})
+
+				})
 			</script>
 		</div>
 	</th:block>
