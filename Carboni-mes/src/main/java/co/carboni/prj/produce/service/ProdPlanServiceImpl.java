@@ -16,8 +16,10 @@ public class ProdPlanServiceImpl implements ProdPlanService {
 
 	// 미생산주문조회
 	@Override
-	public List<ProdPlanVO> findUnprod() {
+	public List<ProdPlanVO> findUnprod(ProdPlanVO prodPlanVO) {
 		return map.findUnprod();
 	}
+
+	
 
 }

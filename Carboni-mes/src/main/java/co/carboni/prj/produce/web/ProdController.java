@@ -3,12 +3,9 @@ package co.carboni.prj.produce.web;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.carboni.prj.produce.service.ProdPlanService;
-import co.carboni.prj.produce.vo.ProdPlanVO;
 
 @Controller
 public class ProdController {
@@ -26,53 +23,17 @@ public class ProdController {
 		return "produce/prodPlan";
 	}
 	
-	// 생산계획관리 - 생산계획모달
-	@RequestMapping("/prodPlanModal.do")
-	public String prodPlanModal() {
-		return "produce/modal/prodPlanModal";
-	}
-	
-	// 생산계획관리 - 미생산의뢰조회 모달
-	@RequestMapping("/requestModal.do")
-	public String unprodModal() {
-		return "produce/modal/requestModal";
-	}
-	
-	// 생산계획관리 - 미생산의뢰조회 모달 - 기간검색
-	@RequestMapping("requestDtSearch")
-	@ResponseBody
-	public List<ProdPlanVO> requestDtSearch(@RequestBody ProdPlanVO ProdPlanVO) {
-		return sr.findUnprod(ProdPlanVO);
-	}
-	
 	// 생산지시관리
 	@RequestMapping("/prodorder.do")
 	public String prodOrder() {
 		return "produce/prodOrder";
 	}
 	
-	// 생산지시관리 - 생산지시모달
-	@RequestMapping("/prodOrderModal.do")
-	public String prodOrderModal() {
-		return "produce/modal/prodOrderModal";
-	}
-	
-	// 생산지시관리 - 미지시계획조회 모달
-	@RequestMapping("/unorderModal.do")
-	public String unorderModal() {
-		return "produce/modal/unorderModal";
-	}
 	
 	// 생산지시조회
 	@RequestMapping("/prodOrView.do")
 	public String prodOrderView() {
 		return "produce/prodOrView";
-	}
-	
-	// 생산지시조회 - 제품코드조회 모달
-	@RequestMapping("/productCodeModal.do")
-	public String productCodeModal() {
-		return "produce/modal/productCodeModal";
 	}
 	
 	// 공정모니터링
