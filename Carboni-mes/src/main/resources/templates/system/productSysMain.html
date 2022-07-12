@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
- <th:block layout:fragment="main">
+
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<style>
+  
+  <style>
 #container {
     width: 100vw;
     height: auto;
@@ -250,10 +246,11 @@ left:80%;
 
 
 </style>
+</head>
+
 
 <body>
-
-<div id="Show" > </div>
+ <th:block layout:fragment="main">
 
 
   <div id="container">
@@ -314,7 +311,7 @@ left:80%;
 
         </div>
       
-        <div id="detail"><button class="link">자세히 보기 ></button></div>
+        <div><button id="detail" class="link">자세히 보기 ></button></div>
      
       </div>
 
@@ -373,7 +370,7 @@ left:80%;
 
         </div>
       
-        <button class="link"><a href="">자세히 보기 ></a></button>
+        <div><button id="detail" class="link">자세히 보기 ></button></div>
      
       </div>
 
@@ -433,7 +430,7 @@ left:80%;
 
         </div>
       
-        <button class="link"><a href="">자세히 보기 ></a></button>
+        <div><button id="detail" class="link">자세히 보기 ></button></div>
      
       </div>
 
@@ -493,7 +490,7 @@ left:80%;
 
         </div>
       
-        <button class="link">자세히 보기 > </button>
+        <div><button id="detail" class="link">자세히 보기 ></button></div>
      
       </div>
      
@@ -503,45 +500,99 @@ left:80%;
       
     </div>
     
+    
+    <div style="display:none;" id="ProdSYS">
+	    <div class="inframe">
+	    	<div class="frame">
+	          <div class="sysname">
+	            <p class="maintitle"></p>
+	            <p class="subtitle"></p>
+	          </div>
+	          
+	          <div class="list">
+	            <button class="produp"><a href="">공정 등록하기 ></a></button>
+	            <div class="listinner">
+	              <div class="listinframe">
+	                <img class="number" src="/assets/img/1.svg" alt="1">
+	                <div class="prodname">
+	                  <div class="percent"></div>
+	                </div>
+	              </div>
+	
+	              <div class="listinframe">
+	                <img class="number" src="/assets/img/2.svg" alt="2">
+	                <div class="prodname">
+	                  <div class="percent"></div>
+	                </div>
+	              </div>
+	
+	              <div class="listinframe">
+	                <img class="number" src="/assets/img/3.svg" alt="3">
+	                <div class="prodname">
+	                  <div class="percent"></div>
+	                </div>
+	              </div>
+	
+	              <div class="listinframe">
+	                <img class="number" src="/assets/img/4.svg" alt="4">
+	                <div class="prodname">
+	                  <div class="percent"></div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	    	</div>
+	    </div>
     </div>
-<div id="Show" title="" style="text-align: center;">       </div>
+    
+<div id="Show"></div>
 
-<script>
+<script type="text/javascript">
+
+$(function(){
+	$(".sysupdate").on("click", function() {
+		$(".inframe2").before($("#ProdSYS").html());
+		})
+})
+
+$(function(){
+	$(".sysdelete").on("click", function(){
+		$("").remove($(""));
+	})
+})
 
 $(function() {
-	//모달1 -> 자세히 보기
-	var dialog = makeModal();
-	$("#detail").on("click", function() {
-		/* 첫번째 $는 불러올 창을 만드는 div의 id. 2번째의 .do가 실질적으로 불러와지는 페이지. */
-		$("#Show").load('detailShow.do', function() {
-			dialog.dialog("open");
-		})
-	});
-	function contentsAdd() {
-	}
+   //모달1 -> 자세히 보기
+   var dialog = makeModal();
+   $("#detail").on("click", function() {
+      /* 첫번째 $는 불러올 창을 만드는 div의 id. 2번째의 .do가 실질적으로 불러와지는 페이지. */
+      $("#Show").load('detailShow.do', function() {
+         dialog.dialog("open");
+      })
+   });
+   function contentsAdd() {
+   }
 
-	
-	
-	//모달2 -> 설비 추가하기
-	$(".sysupdate").on("click", function() {
-		$("#Show").load('ProdResist.do', function() {
-			dialog.dialog("open");
-		})
-	});
-
-	//모달틀 -> 재사용 (모달이 여러개일 경우 확인, 취소 버튼 만들지 않기(버튼마다 다른 기능을 사용해야하므로))
-	function makeModal() {
-		var dialog = $("#Show").dialog({
-			autoOpen : false,
-			height : 700,
-			width : 700,
-			modal : true,
-		});
-		return dialog;
-	}
+   $(".produp").on("click", function() {
+         $("#Show").load('ProcessResist.do', function() {
+            dialog.dialog("open");
+         })
+      });
+   
+   //모달틀 -> 재사용 (모달이 여러개일 경우 확인, 취소 버튼 만들지 않기(버튼마다 다른 기능을 사용해야하므로))
+   function makeModal() {
+      var dialog = $("#Show").dialog({
+         autoOpen : false,
+         height : 700,
+         width : 700,
+         modal : true,
+      });
+      return dialog;
+   }
 });
-    </script>
 
- </body>
+    </script>
   </th:block>
+ </body>
+
 </html>
