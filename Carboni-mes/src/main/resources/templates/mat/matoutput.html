@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <style>
+#modal {
+	display: none;
+}
+
 .tui-datepicker {
 	z-index: 99;
 }
@@ -60,11 +64,12 @@
 											<td><input type="text" class="form-control ht"
 												maxlength="10" tabindex="2"></td>
 											<td><button type="button" class="btn btn-secondary"
-													style="margin-right: 5px; height: 28px; width: 28px;">🔍</button></td>
+													style="margin-right: 5px; height: 28px; width: 28px;"
+													id="outBtn">🔍</button></td>
 											<td colspan="5">
 											<th><label>공정명</label></th>
 											<td><input type="text" class="form-control ht"
-												maxlength="10" tabindex="2"></td>
+												readonly></td>
 										</tr>
 									</tbody>
 								</table>
@@ -83,6 +88,11 @@
 			</div>
 			<div class="container-fluid px-4">
 				<div id="grid"></div>
+			</div>
+			<div id="modal">
+				<div id="outmodal">
+					<div id="outgtid"></div>
+				</div>
 			</div>
 		</div>
 		<script>
@@ -129,6 +139,66 @@
 					align : 'center'
 				} ]
 			});
+
+			$(function() {
+				/*메이크 모달*/
+				function makeModal(e) {
+					var dialog = $(e).dialog({
+						autoOpen : false,
+						height : 600,
+						width : 700,
+						modal : true,
+					})
+					$('.ui-dialog-titlebar-close').html('X').css('border',
+							'none')
+					return dialog;
+				}
+				var outmo = makeModal("#outmodal")
+
+				$("#outBtn").on(
+						'click',
+						function() {
+							$("#outmodal").css('display', '')
+							outmo.dialog({
+								buttons : {
+									'확인' : outcheck,
+									'취소' : function() {
+										$(this).dialog('close')
+									}
+								}
+							})
+							$('.ui-dialog-buttonset').children().attr('class',
+									'btn btn-secondary')
+							outmo.dialog('open')
+							outgd.refreshLayout();
+						})
+				/*출고공정명 모달 생성 됬을떄*/
+				function outcheck() {
+
+				}
+				const outdata = [];
+				let outgd = new tui.Grid({
+					el : document.getElementById('outgtid'),
+					data : outdata,
+					scrollX : false,
+					rowHeaders : [ 'checkbox' ],
+					bodyHeight : 430,
+					columns : [ {
+						header : '공정정보',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '공정코드',
+						align : 'center',
+
+					}, {
+						header : '소요일수',
+						align : 'center',
+
+					} ]
+				});
+			})
 		</script>
 	</th:block>
 </body>

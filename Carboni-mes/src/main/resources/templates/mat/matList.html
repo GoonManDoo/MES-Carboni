@@ -4,6 +4,12 @@
 	layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
+<style>
+  #modal {
+
+      display: none;
+    }
+</style>
 </head>
 <body>
 <th:block layout:fragment="main">
@@ -43,10 +49,10 @@
 									<td><input type="text" class="form-control ht"
 										maxlength="10" tabindex="2"></td>
 									<td><button type="button" class="btn btn-secondary"
-											style="margin-right: 5px;">🔍</button></td>
+											style="margin-right: 5px;" id="searchBtn">🔍</button></td>
 									<th><label>자재명</label></th>
 									<td><input type="text" class="form-control ht"
-										maxlength="10" tabindex="2"></td>
+										readonly></td>
 								</tr>
 							</tbody>
 						</table>
@@ -57,6 +63,12 @@
 
 		<div class="container-fluid px-4">
 			<div id="grid"></div>
+		</div>
+		<div id="modal">
+			<div id="listmodal" title="자재코드">
+				<div id="listgrid"></div>
+			</div>
+		
 		</div>
 	</div>
 	<script>
@@ -132,6 +144,69 @@
 					}
 				} */
 		});
+		$(function(){
+			/*메이크 모달*/
+			function makeModal(e) {
+				var dialog = $(e).dialog({
+					autoOpen : false,
+					height : 600,
+					width : 700,
+					modal : true,
+				});
+				$('.ui-dialog-titlebar-close').html('X').css('border',
+						'none')
+				return dialog;
+			}
+			
+			var listmo=makeModal("#listmodal")
+			$("#searchBtn").on('click',function(){
+				$("#listmodal").css('display','')
+				listmo.dialog({
+					buttons:{
+							'확인' : listupdate,
+							'취소' : function(){
+								$(this).dialog('close')
+							}
+						}
+				})
+				$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+				listmo.dialog('open')
+				listgd.refreshLayout();
+				
+			})
+			function listupdate(){
+				
+			}
+			const listdata=[];
+			let listgd=new tui.Grid({
+				el : document.getElementById('listgrid'),
+				data : listdata,
+				scrollX : false,
+				rowHeaders : [ 'checkbox' ],
+				bodyHeight : 430,
+				columns : [ {
+					header : '자재코드',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '자재명',
+					align : 'center',
+					
+				}, {
+					header : '규격',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '자재단위',
+					align : 'center',
+				} ]
+				
+			})
+			
+		})
+		
 	</script>
 	</th:block>
 </body>

@@ -16,7 +16,7 @@ public class MatController {
 	// 발주 모달 내용 반환
 	@RequestMapping("/matAdd.do")
 	public String matAdd() {
-		return "mat/modal/matAdd";
+		return "mat/matAdd";
 	}
 
 	// 입고관리
@@ -25,11 +25,6 @@ public class MatController {
 		return "mat/matInsert";
 	}
 
-	// 입출고 모달
-	@RequestMapping("/matInsertAdd.do")
-	public String matInsertAdd() {
-		return "mat/modal/matInsertAdd";
-	}
 
 	// lot 관리
 	@RequestMapping("/matLot.do")
@@ -47,5 +42,11 @@ public class MatController {
 	@RequestMapping("/matList.do")
 	public String matList() {
 		return "mat/matList";
+	}
+
+	// 발주조회의 업체 검색
+	@RequestMapping("/matlistadd.do")
+	public String matlistadd() {
+		return "mat/matlistadd";
 	}
 }

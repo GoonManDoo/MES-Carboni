@@ -5,47 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <script>
-	$(function() {
-
-		var dialog = makeModal();
-		//버튼클릭
-		$("#btnModal").on("click", function() {
-			$('.ui-dialog-title').html('발주일자');
-			$("#dialog").load('matInsertAdd.do', function() {
-				dialog.dialog("open");
-			})
-		})
-
-		function makeModal() {
-			var dialog = $("#dialog").dialog({
-				autoOpen : false,
-				height : 700,
-				width : 700,
-				modal : true,
-				buttons : {
-					"확인" : checklist,
-					"취소" : function() {
-						$(this).dialog('close')
-					}
-				}
-
-			});
-			$('.ui-dialog-buttonset').children().attr('class',
-					'btn btn-secondary')
-			$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
-			return dialog;
-		}
-		;
-
-	});
-
-	function checklist() {
-
-	}
+	
 </script>
 
 
 <style>
+  #modal {
+
+      display: none;
+    }
 ul {
 	list-style: none;
 }
@@ -130,10 +98,10 @@ ul {
 											<td><input type="text" id="planDt"
 												class="form-control ht" maxlength="10" tabindex="2"></td>
 											<td><button type="button" class="btn btn-secondary"
-													style="margin-right: 5px;">🔍</button></td>
+													style="margin-right: 5px;" id="searchBtn">🔍</button></td>
 											<th><label>업체명</label></th>
 											<td><input type="text" class="form-control ht"
-												maxlength="10" tabindex="2"></td>
+												readonly></td>
 										</tr>
 										<tr>
 											<th>특이사항</th>
@@ -188,7 +156,17 @@ ul {
 			</div>
 		</div>
 		<div id="grid" class="container-fluid px-4"></div>
-		<div id="dialog" title="입고내용"></div>
+
+		<div id="modal">
+
+			<div id="inmodal" title="발주내용">
+				<div id="ingrid"></div>
+			</div>
+
+			<div id="searchmodal" title="기업 명">
+				<div id="goupgrid"></div>
+			</div>
+		</div>
 
 		<!-- 그리드 내용  -->
 		<script>
@@ -231,18 +209,7 @@ ul {
 			});
 
 			const gridData = [];
-			
-			(function() {
-				for (let i = 0; i < 20; i += 1) {
-					gridData.push({
-						c1 : (i + 1),
-						c2 : ((i + 5) % 8) * 100 + i,
-						c3 : ((i + 3) % 7) * 60,
-						c4 : ((i + 3) % 7) * 60,
-						c5 : ((i + 3) % 7) * 60,
-					});
-				}
-			})();
+		
 
 			const grid = new tui.Grid({
 				el : document.getElementById('grid'),
@@ -290,6 +257,124 @@ ul {
 					}
 				}
 			});
+			
+			$(function(){
+				
+				/*메이크 모달*/
+				function makeModal(e) {
+					var dialog = $(e).dialog({
+						autoOpen : false,
+						height : 600,
+						width : 700,
+						modal : true,
+					});
+					$('.ui-dialog-titlebar-close').html('X').css('border',
+							'none')
+					return dialog;
+				}
+				
+				var inmo=makeModal("#inmodal")
+				/*발주일자 검색 모달*/
+				$("#btnModal").on('click',function(){
+					$("#inmodal").css('display','')
+					inmo.dialog({
+						buttons:{
+							'확인' : inupdate,
+							'취소' : function(){
+								$(this).dialog('close')
+							}
+						}
+					})
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					inmo.dialog('open')
+					inmod.refreshLayout();
+					
+				})
+				/*성공했을때 업데이트*/
+				function inupdate(){
+					
+				}
+				/*발주일자 검색 그리드 */
+				const indata=[];
+				let inmod= new tui.Grid({
+					el : document.getElementById('ingrid'),
+					data : inupdate,
+					scrollX : false,
+					rowHeaders : [ 'checkbox' ],
+					bodyHeight : 430,
+					columns : [ {
+						header : '발주코드',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '발주일자',
+						align : 'center',
+						
+					}, {
+						header : '자재코드',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '자재명',
+						align : 'center',
+					} ]
+					
+				})
+				
+				var log=makeModal("#searchmodal")
+				
+				/* 기업목록 모달 */
+					$("#searchBtn").on("click",function(){
+						$("#searchmodal").css('display','')
+						log.dialog({
+							buttons :{
+								'확인': giup,
+								'취소' : function(){
+									$(this).dialog('close')
+								}
+							}
+						})
+						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+						log.dialog('open')
+						gomo.refreshLayout();
+					})
+					/*기업모달에서 확인 눌렀을떄 */
+				function giup() {
+
+					}
+				const  giupdata = [];
+
+				let gomo= new tui.Grid({
+					el : document.getElementById('goupgrid'),
+					data :  giupdata,
+					scrollX : false,
+					rowHeaders : [ 'checkbox' ],
+					bodyHeight : 430,
+					columns : [ {
+						header : '거래처코드',
+						align : 'center',
+					}, {
+						header : '거래처명',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '사업자등록번호',
+						align : 'center',
+					}]
+				});
+				
+				
+				
+				
+				
+				
+				
+			})
+			
+	
 		</script>
 	</th:block>
 </body>
