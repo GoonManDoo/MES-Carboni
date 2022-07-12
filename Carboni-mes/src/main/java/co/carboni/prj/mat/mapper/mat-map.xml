@@ -3,9 +3,13 @@
 <mapper namespace="co.carboni.prj.mat.mapper.mat-map">
 
 
-<select id="matordselect" resultType="co.carboni.prj.mat.vo.MatVO">
-
-</select>
+	<select id="matordselect"
+		resultType="co.carboni.prj.common.vo.MatinfoVO">
+		SELECT E.REQNUM,E.MRREQAM,D.MICODE,D.MINAME
+		FROM MATREQ E
+		JOIN MATINFO D ON E.MICODE=D.MICODE
+		WHERE D.MICODE=#{micode};
+	</select>
 
 
 </mapper>
