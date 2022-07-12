@@ -10,6 +10,9 @@
 		JOIN MATINFO D ON E.MICODE=D.MICODE
 		WHERE D.MICODE=#{micode};
 	</select>
+	<select id="" resultType="">
+	
+	</select>
 
 
 </mapper>
