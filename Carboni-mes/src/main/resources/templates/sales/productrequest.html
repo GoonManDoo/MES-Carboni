@@ -22,7 +22,7 @@ span {
 	color: #999999;
 }
 
-input {
+.input {
 	height: 23px;
 	margin-left: 15px;
 	display: inline-block;
@@ -91,7 +91,7 @@ button {
         .hidden {
           display: none;
         }
-        .rradio{
+        #rradio{
         width:120px;
         }
         
@@ -116,19 +116,19 @@ button {
 		</div>
 		<div class="card mb-4" id="pageing">
 			<div class="card-body">
-				<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" />~ 
-				             <input type="date" name="endCNDATE" id="endCNDATE" /><br> 
-				       마감일자<input type="date" name="startCNDATE" id="startCNDATE" />~ 
-				             <input type="date" name="endCNDATE" id="endCNDATE" />
+				<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
+				             <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 
+				       마감일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
+				             <input type="date" name="endCNDATE" id="endCNDATE" class="input" />
 				            
 				            <form method="get" action="form-action.html">
 						      <a>마감여부</a>
-						      <label><input type="radio" name="fruit" value="apple" class="rradio"> 완료</label>
-						      <label><input type="radio" name="fruit" value="banana" class="rradio"> 미완료</label>
+						      <label><input type="radio" name="fruit" value="apple" id="rradio" > 완료</label>
+						      <label><input type="radio" name="fruit" value="banana" id="rradio"> 미완료</label>
 						    </form>
 				            
 				        
-					   제품코드<input type="text" id="leftinput" placeholder="제품코드입력" readonly="readonly"><br>
+					   제품코드<input type="text" id="leftinput" placeholder="제품코드입력" readonly="readonly"class="input" ><br>
 				</span>
 			</div>
 		</div>

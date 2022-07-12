@@ -1,6 +1,4 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +20,7 @@ span {
 	color: #999999;
 }
 
-input {
+.input {
 	height: 23px;
 	margin-left: 15px;
 	display: inline-block;
@@ -55,158 +53,316 @@ input {
 	float: right;
 	font-size: medium;
 	font-weight: normal;
-	margin-top : 15px;
+	margin-top: 15px;
+}
+
+#modal {
+	display: none;
+}
+.title {
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: -30px;
 }
 </style>
 </head>
 
 <body class="sb-nav-fixed">
-<th:block layout:fragment="main">
-	<div class="container-fluid px-4">
-		<h2 class="mt-4">수주 관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>수주관리</div></h2>
-			
+	<th:block layout:fragment="main">
+		<div class="container-fluid px-4">
+			<h2 class="mt-4">
+				수주 관리
+				<div class="nameing">
+					<a href="/" style="text-decoration-line: none; color: black">홈</a>>영업관리>수주관리
+				</div>
+			</h2>
 
-		<div class="card-header">
-			<div style="display: flex; justify-content: flex-end;">
-				<button type="button" id="btnModal" class="btn btn-secondary" style="margin-right: 5px;">조회</button>
-				<button type="button" id="removeBtn" class="btn btn-secondary" style="margin-right: 5px;">삭제</button>
+
+			<div class="card-header">
+				<div style="display: flex; justify-content: flex-end;">
+					<button type="button" id="btnModal" class="btn btn-secondary" style="margin-right: 5px;">조회</button>
+					<button type="button" id="removeBtn" class="btn btn-secondary" style="margin-right: 5px;">삭제</button>
+				</div>
+			</div>
+			<div class="card mb-4" id="pageing">
+				<div class="card-body">
+					<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 거래처명<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br> 제품코드<input type="text" id="rightinput" class="input" placeholder="제품코드 검색" readonly="readonly"><br>
+					</span>
+				</div>
+			</div>
+
+
+
+			<div class="container-fluid px-4">
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-table me-1"></i> 수주목록
+					</div>
+					<div id="grid"></div>
+				</div>
 			</div>
 		</div>
-		<div class="card mb-4" id="pageing">
-			<div class="card-body">
-				<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" />~ <input type="date" name="endCNDATE" id="endCNDATE" /><br> 거래처명<input type="text" id="leftinput" placeholder="거래처 검색" readonly="readonly"><br> 제품코드<input type="text" id="rightinput" placeholder="제품코드 검색" readonly="readonly"><br>
-				</span>
+
+		<!-- 모달  -->
+		<div id="modal">
+
+			<div id="contractModal" style="padding: 20px;" title="거래처조회">
+				<div id="contractModal" style="padding: 20px" title="거래처조회">
+					<div class="container">
+			<div class="title">
+				거래처명<input type="text" class="input" placeholder="거래처명"> 
+				거래처코드<input type="text" class="input" placeholder="거래처코드">
+				<button class="btn btn-secondary">조회</button>
+				<br>
 			</div>
+			<table border="1">
+				<tr>
+				</tr>
+				<tr>
+					<!-- function 기능 들어갈 곳  -->
+				</tr>
+			</table>
 		</div>
-
-
-
 		<div class="container-fluid px-4">
 			<div class="card mb-4">
 				<div class="card-header">
-					<i class="fas fa-table me-1"></i> 수주목록
+					<i class="fas fa-table me-1"></i> 거래처정보
 				</div>
-				<div id="grid"></div>
+				<div id="gridcomp"></div>
 			</div>
 		</div>
+				</div>
+			</div>
+
+			<div id="prodNameModal" style="padding: 20px;" title="제품정보조회">
+				<div class="container">
+		<div class="title">
+			제품명<input type="text" class="input" placeholder="제품명"> 
+			제품코드<input type="text" class="input" placeholder="제품코드">
+			<button class="btn btn-secondary">조회</button><br>
+
+		</div>
+		<table border="1">
+			<tr>
+
+			</tr>
+			<tr>
+				<!-- function 기능 들어갈 곳  -->
+
+			</tr>
+		</table>
+	</div>
+	<div class="container-fluid px-4">
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table me-1"></i> 제품정보
+			</div>
+			<div id="gridpro"></div>
+		</div>
+	</div>
+			</div>
 		</div>
 
-		<div id="search" title="제품검색" style="text-align: center;"></div>
+		<script>
+			/*그리드 시작 */
+			const gridData = [];
 
+			(function() {
+				for (let i = 0; i < 10; i += 1) {
+					gridData.push({
+						c1 : (i + 1),
+						c2 : ((i + 5) % 8) * 100 + i,
+						c3 : ((i + 3) % 7) * 60,
+						c4 : ((i + 3) % 7) * 60,
+						c5 : ((i + 3) % 7) * 60,
+						c6 : ((i + 3) % 7) * 60,
+						c7 : ((i + 3) % 7) * 60,
+						c8 : ((i + 3) % 7) * 60,
+						c9 : ((i + 3) % 7) * 60,
+						c10 : ((i + 3) % 7) * 60,
+					});
+				}
+			})();
 
-<script>
-	/*그리드 시작 */
-	const gridData = [];
-
-	(function() {
-		for (let i = 0; i < 10; i += 1) {
-			gridData.push({
-				c1 : (i + 1),
-				c2 : ((i + 5) % 8) * 100 + i,
-				c3 : ((i + 3) % 7) * 60,
-				c4 : ((i + 3) % 7) * 60,
-				c5 : ((i + 3) % 7) * 60,
-				c6 : ((i + 3) % 7) * 60,
-				c7 : ((i + 3) % 7) * 60,
-				c8 : ((i + 3) % 7) * 60,
-				c9 : ((i + 3) % 7) * 60,
-				c10 : ((i + 3) % 7) * 60,
+			const grid = new tui.Grid({
+				el : document.getElementById('grid'),
+				data : gridData,
+				scrollX : false,
+				rowHeaders : [ 'rowNum', 'checkbox' ],
+				columns : [ {
+					header : '수주코드',
+					name : 'c2',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '거래처',
+					name : 'c3',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '제품코드',
+					name : 'c4',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '수주수량',
+					name : 'c5',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '수주잔량',
+					name : 'c6',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '수주일자',
+					name : 'c7',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '납기일자',
+					name : 'c8',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '마감일자',
+					name : 'c9',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '진행상태',
+					name : 'c10',
+					align : 'center',
+					sortingType : 'desc',
+					sortable : true
+				} ]
 			});
-		}
-	})();
 
-	const grid = new tui.Grid({
-		el : document.getElementById('grid'),
-		data : gridData,
-		scrollX : false,
-		rowHeaders : [ 'rowNum', 'checkbox' ],
-		columns : [ {
-			header : '수주코드',
-			name : 'c2',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '거래처',
-			name : 'c3',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '제품코드',
-			name : 'c4',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '수주수량',
-			name : 'c5',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '수주잔량',
-			name : 'c6',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '수주일자',
-			name : 'c7',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '납기일자',
-			name : 'c8',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '마감일자',
-			name : 'c9',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '진행상태',
-			name : 'c10',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		} ]
-	});
+			$(function() {
 
-	$(function() {
-		//모달1 -> 거래처정보
-		var dialog = makeModal();
-		$("#leftinput").on("click", function() {
-			$("#search").load('contractModal.do', function() {
-				dialog.dialog("open");
+				/*메이크 모달*/
+				function makeModal(e) {
+					var dialog = $(e).dialog({
+						autoOpen : false,
+						height : 600,
+						width : 700,
+						modal : true,
+					});
+					$('.ui-dialog-titlebar-close').html('X').css('border','none')
+					return dialog;
+				}
+
+				var modal1 = makeModal("#contractModal")
+				var modal2 = makeModal("#prodNameModal")
+
+				/*거래처정보모달*/
+				$("#leftinput").on("click", function() {
+							$("#contractModal").css('display', '')
+							modal1.dialog({
+								buttons : {
+									'확인' : check,
+									'취소' : function() {
+										$(this).dialog('close')
+									}
+								}
+							})
+							$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+							modal1.dialog('open')
+							barmo.refreshLayout();
+
+						})
+				/*확인버튼 눌렀을떄 */
+				function check() {
+
+				}
+
+				/* 제품정보 모달 */
+				$("#searchBtn").on("click", function() {
+							$("#searchmodal").css('display', '')
+							log.dialog({
+								buttons : {
+									'확인' : giup,
+									'취소' : function() {
+										$(this).dialog('close')
+									}
+								}
+							})
+							$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+							log.dialog('open')
+							gomo.refreshLayout();
+						})
+				/*확인 눌렀을떄 */
+				function giup() {
+
+				}
+
+				/* 그리드 표만들기 */
+				/* 그리드 펑션!*/
+
+				/*발주 모달안의 그리드 거래처 모달 그리드*/
+				const totaldata = [];
+
+				let barmo = new tui.Grid({
+					el : document.getElementById('gridcomp'),
+					data : totaldata,
+					scrollX : false,
+					rowHeaders : [ 'rowNum','checkbox' ],
+					bodyHeight : 430,
+					columns : [ {
+						header : '거래처코드',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '거래처명',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '사업자번호',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '전화번호',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					} ]
+				});
+
+				/*제품정보 그리드*/
+				const giupdata = [];
+
+				let gomo = new tui.Grid({
+					el : document.getElementById('gridcomp'),
+					data : giupdata,
+					scrollX : false,
+					rowHeaders : [ 'checkbox' ],
+					bodyHeight : 430,
+					columns : [ {
+						header : '거래처코드',
+						align : 'center',
+					}, {
+						header : '거래처명',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '사업자등록번호',
+						align : 'center',
+					} ]
+				});
 			})
-		});
-		function contentsAdd() {
-		}
-
-		//모달2 -> 제품정보
-		$("#rightinput").on("click", function() {
-			$("#search").load('proName.do', function() {
-				dialog.dialog("open");
-			})
-		});
-
-		//모달틀 -> 재사용 (모달이 여러개일 경우 확인, 취소 버튼 만들지 않기(버튼마다 다른 기능을 사용해야하므로))
-		function makeModal() {
-			var dialog = $("#search").dialog({
-				autoOpen : false,
-				height : 700,
-				width : 700,
-				modal : true,
-			});
-			return dialog;
-		}
-	});
-</script>
-</th:block>
+		</script>
+	</th:block>
 </body>
 </html>
