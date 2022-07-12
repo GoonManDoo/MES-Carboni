@@ -12,12 +12,17 @@ import co.carboni.prj.produce.vo.ProdPlanVO;
 public class ProdPlanServiceImpl implements ProdPlanService {
 	
 	@Autowired
-	ProdPlanMapper map;
+	ProdPlanMapper mapper;
 
 	// 미생산주문조회
 	@Override
-	public List<ProdPlanVO> findUnprod(ProdPlanVO prodPlanVO) {
-		return map.findUnprod();
+	public List<ProdPlanVO> findUnprod(String startDt, String endDt) {
+		return mapper.findUnprod(startDt, endDt);
+	}
+
+	@Override
+	public List<ProdPlanVO> findProduct(int orderNum) {
+		return mapper.findProduct(orderNum);
 	}
 
 	
