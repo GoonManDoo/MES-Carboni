@@ -1,14 +1,29 @@
 package co.carboni.prj.common.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import co.carboni.prj.common.service.Ccodeservice;
+import co.carboni.prj.common.vo.CcodeVO;
 
 @Controller
 public class CommonController {
 	
+	@Autowired
+	private Ccodeservice ccodeDAO;
+	
 	@RequestMapping("/ccode.do")
-	public String cCode() {
+	public String cCode(Model model) {
+		model.addAttribute("ccode", ccodeDAO.selectCodeAll());
 		return "common/ccode";
+	}
+	
+	@RequestMapping("/ccodeinsertsmall.do")
+	public String cCodeInsertSmall(CcodeVO vo) {
+		ccodeDAO.codeInsertSmall(vo);
+		return "redirect:ccode.do";
 	}
 	
 	@RequestMapping("/costomer.do")

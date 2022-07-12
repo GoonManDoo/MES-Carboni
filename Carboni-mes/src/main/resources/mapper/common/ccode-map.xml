@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.carboni.prj.common.mapper.CcodeMapper">
+
+	<select id="selectCodeAll" resultType="co.carboni.prj.common.vo.CcodeVO">
+		SELECT * FROM COMMON ORDER BY 1
+	</select>
+	<select id="selectCodeClass" resultType="co.carboni.prj.common.vo.CcodeVO">
+		SELECT * FROM COMMON WHERE CCLASS = #{cclass} ORDER BY 1
+	</select>
+	<insert id="codeInsertBig" parameterType="co.carboni.prj.common.vo.CcodeVO">
+		INSERT INTO COMMON
+		VALUES(COMMON_CID_SEQ.NEXTVAL, '#', #{cclassd}, #{cexplain}, #{cexplaind}, #{cnote})
+	</insert>
+	<insert id="codeInsertSmall" parameterType="co.carboni.prj.common.vo.CcodeVO">
+		INSERT INTO COMMON
+		VALUES(COMMON_CID_SEQ.NEXTVAL, #{cclass}, #{cclassd}, #{cexplain}, #{cexplaind}, #{cnote})
+	</insert>
+	<delete id="codeDelete">
+		DELETE FROM COMMON WHERE CCODEID = #{ccodeid}
+	</delete>
+	<update id="codeUpdate" parameterType="co.carboni.prj.common.vo.CcodeVO">
+		UPDATE COMMON
+		<set>
+		CEXPLAIN = #{cexplain},
+		CEXPLAIND = #{cexplaind},
+		CNOTE = #{cnote},
+		</set>
+		WHERE CCODEID = #{ccodeid}
+	</update>
+
+</mapper>

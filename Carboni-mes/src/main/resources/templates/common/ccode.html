@@ -52,18 +52,20 @@
   <div id="menu">
     <a href="/">홈</a> > 기준정보관리 > <b>공통코드관리</b>
   </div>
+  <form action="ccodeinsertsmall.do">
   <div id="btns" class="card-header">
     <button type="button" class="btn btn-secondary">새자료</button>
-    <button type="button" class="btn btn-secondary">저장</button>
+    <input type="submit" class="btn btn-secondary" value="저장">
     <button type="button" class="btn btn-secondary">삭제</button>
   </div>
-  <form action="#" id="myf">
-    <label for="cCodeid">코드ID</label> <input type="text" id="cCodeid">
-    <label for="cExplain">코드설명</label> <input type="text" id="cExplain">
-    <label for="cName">코드명</label> <input type="text" id="cName">
-    <label for="cExplaind">코드상세</label> <input type="text" id="cExplaind">
-    <label for="cClass">코드분류</label> <input type="text" id="cClass">
-    <label for="cNote">비고</label> <input type="text" id="cNote">
+  <div id="myf">
+    <label for="ccodeid">코드ID</label> <input type="text" id="ccodeid" name="ccodeid">
+    <label for="cclass">코드분류</label> <input type="text" id="cclass" name="cclass">
+    <label for="cclassd">코드소분류</label> <input type="text" id="cclassd" name="cclassd">
+    <label for="cexplain">코드명</label> <input type="text" id="cexplain" name="cexplain">
+    <label for="cexplaind">코드상세</label> <input type="text" id="cexplaind" name="cexplaind">
+    <label for="cnote">비고</label> <input type="text" id="cnote" name="cnote">
+  </div>
   </form>
   <div id="container">
     <div class="left">
@@ -80,9 +82,9 @@
               <tr>
                 <th><input type="radio"></th>
                 <th>코드ID</th>
+                <th>코드분류2</th>
                 <th>코드명</th>
                 <th>코드상세</th>
-                <th>코드분류</th>
                 <th>비고</th>
               </tr>
             </thead>
