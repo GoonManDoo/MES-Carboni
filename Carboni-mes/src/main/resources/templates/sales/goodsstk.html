@@ -57,6 +57,15 @@ span {
 	font-size: medium;
 	font-weight: normal;
    }
+    #modal {
+	display: none;
+}
+.title {
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
+
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -81,6 +90,33 @@ span {
 		</div>
 	</div>
 
+<!-- 모달 -->
+	<div id="modal">
+	<div id="prodNameModal" style="padding: 20px;" title="제품정보조회">
+			<div class="container">
+		<div class="title">
+			제품명<input type="text" class="input" placeholder="제품명"> 
+			제품코드<input type="text" class="input" placeholder="제품코드">
+			<button class="btn btn-secondary">조회</button><br>
+		</div>
+		<table border="1">
+			<tr>
+			</tr>
+			<tr>
+				<!-- function 기능 들어갈 곳  -->
+			</tr>
+		</table>
+		</div>
+	<div class="container-fluid px-4">
+		<div class="card mb-4">
+			<div class="card-header" style="text-align: center;">
+				<i class="fas fa-table me-1"></i> 제품정보
+			</div>
+			<div id="gridpro"></div>
+		</div>
+	</div>
+			</div>
+	</div>
 	
 <div class="container-fluid px-4">
 	<div class="card mb-4">
@@ -147,32 +183,72 @@ span {
 		} ]
 	});
 
-	//제품정보 모달
 	$(function() {
-		var dialog = makeModal();
 
-		$("#leftinput").on("click", function() {
-
-			$("#search").load('proName.do', function() {
-
-				dialog.dialog("open");
-			})
-		});
-
-		function contentsAdd() {
-		}
-
-		//모달 만들기
-		function makeModal() {
-			var dialog = $("#search").dialog({
+		/*메이크 모달*/
+		function makeModal(e) {
+			var dialog = $(e).dialog({
 				autoOpen : false,
 				height : 700,
 				width : 700,
 				modal : true,
 			});
+			$('.ui-dialog-titlebar-close').html('X').css('border','none')
 			return dialog;
 		}
-	});
+
+		var modal2 = makeModal("#prodNameModal")
+
+		/* 제품정보 모달 */
+		$("#leftinput").on("click", function() {
+					$("#prodNameModal").css('display', '')
+					modal2.dialog({
+						buttons : {
+							'확인' : giup,
+							'취소' : function() {
+								$(this).dialog('close')
+							}
+						}
+					})
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					modal2.dialog('open')
+					gomo.refreshLayout();
+				})
+		/*확인 눌렀을떄 */
+		function giup() {
+
+		}
+
+		/* 그리드 표만들기 */
+		/* 그리드 펑션!*/
+
+		/*제품정보 그리드*/
+		const giupdata = [];
+
+		let gomo = new tui.Grid({
+			el : document.getElementById('gridpro'),
+			data : giupdata,
+			scrollX : false,
+			rowHeaders : [ 'rowNum', 'checkbox' ],
+			bodyHeight : 430,
+			columns : [ {
+				header : '제품코드',
+				align : 'center',
+				sortingType : 'desc',
+				sortable : true
+			}, {
+				header : '제품명',
+				align : 'center',
+				sortingType : 'desc',
+				sortable : true
+			}, {
+				header : '제품단위',
+				align : 'center',
+				sortingType : 'desc',
+				sortable : true
+			} ]
+		});
+	})
 	
 	</script>
 </th:block>
