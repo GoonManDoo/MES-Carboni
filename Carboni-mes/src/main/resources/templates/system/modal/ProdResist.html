@@ -53,12 +53,15 @@
   background: rgba(240, 240, 240, 1);
   }
   .prodResiFrame .question3{
+    position: relative;
+    display: flex;
     height: 38px;
   width: 341px;
   border-radius: 7px;
   background: rgba(240, 240, 240, 1);
   }
   .prodResiFrame .question4{
+    position: relative;
     height: 38px;
   width: 341px;
   border-radius: 7px;
@@ -77,6 +80,10 @@
     margin-bottom: 52px;
     flex-wrap: wrap;
   
+  }
+
+  .dropdown{
+    position: absolute;
   }
 </style>  
 <body>
@@ -104,7 +111,7 @@
           <div class="queFrame">
             <div class="question3">
               <p>등록일/시간</p>
-              <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+              <button class="dropdown"><img src="/assets/img/dropdown.svg" alt="dropdown"></button>
             </div>
           </div>
 
@@ -112,16 +119,16 @@
           <div class="queFrame">
             <div class="question4">
               <p>관리자</p>
-              <button><img src="/static/assets/img/dropdown.svg" alt="dropdown"></button>
+              <button class="dropdown"><img src="/assets/img/dropdown.svg" alt="dropdown"></button>
             </div>
           </div>
 
           <div class="buttonBar">
             <button class="cancle">
-              <img src="/static/assets/img/cancel.svg" alt="취소">
+              <img src="/assets/img/cancel.svg" alt="취소">
             </button>
             <button class="accept">
-              <img src="/static/assets/img/accept.svg" alt="확인">
+              <img src="/assets/img/accept.svg" alt="확인">
             </button>
           </div>
         </div>
