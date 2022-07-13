@@ -59,12 +59,12 @@ span {
 #modal {
 	display: none;
 }
+
 .title {
 	text-align: center;
 	margin-bottom: 10px;
 	margin-top: -10px;
 }
-
 </style>
 </head>
 
@@ -77,25 +77,25 @@ span {
 					<a href="/" style="text-decoration-line: none; color: black">홈</a>>영업관리>수주관리
 				</div>
 			</h2>
-
-
+			
+			<!-- 메인화면 버튼 -->
 			<div class="card-header">
 				<div style="display: flex; justify-content: flex-end;">
-					<button type="button" id="btnModal" class="btn btn-secondary" style="margin-right: 5px;">조회</button>
+					<button type="button" id="searchBtn" class="btn btn-secondary" style="margin-right: 5px;">조회</button>
 					<button type="button" id="removeBtn" class="btn btn-secondary" style="margin-right: 5px;">삭제</button>
 				</div>
 			</div>
+
+			<!-- 메인화면 검색 -->
 			<div class="card mb-4" id="pageing">
 				<div class="card-body">
 					<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
-					<input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 
+					            <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 
 					거래처명<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br> 
 					제품코드<input type="text" id="rightinput" class="input" placeholder="제품코드 검색" readonly="readonly"><br>
 					</span>
 				</div>
 			</div>
-
-
 
 			<div class="container-fluid px-4">
 				<div class="card mb-4">
@@ -110,56 +110,44 @@ span {
 		<!-- 모달  -->
 		<div id="modal">
 
+			<!-- 거래처 모달 -->
 			<div id="contractModal" style="padding: 20px;" title="거래처조회">
-			<div class="container">
-			<div class="title">
-				거래처명<input type="text" class="input" placeholder="거래처명"> 
-				거래처코드<input type="text" class="input" placeholder="거래처코드">
-				<button class="btn btn-secondary">조회</button>
-				<br>
-			</div>
-			<table border="1">
-				<tr>
-				</tr>
-				<tr>
-					<!-- function 기능 들어갈 곳  -->
-				</tr>
-			</table>
-			</div>
-		<div class="container-fluid px-4">
-			<div class="card mb-4">
-				<div class="card-header" style="text-align: center;">
-					<i class="fas fa-table me-1"></i> 거래처정보
+				<div class="container">
+					<div class="title">
+						업체코드<input type="text" id="csinput" class="input" placeholder="거래처명"> 
+						<button id="cssearchBtn" class="btn btn-secondary">조회</button>
+						<br>
+					</div>
+					
 				</div>
-				<div id="gridcomp"></div>
-			</div>
-		</div>
+				<div class="container-fluid px-4">
+					<div class="card mb-4">
+						<div class="card-header" style="text-align: center;">
+							<i class="fas fa-table me-1"></i> 거래처정보
+						</div>
+						<div id="gridcomp"></div>
+					</div>
 				</div>
-			
+			</div>
 
+			<!-- 제품정보 모달 -->
 			<div id="prodNameModal" style="padding: 20px;" title="제품정보조회">
-			<div class="container">
-		<div class="title">
-			제품명<input type="text" class="input" placeholder="제품명"> 
-			제품코드<input type="text" class="input" placeholder="제품코드">
-			<button class="btn btn-secondary">조회</button><br>
-		</div>
-		<table border="1">
-			<tr>
-			</tr>
-			<tr>
-				<!-- function 기능 들어갈 곳  -->
-			</tr>
-		</table>
-		</div>
-	<div class="container-fluid px-4">
-		<div class="card mb-4">
-			<div class="card-header" style="text-align: center;">
-				<i class="fas fa-table me-1"></i> 제품정보
-			</div>
-			<div id="gridpro"></div>
-		</div>
-	</div>
+				<div class="container">
+					<div class="title">
+						제품명<input type="text" id="giinput" class="input" placeholder="제품명" > 
+						<button id="gisearchBtn" class="btn btn-secondary">조회</button>
+						<br>
+					</div>
+					
+				</div>
+				<div class="container-fluid px-4">
+					<div class="card mb-4">
+						<div class="card-header" style="text-align: center;">
+							<i class="fas fa-table me-1"></i> 제품정보
+						</div>
+						<div id="gridpro"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -167,138 +155,158 @@ span {
 			/*그리드 시작 */
 			const gridData = [];
 
-			(function() {
-				for (let i = 0; i < 10; i += 1) {
-					gridData.push({
-						c1 : (i + 1),
-						c2 : ((i + 5) % 8) * 100 + i,
-						c3 : ((i + 3) % 7) * 60,
-						c4 : ((i + 3) % 7) * 60,
-						c5 : ((i + 3) % 7) * 60,
-						c6 : ((i + 3) % 7) * 60,
-						c7 : ((i + 3) % 7) * 60,
-						c8 : ((i + 3) % 7) * 60,
-						c9 : ((i + 3) % 7) * 60,
-						c10 : ((i + 3) % 7) * 60,
-					});
-				}
-			})();
-
 			const grid = new tui.Grid({
 				el : document.getElementById('grid'),
 				data : gridData,
 				scrollX : false,
 				rowHeaders : [ 'rowNum', 'checkbox' ],
 				columns : [ {
-					header : '수주코드',
-					name : 'c2',
+					header : '수주번호',
+					name : 'cnnum',
 					align : 'center',
 					sortingType : 'desc',
-					sortable : true
+					sortable : true ,
+					_attributes: {
+				          disabled: true 
+			        }
 				}, {
-					header : '거래처',
-					name : 'c3',
+					header : '거래처명',
+					name : 'csname',
 					align : 'center',
 					sortingType : 'desc',
-					sortable : true
+					sortable : true,
+					_attributes: {
+				          checkDisabled: true 
+				        }
 				}, {
-					header : '제품코드',
-					name : 'c4',
+					header : '제품명',
+					name : 'giname',
 					align : 'center',
 					sortingType : 'desc',
 					sortable : true
 				}, {
 					header : '수주수량',
-					name : 'c5',
+					name : 'cnam',
 					align : 'center',
 					sortingType : 'desc',
 					sortable : true
 				}, {
 					header : '수주잔량',
-					name : 'c6',
+					name : 'cnrest',
 					align : 'center',
 					sortingType : 'desc',
 					sortable : true
 				}, {
 					header : '수주일자',
-					name : 'c7',
+					name : 'cndate',
 					align : 'center',
 					sortingType : 'desc',
 					sortable : true
 				}, {
 					header : '납기일자',
-					name : 'c8',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true
-				}, {
-					header : '마감일자',
-					name : 'c9',
+					name : 'cnperiod',
 					align : 'center',
 					sortingType : 'desc',
 					sortable : true
 				}, {
 					header : '진행상태',
-					name : 'c10',
+					name : 'cnstatus',
 					align : 'center',
 					sortingType : 'desc',
 					sortable : true
 				} ]
 			});
 
+			
+			/* 수주일자 조회 */
+			$('#searchBtn').on('click', function(){
+				var startDt = $('#startCNDATE').val()
+				var endDt = $('#endCNDATE').val()
+				$.ajax({
+					url: 'cndateList',
+					method: 'POST',
+					data : {startDt, endDt},
+					success: function(result) {
+						rqGrid.resetData(result)
+					}
+				})
+			})
+		
+			
+			
 			$(function() {
-
 				/*메이크 모달*/
-				function makeModal(e) {
+				function makeModal(e, fnc) {
 					var dialog = $(e).dialog({
 						autoOpen : false,
-						height : 700,
+						height : 742,
 						width : 700,
 						modal : true,
+						buttons : {
+							'확인' : fnc,
+							'취소' : function() {
+								$(this).dialog('close')
+							}
+						}
 					});
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					$('.ui-dialog-titlebar-close').html('X').css('border','none')
 					return dialog;
 				}
 
-				var modal1 = makeModal("#contractModal")
-				var modal2 = makeModal("#prodNameModal")
+				var modal1 = makeModal("#contractModal", check)
+				var modal2 = makeModal("#prodNameModal", giup)
 
 				/*거래처정보모달*/
 				$("#leftinput").on("click", function() {
-							$("#contractModal").css('display', '')
-							modal1.dialog({
-								buttons : {
-									'확인' : check,
-									'취소' : function() {
-										$(this).dialog('close')
-									}
-								}
+					$("#contractModal").css('display', '')
+					modal1.dialog('open')
+					barmo.refreshLayout();
+					
+				})
+				/* 거래처명 검색 이벤트 */
+				$('#cssearchBtn').on('click', function() {
+					var csname = $('#csinput').val()
+					$.ajax({
+						url:'costomerList',
+						method: 'POST',
+						data : {csname},
+						success: function(result) {
+							barmo.resetData(result)
+							barmo.on('click', e => {
+								var rk = e.rowKey
+								//console.log(rk)
+								console.log(barmo.getRow(rk).cscode)
+								//const cc = barmo.getRow(rk).cscode
 							})
-							$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-							modal1.dialog('open')
-							barmo.refreshLayout();
-
-						})
+						}
+					})
+				})
 				/*확인버튼 눌렀을떄 */
 				function check() {
-
 				}
+				
 
 				/* 제품정보 모달 */
 				$("#rightinput").on("click", function() {
-							$("#prodNameModal").css('display', '')
-							modal2.dialog({
-								buttons : {
-									'확인' : giup,
-									'취소' : function() {
-										$(this).dialog('close')
-									}
-								}
-							})
-							$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-							modal2.dialog('open')
-							gomo.refreshLayout();
-						})
+					$("#prodNameModal").css('display', '')
+					modal2.dialog('open')
+					gomo.refreshLayout();
+				})
+				
+				/* 제품정보 검색 이벤트 */
+				$('#gisearchBtn').on('click', function() {
+					var giname = $('#giinput').val()
+					$.ajax({
+						url:'goodsList',
+						method: 'POST',
+						data : {giname},
+						success: function(result) {
+							gomo.resetData(result)
+						}
+					})
+				})
+				
 				/*확인 눌렀을떄 */
 				function giup() {
 
@@ -314,25 +322,29 @@ span {
 					el : document.getElementById('gridcomp'),
 					data : totaldata,
 					scrollX : false,
-					rowHeaders : [ 'rowNum','checkbox' ],
+					rowHeaders : [ 'rowNum', 'checkbox' ],
 					bodyHeight : 430,
 					columns : [ {
 						header : '거래처코드',
+						name : 'cscode',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
 						header : '거래처명',
+						name : 'csname',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
 						header : '사업자번호',
+						name : 'csnum',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
 						header : '전화번호',
+						name : 'cstel',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
@@ -350,16 +362,19 @@ span {
 					bodyHeight : 430,
 					columns : [ {
 						header : '제품코드',
+						name : 'gicode',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
 						header : '제품명',
+						name : 'giname',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
 						header : '제품단위',
+						name : 'giunit',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true

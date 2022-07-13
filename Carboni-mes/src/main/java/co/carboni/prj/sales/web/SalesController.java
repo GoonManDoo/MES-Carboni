@@ -1,16 +1,53 @@
 package co.carboni.prj.sales.web;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import co.carboni.prj.sales.mapper.SalesMapper;
+import co.carboni.prj.sales.vo.SalesVO;
 
 @Controller
 public class SalesController {
+	
+	@Autowired
+	SalesMapper mapper;
 
 	// 수주관리
 	@RequestMapping("/contract.do")
 	public String contract() {
 		return "sales/contract";
 	}
+	
+		// 수주관리 > 수주일자 조회
+		@RequestMapping("cndateList")
+		@ResponseBody
+		public List<SalesVO> cndateList(@RequestParam("startDt") String startDt, @RequestParam("endDt") String endDt) {
+			List<SalesVO> cndateList = mapper.findCndateList(startDt, endDt);
+			return cndateList;
+		}
+		
+		// 수주관리 > 거래처 모달 조회
+		@RequestMapping("costomerList")
+		@ResponseBody
+		public List<SalesVO> costomerList(@RequestParam("csname")String csname) {
+			List<SalesVO> costomerList = mapper.findCsList(csname);
+			return costomerList;
+		}
+		
+		// 수주관리 > 제품 모달 조회
+				@RequestMapping("goodsList")
+				@ResponseBody
+				public List<SalesVO> goodsList(@RequestParam("giname")String giname) {
+					List<SalesVO> goodsList = mapper.findGiList(giname);
+					return goodsList;
+				}
+	
+	
 
 	// 생산의뢰관리
 	@RequestMapping("/productrequest.do")

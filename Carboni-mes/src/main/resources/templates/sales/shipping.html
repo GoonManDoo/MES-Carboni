@@ -236,32 +236,30 @@ span {
 	$(function() {
 
 		/*메이크 모달*/
-		function makeModal(e) {
+		function makeModal(e, fnc) {
 			var dialog = $(e).dialog({
 				autoOpen : false,
-				height : 700,
+				height : 742,
 				width : 700,
 				modal : true,
+				buttons : {
+					'확인' : fnc,
+					'취소' : function() {
+						$(this).dialog('close')
+					}
+				}
 			});
+			$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 			$('.ui-dialog-titlebar-close').html('X').css('border','none')
 			return dialog;
 		}
 
-		var modal1 = makeModal("#shippingModal")
-		var modal2 = makeModal("#prodNameModal")
+		var modal1 = makeModal("#shippingModal", check)
+		var modal2 = makeModal("#prodNameModal", giup)
 
 		/*미출고모달*/
 		$("#rightinput").on("click", function() {
 					$("#shippingModal").css('display', '')
-					modal1.dialog({
-						buttons : {
-							'확인' : check,
-							'취소' : function() {
-								$(this).dialog('close')
-							}
-						}
-					})
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					modal1.dialog('open')
 					barmo.refreshLayout();
 
@@ -274,15 +272,6 @@ span {
 		/* 제품정보 모달 */
 		$("#leftinput").on("click", function() {
 					$("#prodNameModal").css('display', '')
-					modal2.dialog({
-						buttons : {
-							'확인' : giup,
-							'취소' : function() {
-								$(this).dialog('close')
-							}
-						}
-					})
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					modal2.dialog('open')
 					gomo.refreshLayout();
 				})
