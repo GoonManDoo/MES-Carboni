@@ -91,14 +91,21 @@ public class MatController {
 		List<MatVO> inputgiuplist = mapper.inputgiup(vo);
 		return inputgiuplist;
 	}
-	
+
 	// 입고관리에서 발주일자로 검색시 모달안의 내용
 	@RequestMapping("insearchorder")
 	@ResponseBody
-	public List<MatVO> insearchorder(@RequestParam("startD") String startD,@RequestParam("endD") String endD){
+	public List<MatVO> insearchorder(@RequestParam("startD") String startD, @RequestParam("endD") String endD) {
 		List<MatVO> insearchorder = mapper.inModalSearch(startD, endD);
 		return insearchorder;
 	}
-	
+
+	// 발주 메인에서 기업검색 모달안의 내용을 검색하여 조회
+	@RequestMapping("findserchcom")
+	@ResponseBody
+	public List<MatVO> findserchcom(@RequestParam("csname") String csname) {
+		List<MatVO> findserchcom = mapper.findsearchgiup(csname);
+		return findserchcom;
+	}
 
 }

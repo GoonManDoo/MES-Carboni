@@ -14,6 +14,9 @@ public interface MatMapper {
 	// 발주 메인에서 기업 검색 모달안의 내용 조회
 	public List<MatVO> findgiup(MatVO vo);
 
+	// 발주 메인에서 기업검색 모달안의 내용을 검색하여 조회
+	public List<MatVO> findsearchgiup(String csname);
+
 	// 발주 메인에서 자재 검색 모달의 내용 조회
 	public List<MatVO> findMat(MatVO vo);
 

@@ -36,5 +36,10 @@
 	AND E.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
 	AND TO_DATE(#{endD},'YYYY/MM/DD') >= E.MOODATE;
 	</select>
+	
+	<select id="findsearchgiup" resultType="co.carboni.prj.mat.vo.MatVO">
+	SELECT CSCODE, CSNAME, CSNUM, CSTEL FROM COSTOMER
+	WHERE CSNAME LIKE '%' || #{csname} || '%'
+	</select>
 
 </mapper>

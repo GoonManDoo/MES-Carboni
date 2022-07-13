@@ -37,6 +37,11 @@ public class MatServiceImpl implements MatService {
 		return map.inModalSearch(startD, endD);
 	}
 
+	@Override
+	public List<MatVO> findsearchgiup(String csname) {
+		return map.findsearchgiup(csname);
+	}
+
 
 
 }
