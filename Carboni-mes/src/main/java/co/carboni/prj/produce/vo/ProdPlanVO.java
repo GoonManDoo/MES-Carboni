@@ -43,9 +43,19 @@ public class ProdPlanVO {
 		// 의뢰번호
 		// 마감일자
 		public int cnam; // 수주수량
-		public int ppdam;// 기계획량
-		public int uplam;// 미계획량
-		public Date ppddate;// 작업일자
+		public int ppdam; // 기계획량
+		public int uplam; // 미계획량
+		public Date ppddate; // 작업일자
+		
+	// 선택한 제품의 자재목록
+		public String micode; // 자재코드
+		public String miname; // 자재명
+		public int bam; // 소요량(사용량)
+		public int msciam; // 재고량
+		
+	// 부족한 자재 요청
+		// 자재코드
+		public int orderAmount; // 발주요청량
 	
 	
 }

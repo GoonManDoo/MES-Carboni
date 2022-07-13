@@ -23,4 +23,23 @@
 		</foreach>
 	</select>
 	
+	<select id="matList" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+		SELECT g.gicode, g.giname, b.micode, m.miname, b.bam, k.msciam, c.cnam
+		FROM goodsinfo g, bom b, matinfo m, matstk k, contract c
+		WHERE g.gicode = b.gicode
+		AND
+		b.micode = m.micode
+		AND
+		m.micode = k.micode
+		AND
+		g.gicode = #{gic}
+		AND
+		c.cnam = #{cn}
+	</select>
+	
+	<insert id="requestMat">
+		INSERT INTO matreq
+		VALUES ('MR-'||TO_CHAR(matreq_REQNUM_seq.nextval), #{micode}, #{orderAmount}, 'N')
+	</insert>
+	
 </mapper>

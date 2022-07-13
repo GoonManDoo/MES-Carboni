@@ -91,7 +91,7 @@ span {
 				<div class="card-body">
 					<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
 					            <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 
-					거래처명<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br> 
+					업체코드<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br> 
 					제품코드<input type="text" id="rightinput" class="input" placeholder="제품코드 검색" readonly="readonly"><br>
 					</span>
 				</div>
@@ -114,7 +114,7 @@ span {
 			<div id="contractModal" style="padding: 20px;" title="거래처조회">
 				<div class="container">
 					<div class="title">
-						업체코드<input type="text" id="csinput" class="input" placeholder="거래처명"> 
+						거래처명<input type="text" id="csinput" class="input" placeholder="거래처명"> 
 						<button id="cssearchBtn" class="btn btn-secondary">조회</button>
 						<br>
 					</div>
@@ -152,71 +152,7 @@ span {
 		</div>
 
 		<script>
-			/*그리드 시작 */
-			const gridData = [];
-
-			const grid = new tui.Grid({
-				el : document.getElementById('grid'),
-				data : gridData,
-				scrollX : false,
-				rowHeaders : [ 'rowNum', 'checkbox' ],
-				columns : [ {
-					header : '수주번호',
-					name : 'cnnum',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true ,
-					_attributes: {
-				          disabled: true 
-			        }
-				}, {
-					header : '거래처명',
-					name : 'csname',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true,
-					_attributes: {
-				          checkDisabled: true 
-				        }
-				}, {
-					header : '제품명',
-					name : 'giname',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true
-				}, {
-					header : '수주수량',
-					name : 'cnam',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true
-				}, {
-					header : '수주잔량',
-					name : 'cnrest',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true
-				}, {
-					header : '수주일자',
-					name : 'cndate',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true
-				}, {
-					header : '납기일자',
-					name : 'cnperiod',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true
-				}, {
-					header : '진행상태',
-					name : 'cnstatus',
-					align : 'center',
-					sortingType : 'desc',
-					sortable : true
-				} ]
-			});
-
+			
 			
 			/* 수주일자 조회 */
 			$('#searchBtn').on('click', function(){
@@ -274,17 +210,18 @@ span {
 						success: function(result) {
 							barmo.resetData(result)
 							barmo.on('click', e => {
-								var rk = e.rowKey
-								//console.log(rk)
-								console.log(barmo.getRow(rk).cscode)
-								//const cc = barmo.getRow(rk).cscode
-							})
+							var rk = e.rowKey
+							csc = barmo.getRow(rk).cscode
+						})
 						}
 					})
 				})
-				/*확인버튼 눌렀을떄 */
+				/*거래처명 조회 모달 확인버튼 눌렀을떄 */
 				function check() {
+					$('#leftinput').val(csc)
+					modal1.dialog('close')
 				}
+
 				
 
 				/* 제품정보 모달 */
@@ -294,7 +231,7 @@ span {
 					gomo.refreshLayout();
 				})
 				
-				/* 제품정보 검색 이벤트 */
+				/* 제품정보 모달 검색 이벤트 */
 				$('#gisearchBtn').on('click', function() {
 					var giname = $('#giinput').val()
 					$.ajax({
@@ -307,22 +244,86 @@ span {
 					})
 				})
 				
-				/*확인 눌렀을떄 */
+				/* 제품정보 모달 확인 눌렀을떄 */
 				function giup() {
 
 				}
 
-				/* 그리드 표만들기 */
-				/* 그리드 펑션!*/
+				
+				/*그리드 시작 */
+				const gridData = [];
+	
+				const grid = new tui.Grid({
+					el : document.getElementById('grid'),
+					data : gridData,
+					scrollX : false,
+					rowHeaders : [ 'rowNum', 'checkbox' ],
+					columns : [ {
+						header : '수주번호',
+						name : 'cnnum',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true ,
+						_attributes: {
+					          disabled: true 
+				        }
+					}, {
+						header : '거래처명',
+						name : 'csname',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true,
+						_attributes: {
+					          checkDisabled: true 
+					        }
+					}, {
+						header : '제품명',
+						name : 'giname',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '수주수량',
+						name : 'cnam',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '수주잔량',
+						name : 'cnrest',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '수주일자',
+						name : 'cndate',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '납기일자',
+						name : 'cnperiod',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					}, {
+						header : '진행상태',
+						name : 'cnstatus',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					} ]
+				});
+
 
 				/*거래처 모달 그리드*/
 				const totaldata = [];
 
-				let barmo = new tui.Grid({
+				const barmo = new tui.Grid({
 					el : document.getElementById('gridcomp'),
 					data : totaldata,
 					scrollX : false,
-					rowHeaders : [ 'rowNum', 'checkbox' ],
+					rowHeaders : [ 'rowNum' ],
 					bodyHeight : 430,
 					columns : [ {
 						header : '거래처코드',
@@ -350,11 +351,11 @@ span {
 						sortable : true
 					} ]
 				});
-
+				
 				/*제품정보 그리드*/
 				const giupdata = [];
 
-				let gomo = new tui.Grid({
+				const gomo = new tui.Grid({
 					el : document.getElementById('gridpro'),
 					data : giupdata,
 					scrollX : false,
@@ -380,7 +381,17 @@ span {
 						sortable : true
 					} ]
 				});
+				
+				
+				
+				
+				
+				
 			})
+			
+			
+			
+				
 		</script>
 	</th:block>
 </body>
