@@ -20,10 +20,17 @@ create sequence matord_MONUM_seq
     (select miname from matinfo where micode ='11'),(select csname from costomer where cscode='1'));
 
 --요청번호에따른 목록 조회
-select e.reqnum,e.mrreqam,d.micode,d.miname
+select e.reqnum,e.mrreqam,e.micode,d.miname
     from matreq e
     join matinfo d on e.micode=d.micode
-    where d.micode='11';
+    where e.micode='11';
+    
+--생산에서 넘어오는 요청 사항 
+--상태가 n인것만 출력
+SELECT E.REQNUM,E.MRREQAM,E.MICODE,E.MRSTATUS,D.MINAME
+    FROM MATREQ E
+    JOIN MATINFO D ON E.MICODE=D.MICODE
+    where E.MRSTATUS ='N';
    --발주 업체 모두 선택 
   select cscode,csname,csnum,cstel
   from costomer ;
@@ -39,4 +46,11 @@ select e.reqnum,e.mrreqam,d.micode,d.miname
   from matinfo 
   where micode='';
   
+  
+  --발주 화면의 발주업체 조회
+  select cscode, csname, csnum, cstel from costomer
+  where csgb='자재거래';
+  
+  --발주 화면의 자재코드 조회
+  select micode,miname,mistand,miunit from matinfo;
  

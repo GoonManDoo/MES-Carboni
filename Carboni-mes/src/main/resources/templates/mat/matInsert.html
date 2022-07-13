@@ -10,10 +10,10 @@
 
 
 <style>
-  #modal {
+#modal {
+	display: none;
+}
 
-      display: none;
-    }
 ul {
 	list-style: none;
 }
@@ -71,7 +71,7 @@ ul {
 										<!-- 일자겁색 -->
 										<tr>
 											<th><label>입고일자</label></th>
-											<td colspan="4">
+											<td>
 												<div class="mt-1">
 													<div
 														class="tui-datepicker-input tui-datetime-input tui-has-focus">
@@ -95,19 +95,14 @@ ul {
 										<!-- 입고업체  -->
 										<tr>
 											<th>입고업체</th>
-											<td><input type="text" id="planDt"
-												class="form-control ht" maxlength="10" tabindex="2"></td>
-											<td><button type="button" class="btn btn-secondary"
-													style="margin-right: 5px;" id="searchBtn">🔍</button></td>
-											<th><label>업체명</label></th>
-											<td><input type="text" class="form-control ht"
-												readonly></td>
+											<td><input type="text" id="searchBtn"
+												class="form-control ht" tabindex="2" placeholder="입고처명 검색">
+											</td>
 										</tr>
 										<tr>
 											<th>특이사항</th>
 											<td><input type="text" id="remark"
-												class="form-control ht" maxlength="10" tabindex="2"></td>
-											<td colspan="3">
+												class="form-control ht" tabindex="2"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -163,140 +158,143 @@ ul {
 				<div id="ingrid"></div>
 			</div>
 
-			<div id="searchmodal" title="기업 명">
+			<div id="searchmodal" title="기업명">
+				<div class="title">
+					<span>거래처명</span><input type="text" class="input">
+					<button class="btn btn-secondary">검색</button>
+				</div>
 				<div id="goupgrid"></div>
 			</div>
 		</div>
 
 		<!-- 그리드 내용  -->
 		<script>
-			/* 입고일자 데이트 피커  */
-			var today = new Date();
-			var picker = tui.DatePicker.createRangePicker({
-				startpicker : {
-					date : today,
-					input : '#startpicker-input',
-					container : '#startpicker-container'
-				},
-				endpicker : {
-					date : today,
-					input : '#endpicker-input',
-					container : '#endpicker-container'
-				},
-				selectableRanges : [ [
-						today,
-						new Date(today.getFullYear() + 1, today.getMonth(),
-								today.getDate()) ] ]
-			});
+			$(function() {
+				/* 입고일자 데이트 피커  */
+				var today = new Date();
+				var picker = tui.DatePicker.createRangePicker({
+					startpicker : {
+						date : today,
+						input : '#startpicker-input',
+						container : '#startpicker-container'
+					},
+					endpicker : {
+						date : today,
+						input : '#endpicker-input',
+						container : '#endpicker-container'
+					},
+					selectableRanges : [ [
+							today,
+							new Date(today.getFullYear() + 1, today.getMonth(),
+									today.getDate()) ] ]
+				});
 
-			/* 발주일자 데이트 피커  */
-			var today = new Date();
-			var picker = tui.DatePicker.createRangePicker({
-				startpicker : {
-					date : today,
-					input : '#orderSdate',
-					container : '#orderSdate-wapper'
-				},
-				endpicker : {
-					date : today,
-					input : '#orderEdate',
-					container : '#orderEdate-wapper'
-				},
-				selectableRanges : [ [
-						today,
-						new Date(today.getFullYear() + 1, today.getMonth(),
-								today.getDate()) ] ]
-			});
+				/* 발주일자 데이트 피커  */
+				var today = new Date();
+				var picker = tui.DatePicker.createRangePicker({
+					startpicker : {
+						date : today,
+						input : '#orderSdate',
+						container : '#orderSdate-wapper'
+					},
+					endpicker : {
+						date : today,
+						input : '#orderEdate',
+						container : '#orderEdate-wapper'
+					},
+					selectableRanges : [ [
+							today,
+							new Date(today.getFullYear() + 1, today.getMonth(),
+									today.getDate()) ] ]
+				});
 
-			const gridData = [];
-		
+				const gridData = [];
 
-			const grid = new tui.Grid({
-				el : document.getElementById('grid'),
-				data : gridData,
-				scrollX : false,
-				bodyHeight : 500,
-				rowHeaders : [ 'checkbox' ],
-				columns : [ {
-					header : '자재코드',
-					sortingType : 'desc',
-					align : 'center',
-					sortable : true
-				}, {
-					header : '자재명',
-					align : 'center'
-				}, {
-					header : '규격',
-					align : 'center'
-				}, {
-					header : '자재단위',
-					align : 'center'
-				}, {
-					header : '발주번호',
-					align : 'center'
-				}, {
-					header : '입고량',
-					align : 'center',
-					editor : 'text'
-				}, {
-					header : '자재 LOT.NO',
-					align : 'text'
-				}, {
-					header : '특기사항',
-					align : 'center'
-				} ],
-				summary : {
-					height : 40,
-					position : 'bottom',
-					columnContent : {
-						c6 : {
-							template : function(valueMap) {
-								return `TOTAL: ${valueMap.sum}`;
+				const grid = new tui.Grid({
+					el : document.getElementById('grid'),
+					data : gridData,
+					scrollX : false,
+					bodyHeight : 500,
+					rowHeaders : [ 'checkbox' ],
+					columns : [ {
+						header : '자재코드',
+						sortingType : 'desc',
+						align : 'center',
+						sortable : true
+					}, {
+						header : '자재명',
+						align : 'center'
+					}, {
+						header : '규격',
+						align : 'center'
+					}, {
+						header : '자재단위',
+						align : 'center'
+					}, {
+						header : '발주번호',
+						align : 'center'
+					}, {
+						header : '입고량',
+						align : 'center',
+						editor : 'text'
+					}, {
+						header : '자재 LOT.NO',
+						align : 'text'
+					}, {
+						header : '특기사항',
+						align : 'center'
+					} ],
+					summary : {
+						height : 40,
+						position : 'bottom',
+						columnContent : {
+							c6 : {
+								template : function(valueMap) {
+									return `TOTAL: ${valueMap.sum}`;
+								}
 							}
 						}
 					}
-				}
-			});
-			
-			$(function(){
-				
+				});
+
 				/*메이크 모달*/
-				function makeModal(e) {
+
+				function makeModal(e, fnc) {
 					var dialog = $(e).dialog({
 						autoOpen : false,
 						height : 600,
 						width : 700,
 						modal : true,
-					});
-					$('.ui-dialog-titlebar-close').html('X').css('border',
-							'none')
-					return dialog;
-				}
-				
-				var inmo=makeModal("#inmodal")
-				/*발주일자 검색 모달*/
-				$("#btnModal").on('click',function(){
-					$("#inmodal").css('display','')
-					inmo.dialog({
-						buttons:{
-							'확인' : inupdate,
-							'취소' : function(){
+						buttons : {
+							'확인' : fnc,
+							'취소' : function() {
 								$(this).dialog('close')
 							}
 						}
-					})
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					});
+					$('.ui-dialog-titlebar-close').html('X').css('border',
+							'none')
+					$('.ui-dialog-buttonset').children().attr('class',
+							'btn btn-secondary')
+					return dialog;
+				}
+
+				var inmo = makeModal("#inmodal", inupdate)
+				/*발주일자 검색 모달*/
+				$("#btnModal").on('click', function() {
+					$("#inmodal").css('display', '')
 					inmo.dialog('open')
+
 					inmod.refreshLayout();
-					
+
 				})
 				/*성공했을때 업데이트*/
-				function inupdate(){
-					
+				function inupdate() {
+
 				}
 				/*발주일자 검색 그리드 */
-				const indata=[];
-				let inmod= new tui.Grid({
+				const indata = [];
+				let inmod = new tui.Grid({
 					el : document.getElementById('ingrid'),
 					data : inupdate,
 					scrollX : false,
@@ -310,7 +308,7 @@ ul {
 					}, {
 						header : '발주일자',
 						align : 'center',
-						
+
 					}, {
 						header : '자재코드',
 						align : 'center',
@@ -320,61 +318,60 @@ ul {
 						header : '자재명',
 						align : 'center',
 					} ]
-					
+
 				})
-				
-				var log=makeModal("#searchmodal")
-				
-				/* 기업목록 모달 */
-					$("#searchBtn").on("click",function(){
-						$("#searchmodal").css('display','')
-						log.dialog({
-							buttons :{
-								'확인': giup,
-								'취소' : function(){
-									$(this).dialog('close')
-								}
-							}
-						})
-						$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-						log.dialog('open')
-						gomo.refreshLayout();
-					})
-					/*기업모달에서 확인 눌렀을떄 */
-				function giup() {
 
-					}
-				const  giupdata = [];
+				/*기업 그리드*/
+				const giupdata = [];
 
-				let gomo= new tui.Grid({
+				let giupgir = new tui.Grid({
 					el : document.getElementById('goupgrid'),
-					data :  giupdata,
+					data : giupdata,
 					scrollX : false,
 					rowHeaders : [ 'checkbox' ],
 					bodyHeight : 430,
 					columns : [ {
 						header : '거래처코드',
+						name : 'cscode',
 						align : 'center',
 					}, {
 						header : '거래처명',
+						name : 'csname',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
 					}, {
 						header : '사업자등록번호',
+						name : 'csnum',
 						align : 'center',
-					}]
+					}, {
+						header : '전화번호',
+						name : 'cstel',
+						align : 'center',
+					} ]
 				});
-				
-				
-				
-				
-				
-				
-				
+				var log = makeModal("#searchmodal", giupcheck)
+
+				/* 기업목록 모달 */
+				$("#searchBtn").on("click", function() {
+					$("#searchmodal").css('display', '')
+					log.dialog('open')
+					$.ajax({
+						url : 'inputgiuplist',
+						method : 'POST',
+						dataType : 'json',
+						success : function(result) {
+							giupgir.resetData(result)
+							giupgir.refreshLayout();
+						}
+					})
+				})
+				/*기업모달에서 확인 눌렀을떄 */
+				function giupcheck() {
+
+				}
+
 			})
-			
-	
 		</script>
 	</th:block>
 </body>
