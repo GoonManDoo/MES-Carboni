@@ -17,6 +17,12 @@ public interface ProdPlanMapper {
 	// 생산계획에 추가할 제품목록
 	public List<ProdPlanVO> planProduct(ProdPlanVO vo);
 
+	// 생산계획에서 선택한 제품의 자재목록
+	public List<ProdPlanVO> matList(@Param("gic") String gicode, @Param("cn") int cnam);
+
+	// 생산계획에서 부족한 자재 발주요청
+	public void requestMat(ProdPlanVO vo);
+
 
 	// 생산계획등록
 

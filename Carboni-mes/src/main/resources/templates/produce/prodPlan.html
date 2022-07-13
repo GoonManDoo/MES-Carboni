@@ -31,6 +31,10 @@
 	font-weight: 700;
 	margin-right: 10px;
 }
+/* 그리드용 css */
+.tui-grid-cell.matDanger {
+	background-color: #ffcaca;
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -223,6 +227,25 @@
 		<div id="requestModal" style="padding:20px;" title="미생산의뢰조회">
 			<div id="requestList"></div>
 		</div>
+		
+		<div id="matorderModal" style="padding:20px;" title="자재발주요청">
+			<div class="item col-6">
+			    <table class="table table-bbs table-write">
+			        <tbody>
+			            <tr>
+			                <th>자재코드</th>
+			                <td><input type="text" id="matCode" class="form-control ht"
+			                        style="width: 200px;" readonly></td>
+			            </tr>
+			            <tr>
+			                <th>발주요청량</th>
+			                <td><input type="number" id="orderAmount" class="form-control ht"
+			                        style="width: 200px;"></td>
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
+		</div>
 	
 	</div>
 	
@@ -239,6 +262,7 @@
 			// 모달----------------------------------------
 			var modal1 = makeModal("#planModal", planView)
 			var modal2 = makeModal("#requestModal", requestAdd)
+			var modal3 = makeModal('#matorderModal', requestMat)
 			
 			
 			/* 생산계획조회 모달 */
@@ -319,27 +343,35 @@
 			rowHeaders : [ 'rowNum' ],
 			columns : [ {
 				header : '제품코드',
+				name : 'gicode',
 				align : 'center'
 			}, {
 				header : '제품명',
+				name : 'giname',
 				align : 'center'
 			}, {
 				header : '자재코드',
+				name : 'micode',
 				align : 'center'
 			}, {
 				header : '자재명',
+				name : 'miname',
 				align : 'center'
 			}, {
 				header : '소요량(개당)',
+				name : 'bam',
 				align : 'center'
 			}, {
 				header : '필요량',
+				name : 'pamount',
 				align : 'center'
 			}, {
 				header : '재고량',
+				name : 'msciam',
 				align : 'center'
 			}, {
 				header : '부족량',
+				name : 'lamount',
 				align : 'center'
 			} ]
 		});
@@ -458,13 +490,49 @@
 		
 			pdGrid.on('click', e => {
 				var rk = e.rowKey;
-				console.log(rk)
-				console.log(pdGrid.getRow(rk).gicode) // 제품코드로 select
+				gic = pdGrid.getRow(rk).gicode
+				cn = pdGrid.getRow(rk).cnam
+				$.ajax({
+					url: 'matCheck',
+					method: 'POST',
+					data : { gic, cn },
+					success: function(result) {
+						matGrid.resetData(result)
+						mrk = (matGrid.getRowCount())-1
+						for(i=0; i<matGrid.getRowCount(); i++) {
+							matGrid.setColumnValues('pamount', (pdGrid.getRow(rk).cnam*matGrid.getRow(i).cnam), false)
+							if(matGrid.getRow(i).cnam-matGrid.getRow(i).msciam > 0) {
+								matGrid.setColumnValues('lamount', (matGrid.getRow(i).cnam-matGrid.getRow(i).msciam), false)
+								matGrid.addCellClassName(i, 'lamount', 'matDanger')
+								matGrid.on('dblclick', el => {
+									mc = matGrid.getRow(el.rowKey).micode
+									$('#matCode').val(mc)
+									$('#matorderModal').css('display', '')
+									modal3.dialog('open')
+								})
+							}
+						}
+					}
+				})
 			})
+			
+			function requestMat(){
+				var micode = $('#matCode').val()
+				var orderAmount = $('#orderAmount').val()
+				$.ajax({
+					url: 'requestMat',
+					method: 'POST',
+					data: { micode, orderAmount },
+					success: function(result) {
+						modal3.dialog('close')
+						alert('발주요청이 완료되었습니다.')
+					}
+				})
+			}
 		
 		// 그리드 함수 끝 -----------------------------------
 		
-		})
+		}) // $(function) 끝
 		
 		
 		// 달력---------------------------------------------

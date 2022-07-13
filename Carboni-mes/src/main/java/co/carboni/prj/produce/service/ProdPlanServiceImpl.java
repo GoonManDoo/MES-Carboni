@@ -25,6 +25,17 @@ public class ProdPlanServiceImpl implements ProdPlanService {
 	public List<ProdPlanVO> planProduct(ProdPlanVO vo) {
 		return mapper.planProduct(vo);
 	}
+	
+	// 생산계획에서 선택한 제품의 자재목록
+	@Override
+	public List<ProdPlanVO> matList(String gicode, int cnam) {
+		return mapper.matList(gicode, cnam);
+	}
+	
+	// 생산계획에서 부족한 자재 발주요청
+	@Override
+	public void requestMat(ProdPlanVO vo) {
+	}
 
 
 	

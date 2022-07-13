@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +29,7 @@ public class ProdController {
 		// 생산계획관리 - 미생산주문조회
 		@RequestMapping("unprodList")
 		@ResponseBody
-		public List<ProdPlanVO> unprodList(@RequestParam("startDt") String startDt, @RequestParam("endDt") String endDt) {
+		public List<ProdPlanVO> unprodList(@RequestParam String startDt, @RequestParam String endDt) {
 			List<ProdPlanVO> unprodList = mapper.findUnprod(startDt, endDt);
 			return unprodList;
 		}
@@ -39,6 +40,21 @@ public class ProdController {
 		public List<ProdPlanVO> planProduct(ProdPlanVO vo) {
 			List<ProdPlanVO> planProduct = mapper.planProduct(vo);
 			return planProduct;
+		}
+		
+		// 생산계획관리 - 선택한 제품의 필요자재 체크
+		@RequestMapping("matCheck")
+		@ResponseBody
+		public List<ProdPlanVO> matCheck(@RequestParam("gic") String gicode, @RequestParam("cn") int cnam) {
+			List<ProdPlanVO> matCheck = mapper.matList(gicode, cnam);
+			return matCheck;
+		}
+		
+		// 생산계획관리 - 부족한 자재 발주요청
+		@RequestMapping("requestMat")
+		@ResponseBody
+		public void requestMat(ProdPlanVO vo) {
+			mapper.requestMat(vo);
 		}
 	
 	// 생산지시관리
