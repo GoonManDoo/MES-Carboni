@@ -69,10 +69,13 @@ ul {
 			<div class="card mb-2">
 				<div class="card-header">
 					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" id="researchBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">조회</button>
 						<button type="button" id="saveBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">저장</button>
 						<button type="button" id="removeBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">삭제</button>
+
 					</div>
 				</div>
 			</div>
@@ -229,6 +232,13 @@ ul {
 					bodyHeight : 500,
 					rowHeaders : [ 'checkbox' ],
 					columns : [ {
+						header : '입고일자',
+						align : 'center',
+						editor: 'datePicker'
+					}, {
+						header : '입고업체',
+						align : 'center'
+					}, {
 						header : '자재코드',
 						sortingType : 'desc',
 						align : 'center',
@@ -251,22 +261,12 @@ ul {
 						editor : 'text'
 					}, {
 						header : '자재 LOT.NO',
-						align : 'text'
+						align : 'center',
+						editor : 'text'
 					}, {
-						header : '특기사항',
+						header : '특이사항',
 						align : 'center'
-					} ],
-					summary : {
-						height : 40,
-						position : 'bottom',
-						columnContent : {
-							c6 : {
-								template : function(valueMap) {
-									return `TOTAL: ${valueMap.sum}`;
-								}
-							}
-						}
-					}
+					} ]
 				});
 
 				/*메이크 모달*/
@@ -290,14 +290,25 @@ ul {
 							'btn btn-secondary')
 					return dialog;
 				}
+				
 
 				var inmo = makeModal("#inmodal", inupdate)
 				/*발주일자 검색 모달*/
 				$("#btnModal").on('click', function() {
 					$("#inmodal").css('display', '')
 					inmo.dialog('open')
-
-					inmod.refreshLayout();
+					var startD =$("#orderSdate").val();
+					var endD = $("#orderEdate").val();
+					$.ajax({
+						url : 'insearchorder',
+						method:'POST',
+						data : {startD,endD},
+						dataType: 'json',
+						success : function(result){
+							inmod.resetData(result)
+							inmod.refreshLayout();
+						}
+					})
 
 				})
 				/*성공했을때 업데이트*/
@@ -320,7 +331,6 @@ ul {
 					}, {
 						header : '발주일자',
 						align : 'center',
-
 					}, {
 						header : '자재코드',
 						align : 'center',
@@ -328,6 +338,12 @@ ul {
 						sortable : true
 					}, {
 						header : '자재명',
+						align : 'center',
+					}, {
+						header : '거래처코드',
+						align : 'center',
+					}, {
+						header : '거래처명',
 						align : 'center',
 					} ]
 

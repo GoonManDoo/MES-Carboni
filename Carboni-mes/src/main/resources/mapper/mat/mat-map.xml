@@ -29,12 +29,12 @@
 	</select>
 
 	<select id="findOrderDateList" resultType="co.carboni.prj.mat.vo.MatVO">
-		select e.monum,e.moodate,e.micode,d.miname
-		from matord e join matinfo d
-		on e.micode = d.micode
-		where e.moodate >= to_date('2022/01/22','YYYY/MM/DD')
-		AND
-		to_date('2022/07/22','YYYY/MM/DD')>= e.moodate;
+	SELECT E.MONUM,E.MOODATE,E.MICODE,E.CSCODE,D.MINAME,Z.CSNAME
+	FROM MATORD E , MATINFO D ,COSTOMER Z
+	WHERE E.MICODE=D.MICODE
+	AND E.CSCODE=Z.CSCODE
+	AND E.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
+	AND TO_DATE(#{endD},'YYYY/MM/DD') >= E.MOODATE;
 	</select>
 
 </mapper>

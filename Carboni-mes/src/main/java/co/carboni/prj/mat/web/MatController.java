@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.carboni.prj.mat.mapper.MatMapper;
@@ -90,4 +91,14 @@ public class MatController {
 		List<MatVO> inputgiuplist = mapper.inputgiup(vo);
 		return inputgiuplist;
 	}
+	
+	// 입고관리에서 발주일자로 검색시 모달안의 내용
+	@RequestMapping("insearchorder")
+	@ResponseBody
+	public List<MatVO> insearchorder(@RequestParam("startD") String startD,@RequestParam("endD") String endD){
+		List<MatVO> insearchorder = mapper.inModalSearch(startD, endD);
+		return insearchorder;
+	}
+	
+
 }

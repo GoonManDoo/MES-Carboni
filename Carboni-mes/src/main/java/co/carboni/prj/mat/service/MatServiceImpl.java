@@ -33,8 +33,10 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
-	public List<MatVO> findOrderDateList(String startD, String endD) {
-		return map.findOrderDateList(startD, endD);
+	public List<MatVO> inModalSearch(String startD, String endD) {
+		return map.inModalSearch(startD, endD);
 	}
+
+
 
 }
