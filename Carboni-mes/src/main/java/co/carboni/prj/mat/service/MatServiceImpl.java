@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import co.carboni.prj.mat.mapper.MatMapper;
 import co.carboni.prj.mat.vo.MatVO;
 
-
 public class MatServiceImpl implements MatService {
 
 	@Autowired
@@ -33,8 +32,9 @@ public class MatServiceImpl implements MatService {
 		return map.inputgiup(vo);
 	}
 
-
-
-
+	@Override
+	public List<MatVO> findOrderDateList(String startD, String endD) {
+		return map.findOrderDateList(startD, endD);
+	}
 
 }

@@ -1,5 +1,9 @@
 package co.carboni.prj.mat.vo;
 
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 /*
@@ -20,14 +24,20 @@ public class MatVO {
 	private String mrstatus; //처리상태
 	
 	//발주 에서 기업 검색시 조회 입고일자에서 조회할떄도 사용
-	private String cscode;
-	private String csname;
-	private String csnum;
-	private String cstel;
+	private String cscode; //기업코드
+	private String csname; //기업명
+	private String csnum; //사업자번호
+	private String cstel; //전화번호
 	
 	//발주에서 자재 검색시 조회
-	private String mistand;
-	private int miunit;
+	private String mistand; //규격
+	private int miunit; //자재단위
+	
+	//발주일자로 검색 시 조회
+	private String monum; //발주번호
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	private Date moodate; //발주일자
+	
 	
 	
 

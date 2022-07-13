@@ -53,4 +53,25 @@ SELECT E.REQNUM,E.MRREQAM,E.MICODE,E.MRSTATUS,D.MINAME
   
   --발주 화면의 자재코드 조회
   select micode,miname,mistand,miunit from matinfo;
- 
+ -- 발주 테이블 더미데이터 
+  
+    insert into matord values ('MO-'||to_char(matord_MONUM_seq.nextval),(select micode from matinfo where micode ='1')
+    ,(select cscode from costomer where cscode='1'),(select reqnum from matreq where reqnum='req-1'),
+    sysdate,sysdate,1,1,1,'N');
+    
+       insert into matord values ('MO-'||to_char(matord_MONUM_seq.nextval),(select micode from matinfo where micode ='2')
+    ,(select cscode from costomer where cscode='3'),(select reqnum from matreq where reqnum='req-2'),
+    sysdate,sysdate,3,14,12,'N');
+    
+ --발주일자로 조회할떄 안에 셀렉트
+  select e.monum,e.moodate,e.micode,d.miname
+  from matord e join matinfo d 
+  on e.micode = d.micode;
+  
+  --찐 발주일자로 조회
+    select e.monum,e.moodate,e.micode,d.miname
+  from matord e join matinfo d 
+  on e.micode = d.micode
+  where e.moodate >= to_date('2022/01/22','YYYY/MM/DD')
+  AND 
+  to_date('2022/07/22','YYYY/MM/DD')>= e.moodate;

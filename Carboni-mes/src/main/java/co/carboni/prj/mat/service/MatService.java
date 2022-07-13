@@ -17,4 +17,7 @@ public interface MatService {
 
 	// 입고에서 기업 검색 모달안의 내용 조회
 	public List<MatVO> inputgiup(MatVO vo);
+	
+	//입고에서 발주일자로 모달안의 내용 조회
+	public List<MatVO> findOrderDateList(String startD, String endD);
 }

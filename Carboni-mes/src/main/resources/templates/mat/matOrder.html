@@ -28,13 +28,16 @@
 }
 
 .title {
-	margin: 15px 20px;
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: -10px;
 }
 
 .input {
 	height: 23px;
 	margin-left: 15px;
-	display: inline-block;
+	margin-top: 5px; 
+	display : inline-block;
 	padding: 0 10px;
 	vertical-align: middle;
 	border: 1px solid #dddddd;
@@ -42,6 +45,7 @@
 	color: rgb(94, 94, 94);
 	border-radius: 5px;
 	text-align: center;
+	display: inline-block;
 }
 </style>
 
@@ -134,7 +138,7 @@
 					<div id="gridcomp"></div>
 				</div>
 				<!--기업명 모달  -->
-				<div id="searchmodal" title="기업 명">
+				<div id="searchmodal" title="발주업체검색" style="padding: 20px;">
 					<div class="title">
 						<span>거래처명</span><input type="text" class="input">
 						<button class="btn btn-secondary">검색</button>
@@ -142,7 +146,7 @@
 					<div id="goupgrid"></div>
 				</div>
 
-				<div id="codemodal" title="자재코드">
+				<div id="codemodal" title="자재검색" style="padding: 20px;">
 					<div class="title">
 						<span>자재명</span><input type="text" class="input">
 						<button class="btn btn-secondary">검색</button>
@@ -156,77 +160,71 @@
 
 			<!-- 그리드 내용 만들기  -->
 			<script type="text/javascript">
-			$(function() {
-				/* 입고일자 데이터 피커  */
-				var today = new Date();
-				var picker = tui.DatePicker.createRangePicker({
-					startpicker : {
-						date : today,
-						input : '#startpicker-input',
-						container : '#startpicker-container'
-					},
-					endpicker : {
-						date : today,
-						input : '#endpicker-input',
-						container : '#endpicker-container'
-					},
-					selectableRanges : [ [
-							today,
-							new Date(today.getFullYear() + 1, today.getMonth(),
-									today.getDate()) ] ]
-				});
+				$(function() {
+					/* 입고일자 데이터 피커  */
+					var today = new Date();
+					var picker = tui.DatePicker.createRangePicker({
+						startpicker : {
+							date : today,
+							input : '#startpicker-input',
+							container : '#startpicker-container'
+						},
+						endpicker : {
+							date : today,
+							input : '#endpicker-input',
+							container : '#endpicker-container'
+						}
+					});
 
-				/* 메인의 그리드 */
-				const gridData = [];
+					/* 메인의 그리드 */
+					const gridData = [];
 
-				const grid = new tui.Grid({
-					el : document.getElementById('grid'),
-					data : gridData,
-					scrollX : false,
-					bodyHeight : 500,
-					rowHeaders : [ 'checkbox' ],
-					columns : [ {
-						header : '발주일자',
-						sortingType : 'desc',
-						align : 'center',
-						sortable : true
-					}, {
-						header : '발주코드',
-						align : 'center'
-					}, {
-						header : '자재코드',
-						align : 'center'
-					}, {
-						header : '자재명',
-						align : 'center'
-					}, {
-						header : '입고일자',
-						align : 'center'
-					}, {
-						header : '입고처명',
-						align : 'center'
-					}, {
-						header : '발주량',
-						align : 'center'
-					}, {
-						header : '입고량',
-						align : 'center'
-					}, {
-						header : '자재량',
-						align : 'center'
-					}, {
-						header : '주문수량',
-						align : 'center'
-					}, {
-						header : '발주상태',
-						align : 'center'
-					}, {
-						header : '비고',
-						align : 'center'
-					} ]
-				});
-
-				
+					const grid = new tui.Grid({
+						el : document.getElementById('grid'),
+						data : gridData,
+						scrollX : false,
+						bodyHeight : 500,
+						rowHeaders : [ 'checkbox' ],
+						columns : [ {
+							header : '발주일자',
+							sortingType : 'desc',
+							align : 'center',
+							sortable : true
+						}, {
+							header : '발주코드',
+							align : 'center'
+						}, {
+							header : '자재코드',
+							align : 'center'
+						}, {
+							header : '자재명',
+							align : 'center'
+						}, {
+							header : '입고일자',
+							align : 'center'
+						}, {
+							header : '입고처명',
+							align : 'center'
+						}, {
+							header : '발주량',
+							align : 'center'
+						}, {
+							header : '입고량',
+							align : 'center'
+						}, {
+							header : '자재량',
+							align : 'center'
+						}, {
+							header : '주문수량',
+							align : 'center'
+						}, {
+							header : '발주상태',
+							align : 'center'
+						}, {
+							header : '비고',
+							align : 'center'
+						} ]
+					});
 
 					/*메이크 모달*/
 					function makeModal(e, fnc) {
