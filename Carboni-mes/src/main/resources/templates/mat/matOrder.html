@@ -140,8 +140,8 @@
 				<!--기업명 모달  -->
 				<div id="searchmodal" title="발주업체검색" style="padding: 20px;">
 					<div class="title">
-						<span>거래처명</span><input type="text" class="input">
-						<button class="btn btn-secondary">검색</button>
+						<span>거래처명</span><input type="text" class="input" id="csSearchName">
+						<button class="btn btn-secondary" id="cssearchBtn">검색</button>
 					</div>
 					<div id="goupgrid"></div>
 				</div>
@@ -345,6 +345,22 @@
 							success : function(result) {
 								gomo.resetData(result)
 								gomo.refreshLayout();
+							}
+						})
+					})
+					
+					$("#cssearchBtn").on('click',function(){
+						var csname =$('#csSearchName').val()
+						$.ajax({
+							url:'findserchcom',
+							method: 'POST',
+							data :{csname},
+							dataType:'json',
+							success :function(result){
+								gomo.resetData(result)
+								gomo.on('click',e=>{
+									var rk = e.rowKey
+								})
 							}
 						})
 					})
