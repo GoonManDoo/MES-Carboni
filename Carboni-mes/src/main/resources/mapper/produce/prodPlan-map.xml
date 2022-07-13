@@ -13,7 +13,10 @@
 	</select>
 	
 	<select id="findProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-			
+		SELECT z.gicode, z.giname, z.giunit, x.prnum, y.cnperiod, y.cnam
+		FROM prodreq x, contract y, goodsinfo z
+		WHERE y.cnnum = x.cnnum
+		AND y.gicode = z.gicode;
 	</select>
 	
 </mapper>
