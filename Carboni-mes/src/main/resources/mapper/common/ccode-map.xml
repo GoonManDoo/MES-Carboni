@@ -3,10 +3,10 @@
 <mapper namespace="co.carboni.prj.common.mapper.CcodeMapper">
 
 	<select id="selectCodeAll" resultType="co.carboni.prj.common.vo.CcodeVO">
-		SELECT * FROM COMMON ORDER BY 1
+		SELECT * FROM COMMON WHERE CCLASS = '#' ORDER BY 1
 	</select>
 	<select id="selectCodeClass" resultType="co.carboni.prj.common.vo.CcodeVO">
-		SELECT * FROM COMMON WHERE CCLASS = #{cclass} ORDER BY 1
+		SELECT * FROM COMMON WHERE CCLASS=(SELECT CCLASSD FROM COMMON WHERE CCODEID = #{ccodeid}) ORDER BY 1
 	</select>
 	<insert id="codeInsertBig" parameterType="co.carboni.prj.common.vo.CcodeVO">
 		INSERT INTO COMMON

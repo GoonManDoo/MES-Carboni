@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.carboni.prj.common.mapper.CcodeMapper;
 import co.carboni.prj.common.vo.CcodeVO;
 
@@ -20,7 +23,7 @@ public class CcodeServiceImpl implements Ccodeservice {
 	}
 
 	@Override
-	public CcodeVO selectCodeClass(CcodeVO vo) {
+	public List<CcodeVO> selectCodeClass(CcodeVO vo) {
 		return map.selectCodeClass(vo);
 	}
 
