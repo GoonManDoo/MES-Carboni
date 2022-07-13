@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
-  <th:block layout:fragment="main">
+
   <head>
     <meta charset="UTF-8">
     <title>설비 등록</title>
     </head>
 <style>
-  .prodResiFrame{
+   .prodResiFrame{
     height: 650px;
   width: 620px;
   border-radius: 20px;
@@ -27,17 +27,19 @@
   margin-top: 1px;
   }
   .prodResiFrame .contentInnerFrame{
-    width:620px;
+    margin-left: 89px;
+    width: 452px;
     height:559px;
-    border-top:3px solid rgba(240,240,240,1)
+    display: flex;border-top:3px solid
+    rgba(240,240,240,1);
   }
   
   
   .prodResiFrame .contentFrame{
-  width:475px;
+  width: 341px;
   height: 428px;
-  margin-top: 182px;
-  margin-left:72px;
+  margin-top: 53px;
+  margin-left: 56px;
   }
   
   .prodResiFrame .question1{
@@ -45,33 +47,48 @@
   width: 341px;
   border-radius: 7px;
   background: rgba(240, 240, 240, 1);
+  display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .prodResiFrame .question2{
     height: 38px;
   width: 341px;
   border-radius: 7px;
   background: rgba(240, 240, 240, 1);
+  display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .prodResiFrame .question3{
     position: relative;
     display: flex;
     height: 38px;
-  width: 341px;
-  border-radius: 7px;
-  background: rgba(240, 240, 240, 1);
+    width: 341px;
+    border-radius: 7px;
+    background: rgba(240, 240, 240, 1);
+    justify-content: center;
+    align-items: center;
   }
-  .prodResiFrame .question4{
+
+   .prodResiFrame .question4{
     position: relative;
     height: 38px;
-  width: 341px;
-  border-radius: 7px;
-  background: rgba(240, 240, 240, 1);
+    width: 341px;
+    border-radius: 7px;
+    background: rgba(240, 240, 240, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .prodResiFrame .buttonBar{
     width: 322px;
     height: 57px;
-    margin-left: 149px;
+    margin-left: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
   }
   
   .prodResiFrame .queFrame{
@@ -84,6 +101,7 @@
 
   .dropdown{
     position: absolute;
+    margin-left: 249px;
   }
 </style>  
 <body>
@@ -136,5 +154,5 @@
       </div>
   </div>
 </body>
-    </th:block>
+
 </html>
