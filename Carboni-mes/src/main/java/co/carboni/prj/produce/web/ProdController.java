@@ -36,12 +36,9 @@ public class ProdController {
 		// 생산계획관리 - 생산계획에 추가할 제품 목록
 		@RequestMapping("planProduct")
 		@ResponseBody
-		public List<ProdPlanVO> planProduct(@RequestParam("orderNum[]") List<Integer> orderNum) {
-			List<ProdPlanVO> productList = null;
-			for(int i=0; i<orderNum.size(); i++) {
-				productList = mapper.findProduct(orderNum.get(i));
-			}
-			return productList;
+		public List<ProdPlanVO> planProduct(ProdPlanVO vo) {
+			List<ProdPlanVO> planProduct = mapper.planProduct(vo);
+			return planProduct;
 		}
 	
 	// 생산지시관리

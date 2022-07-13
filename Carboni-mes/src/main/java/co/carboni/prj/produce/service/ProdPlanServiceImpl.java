@@ -20,10 +20,14 @@ public class ProdPlanServiceImpl implements ProdPlanService {
 		return mapper.findUnprod(startDt, endDt);
 	}
 
+	// 생산계획에 추가할 제품 목록
 	@Override
-	public List<ProdPlanVO> findProduct(int orderNum) {
-		return mapper.findProduct(orderNum);
+	public List<ProdPlanVO> planProduct(ProdPlanVO vo) {
+		return mapper.planProduct(vo);
 	}
+
+
+	
 
 	
 
