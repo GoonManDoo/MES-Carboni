@@ -1,3 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.sales.contract"></mapper>
+<mapper namespace="co.carboni.prj.sales.mapper.SalesMapper">
+
+	<select id="findCsList" resultType="co.carboni.prj.sales.vo.SalesVO">
+	SELECT cscode, csname, csnum, cstel FROM costomer
+	WHERE csname like '%' || #{csname} || '%'
+	</select>
+	
+	<select id="findGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
+	SELECT gicode, giname, giunit FROM goodsinfo
+	WHERE giname like '%' || #{giname} || '%'
+	</select>
+
+
+</mapper>
