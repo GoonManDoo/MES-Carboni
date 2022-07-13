@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.carboni.prj.mat.mapper.mat-map">
+<mapper namespace="co.carboni.prj.mat.mapper.MatMapper">
 
+	<select id="findreq" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT
+		E.REQNUM,E.MICODE,D.MINAME,E.MRREQAM,E.MRSTATUS
+		FROM MATREQ E
+		JOIN
+		MATINFO D ON E.MICODE=D.MICODE
+		WHERE E.MRSTATUS ='N'
+	</select>
 
+	<select id="findgiup" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT CSCODE, CSNAME, CSNUM,
+		CSTEL FROM COSTOMER
+		WHERE CSGB='자재거래'
+	</select>
+
+	<select id="findMat" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT
+		MICODE,MINAME,MISTAND,MIUNIT FROM MATINFO
+	</select>
+
+	<select id="inputgiup" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT CSCODE, CSNAME, CSNUM,
+		CSTEL FROM COSTOMER
+		WHERE CSGB='자재거래'
+	</select>
+
+	<select id="findOrderDateList" resultType="co.carboni.prj.mat.vo.MatVO">
+	SELECT E.MONUM,E.MOODATE,E.MICODE,E.CSCODE,D.MINAME,Z.CSNAME
+	FROM MATORD E , MATINFO D ,COSTOMER Z
+	WHERE E.MICODE=D.MICODE
+	AND E.CSCODE=Z.CSCODE
+	AND E.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
+	AND TO_DATE(#{endD},'YYYY/MM/DD') >= E.MOODATE;
+	</select>
 
 </mapper>

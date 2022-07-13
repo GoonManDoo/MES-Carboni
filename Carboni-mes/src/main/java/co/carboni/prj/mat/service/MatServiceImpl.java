@@ -13,13 +13,30 @@ public class MatServiceImpl implements MatService {
 	private MatMapper map;
 
 	@Override
-	public List<MatVO> matordselect(MatVO vo) {
-		return map.matordselect(vo);
+	public List<MatVO> findreq(MatVO vo) {
+		return map.findreq(vo);
 	}
 
 	@Override
-	public List<MatVO> matcostomer(MatVO vo) {
-		return map.matcostomer(vo);
+	public List<MatVO> findgiup(MatVO vo) {
+		return map.findgiup(vo);
 	}
+
+	@Override
+	public List<MatVO> findMat(MatVO vo) {
+		return map.findMat(vo);
+	}
+
+	@Override
+	public List<MatVO> inputgiup(MatVO vo) {
+		return map.inputgiup(vo);
+	}
+
+	@Override
+	public List<MatVO> inModalSearch(String startD, String endD) {
+		return map.inModalSearch(startD, endD);
+	}
+
+
 
 }
