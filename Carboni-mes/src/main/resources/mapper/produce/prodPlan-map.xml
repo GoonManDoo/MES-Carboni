@@ -3,20 +3,24 @@
 <mapper namespace="co.carboni.prj.produce.mapper.ProdPlanMapper">
 
 	<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT * FROM PRODREQ
-		WHERE
-		PRCLOSE >= TO_DATE(#{startDt}, 'YYYY/MM/DD')
-		AND
-		TO_DATE(#{endDt}, 'YYYY/MM/DD') >= PRCLOSE
-		AND
-		PRSTATUS = 'N'
+		SELECT x.prnum, y.cndate, z.csname, x.prclose
+		FROM prodreq x, contract y, costomer z
+		WHERE x.cnnum = y.cnnum
+		AND y.cscode = z.cscode
+		AND x.prclose >= TO_DATE(#{startDt}, 'YYYY/MM/DD')
+		AND TO_DATE(#{endDt}, 'YYYY/MM/DD') >= x.prclose
+		AND x.prstatus = 'N'
 	</select>
 	
-	<select id="findProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT z.gicode, z.giname, z.giunit, x.prnum, y.cnperiod, y.cnam
+	<select id="planProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+		SELECT z.gicode, z.giname, z.giunit, x.prnum, x.prclose, y.cnam
 		FROM prodreq x, contract y, goodsinfo z
 		WHERE y.cnnum = x.cnnum
-		AND y.gicode = z.gicode;
+		AND y.gicode = z.gicode
+		AND x.prnum IN
+		<foreach collection="orderNum" item="arr" open="(" separator="," close=")">
+			#{arr}
+		</foreach>
 	</select>
 	
 </mapper>

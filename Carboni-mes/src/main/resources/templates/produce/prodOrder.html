@@ -283,21 +283,12 @@
 			$(function () {
 
 				// 모달----------------------------------------
-				var modal1 = makeModal("#orderModal")
-				var modal2 = makeModal('#planModal')
+				var modal1 = makeModal("#orderModal", orderView)
+				var modal2 = makeModal('#planModal', planAdd)
 
 				/* 생산지시조회 모달 */
 				$('#searchBtn').on('click', function () {
 					$('#orderModal').css('display', '')
-					modal1.dialog({
-						buttons: {
-							"확인": orderView,
-							"취소": function () {
-								$(this).dialog('close')
-							}
-						}
-					})
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					modal1.dialog('open')
 					orderGrid.refreshLayout();
 				})
@@ -309,15 +300,6 @@
 				/* 미지시계획 모달 */
 				$('#unorderBtn').on('click', function () {
 					$('#planModal').css('display', '')
-					modal2.dialog({
-						buttons: {
-							"확인": planAdd,
-							"취소": function () {
-								$(this).dialog('close')
-							}
-						}
-					})
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					modal2.dialog('open')
 					planGrid.refreshLayout();
 				})
@@ -326,13 +308,20 @@
 				}
 
 				/* 모달틀 */
-				function makeModal(e) {
+				function makeModal(e, fnc) {
 					var dialog = $(e).dialog({
 						autoOpen: false,
 						height: 600,
 						width: 700,
 						modal: true,
+						buttons: {
+							"확인": fnc,
+							"취소": function () {
+								$(this).dialog('close')
+							}
+						}
 					});
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
 					return dialog;
 				}
