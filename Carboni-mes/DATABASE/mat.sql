@@ -75,3 +75,14 @@ SELECT E.REQNUM,E.MRREQAM,E.MICODE,E.MRSTATUS,D.MINAME
   where e.moodate >= to_date('2022/01/22','YYYY/MM/DD')
   AND 
   to_date('2022/07/22','YYYY/MM/DD')>= e.moodate;
+  
+  --발주일자 거래처 코드 자재코드 넣어서 메인 그리드에 출력
+select o.moodate,o.micode,o.cscode,m.miname,c.csname,k.msciam
+from matord o,matinfo m, matstk k,costomer c
+where o.micode = m.micode
+and k.micode = o.micode
+and o.cscode = c.cscode
+and c.cscode = '1'
+and m.micode = '1'
+and o.moodate >= TO_DATE('2022/07/11','YYYY/MM/DD')
+and TO_DATE('2022/07/31','YYYY/MM/DD') >= o.moodate;

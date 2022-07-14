@@ -47,4 +47,13 @@ public class MatServiceImpl implements MatService {
 		return map.showFindReq(vo);
 	}
 
+	@Override
+	public List<MatVO> findReqDate(String startD, String endD, String cusCode, String matCode) {
+		return map.findReqDate(startD, endD, cusCode, matCode);
+	}
+
+
+
+
+
 }
