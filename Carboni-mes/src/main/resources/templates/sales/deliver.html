@@ -93,20 +93,6 @@ span {
 <script type="text/javascript">
 	const gridData = [];
 
-	(function() {
-		for (let i = 0; i < 10; i += 1) {
-			gridData.push({
-				c1 : (i + 1),
-				c2 : ((i + 5) % 8) * 100 + i,
-				c3 : ((i + 3) % 7) * 60,
-				c4 : ((i + 3) % 7) * 60,
-				c5 : ((i + 3) % 7) * 60,
-				c6 : ((i + 3) % 7) * 60,
-				c7 : ((i + 3) % 7) * 60,
-			});
-		}
-	})();
-
 	const grid = new tui.Grid({
 		el : document.getElementById('grid'),
 		data : gridData,

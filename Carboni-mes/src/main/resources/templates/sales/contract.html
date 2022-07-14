@@ -3,6 +3,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .btn-secondary {
 	margin-left: 20px;
@@ -22,7 +23,8 @@ span {
 
 .input {
 	height: 23px;
-	margin-left: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
 	display: inline-block;
 	padding: 0 10px;
 	vertical-align: middle;
@@ -34,17 +36,17 @@ span {
 }
 
 #leftinput, #rightinput {
-	margin-right: 12px;
+	margin-right: 18px;
 }
 #leftinput1, #rightinput1 {
 	background-color: #f1f1f1;
 }
 
-#startCNDATE {
+#startCndate {
 	margin-right: 10px;
 }
 
-#endCNDATE {
+#endCndate {
 	margin-left: 5px;
 }
 
@@ -175,9 +177,33 @@ span {
 					success: function(result) {
 						grid.refreshLayout();
 						grid.resetData(result)
+						  if($('#startCndate').val()== '' || $('#leftinput').val()== '' || $('#rightinput').val() == '') {
+							  swal('다시 입력하세요!', "입력되지 않은 수주정보가 있습니다!", 'warning')
+						} 
 					}
 				})
 			})
+			
+			/* 수주삭제 버튼 */
+			$('#removeBtn').on('click', function() {
+				delGrid = grid.getCheckedRows()
+				var cnList = delGrid.map((e) => {return e.cnnum})
+				$.ajax({
+					url: 'delCnList',
+					method: 'POST',
+					data: {cnList},
+					success: function(){
+						grid.removeCheckedRows('')
+						swal("삭제 성공!!", "선택한 수주내역이 삭제되었습니다.", "success");
+					}
+					
+				})
+				
+			})
+				
+				
+				
+	
 		
 				/*메이크 모달*/
 				function makeModal(e, fnc) {
@@ -310,7 +336,7 @@ span {
 				}
 
 				
-				/*그리드 시작 */
+				/* 수주 그리드 시작 */
 				const gridData = [];
 	
 				const grid = new tui.Grid({

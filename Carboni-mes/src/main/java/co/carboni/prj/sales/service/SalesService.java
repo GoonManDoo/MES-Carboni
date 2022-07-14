@@ -9,6 +9,9 @@ public interface SalesService {
 
 	//수주관리
 	
+		//수주관리 > 수주목록 삭제
+		public void findDelCnList(SalesVO vo);
+	
 		//수주관리 > 수주일자조회
 		public List<SalesVO> findCndateList(String startDt, String endDt, String cusCode, String goodsCode);
 		

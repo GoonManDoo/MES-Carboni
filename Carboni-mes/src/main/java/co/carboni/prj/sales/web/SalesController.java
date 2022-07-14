@@ -32,6 +32,14 @@ public class SalesController {
 			return cndateList;
 		}
 		
+		//수주관리 > 수주목록 삭제
+		@RequestMapping("delCnList")
+		@ResponseBody
+		public void delCnList(SalesVO vo) {
+			mapper.findDelCnList(vo);
+		}
+		
+		
 		// 수주관리 > 거래처 모달 전체조회
 		@RequestMapping("allCostomerList")
 		@ResponseBody
@@ -93,21 +101,6 @@ public class SalesController {
 	}
 
 	
-	  // 거래처정보모달
-	  //@RequestMapping("/contractModal.do") public String contractModal() { return
-	  //"sales/modal/contractModal"; }
-	  
-	  // 제품정보모달
-	  // @RequestMapping("/proName.do") public String proName() { return
-	  //"sales/modal/proName"; }
-	  
-	  // 배송정보모달
-	  //@RequestMapping("/deliverModal.do") public String deliverModal() { return
-	  //"sales/modal/deliverModal"; }
-	  
-	  // 배송정보모달
-	  //@RequestMapping("/shippingingModal.do") public String shippingingModal() {
-	  //return "sales/modal/shippingingModal"; }
 	 
 
 

@@ -3,6 +3,17 @@
 <mapper namespace="co.carboni.prj.sales.mapper.SalesMapper">
 	
 	<!-- 수주관리 -->
+	
+		<!-- 수주목록 삭제 -->
+		<delete id="findDelCnList">
+			DELETE FROM contract
+			WHERE cnnum in
+			<foreach collection="cnList" item="arr" open="(" separator="," close=")" >
+				#{arr}
+			</foreach>
+			
+		</delete>
+		
 		<!-- 수주일자 조회 -->
 		<select id="findCndateList" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT m.cnnum, c.csname, g.giname, m.cnam, m.cnrest, m.cndate, m.cnperiod, m.cnstatus, g.giunit
