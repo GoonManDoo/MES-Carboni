@@ -26,12 +26,22 @@ public class SalesController {
 		// 수주관리 > 수주일자 조회
 		@RequestMapping("cndateList")
 		@ResponseBody
-		public List<SalesVO> cndateList(@RequestParam("startDt") String startDt, @RequestParam("endDt") String endDt) {
-			List<SalesVO> cndateList = mapper.findCndateList(startDt, endDt);
+		public List<SalesVO> cndateList(@RequestParam String startDt, @RequestParam String endDt, 
+				                        @RequestParam String cusCode, @RequestParam String goodsCode) {
+			List<SalesVO> cndateList = mapper.findCndateList(startDt, endDt, cusCode, goodsCode);
 			return cndateList;
 		}
 		
-		// 수주관리 > 거래처 모달 조회
+		// 수주관리 > 거래처 모달 전체조회
+		@RequestMapping("allCostomerList")
+		@ResponseBody
+		public List<SalesVO> allCostomerList(SalesVO vo) {
+			List<SalesVO> allCostomerList = mapper.findAllCsList(vo);
+			return allCostomerList;
+			
+		}
+		
+		// 수주관리 > 거래처 모달 검색조회
 		@RequestMapping("costomerList")
 		@ResponseBody
 		public List<SalesVO> costomerList(@RequestParam("csname")String csname) {
@@ -39,14 +49,23 @@ public class SalesController {
 			return costomerList;
 		}
 		
+		// 수주관리 > 제품 모달 전체조회
+		@RequestMapping("allGoodsList")
+		@ResponseBody
+		public List<SalesVO> allGoodsList(SalesVO vo) {
+			List<SalesVO> allGoodsList = mapper.findAllGiList(vo);
+			return allGoodsList;
+			
+		}
+		
 		// 수주관리 > 제품 모달 조회
-				@RequestMapping("goodsList")
-				@ResponseBody
-				public List<SalesVO> goodsList(@RequestParam("giname")String giname) {
-					List<SalesVO> goodsList = mapper.findGiList(giname);
-					return goodsList;
-				}
-	
+		@RequestMapping("goodsList")
+		@ResponseBody
+		public List<SalesVO> goodsList(@RequestParam("giname")String giname) {
+			List<SalesVO> goodsList = mapper.findGiList(giname);
+			return goodsList;
+		}
+
 	
 
 	// 생산의뢰관리
