@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.carboni.prj.common.mapper.CostomerMapper">
+
+	<select id="selectCostAll" resultType="co.carboni.prj.common.vo.CostomerVO">
+		SELECT * FROM COSTOMER ORDER BY TO_NUMBER(CSCODE)
+	</select>
+	<insert id="costInsert" parameterType="co.carboni.prj.common.vo.CostomerVO">
+		INSERT INTO COSTOMER VALUES(COSTOMER_CSCODE_SEQ.NEXTVAL, #{csname}, #{csnum}, #{cstel}, #{csgb}, #{csnote})
+	</insert>
+	<delete id="costDelete" parameterType="co.carboni.prj.common.vo.CostomerVO">
+		DELETE FROM COSTOMER WHERE CSCODE = #{cscode}
+	</delete>
+	<update id="costUpdate" parameterType="co.carboni.prj.common.vo.CostomerVO">
+		UPDATE COSTOMER
+		<set>
+		CSNAME = #{csname},
+		CSNUM = #{csnum},
+		CSTEL = #{cstel},
+		CSGB = #{csgb},
+		CSNOTE = #{csnote},
+		</set>
+		WHERE CSCODE = #{cscode}
+	</update>
+	
+	
+</mapper>
