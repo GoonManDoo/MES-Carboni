@@ -1,45 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.carboni.prj.mat.mapper.MatMapper">
-
+	<!-- 생산에서 발주요청한 사항 조회 -->
 	<select id="findreq" resultType="co.carboni.prj.mat.vo.MatVO">
 		SELECT
 		E.REQNUM,E.MICODE,D.MINAME,E.MRREQAM,E.MRSTATUS
 		FROM MATREQ E
 		JOIN
-		MATINFO D ON E.MICODE=D.MICODE
+		MATINFO D 
+		ON E.MICODE=D.MICODE
 		WHERE E.MRSTATUS ='N'
 	</select>
-
-	<select id="findgiup" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT CSCODE, CSNAME, CSNUM,
-		CSTEL FROM COSTOMER
+	<!-- 발주 메인에서 기업 검색 모달안의 내용 전체조회 -->
+	<!-- 입고에서 기업 검색 모달안의 내용 조회  -->
+	<select id="findComList" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT CSCODE, CSNAME, CSNUM,CSTEL 
+		FROM COSTOMER
 		WHERE CSGB='자재거래'
 	</select>
 
+		<!-- 발주 메인에서 자재 검색 모달의 내용 조회 -->
 	<select id="findMat" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT
-		MICODE,MINAME,MISTAND,MIUNIT FROM MATINFO
+		SELECT MICODE,MINAME,MISTAND,MIUNIT 
+		FROM MATINFO
 	</select>
 
-	<select id="inputgiup" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT CSCODE, CSNAME, CSNUM,
-		CSTEL FROM COSTOMER
-		WHERE CSGB='자재거래'
-	</select>
-
-	<select id="findOrderDateList" resultType="co.carboni.prj.mat.vo.MatVO">
+	<!-- 입고 관리에서 발주일자로 발주 내용 검색  -->
+	<select id="inModalSearch" resultType="co.carboni.prj.mat.vo.MatVO">
 	SELECT E.MONUM,E.MOODATE,E.MICODE,E.CSCODE,D.MINAME,Z.CSNAME
 	FROM MATORD E , MATINFO D ,COSTOMER Z
 	WHERE E.MICODE=D.MICODE
 	AND E.CSCODE=Z.CSCODE
 	AND E.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
-	AND TO_DATE(#{endD},'YYYY/MM/DD') >= E.MOODATE;
+	AND TO_DATE(#{endD},'YYYY/MM/DD') >= E.MOODATE
+	AND E.MOSTATUS='N'
 	</select>
 	
-	<select id="findsearchgiup" resultType="co.carboni.prj.mat.vo.MatVO">
-	SELECT CSCODE, CSNAME, CSNUM, CSTEL FROM COSTOMER
+	<!-- 발주의 거래처명검색모달에서 거래처 검색  -->
+	<!-- 입고의 거래처명검색모달에서 거래처 검색  -->
+	<select id="findSearchComList" resultType="co.carboni.prj.mat.vo.MatVO">
+	SELECT CSCODE, CSNAME, CSNUM, CSTEL 
+	FROM COSTOMER
 	WHERE CSNAME LIKE '%' || #{csname} || '%'
+	AND  CSGB='자재거래'
 	</select>
-
+	
+	<!-- 발주 메인에서 자재검색모달 안의 내용을 검색하여 조회 -->
+	<select id="findSearchMat" resultType="co.carboni.prj.mat.vo.MatVO">
+	SELECT MICODE,MINAME,MISTAND,MIUNIT
+	FROM MATINFO
+	WHERE MINAME LIKE '%' || #{miname} || '%'
+	</select>
+	
+	
 </mapper>

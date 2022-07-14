@@ -122,11 +122,6 @@ ul {
 												class="form-control ht" tabindex="2" placeholder="입고처명 검색">
 											</td>
 										</tr>
-										<tr>
-											<th>특이사항</th>
-											<td><input type="text" id="remark"
-												class="form-control ht" tabindex="2"></td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -183,8 +178,8 @@ ul {
 
 			<div id="searchmodal" style="padding: 20px;" title="입고업체검색">
 				<div class="title">
-					<span>거래처명</span><input type="text" class="input">
-					<button class="btn btn-secondary">검색</button>
+					<span>거래처명</span><input type="text" class="input" id="inputComList">
+					<button class="btn btn-secondary" id="inpputComBtn">검색</button>
 				</div>
 				<div id="goupgrid"></div>
 			</div>
@@ -265,12 +260,12 @@ ul {
 						editor : 'text'
 					}, {
 						header : '특이사항',
-						align : 'center'
+						align : 'center',
+						editor :'text'
 					} ]
 				});
 
 				/*메이크 모달*/
-
 				function makeModal(e, fnc) {
 					var dialog = $(e).dialog({
 						autoOpen : false,
@@ -290,10 +285,12 @@ ul {
 							'btn btn-secondary')
 					return dialog;
 				}
+				/*메이크모달 끝*/
 				
 
-				var inmo = makeModal("#inmodal", inupdate)
 				/*발주일자 검색 모달*/
+				var inmo = makeModal("#inmodal", inupdate)
+				
 				$("#btnModal").on('click', function() {
 					$("#inmodal").css('display', '')
 					inmo.dialog('open')
@@ -305,21 +302,22 @@ ul {
 						data : {startD,endD},
 						dataType: 'json',
 						success : function(result){
-							inmod.resetData(result)
 							inmod.refreshLayout();
+							inmod.resetData(result)
 						}
 					})
-
 				})
+				
 				/*성공했을때 업데이트*/
 				function inupdate() {
-
+					
 				}
+				
 				/*발주일자 검색 그리드 */
 				const indata = [];
 				let inmod = new tui.Grid({
 					el : document.getElementById('ingrid'),
-					data : inupdate,
+					data : indata,
 					scrollX : false,
 					rowHeaders : [ 'checkbox' ],
 					bodyHeight : 430,
@@ -331,7 +329,7 @@ ul {
 						sortable : true
 					}, {
 						header : '발주일자',
-						name : 'modate',
+						name : 'moodate',
 						align : 'center',
 					}, {
 						header : '자재코드',
@@ -354,15 +352,15 @@ ul {
 					} ]
 
 				})
+				/*입고처명 모달*/
 
-				/*기업 그리드*/
+				/*입고처명 그리드*/
 				const giupdata = [];
 
 				let giupgir = new tui.Grid({
 					el : document.getElementById('goupgrid'),
 					data : giupdata,
 					scrollX : false,
-					rowHeaders : [ 'checkbox' ],
 					bodyHeight : 430,
 					columns : [ {
 						header : '거래처코드',
@@ -386,24 +384,48 @@ ul {
 				});
 				var log = makeModal("#searchmodal", giupcheck)
 
-				/* 기업목록 모달 */
+				/* 입고처명 모달 */
 				$("#searchBtn").on("click", function() {
 					$("#searchmodal").css('display', '')
 					log.dialog('open')
 					$.ajax({
-						url : 'inputgiuplist',
+						url : 'companyList',
 						method : 'POST',
 						dataType : 'json',
 						success : function(result) {
-							giupgir.resetData(result)
 							giupgir.refreshLayout();
+							giupgir.resetData(result)
+							giupgir.on('click',e=>{
+									var rk = e.rowKey
+									cs = giupgir.getRow(rk).csname
+								})
 						}
 					})
 				})
+				/*모달박스안의 검색 눌렀을때*/
+				$("#inpputComBtn").on('click',function(){
+					var csname= $("#inputComList").val()
+						$.ajax({
+							url:'findSearchCom',
+							method: 'POST',
+							data :{csname},
+							dataType:'json',
+							success :function(result){
+								giupgir.resetData(result)
+								giupgir.on('click',e=>{
+									var rk = e.rowKey
+									cs = giupgir.getRow(rk).csname
+								})
+							}
+						})
+				})
 				/*기업모달에서 확인 눌렀을떄 */
 				function giupcheck() {
-
+					$("#searchBtn").val(cs)
+					log.dialog('close')
 				}
+				
+				/*입고처명 모달 끝*/
 
 			})
 		</script>

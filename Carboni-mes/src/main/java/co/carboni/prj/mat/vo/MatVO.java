@@ -34,9 +34,15 @@ public class MatVO {
 	private int miunit; //자재단위
 	
 	//발주일자로 검색 시 조회
-	private String monum; //발주번호
+	private String monum; //발주코드
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date moodate; //발주일자
+	private Date mordate; //입고일자 
+	private int mooam; //발주량
+	private int inmaam; //입고량
+	private int outmaam;//출고량
+	
+	
 	
 	
 	
