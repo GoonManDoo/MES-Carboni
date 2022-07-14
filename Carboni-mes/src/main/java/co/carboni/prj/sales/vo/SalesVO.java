@@ -1,6 +1,7 @@
 package co.carboni.prj.sales.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -27,6 +28,8 @@ public class SalesVO {
 	public String csnum;    //사업자번호
 	public String cstel;    //거래처전화번호
 	public String cnstatus; //출하진행상태
+	
+	public List<String> cnList; //삭제할 수주번호 목록
 	
 	
 	//생산의뢰관리

@@ -10,6 +10,10 @@ import co.carboni.prj.sales.vo.SalesVO;
 public interface SalesMapper {
 
 	//수주관리
+
+		//수주관리 > 수주목록삭제
+		public void findDelCnList(SalesVO vo);
+		
 		//수주관리 > 수주일자조회
 		public List<SalesVO> findCndateList(@Param("startDt") String startDt, @Param("endDt") String endDt, 
 				                            @Param("cusCode") String cusCode, @Param("goodsCode") String goodsCode);
@@ -25,6 +29,7 @@ public interface SalesMapper {
 		
 		//수주관리 > 제품모달 검색조회
 		public List<SalesVO> findGiList(@Param("giname") String giname);
+
 
 
 	

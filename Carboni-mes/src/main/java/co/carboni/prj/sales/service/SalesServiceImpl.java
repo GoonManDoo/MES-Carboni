@@ -16,6 +16,12 @@ public class SalesServiceImpl implements SalesService {
 
 	//수주관리
 	
+		//수주관리 > 수주목록 삭제
+		@Override
+		public void findDelCnList(SalesVO vo) {
+			
+		}
+		
 		//수주관리 > 수주일자조회
 		@Override
 		public List<SalesVO> findCndateList(String startDt, String endDt, String cusCode, String goodsCode) {
@@ -45,6 +51,7 @@ public class SalesServiceImpl implements SalesService {
 		public List<SalesVO> findGiList(String giname) {
 			return mapper.findGiList(giname);
 		}
+
 	
 
 	
