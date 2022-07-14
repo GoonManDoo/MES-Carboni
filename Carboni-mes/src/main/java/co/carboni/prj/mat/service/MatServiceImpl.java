@@ -18,18 +18,8 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
-	public List<MatVO> findgiup(MatVO vo) {
-		return map.findgiup(vo);
-	}
-
-	@Override
 	public List<MatVO> findMat(MatVO vo) {
 		return map.findMat(vo);
-	}
-
-	@Override
-	public List<MatVO> inputgiup(MatVO vo) {
-		return map.inputgiup(vo);
 	}
 
 	@Override
@@ -38,10 +28,23 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
-	public List<MatVO> findsearchgiup(String csname) {
-		return map.findsearchgiup(csname);
+	public List<MatVO> findSearchComList(String csname) {
+		return map.findSearchComList(csname);
 	}
 
+	@Override
+	public List<MatVO> findSearchMat(String miname) {
+		return map.findSearchMat(miname);
+	}
 
+	@Override
+	public List<MatVO> findComList(MatVO vo) {
+		return map.findComList(vo);
+	}
+
+	@Override
+	public List<MatVO> showFindReq(MatVO vo) {
+		return map.showFindReq(vo);
+	}
 
 }

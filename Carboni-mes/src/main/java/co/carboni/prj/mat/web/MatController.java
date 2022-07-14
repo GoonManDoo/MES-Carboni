@@ -69,11 +69,12 @@ public class MatController {
 	}
 
 	// 발주에서 기업명 조회할떄
-	@RequestMapping("giuplist")
+	// 입고관리에서 기업명 조회
+	@RequestMapping("companyList")
 	@ResponseBody
-	public List<MatVO> giuplist(MatVO vo) {
-		List<MatVO> giuplist = mapper.findgiup(vo);
-		return giuplist;
+	public List<MatVO> companyList(MatVO vo) {
+		List<MatVO> companyList = mapper.findComList(vo);
+		return companyList;
 	}
 
 	// 발주에서 자재코드를 조회할때
@@ -84,28 +85,36 @@ public class MatController {
 		return matlist;
 	}
 
-	// 입고관리에서 기업체명 검색할때
-	@RequestMapping("inputgiuplist")
-	@ResponseBody
-	public List<MatVO> inputgiuplist(MatVO vo) {
-		List<MatVO> inputgiuplist = mapper.inputgiup(vo);
-		return inputgiuplist;
-	}
-
 	// 입고관리에서 발주일자로 검색시 모달안의 내용
 	@RequestMapping("insearchorder")
 	@ResponseBody
-	public List<MatVO> insearchorder(@RequestParam("startD") String startD, @RequestParam("endD") String endD) {
+	public List<MatVO> insearchorder(@RequestParam String startD, @RequestParam String endD) {
 		List<MatVO> insearchorder = mapper.inModalSearch(startD, endD);
 		return insearchorder;
 	}
 
 	// 발주 메인에서 기업검색 모달안의 내용을 검색하여 조회
-	@RequestMapping("findserchcom")
+	@RequestMapping("findSearchCom")
 	@ResponseBody
-	public List<MatVO> findserchcom(@RequestParam("csname") String csname) {
-		List<MatVO> findserchcom = mapper.findsearchgiup(csname);
-		return findserchcom;
+	public List<MatVO> findSearchCom(@RequestParam String csname) {
+		List<MatVO> findSearchCom = mapper.findSearchComList(csname);
+		return findSearchCom;
+	}
+
+	// 발주 메인에서 자재검색모달 안의 내용을 검색하여 조회
+	@RequestMapping("findserchmaterial")
+	@ResponseBody
+	public List<MatVO> findserchmaterial(@RequestParam String miname) {
+		List<MatVO> findserchmaterial = mapper.findSearchMat(miname);
+		return findserchmaterial;
+	}
+
+	// 발주관리에서 요청 내용이 메인 그리드에 표시
+	@RequestMapping("showFindReqList")
+	@ResponseBody
+	public List<MatVO> showFindReqList(MatVO vo){
+		List<MatVO> showFindReqList =mapper.showFindReq(vo);
+		return showFindReqList;
 	}
 
 }

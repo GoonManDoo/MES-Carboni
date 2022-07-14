@@ -36,8 +36,8 @@
 .input {
 	height: 23px;
 	margin-left: 15px;
-	margin-top: 5px; 
-	display : inline-block;
+	margin-top: 5px;
+	display: inline-block;
 	padding: 0 10px;
 	vertical-align: middle;
 	border: 1px solid #dddddd;
@@ -103,18 +103,17 @@
 											<td style="width: 200px;"><input type="text"
 												class="form-control ht" tabindex="2" style="width: 200px;"
 												id="searchBtn" placeholder="거래처명검색"></td>
-
 										</tr>
 										<tr>
-											<th><label>자재코드</label></th>
+											<th><label>자재명</label></th>
 											<td style="width: 200px;"><input type="text"
 												class="form-control ht" tabindex="2" style="width: 200px;"
-												id="codeBtn" placeholder="거래처명검색" readonly></td>
+												id="codeBtn" placeholder="자재명검색" readonly></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
-
+							<!-- 버튼 -->
 							<div class="container-fluid px-4 mb-2">
 								<div style="display: flex; justify-content: flex-end;">
 									<button type="button" class="btn btn-secondary"
@@ -127,40 +126,38 @@
 					</div>
 				</div>
 			</div>
-			<!-- 그리드  -->
+			<!-- 메인 그리드  -->
 			<div class="container-fluid px-4">
 				<div id="grid"></div>
 			</div>
-
+			
 			<div id="modal">
-
 				<div id="reqmodal" title="요청내용">
 					<div id="gridcomp"></div>
 				</div>
-				<!--기업명 모달  -->
+				<!--발주기업 모달  -->
 				<div id="searchmodal" title="발주업체검색" style="padding: 20px;">
 					<div class="title">
-						<span>거래처명</span><input type="text" class="input" id="csSearchName">
+						<span>거래처명</span><input type="text" class="input"
+							id="csSearchName">
 						<button class="btn btn-secondary" id="cssearchBtn">검색</button>
 					</div>
 					<div id="goupgrid"></div>
 				</div>
-
+				<!-- 자재검색 모달 -->
 				<div id="codemodal" title="자재검색" style="padding: 20px;">
 					<div class="title">
-						<span>자재명</span><input type="text" class="input">
-						<button class="btn btn-secondary">검색</button>
+						<span>자재명</span><input type="text" class="input" id="miSearchName">
+						<button class="btn btn-secondary" id="miSearchBtn">검색</button>
 					</div>
 					<div id="codegrid"></div>
 				</div>
-
-
-
 			</div>
 
 			<!-- 그리드 내용 만들기  -->
 			<script type="text/javascript">
 				$(function() {
+					
 					/* 입고일자 데이터 피커  */
 					var today = new Date();
 					var picker = tui.DatePicker.createRangePicker({
@@ -176,7 +173,7 @@
 						}
 					});
 
-					/* 메인의 그리드 */
+					/* 발주메인 그리드 */
 					const gridData = [];
 
 					const grid = new tui.Grid({
@@ -203,10 +200,10 @@
 							header : '입고일자',
 							align : 'center'
 						}, {
-							header : '입고처명',
+							header : '발주업체',
 							align : 'center'
 						}, {
-							header : '발주량',
+							header : '발주요청량',
 							align : 'center'
 						}, {
 							header : '입고량',
@@ -246,6 +243,7 @@
 								'btn btn-secondary');
 						return dialog;
 					}
+					/*메이크모달 끝*/
 
 					var dia = makeModal("#reqmodal", check)
 
@@ -291,8 +289,8 @@
 							method : 'POST',
 							dataType : 'json',
 							success : function(result) {
-								reqG.resetData(result)
 								reqG.refreshLayout();
+								reqG.resetData(result)
 							}
 						})
 					})
@@ -301,17 +299,16 @@
 					function check() {
 
 					}
-
+					
+					/*기업체 검색 모달 시작 */
 					var log = makeModal("#searchmodal", giup)
-
-					/*업체명*/
+					/*발주업체*/
 					const giupdata = [];
 
 					const gomo = new tui.Grid({
 						el : document.getElementById('goupgrid'),
 						data : giupdata,
 						scrollX : false,
-						rowHeaders : [ 'checkbox' ],
 						bodyHeight : 430,
 						columns : [ {
 							header : '거래처코드',
@@ -333,26 +330,31 @@
 							align : 'center',
 						} ]
 					});
-
-					/* 기업목록 모달 */
+					
+					/* 발주업체 모달 */
 					$("#searchBtn").on("click", function() {
 						$("#searchmodal").css('display', '')
 						log.dialog('open')
 						$.ajax({
-							url : 'giuplist',
+							url : 'companyList',
 							method : 'POST',
 							dataType : 'json',
 							success : function(result) {
-								gomo.resetData(result)
 								gomo.refreshLayout();
+								gomo.resetData(result)
+								gomo.on('click',e=>{
+									var rk = e.rowKey
+									cs = gomo.getRow(rk).csname
+								})
 							}
 						})
 					})
 					
+					//발주에서 거래처명모달을 불러와서 거래처명 검색 
 					$("#cssearchBtn").on('click',function(){
 						var csname =$('#csSearchName').val()
 						$.ajax({
-							url:'findserchcom',
+							url:'findSearchCom',
 							method: 'POST',
 							data :{csname},
 							dataType:'json',
@@ -360,6 +362,7 @@
 								gomo.resetData(result)
 								gomo.on('click',e=>{
 									var rk = e.rowKey
+									cs = gomo.getRow(rk).csname
 								})
 							}
 						})
@@ -367,8 +370,13 @@
 
 					/*기업모달에서 확인 눌렀을떄 */
 					function giup() {
-
+						$("#searchBtn").val(cs)
+						log.dialog('close')
 					}
+					/*발주 업체 모달 끝!*/
+					
+					
+					/*자재코드 검색 모달!*/
 					/*자재코드 검색 그리드*/
 					const jadata = [];
 
@@ -409,16 +417,39 @@
 							method : 'POST',
 							dataType : 'json',
 							success : function(result) {
-								jamo.resetData(result)
 								jamo.refreshLayout();
+								jamo.resetData(result)
+								jamo.on('click',e=>{
+									var rk = e.rowKey
+									mi = jamo.getRow(rk).miname
+								})
 							}
 						})
 					})
-
+					/*자재코드 모달안의 검색을 눌렀을때 */
+					$("#miSearchBtn").on('click',function(){
+						var miname= $('#miSearchName').val()
+						$.ajax({
+							url:'findserchmaterial',
+							method: 'post',
+							data:{miname},
+							dataType: 'json',
+							success :function(result){
+								jamo.resetData(result)
+									jamo.on('click',e=>{
+									var rk = e.rowKey
+									mi = jamo.getRow(rk).miname
+									})
+							}
+						})
+					})
+					c
 					/*자재검색 확인 눌렀을때 */
 					function cdcheck() {
-
+						$("#codeBtn").val(mi)
+						cdmo.dialog('close')
 					}
+					/*자재코드 검색 모달 끝!*/
 
 				})
 			</script>
