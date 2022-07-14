@@ -4,7 +4,6 @@
 <th:block layout:fragment="main">
 <head>
   <meta charset="UTF-8">
-  <title>Insert title here</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <style>
@@ -38,18 +37,20 @@
     <div id="menu">
       <a href="/">홈</a> > 기준정보관리 > <b>거래처정보관리</b>
     </div>
-    <div id="btns" class="card-header">
-      <button type="button" class="btn btn-secondary">새자료</button>
-      <button type="button" class="btn btn-secondary">저장</button>
-      <button type="button" class="btn btn-secondary">삭제</button>
-    </div>
-    <form action="#" id="myf">
-      <label for="csCode">거래처코드</label> <input type="text" id="csCode">
-      <label for="csName">거래처명</label> <input type="text" id="csName">
-      <label for="csNum">사업자등록번호</label> <input type="text" id="csNum">
-      <label for="csTel">전화번호</label> <input type="text" id="csTel">
-      <label for="csNote">비고</label> <input type="text" id="csNote">
-      <label for="csGB">거래처구분</label> <input type="text" id="csGB">
+    <form name="subform" id="subform">
+    	<div id="btns" class="card-header">
+      		<button type="button" class="btn btn-secondary" id="newthat">새자료</button>
+      		<input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+      		<input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+    	</div>
+    	<div id="myf">
+      		<label for="cscode">거래처코드</label> <input type="text" id="cscode" name="cscode" readonly>
+      		<label for="csname">거래처명</label> <input type="text" id="csname" name="csname">
+      		<label for="csnum">사업자등록번호</label> <input type="text" id="csnum" name="csnum">
+      		<label for="cstel">전화번호</label> <input type="text" id="cstel" name="cstel">
+      		<label for="csnote">비고</label> <input type="text" id="csnote" name="csnote">
+      		<label for="csgb">거래처구분</label> <input type="text" id="csgb" name="csgb">
+    	</div>
     </form>
 
     <div class="card mb-4">
@@ -60,7 +61,7 @@
         <table id="datatablesSimple">
           <thead>
             <tr>
-              <th><input type="checkbox"></th>
+              <th><input type="radio" name="cost"></th>
               <th>거래처코드</th>
               <th>거래처명</th>
               <th>사업자번호</th>
@@ -70,14 +71,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>(주)태왕테크</td>
-              <td>701-09-00047</td>
-              <td>010-7754-7754</td>
-              <td>자재거래</td>
-              <td></td>
+            <tr th:each="c : ${costList}">
+            	<td><input type="radio" name="cost"></td>
+            	<td th:text="${c.cscode}"></td>
+            	<td th:text="${c.csname}"></td>
+            	<td th:text="${c.csnum}"></td>
+            	<td th:text="${c.cstel}"></td>
+            	<td th:text="${c.csgb}"></td>
+            	<td th:text="${c.csnote}"></td>
             </tr>
           </tbody>
         </table>
@@ -87,5 +88,39 @@
   </div>
 
 </body>
+<script>
+
+	//새자료
+	
+	$('#newthat').click(function () {
+      $('#myf>input').val('');
+    })
+    
+    $(document).on('click', 'input[name=cost]', function(){
+			$(cscode).val($('input[name=cost]:checked').parent().next().text())
+			$(csname).val($('input[name=cost]:checked').parent().next().next().text())
+			$(csnum).val($('input[name=cost]:checked').parent().next().next().next().text())
+			$(cstel).val($('input[name=cost]:checked').parent().next().next().next().next().text())
+			$(csgb).val($('input[name=cost]:checked').parent().next().next().next().next().next().text())
+			$(csnote).val($('input[name=cost]:checked').parent().next().next().next().next().next().next().text())
+			
+		});
+		
+    function check(){
+		if ($(cscode).val() == ''){
+			document.subform.action="costomerinsert.do"
+			document.subform.submit();
+		}
+		else{
+			document.subform.action="costomerupdate.do"
+			document.subform.submit();
+		}
+	}
+	
+	function del(){
+		document.subform.action="costomerdelete.do"
+		document.subform.submit();
+	}
+</script>
 </th:block>
 </html>

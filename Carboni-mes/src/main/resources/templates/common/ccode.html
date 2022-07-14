@@ -53,14 +53,14 @@
     <div id="menu">
       <a href="/">홈</a> > 기준정보관리 > <b>공통코드관리</b>
     </div>
-    <form action="ccodeinsertsmall.do" onsubmit="return check();" id="subform">
+    <form name="subform" id="subform">
       <div id="btns" class="card-header">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
-        <input type="submit" class="btn btn-secondary" value="저장">
-        <button type="button" class="btn btn-secondary">삭제</button>
+        <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
       <div id="myf">
-        <label for="ccodeid">코드ID</label> <input type="text" id="ccodeid" name="ccodeid">
+        <label for="ccodeid">코드ID</label> <input type="text" id="ccodeid" name="ccodeid" readonly>
         <label for="cclass">코드분류</label> <input type="text" id="cclass" name="cclass">
         <label for="cclassd">코드소분류</label> <input type="text" id="cclassd" name="cclassd">
         <label for="cexplain">코드명</label> <input type="text" id="cexplain" name="cexplain">
@@ -84,7 +84,7 @@
                 <tr>
                   <th><input type="radio" name="as"></th>
                   <th>코드ID</th>
-                  <th>코드분류2</th>
+                  <th>코드소분류</th>
                   <th>코드명</th>
                   <th>코드상세</th>
                   <th>비고</th>
@@ -98,6 +98,7 @@
     </div>
   </body>
   <script>
+  // 대분류 조회
   $.ajax({
         url : "bigList",
         method :"GET",
@@ -112,7 +113,7 @@
       scrollY: false,
       rowHeaders: ['rowNum'],
       columns: [{
-        header: '코드ID',
+        header: '코드id',
         name: 'ccodeid',
         align: 'center',
       }, {
@@ -122,14 +123,13 @@
       }]
     });
     
-    
+    //새자료
     $('#newthat').click(function () {
       $('#myf>input').val('');
     })
     
     
-    
-    
+    //대분류로 소분류 조회
     grid.on('click', (ev) => {
   		var ccode = ev.nativeEvent.target.innerText
     	if(ev.columnName == 'ccodeid'){
@@ -149,32 +149,41 @@
     					mktr.append($('<td>').html(ele.cexplaind))
     					mktr.append($('<td>').html(ele.cnote))
     					mktr.appendTo($('#tbody'))
-
   					});
   				}
   			});
     	}
 	});
 	
+	//소분류 라디오로 정보입력
 		$(document).on('click', 'input[name="list"]', function(){
 			$(ccodeid).val($('input[name=list]:checked').parent().next().text())
 			$(cclass).val($('input[name=list]:checked').parent().next().next().text())
+			$(cclassd).val($('input[name=list]:checked').parent().next().next().next().text())
+			$(cexplain).val($('input[name=list]:checked').parent().next().next().next().next().text())
+			$(cexplaind).val($('input[name=list]:checked').parent().next().next().next().next().next().text())
+			$(cnote).val($('input[name=list]:checked').parent().next().next().next().next().next().next().text())
+			
 		});
-	
+		
+	// Insert/Update onsubmit체크분기
 	function check(){
 		if ($(ccodeid).val() == ''){
-			alert('신규 자료 작성')
-			return true;
+			document.subform.action="ccodeinsertsmall.do"
+			document.subform.submit();
 		}
 		else{
-			update();
-			alert('기존 자료 수정')
-			return false;
+			document.subform.action="ccodeupdate.do"
+			document.subform.submit();
 		}
 	}
-	function update(){
-		
+	
+	//삭제
+	function del(){
+		document.subform.action="codeDelete.do"
+		document.subform.submit();
 	}
+
 
 	
     
