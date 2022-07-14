@@ -56,6 +56,14 @@ public class ProdController {
 		public void requestMat(ProdPlanVO vo) {
 			mapper.requestMat(vo);
 		}
+		
+		// 생산계획관리 - 생산계획 등록
+		@RequestMapping("addProdPlan")
+		@ResponseBody
+		public String addProdPlan(@RequestParam String planDt, @RequestParam String planName, @RequestParam String planNote) {
+			String ppnum = mapper.addProdPlan(planDt, planName, planNote);
+			return ppnum;
+		}
 	
 	// 생산지시관리
 	@RequestMapping("/prodorder.do")

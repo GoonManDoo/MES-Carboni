@@ -38,6 +38,13 @@ public class ProdPlanServiceImpl implements ProdPlanService {
 	}
 
 
+	// 생산계획등록
+	@Override
+	public String addProdPlan(String planDt, String planName, String planNote) {
+		return mapper.addProdPlan(planDt, planName, planNote);
+	}
+
+
 	
 
 	
