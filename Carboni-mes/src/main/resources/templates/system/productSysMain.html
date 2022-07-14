@@ -5,268 +5,7 @@
 
 <head>
 
-	<style>
-		#container {
-			width: 100vw;
-			height: auto;
-		}
-
-
-.modal{ 
-  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
-}
-
-.modal_content{
-  width:fit-content; height:fit-content;
-  background:#fff; border-radius:10px;
-  position:relative; top:50%; left:50%;
-  margin-top:-100px; margin-left:-200px;
-  text-align:center;
-  box-sizing:border-box; padding:74px 0;
-  line-height:23px; cursor:pointer;
-}
-		.mainframe {
-			position: relative;
-			width: 1100px;
-			height: auto;
-			margin: auto;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-around;
-			padding: 10px;
-			box-sizing: content-box;
-
-		}
-
-		.inframe {
-			position: relative;
-			box-sizing: border-box;
-			width: 520px;
-			height: 520px;
-
-			margin-top: 10px;
-			margin-bottom: 10px;
-		}
-
-		.inframe2 {
-			position: relative;
-			box-sizing: border-box;
-			width: 100%;
-			height: 149px;
-			margin: auto;
-			margin-top: 10px;
-			margin-bottom: 10px;
-		}
-
-
-		.frame {
-			position: absolute;
-			box-sizing: border-box;
-			width: 520px;
-			height: 490px;
-			padding: 20px;
-			background: rgba(254, 254, 254, 0);
-			border: 4px solid rgba(218, 218, 218, 1);
-			box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.1);
-
-		}
-
-		.sysname {
-			width: 150px;
-			height: 40px;
-			padding-left: 5px;
-			text-align: left;
-			border-left: 2px solid rgba(217, 217, 217, 1);
-			box-sizing: border-box;
-			display: flex;
-			flex-wrap: wrap;
-			align-content: flex-start;
-		}
-
-		.maintitle {
-			font-family: 'Inter';
-			font-size: 24px;
-			font-weight: 500;
-			color: #000000;
-			margin-top: -5%;
-			margin-bottom: -8px;
-		}
-
-		.subtitle {
-			font-family: Inter;
-			font-size: 10px;
-			font-weight: 400;
-			line-height: 12px;
-			letter-spacing: 0em;
-			color: rgba(128, 128, 128, 1);
-			/* margin-left: 3%; */
-			margin-top: 6px;
-		}
-
-		.list {
-			position: relative;
-			float: left;
-			height: 213px;
-			width: 218px;
-			border-radius: 0px;
-			background: rgba(255, 255, 255, 0.01);
-			box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
-			margin-top: 20px;
-		}
-
-		.listinner {
-			position: absolute;
-			bottom: 0;
-			width: 218px;
-			height: 178px;
-			box-sizing: border-box;
-			padding-top: 20px;
-			padding-left: 10px;
-			border-top: 2px solid rgba(240, 240, 240, 1);
-		}
-
-		.prodname {
-			height: 30px;
-			width: 165px;
-			border-radius: 7px;
-			background: rgba(240, 240, 240, 1);
-		}
-
-		.number {
-			height: 26px;
-			width: 26px;
-			margin-right: 7px;
-			margin-top: 2px;
-		}
-
-		.listinframe {
-			height: 26px;
-			width: 196px;
-			margin-bottom: 10px;
-			display: flex;
-		}
-
-		.percent {
-			height: 26px;
-			width: 36px;
-			border-radius: 4px;
-			float: right;
-			margin: 2px;
-			background-color: white;
-		}
-
-		button {
-			background-color: rgba(255, 255, 255, 0);
-			border: none;
-			color: none;
-			position: absolute;
-		}
-
-		.produp {
-			font-size: xx-small;
-			line-height: 10px;
-			letter-spacing: 0em;
-			text-align: left;
-			color: rgba(94, 94, 94, 1);
-			top: 13px;
-			left: 60%;
-		}
-
-		.donut {
-			position: relative;
-			float: right;
-			height: 267px;
-			width: 218px;
-			margin-top: -34px;
-			background: rgba(255, 255, 255, 0.01);
-			box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
-		}
-
-		.area {
-			position: relative;
-			height: 163px;
-			width: 472px;
-			bottom: -15px;
-			background: rgba(255, 255, 255, 0.01);
-			box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
-			clear: both;
-		}
-
-		.apidiv1 {
-			position: absolute;
-			width: 218px;
-			height: 226px;
-			bottom: 0;
-		}
-
-		hr {
-			margin: 0;
-		}
-
-		.apidiv2 {
-			position: absolute;
-			width: 472px;
-			height: 122px;
-			bottom: 0;
-		}
-
-		.do-maintitle {
-			font-family: Inter;
-			font-size: 20px;
-			font-weight: 500;
-			line-height: 40px;
-			letter-spacing: 0em;
-			margin-left: 5px;
-			display: flex;
-			text-align: left;
-			margin-bottom: 2px;
-		}
-
-		.areatitle {
-
-			font-family: Inter;
-			font-size: 20px;
-			font-weight: 500;
-			line-height: 40px;
-			letter-spacing: 0em;
-			text-align: left;
-			margin: 0;
-			margin-left: 5px;
-		}
-
-		.link {
-			margin-top: 490px;
-			font-family: Inter;
-			font-size: 14px;
-			font-weight: 700;
-			line-height: 17px;
-			letter-spacing: 0em;
-			text-align: left;
-			top: 0%;
-			left: 80%;
-
-		}
-
-		a {
-			text-decoration-line: none;
-		}
-
-		.butarea {
-
-			position: relative;
-			width: 100%;
-			height: auto;
-
-
-			margin-top: 10px;
-			margin-bottom: 10px;
-		}
-
-		.sysupdate {
-			position: absolute;
-			left: 469px;
-		}
-	</style>
+	
 </head>
 
 
@@ -515,7 +254,8 @@
 				</div>
 
 				<div class="inframe2">
-					<button class="sysupdate"><img src="/assets/img/newProdSys.svg" alt="sysupdate"></button>
+					<button class="sysupdate"><img src="../../static/assets/img/newProdSys.svg"
+							alt="sysupdate"></button>
 				</div>
 
 			</div>
@@ -526,8 +266,8 @@
 
 					<div class="frame">
 						<div class="sysname">
-							<p class="maintitle">1stMachine</p>
-							<p class="subtitle">48-spindle braiding mech</p>
+							<p class="maintitle"></p>
+							<p class="subtitle"></p>
 						</div>
 						<div class="list">
 							<button class="proceup">공정 등록하기</button>
@@ -581,194 +321,80 @@
 				</div>
 			</div>
 
-			<!--모달 -->
-			<div id="modal">
-
-
-				<!--설비추가 모달-->
-				<div class="prodResiFrame" style="display:none;">
-					<div class="title">
-						<p>설비 등록</p>
-					</div>
-					<div class="contentInnerFrame">
-						<!-- 위쪽 경계선만 나오는 프레임 -->
-						<div class="contentFrame">
-							<!-- 내부 컨텐츠 감싸는 프레임 -->
-
-							<div class="queFrame">
-								<div class="question1">
-									<p>기체 순번</p>
-								</div>
-							</div>
-
-							<div class="queFrame">
-								<div class="question2">
-									<p>기체 이름</p>
-								</div>
-							</div>
-
-							<div class="queFrame">
-								<div class="question3">
-									<p>등록일/시간</p>
-									<button class="dropdown"><img src="/assets/img/dropdown.svg"
-											alt="dropdown"></button>
-								</div>
-							</div>
-
-
-							<div class="queFrame">
-								<div class="question4">
-									<p>관리자</p>
-									<button class="dropdown"><img src="/assets/img/dropdown.svg"
-											alt="dropdown"></button>
-								</div>
-							</div>
-
-							<div class="buttonBar">
-								<button class="cancle">
-									<img src="/assets/img/cancel.svg" alt="취소">
-								</button>
-								<button class="ProdResistAccept">
-									<img src="/assets/img/accept.svg" alt="확인">
-								</button>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<!--설비 추가 모달 끝-->
-
-				<!-- 자세히보기 모달-->
-				<div id="detailShow"></div>
-				<!--자세히 보기 모달 끝-->
-
-				<!---->
-
-			</div>
-			<!--모달 팝법-->
-
-			<!--자세히 보기 -->
-
-			<!--설비 추가하기-->
-			<div id="ProdResi"></div>
-			<!--공정 추가하기-->
-			<div id="ProceResi"></div>
-
-
-			<!--모달 팝법 끝-->
-
-
-			<!--Modal 창 모음-->
-
-
-<div class="modal">
-  <div class="modal_content" 
-       title="클릭하면 창이 닫힙니다.">
-    여기에 모달창 내용을 적어줍니다.<br>
-    이미지여도 좋고 글이어도 좋습니다.
-  </div>
-</div>
-
 
 
 		</div>
 
 
+		<!--Modal 창 모음-->
+		<!--자세히보기-->
+		
+		<!--자세히 보기 끝-->
+
+		<!--공정등록-->
+
+		<!--공정등록 끝-->
+
+		<!--설비등록-->
+		<div class="detailmodal">
+			<div class="title">
+				<p>설비 등록</p>
+			</div>
+			<div class="contentInnerFrame">
+				<!-- 위쪽 경계선만 나오는 프레임 -->
+				<div class="contentFrame">
+					<!-- 내부 컨텐츠 감싸는 프레임 -->
+
+					<div class="queFrame">
+						<div class="question1">
+							<p>기체 순번</p>
+						</div>
+					</div>
+
+					<div class="queFrame">
+						<div class="question2">
+							<p>기체 이름</p>
+						</div>
+					</div>
+
+					<div class="queFrame">
+						<div class="question3">
+							<p>등록일/시간</p>
+							<button class="dropdown"><img src="/assets/img/dropdown.svg" alt="dropdown"></button>
+						</div>
+					</div>
 
 
+					<div class="queFrame">
+						<div class="question4">
+							<p>관리자</p>
+							<button class="dropdown"><img src="/assets/img/dropdown.svg" alt="dropdown"></button>
+						</div>
+					</div>
+
+					<div class="buttonBar">
+						<button class="cancle">
+							<img src="/assets/img/cancel.svg" alt="취소">
+						</button>
+						<button class="accept">
+							<img src="/assets/img/accept.svg" alt="확인">
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!--설비등록 끝-->
 
 
 		<script>
+			$(".sysupdate").click(function () {
+				$(".detailmodal").fadeIn();
+			});
 
-			$(function () {
-				/*메이크 모달*/
-
-				function ProdResistModal() {
-					var ProdResist = $("#ProdResi").dialog({
-						autoOpen: false,
-						height: 680,
-						width: 620,
-						modal: true,
-					});
-					return ProdResist;
-				};
-
-				function ProceedResistModal() {
-					var ProceedResist = $("#ProceResi").dialog({
-						autoOpen: false,
-						height: 710,
-						width: 620,
-						modal: true,
-					});
-					return ProceedResist;
-				};
-
-				function detShowModal() {
-					var detailShow = $("#detailShow").dialog({
-						autoOpen: false,
-						height: 763,
-						width: 1375,
-						modal: true,
-					});
-					return detailShow;
-				};
-
-
-				var ProdResist = ProdResistModal();
-				var ProceedResist = ProceedResistModal();
-				var detShow = detShowModal();
-
-
-				$("#detail").on("click", function () {
-					/* 첫번째 $는 불러올 창을 만드는 div의 id. 2번째의 .do가 실질적으로 불러와지는 페이지. */
-					$("#detailShow").load('detailShow.do', function () {
-						detShow.dialog("open");
-					})
-				});
-				function contentsAdd() {
-				}
-
-				$("").on("click", function () {
-					$("#ProdResi").load('ProdResist.do', function () {
-						ProdResist.dialog("open");
-					})
-				});
-				function contentsAdd() {
-				}
-
-				$(".produp").on("click", function () {
-					$("#ProceResi").load('ProcessResist.do', function () {
-						ProceedResist.dialog("open");
-					})
-				});
-				function contentsAdd() {
-				}
-
-				$(".ProdResistAccept").on("click", function () {
-					$(".inframe2").before($("#ProdSYS").html());
-				})
-
-
-				$(".sysdelete").on("click", function () {
-					$("").remove($(""));
-				})
-				
-				
-				
- $(".sysupdate").click(function(){
-    $(".modal").fadeIn();
-  });
-  
-  $(".modal_content").click(function(){
-    $(".modal").fadeOut();
-  });
-
-
-
-			})
-
-
+			$(".modal_content").click(function () {
+				$(".detailmodal").fadeOut();
+			});
 		</script>
 	</th:block>
 </body>
