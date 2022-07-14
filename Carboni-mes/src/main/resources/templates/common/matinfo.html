@@ -65,13 +65,34 @@
         <button type="button" class="btn btn-secondary">저장</button>
         <button type="button" class="btn btn-secondary">삭제</button>
       </div>
-    
       <div id="container">
         <div class="left">
-          <div id="grid"></div>
+          <div class="card mb-4">
+      		<div class="card-header">
+        		<i class="fas fa-table me-1"></i> 자재상세
+      		</div>
+      		<div class="card-body">
+        		<table id="datatablesSimple">
+          		<thead>
+            		<tr>
+              		<th><input type="radio"></th>
+              		<th>자재코드</th>
+              		<th>자재명</th>
+            		</tr>
+          		</thead>
+          		<tbody>
+            		<tr>
+              		<td><input type="radio"></th>
+              		<td>00</th>
+              		<td>카보</th>
+            		</tr>
+          		</tbody>
+        		</table>
+      		</div>
+    </div>
         </div>
         <div class="right">
-          <form id="matmain" action="#">
+          <form id="matmain">
             <fieldset>
               <label for="miCode">자재코드</label> <input type="text" id="miCode">
               <label for="miName">자재명</label> <input type="text" id="miName">
@@ -85,9 +106,6 @@
               <label for="miMax">MAX재고</label> <input type="text" id="miMax">
               <label for="miMin">MIN재고</label> <input type="text" id="miMin">
             </fieldset>
-            <fieldset id="subbtn">
-              <input type="submit" class="btn btn-secondary" value="재고정보">
-            </fieldset>
           </form>
         </div>
       </div>
@@ -95,24 +113,6 @@
     </body>
     
     <script>
-      var gridData = [];
-    
-      var grid = new tui.Grid({
-        el : document.getElementById('grid'),
-        data : gridData,
-        scrollX : false,
-        scrollY : false,
-        rowHeaders : [ 'rowNum' ],
-        columns : [ {
-          header : '자재코드',
-          name : 'c1',
-          align : 'center',
-        }, {
-          header : '자재명',
-          name : 'c2',
-          align : 'center'
-        } ]
-      });
     </script>
     </th:block>
     </html>
