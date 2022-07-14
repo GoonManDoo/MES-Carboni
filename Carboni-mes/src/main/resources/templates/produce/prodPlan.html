@@ -143,7 +143,7 @@
 		<div style="display: flex; justify-content: flex-end;">
 			<button type="button" id="addBtn" class="btn btn-secondary"
 				style="margin-right: 5px;">추가</button>
-			<button type="button" class="btn btn-secondary"
+			<button type="button" id="deleteBtn" class="btn btn-secondary"
 				style="margin-right: 5px;">삭제</button>
 		</div>
 	</div>
@@ -308,13 +308,13 @@
 						pdGrid.resetData(rs)
 						prk = (pdGrid.getRowCount())-1 // 로우키라고 생각
 						for(i=0; i<prk+1; i++) {
-							
+							pdGrid.setValue(i, 'ppdam', pdGrid.getRow(i).cnrest, false)
 						}
 						
 						
 						
 						// 그리드에 값 넣어주기
-						for(i=0; i<mrk+1; i++) {
+						/*for(i=0; i<mrk+1; i++) {
 							// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
 							matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
 							if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
@@ -327,7 +327,7 @@
 									modal3.dialog('open')
 								})
 							}
-						}
+						}*/
 					}
 				})
 				modal2.dialog('close')
@@ -403,18 +403,22 @@
 			el : document.getElementById('total'),
 			data : totalPd,
 			scrollX : false,
+			rowHeaders : [ 'rowNum', 'checkbox' ],
 			columns : [ {
 				header: '제품코드',
 				name: 'gicode',
-				align: 'center'
+				align: 'center',
+				editor: 'text'
 			}, {
 				header : '제품명',
 				name: 'giname',
-				align : 'center'
+				align : 'center',
+				editor: 'text'
 			}, {
 				header : '규격',
 				name: 'giunit',
-				align : 'center'
+				align : 'center',
+				editor: 'text'
 			}, {
 				header : '의뢰번호',
 				name: 'prnum',
@@ -441,7 +445,8 @@
 				header : '작업일자',
 				name: 'ppddate',
 				align : 'center',
-				editor: 'text'
+				editor : 'datePicker',
+				language : 'ko'
 			} ]
 		});
 		
@@ -507,7 +512,7 @@
 		
 		// 그리드 함수 --------------------------------------
 			
-			// 제품목록 그리드
+			// 자재정보 출력을 위한 제품목록 그리드 클릭이벤트
 			pdGrid.on('dblclick', e => {
 				var rk = e.rowKey;
 				prn = pdGrid.getRow(rk).prnum
@@ -528,7 +533,9 @@
 								matGrid.addCellClassName(i, 'lamount', 'matDanger')
 								matGrid.on('dblclick', el => {
 									mc = matGrid.getRow(el.rowKey).micode
+									oa = matGrid.getRow(el.rowKey).lamount
 									$('#matCode').val(mc)
+									$('#orderAmount').val(oa)
 									$('#matorderModal').css('display', '')
 									modal3.dialog('open')
 								})
@@ -548,10 +555,20 @@
 					data: { micode, orderAmount },
 					success: function() {
 						modal3.dialog('close')
-						alert('발주요청이 완료되었습니다.')
+						swal('성공', '발주요청이 완료되었습니다.', 'success')
 					}
 				})
 			}
+			
+			// 제품그리드 행추가
+			$('#addBtn').on('click', function(){
+				pdGrid.appendRow()
+			})
+			
+			// 제품그리드 행삭제
+			$('#deleteBtn').on('click', function(){
+				pdGrid.removeCheckedRows('')
+			})
 		
 		// 그리드 함수 끝 -----------------------------------
 		
