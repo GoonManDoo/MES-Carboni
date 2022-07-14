@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.carboni.prj.produce.mapper.ProdPlanMapper">
-
+	
+	<!-- 미생산주문조회 -->
 	<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
 		SELECT x.prnum, y.cndate, z.csname, x.prclose
 		FROM prodreq x, contract y, costomer z
@@ -12,8 +13,9 @@
 		AND x.prstatus = 'N'
 	</select>
 	
+	<!-- 미생산주문에 들어있는 제품 목록 -->
 	<select id="planProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT z.gicode, z.giname, z.giunit, x.prnum, x.prclose, y.cnam
+		SELECT z.gicode, z.giname, z.giunit, x.prnum, x.prclose, y.cnrest
 		FROM prodreq x, contract y, goodsinfo z
 		WHERE y.cnnum = x.cnnum
 		AND y.gicode = z.gicode
@@ -23,18 +25,15 @@
 		</foreach>
 	</select>
 	
+	<!-- 제품목록에 있는 제품 선택했을 때 필요 자재 정보 뜨기 -->
 	<select id="matList" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT g.gicode, g.giname, b.micode, m.miname, b.bam, k.msciam, c.cnam
-		FROM goodsinfo g, bom b, matinfo m, matstk k, contract c
-		WHERE g.gicode = b.gicode
-		AND
-		b.micode = m.micode
-		AND
-		m.micode = k.micode
-		AND
-		g.gicode = #{gic}
-		AND
-		c.cnam = #{cn}
+		SELECT c.gicode, b.micode, m.miname, b.bam, c.cnrest, t.msciam
+		FROM prodreq p, contract c, bom b, matinfo m, matstk t
+		WHERE p.cnnum = c.cnnum
+		AND c.gicode = b.gicode
+		AND b.micode = m.micode
+		AND m.micode = t.micode
+		AND p.prnum = #{prn}
 	</select>
 	
 	<insert id="requestMat">

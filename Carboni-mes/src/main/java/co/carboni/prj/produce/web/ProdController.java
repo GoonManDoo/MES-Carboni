@@ -45,8 +45,8 @@ public class ProdController {
 		// 생산계획관리 - 선택한 제품의 필요자재 체크
 		@RequestMapping("matCheck")
 		@ResponseBody
-		public List<ProdPlanVO> matCheck(@RequestParam("gic") String gicode, @RequestParam("cn") int cnam) {
-			List<ProdPlanVO> matCheck = mapper.matList(gicode, cnam);
+		public List<ProdPlanVO> matCheck(@RequestParam("prn") String prnum) {
+			List<ProdPlanVO> matCheck = mapper.matList(prnum);
 			return matCheck;
 		}
 		

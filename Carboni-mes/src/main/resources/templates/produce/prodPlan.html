@@ -59,6 +59,7 @@
 			<div class="card-body">
 				<!-- 입력폼 -->
 				<form autocomplete="off" id="dataForm">
+					<input type="hidden" id="planNum" name="planNum">
 					<div class="container-fluid"
 						style="display: flex; flex-flow: row wrap; justify-content: space-between;">
 						<!-- 계획일자, 생산계획명, 특이사항 -->
@@ -303,7 +304,30 @@
 					dataType: 'json',
 					success: function(rs) {
 						pdGrid.refreshLayout();
+						matGrid.resetData(selectMat); // 계획 추가하면 자재그리드 reset
 						pdGrid.resetData(rs)
+						prk = (pdGrid.getRowCount())-1 // 로우키라고 생각
+						for(i=0; i<prk+1; i++) {
+							
+						}
+						
+						
+						
+						// 그리드에 값 넣어주기
+						for(i=0; i<mrk+1; i++) {
+							// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
+							matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
+							if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
+								matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
+								matGrid.addCellClassName(i, 'lamount', 'matDanger')
+								matGrid.on('dblclick', el => {
+									mc = matGrid.getRow(el.rowKey).micode
+									$('#matCode').val(mc)
+									$('#matorderModal').css('display', '')
+									modal3.dialog('open')
+								})
+							}
+						}
 					}
 				})
 				modal2.dialog('close')
@@ -344,10 +368,6 @@
 			columns : [ {
 				header : '제품코드',
 				name : 'gicode',
-				align : 'center'
-			}, {
-				header : '제품명',
-				name : 'giname',
 				align : 'center'
 			}, {
 				header : '자재코드',
@@ -404,8 +424,8 @@
 				name: 'prclose',
 				align : 'center'
 			}, {
-				header : '주문량',
-				name: 'cnam',
+				header : '수주잔량',
+				name: 'cnrest',
 				align : 'center'
 			}, {
 				header : '기계획량',
@@ -487,22 +507,24 @@
 		
 		// 그리드 함수 --------------------------------------
 			
-		
-			pdGrid.on('click', e => {
+			// 제품목록 그리드
+			pdGrid.on('dblclick', e => {
 				var rk = e.rowKey;
-				gic = pdGrid.getRow(rk).gicode
-				cn = pdGrid.getRow(rk).cnam
+				prn = pdGrid.getRow(rk).prnum
 				$.ajax({
 					url: 'matCheck',
 					method: 'POST',
-					data : { gic, cn },
+					data : { prn },
 					success: function(result) {
+						matGrid.resetOriginData()
 						matGrid.resetData(result)
-						mrk = (matGrid.getRowCount())-1
-						for(i=0; i<matGrid.getRowCount(); i++) {
-							matGrid.setColumnValues('pamount', (pdGrid.getRow(rk).cnam*matGrid.getRow(i).cnam), false)
-							if(matGrid.getRow(i).cnam-matGrid.getRow(i).msciam > 0) {
-								matGrid.setColumnValues('lamount', (matGrid.getRow(i).cnam-matGrid.getRow(i).msciam), false)
+						mrk = (matGrid.getRowCount())-1 // 로우키라고 생각
+						// 그리드에 값 넣어주기
+						for(i=0; i<mrk+1; i++) {
+							// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
+							matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
+							if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
+								matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
 								matGrid.addCellClassName(i, 'lamount', 'matDanger')
 								matGrid.on('dblclick', el => {
 									mc = matGrid.getRow(el.rowKey).micode
@@ -516,6 +538,7 @@
 				})
 			})
 			
+			// 부족한 자재 발주요청
 			function requestMat(){
 				var micode = $('#matCode').val()
 				var orderAmount = $('#orderAmount').val()
@@ -523,7 +546,7 @@
 					url: 'requestMat',
 					method: 'POST',
 					data: { micode, orderAmount },
-					success: function(result) {
+					success: function() {
 						modal3.dialog('close')
 						alert('발주요청이 완료되었습니다.')
 					}
@@ -531,6 +554,40 @@
 			}
 		
 		// 그리드 함수 끝 -----------------------------------
+		
+		// 버튼 함수---------------------------------------------
+		
+		/* 새자료 -> 끝 */ 
+		$('#resetBtn').on('click', function() {
+			fnFormClear();
+		})
+
+		function fnFormClear() {
+			document.getElementById('dataForm').reset();
+			$('#planDt').val('');
+			datepicker1.setDate(new Date());
+			datepicker2.setStartDate(new Date());
+			datepicker2.setEndDate(new Date());
+			matGrid.resetData(selectMat);
+			pdGrid.resetData(totalPd);
+		}
+		
+		/* 생산계획 등록 */
+		$('#saveBtn').on('click', function(){
+			if($('#planNum').val() == null) {
+				// 등록
+				
+			} else {
+				// 수정
+				
+			}
+			
+		}) 
+		
+		/* 생산계획 삭제 */
+		
+		
+		// 버튼끝------------------------------------------
 		
 		}) // $(function) 끝
 		
@@ -584,29 +641,7 @@
 		// 달력끝------------------------------------------
 		
 		
-		// 버튼 함수---------------------------------------------
 		
-		/* 새자료 */
-		$('#resetBtn').on('click', function() {
-			fnFormClear();
-		})
-
-		function fnFormClear() {
-			document.getElementById('dataForm').reset();
-			$('#planDt').val('');
-			datepicker1.setDate(new Date());
-			datepicker2.setStartDate(new Date());
-			datepicker2.setEndDate(new Date());
-			grid.resetData(gridData);
-		}
-		
-		/* 생산계획 등록 */
-		
-		/* 생산계획 삭제 */
-		
-		
-		
-		// 버튼끝------------------------------------------
 		
 		
 		
