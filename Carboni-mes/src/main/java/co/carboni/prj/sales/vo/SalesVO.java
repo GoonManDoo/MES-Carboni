@@ -26,6 +26,7 @@ public class SalesVO {
 	public String csname;   //거래처이름
 	public String csnum;    //사업자번호
 	public String cstel;    //거래처전화번호
+	public String cnstatus; //출하진행상태
 	
 	
 	//생산의뢰관리

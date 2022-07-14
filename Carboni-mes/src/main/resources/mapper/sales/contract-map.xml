@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.carboni.prj.sales.mapper.SalesMapper">
-
-	<select id="findCsList" resultType="co.carboni.prj.sales.vo.SalesVO">
-	SELECT cscode, csname, csnum, cstel FROM costomer
-	WHERE csname like '%' || #{csname} || '%'
-	</select>
 	
-	<select id="findGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
-	SELECT gicode, giname, giunit FROM goodsinfo
-	WHERE giname like '%' || #{giname} || '%'
-	</select>
-
-
+	<!-- 수주관리 -->
+		<!-- 수주일자 조회 -->
+		<select id="findCndateList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT m.cnnum, c.csname, g.giname, m.cnam, m.cnrest, m.cndate, m.cnperiod, m.cnstatus, g.giunit
+			FROM contract m, costomer c, goodsinfo g
+			WHERE (c.cscode = m.cscode AND g.gicode = m.gicode)
+			AND
+			((m.cndate>=TO_DATE(#{startDt}, 'YY/MM/DD') AND TO_DATE(#{endDt}, 'YY/MM/DD') >= m.cndate)
+			AND
+			m.cscode = #{cusCode}
+			AND
+			m.gicode =#{goodsCode})
+		</select>
+		
+		<!-- 거래처모달 전체조회 -->
+		<select id="findAllCsList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT cscode, csname, csnum, cstel FROM costomer
+			WHERE csgb = '제품거래'
+		</select>
+	
+		<!-- 거래처모달 검색조회 -->
+		<select id="findCsList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT cscode, csname, csnum, cstel FROM costomer
+			WHERE csname like '%' || #{csname} || '%'
+			AND csgb = '제품거래'
+		</select>
+		
+		<!-- 거래처모달 전체조회 -->
+		<select id="findAllGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT gicode, giname, giunit FROM goodsinfo
+		</select>
+		
+		<!-- 거래처모달 검색조회 -->
+		<select id="findGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT gicode, giname, giunit FROM goodsinfo
+			WHERE giname like '%' || #{giname} || '%'
+		</select>
+		
+		
 </mapper>

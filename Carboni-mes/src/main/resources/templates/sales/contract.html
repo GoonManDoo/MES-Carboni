@@ -34,7 +34,10 @@ span {
 }
 
 #leftinput, #rightinput {
-	width: 42%;
+	margin-right: 12px;
+}
+#leftinput1, #rightinput1 {
+	background-color: #f1f1f1;
 }
 
 #startCNDATE {
@@ -89,10 +92,14 @@ span {
 			<!-- 메인화면 검색 -->
 			<div class="card mb-4" id="pageing">
 				<div class="card-body">
-					<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
-					            <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 
-					업체코드<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br> 
-					제품코드<input type="text" id="rightinput" class="input" placeholder="제품코드 검색" readonly="readonly"><br>
+					<span> 수주일자<input type="date" name="startCndate" id="startCndate" class="input" />~ 
+					            <input type="date" name="endCndate" id="endCndate" class="input" /><br> 
+					
+						   업체정보<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly">
+						         <input type="text" id="leftinput1" class="input" placeholder="거래처 코드" readonly="readonly"><br> 
+							
+						   제품정보<input type="text" id="rightinput" class="input" placeholder="제품 검색" readonly="readonly">
+						        <input type="text" id="rightinput1" class="input" placeholder="제품 코드" readonly="readonly"><br>
 					</span>
 				</div>
 			</div>
@@ -153,24 +160,25 @@ span {
 
 		<script>
 			
+			$(function() {
 			
 			/* 수주일자 조회 */
 			$('#searchBtn').on('click', function(){
-				var startDt = $('#startCNDATE').val()
-				var endDt = $('#endCNDATE').val()
+				var startDt = $('#startCndate').val()
+				var endDt = $('#endCndate').val()
+				var cusCode = $('#leftinput1').val()
+				var goodsCode = $('#rightinput1').val()
 				$.ajax({
 					url: 'cndateList',
 					method: 'POST',
-					data : {startDt, endDt},
+					data : {startDt, endDt, cusCode, goodsCode},
 					success: function(result) {
-						rqGrid.resetData(result)
+						grid.refreshLayout();
+						grid.resetData(result)
 					}
 				})
 			})
 		
-			
-			
-			$(function() {
 				/*메이크 모달*/
 				function makeModal(e, fnc) {
 					var dialog = $(e).dialog({
@@ -191,14 +199,29 @@ span {
 				}
 
 				var modal1 = makeModal("#contractModal", check)
+					modal1 = makeModal("#contractModal", check1)
 				var modal2 = makeModal("#prodNameModal", giup)
+				    modal2 = makeModal("#prodNameModal", giup1)
 
 				/*거래처정보모달*/
 				$("#leftinput").on("click", function() {
 					$("#contractModal").css('display', '')
 					modal1.dialog('open')
-					barmo.refreshLayout();
-					
+					//전체거래처 바로 띄우는 ajax 호출 
+					$.ajax({
+						url:'allCostomerList',
+						method: 'POST',
+						success: function(result) {
+							gurae.refreshLayout();
+							gurae.resetData(result)
+							gurae.on('click', e => {
+								var rk = e.rowKey
+								csn = gurae.getRow(rk).csname
+								csc = gurae.getRow(rk).cscode
+							})
+							
+						}
+					})
 				})
 				/* 거래처명 검색 이벤트 */
 				$('#cssearchBtn').on('click', function() {
@@ -208,19 +231,29 @@ span {
 						method: 'POST',
 						data : {csname},
 						success: function(result) {
-							barmo.resetData(result)
-							barmo.on('click', e => {
+							gurae.resetData(result)
+							gurae.on('click', e => {
 							var rk = e.rowKey
-							csc = barmo.getRow(rk).cscode
+							csn1 = gurae.getRow(rk).csname
+							csc1 = gurae.getRow(rk).cscode
 						})
 						}
 					})
 				})
-				/*거래처명 조회 모달 확인버튼 눌렀을떄 */
+				/*거래처명 검색조회 모달 확인버튼 눌렀을떄 */
 				function check() {
-					$('#leftinput').val(csc)
+					$('#leftinput').val(csn1)
+					$('#leftinput1').val(csc1)
 					modal1.dialog('close')
 				}
+				
+				/*거래처명 전체조회 모달 확인버튼 눌렀을떄 */
+				function check1() {
+					$('#leftinput').val(csn)
+					$('#leftinput1').val(csc)
+					modal1.dialog('close')
+				}
+				
 
 				
 
@@ -228,7 +261,20 @@ span {
 				$("#rightinput").on("click", function() {
 					$("#prodNameModal").css('display', '')
 					modal2.dialog('open')
-					gomo.refreshLayout();
+					//전체제품 바로 띄우는 ajax 호출
+					$.ajax({
+						url:'allGoodsList',
+						method: 'POST',
+						success: function(result) {
+							jepoom.refreshLayout();
+							jepoom.resetData(result)
+							jepoom.on('click', e => {
+								var rok = e.rowKey
+								gin = jepoom.getRow(rok).giname
+								gic = jepoom.getRow(rok).gicode
+							})
+						}
+					})
 				})
 				
 				/* 제품정보 모달 검색 이벤트 */
@@ -239,14 +285,28 @@ span {
 						method: 'POST',
 						data : {giname},
 						success: function(result) {
-							gomo.resetData(result)
+							jepoom.resetData(result)
+							jepoom.on('click', e => {
+							var rok = e.rowKey
+							gin1 = jepoom.getRow(rok).giname
+							gic1 = jepoom.getRow(rok).gicode
+							})
 						}
 					})
 				})
 				
-				/* 제품정보 모달 확인 눌렀을떄 */
+				/*제품정보 검색조회 모달 확인버튼 눌렀을떄 */
 				function giup() {
-
+					$('#rightinput').val(gin1)
+					$('#rightinput1').val(gic1)
+					modal2.dialog('close')
+				}
+				
+				/*제품정보 전체조회 모달 확인버튼 눌렀을떄 */
+				function giup1() {
+					$('#rightinput').val(gin)
+					$('#rightinput1').val(gic)
+					modal2.dialog('close')
 				}
 
 				
@@ -257,28 +317,28 @@ span {
 					el : document.getElementById('grid'),
 					data : gridData,
 					scrollX : false,
-					rowHeaders : [ 'rowNum', 'checkbox' ],
+					rowHeaders : [ 'rowNum', 'checkbox'],
 					columns : [ {
 						header : '수주번호',
 						name : 'cnnum',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true ,
-						_attributes: {
-					          disabled: true 
-				        }
 					}, {
 						header : '거래처명',
 						name : 'csname',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true,
-						_attributes: {
-					          checkDisabled: true 
-					        }
 					}, {
 						header : '제품명',
 						name : 'giname',
+						align : 'center',
+						sortingType : 'desc',
+						sortable : true
+					},{
+						header : '제품단위',
+						name : 'giunit',
 						align : 'center',
 						sortingType : 'desc',
 						sortable : true
@@ -319,7 +379,7 @@ span {
 				/*거래처 모달 그리드*/
 				const totaldata = [];
 
-				const barmo = new tui.Grid({
+				const gurae = new tui.Grid({
 					el : document.getElementById('gridcomp'),
 					data : totaldata,
 					scrollX : false,
@@ -355,11 +415,11 @@ span {
 				/*제품정보 그리드*/
 				const giupdata = [];
 
-				const gomo = new tui.Grid({
+				const jepoom = new tui.Grid({
 					el : document.getElementById('gridpro'),
 					data : giupdata,
 					scrollX : false,
-					rowHeaders : [ 'rowNum', 'checkbox' ],
+					rowHeaders : [ 'rowNum' ],
 					bodyHeight : 430,
 					columns : [ {
 						header : '제품코드',
