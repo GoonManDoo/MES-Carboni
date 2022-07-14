@@ -28,4 +28,7 @@ public interface MatService {
 	
 	//발주관리에서 요청 내용이 메인 그리드에 표시
 	public List<MatVO> showFindReq(MatVO vo);
+	
+	//발주관리의 발주일자 조회해서 메인 그리드에 표시
+	public List<MatVO> findReqDate(String startD, String endD, String cusCode, String matCode);
 }

@@ -112,9 +112,17 @@ public class MatController {
 	// 발주관리에서 요청 내용이 메인 그리드에 표시
 	@RequestMapping("showFindReqList")
 	@ResponseBody
-	public List<MatVO> showFindReqList(MatVO vo){
-		List<MatVO> showFindReqList =mapper.showFindReq(vo);
+	public List<MatVO> showFindReqList(MatVO vo) {
+		List<MatVO> showFindReqList = mapper.showFindReq(vo);
 		return showFindReqList;
 	}
 
+	// 발주관리의 발주일자 조회
+	@RequestMapping("findreqdate")
+	@ResponseBody
+	public List<MatVO> findreqdate(@RequestParam String startD, @RequestParam String endD, @RequestParam String cusCode,
+			@RequestParam String matCode) {
+		List<MatVO> findreqdate = mapper.findReqDate(startD, endD, cusCode, matCode);
+		return findreqdate;
+	}
 }

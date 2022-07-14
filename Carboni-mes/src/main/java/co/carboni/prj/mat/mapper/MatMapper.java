@@ -29,4 +29,8 @@ public interface MatMapper {
 
 	// 발주관리에서 요청 내용이 메인 그리드에 표시
 	public List<MatVO> showFindReq(MatVO vo);
+
+	// 발주관리의 발주일자 조회
+	public List<MatVO> findReqDate(@Param("startD") String startD, @Param("endD") String endD,
+			@Param("cusCode") String cusCode, @Param("matCode") String matCode);
 }

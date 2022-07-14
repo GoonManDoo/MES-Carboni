@@ -39,8 +39,10 @@ public class MatVO {
 	private Date moodate; //발주일자
 	private Date mordate; //입고일자 
 	private int mooam; //발주량
-	private int inmaam; //입고량
-	private int outmaam;//출고량
+	private int moaskam;//주문수량
+	private String mostatus;//발주상태
+	private int msciam;//자재량
+	
 	
 	
 	
