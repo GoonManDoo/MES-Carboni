@@ -18,7 +18,7 @@ public interface ProdPlanMapper {
 	public List<ProdPlanVO> planProduct(ProdPlanVO vo);
 
 	// 생산계획에서 선택한 제품의 자재목록
-	public List<ProdPlanVO> matList(@Param("gic") String gicode, @Param("cn") int cnam);
+	public List<ProdPlanVO> matList(@Param("prn") String prnum);
 
 	// 생산계획에서 부족한 자재 발주요청
 	public void requestMat(ProdPlanVO vo);

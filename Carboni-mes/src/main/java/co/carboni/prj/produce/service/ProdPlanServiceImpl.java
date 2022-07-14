@@ -28,8 +28,8 @@ public class ProdPlanServiceImpl implements ProdPlanService {
 	
 	// 생산계획에서 선택한 제품의 자재목록
 	@Override
-	public List<ProdPlanVO> matList(String gicode, int cnam) {
-		return mapper.matList(gicode, cnam);
+	public List<ProdPlanVO> matList(String prnum) {
+		return mapper.matList(prnum);
 	}
 	
 	// 생산계획에서 부족한 자재 발주요청

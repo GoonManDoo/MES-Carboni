@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 public class ProdPlanVO {
 	
-	// 생산계획
+	// 생산계획조회
 		public String ppnum; // 생산계획번호
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date ppdate; // 생산계획일자
@@ -22,8 +22,14 @@ public class ProdPlanVO {
 		public String ppstatus; // 계획상태
 		public String ppnote; // 비고
 	
-	// 생산계획상세
+	// 생산계획등록
+		
+	// 생산계획상세등록
 		public String ppdnum; // 생산계획상세번호
+		
+	// 생산계획수정
+		
+	// 생산계획삭제
 	
 	// 미생산주문조회 모달
 		public String prnum; // 의뢰번호
@@ -42,12 +48,13 @@ public class ProdPlanVO {
 		public String cexplain; // 단위코드명
 		// 의뢰번호
 		// 마감일자
-		public int cnam; // 수주수량
+		public int cnrest; // 수주잔량
 		public int ppdam; // 기계획량
 		public int uplam; // 미계획량
 		public Date ppddate; // 작업일자
 		
 	// 선택한 제품의 자재목록
+		// 수주잔량
 		public String micode; // 자재코드
 		public String miname; // 자재명
 		public int bam; // 소요량(사용량)

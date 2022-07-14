@@ -16,7 +16,7 @@ public interface ProdPlanService {
 		public List<ProdPlanVO> planProduct(ProdPlanVO vo);
 		
 		// 생산계획에서 선택한 제품의 자재목록
-		public List<ProdPlanVO> matList(String gicode, int cnam);
+		public List<ProdPlanVO> matList(String prnum);
 		
 		// 생산계획에서 부족한 자재 발주요청
 		public void requestMat(ProdPlanVO vo);
