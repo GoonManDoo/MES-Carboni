@@ -105,7 +105,8 @@ span {
 					</span>
 				</div>
 			</div>
-
+			
+			<!-- 메인화면 그리드 -->
 			<div class="container-fluid px-4">
 				<div class="card mb-4">
 					<div class="card-header">
@@ -129,6 +130,8 @@ span {
 					</div>
 					
 				</div>
+				
+				<!-- 거래처모달 그리드 -->
 				<div class="container-fluid px-4">
 					<div class="card mb-4">
 						<div class="card-header" style="text-align: center;">
@@ -147,8 +150,9 @@ span {
 						<button id="gisearchBtn" class="btn btn-secondary">조회</button>
 						<br>
 					</div>
-					
 				</div>
+				
+				<!-- 제품모달 그리드 -->
 				<div class="container-fluid px-4">
 					<div class="card mb-4">
 						<div class="card-header" style="text-align: center;">
@@ -170,6 +174,9 @@ span {
 				var endDt = $('#endCndate').val()
 				var cusCode = $('#leftinput1').val()
 				var goodsCode = $('#rightinput1').val()
+				  if($('#startCndate').val()== '' || $('#endCndate').val()== '' || $('#leftinput').val()== '' || $('#rightinput').val() == '') {
+					  swal('다시 입력하세요!', "입력되지 않은 수주정보가 있습니다!", 'warning')
+				} 
 				$.ajax({
 					url: 'cndateList',
 					method: 'POST',
@@ -177,9 +184,6 @@ span {
 					success: function(result) {
 						grid.refreshLayout();
 						grid.resetData(result)
-						  if($('#startCndate').val()== '' || $('#leftinput').val()== '' || $('#rightinput').val() == '') {
-							  swal('다시 입력하세요!', "입력되지 않은 수주정보가 있습니다!", 'warning')
-						} 
 					}
 				})
 			})

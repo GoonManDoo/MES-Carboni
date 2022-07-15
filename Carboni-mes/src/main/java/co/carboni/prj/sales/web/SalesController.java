@@ -32,11 +32,29 @@ public class SalesController {
 			return cndateList;
 		}
 		
+		//생산의뢰관리 > 마감일자 조회
+		@RequestMapping("prCloseList")
+		@ResponseBody
+		public List<SalesVO> prCloseList(@RequestParam("startCd") String startCd, @RequestParam("endCd") String endCd,
+										 @RequestParam("startPr") String startPr, @RequestParam("endCd") String endPr,
+										 @RequestParam("gsCode") String gsCode, @RequestParam("complete") String complete) {
+			List<SalesVO> prCloseList = mapper.findPrcloseList(startCd, endCd, startPr, endPr, gsCode, complete);
+			return prCloseList;
+			
+		}
+		
 		//수주관리 > 수주목록 삭제
 		@RequestMapping("delCnList")
 		@ResponseBody
 		public void delCnList(SalesVO vo) {
 			mapper.findDelCnList(vo);
+		}
+		
+		//생산의뢰관리 > 생산의뢰목록 삭제
+		@RequestMapping("delPrList")
+		@ResponseBody
+		public void delPrList(SalesVO vo) {
+			mapper.findDelPrList(vo);
 		}
 		
 		
@@ -52,7 +70,7 @@ public class SalesController {
 		// 수주관리 > 거래처 모달 검색조회
 		@RequestMapping("costomerList")
 		@ResponseBody
-		public List<SalesVO> costomerList(@RequestParam("csname")String csname) {
+		public List<SalesVO> costomerList(@RequestParam("csname") String csname) {
 			List<SalesVO> costomerList = mapper.findCsList(csname);
 			return costomerList;
 		}

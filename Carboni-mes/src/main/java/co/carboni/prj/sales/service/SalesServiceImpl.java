@@ -51,13 +51,19 @@ public class SalesServiceImpl implements SalesService {
 		public List<SalesVO> findGiList(String giname) {
 			return mapper.findGiList(giname);
 		}
-
-	
-
-	
 	
 		//생산의뢰관리
 		
+			//생산의뢰관리 > 생산의뢰 조회
+			@Override
+			public List<SalesVO> findPrcloseList(String startCd, String endCd, String startPr, String endPr, String gsCode, String complete) {
+				return mapper.findPrcloseList(startCd, endCd, startPr, endPr, gsCode, complete);
+			}
+			
+			//생산의뢰관리 > 생산의뢰 삭제
+			public void findDelPrList(SalesVO vo) {
+				
+			}
 		
 		//제품재고관리
 		
