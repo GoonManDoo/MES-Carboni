@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import co.carboni.prj.system.mapper.SysinfoMapper;
-import co.carboni.prj.system.vo.SysmanVO;
+import co.carboni.prj.system.vo.SystemVO;
 
 public class SysInfoServiceImpl implements SysinfoService{
 
@@ -13,22 +13,22 @@ public class SysInfoServiceImpl implements SysinfoService{
 	public SysinfoMapper map;
 
 	@Override
-	public List<SysmanVO> selectSysAll() {
+	public List<SystemVO> selectSysAll() {
 		return map.selectSysAll();
 	}
 
 	@Override
-	public int systemInsert(SysmanVO vo) {
+	public int systemInsert(SystemVO vo) {
 		return map.systemInsert(vo);
 	}
 
 	@Override
-	public int systemDelete(SysmanVO vo) {
+	public int systemDelete(SystemVO vo) {
 		return map.systemDelete(vo);
 	}
 
 	@Override
-	public int systemUpdate(SysmanVO vo) {
+	public int systemUpdate(SystemVO vo) {
 		return map.systemUpdate(vo);
 	}
 	
