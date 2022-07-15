@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.common.matinfo-map"></mapper>
+<mapper namespace="co.carboni.prj.common.mapper.MatinfoMapper">
+	<select id="selectMatinfo" resultType="co.carboni.prj.common.vo.MatinfoVO">
+		SELECT * FROM MATINFO ORDER BY TO_NUMBER(MICODE)
+	</select>
+	<insert id="matinfoInsert" parameterType="co.carboni.prj.common.vo.MatinfoVO">
+		INSERT INTO MATINFO
+		VALUES(MATINFO_MICODE_SEQ.NEXTVAL, #{miname}, #{mistand}, #{miunit}, #{misafe}, #{mimax}, #{mimin})
+	</insert>
+	<delete id="matinfoDelete" parameterType="co.carboni.prj.common.vo.MatinfoVO">
+		DELETE FROM MATINFO WHERE MICODE = #{micode}
+	</delete>
+	<update id="matinfoUpdate" parameterType="co.carboni.prj.common.vo.MatinfoVO">
+		UPDATE MATINFO
+		<set>
+		MINAME = #{miname},
+		MISTAND = #{mistand},
+		MIUNIT = #{miunit},
+		MISAFE = #{misafe},
+		MIMAX = #{mimax},
+		MIMIN = #{mimin},
+		</set>
+		WHERE MICODE = #{micode}
+	</update>
+
+</mapper>
