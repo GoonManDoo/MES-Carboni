@@ -1,6 +1,5 @@
 package co.carboni.prj.common.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +8,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.carboni.prj.common.service.Bomservice;
 import co.carboni.prj.common.service.Ccodeservice;
 import co.carboni.prj.common.service.Costomerservice;
+import co.carboni.prj.common.service.Matinfoservice;
+import co.carboni.prj.common.vo.BomVO;
 import co.carboni.prj.common.vo.CcodeVO;
 import co.carboni.prj.common.vo.CostomerVO;
+import co.carboni.prj.common.vo.GoodsinfoVO;
+import co.carboni.prj.common.vo.MatinfoVO;
 
 @Controller
 public class CommonController {
 	
 	@Autowired private Ccodeservice ccodeDAO;
 	@Autowired private Costomerservice costomerDAO;
+	@Autowired private Matinfoservice matinfoDAO;
+	@Autowired private Bomservice bomDAO;
 	
 	@RequestMapping("/ccode.do")
 	public String cCode(){
@@ -86,13 +92,56 @@ public class CommonController {
 	//
 	
 	@RequestMapping("/matinfo.do")
-	public String matInfo(){
+	public String matInfo(Model model){
+		model.addAttribute("mat", matinfoDAO.selectMatinfo());
 		return "common/matinfo";
 	}
+	
+	@RequestMapping("/matinfoinsert.do")
+	public String matinfoinsert(MatinfoVO vo) {
+		matinfoDAO.matinfoInsert(vo);
+		return "redirect:matinfo.do";
+	}
+	
+	@RequestMapping("/matinfodelete.do")
+	public String matinfodelete(MatinfoVO vo) {
+		matinfoDAO.matinfoDelete(vo);
+		return "redirect:matinfo.do";
+	}
+	
+	@RequestMapping("/matinfoupdate.do")
+	public String matinfoupdate(MatinfoVO vo) {
+		matinfoDAO.matinfoUpdate(vo);
+		return "redirect:matinfo.do";
+	}
+	
+	//
+	
 	@RequestMapping("/bom.do")
 	public String bom() {
 		return "common/bom";
 	}
+	
+	@RequestMapping("/selectGoods")
+	@ResponseBody
+	public List<GoodsinfoVO> selectGoods(GoodsinfoVO vo){
+		List<GoodsinfoVO> selectGoods = bomDAO.selectGoods(vo);
+		return selectGoods;
+	}
+	
+	@RequestMapping("/selectBom")
+	@ResponseBody
+	public List<BomVO> selectBom(BomVO vo) {
+		List<BomVO> selectBom = bomDAO.selectBom(vo);
+		return selectBom;
+	}
+	
+	
+	//
+	
+	
+	
+	
 	@RequestMapping("/procinfo.do")
 	public String procInfo() {
 		return "common/procinfo";

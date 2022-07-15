@@ -9,6 +9,5 @@ public class BomVO {
 	private String gicode;
 	private int bam;
 	private String bnote;
-	
 
 }

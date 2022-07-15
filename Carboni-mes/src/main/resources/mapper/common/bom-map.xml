@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.carboni.prj.common.mapper.BomMapper">
+
+	<select id="selectGoods" resultType="co.carboni.prj.common.vo.GoodsinfoVO">
+		SELECT * FROM GOODSINFO
+	</select>
+	
+	<select id="selectBom" resultType="map">
+		SELECT M.MICODE, G.GINAME, M.MINAME, B.BAM, B.BNOTE
+		FROM BOM B JOIN MATINFO M ON B.MICODE = M.MICODE
+	    		   JOIN GOODSINFO G ON B.GICODE = G.GICODE
+		WHERE G.GICODE = #{gicode}
+	</select>
+
+</mapper>

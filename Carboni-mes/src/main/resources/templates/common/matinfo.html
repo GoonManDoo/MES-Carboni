@@ -61,9 +61,9 @@
         <a href="/">홈</a> > 기준정보관리 > <b>자재정보관리</b>
       </div>
       <div id="btns" class="card-header">
-        <button type="button" class="btn btn-secondary">새자료</button>
-        <button type="button" class="btn btn-secondary">저장</button>
-        <button type="button" class="btn btn-secondary">삭제</button>
+        <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
+        <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
       <div id="container">
         <div class="left">
@@ -81,10 +81,15 @@
             		</tr>
           		</thead>
           		<tbody>
-            		<tr>
-              		<td><input type="radio"></th>
-              		<td>00</th>
-              		<td>카보</th>
+            		<tr th:each="m : ${mat}">
+            			<td><input type="radio" name="list"></td>
+            			<td th:text="${m.micode}"></td>
+            			<td th:text="${m.miname}"></td>
+            			<td th:text="${m.mistand}" style="display:none"></td>
+            			<td th:text="${m.miunit}" style="display:none"></td>
+            			<td th:text="${m.misafe}" style="display:none"></td>
+            			<td th:text="${m.mimax}" style="display:none"></td>
+            			<td th:text="${m.mimin}" style="display:none"></td>
             		</tr>
           		</tbody>
         		</table>
@@ -92,19 +97,19 @@
     </div>
         </div>
         <div class="right">
-          <form id="matmain">
+          <form id="matmain" name="matmain">
             <fieldset>
-              <label for="miCode">자재코드</label> <input type="text" id="miCode">
-              <label for="miName">자재명</label> <input type="text" id="miName">
+              <label for="micode">자재코드</label> <input type="text" id="micode" name="micode" readonly>
+              <label for="miname">자재명</label> <input type="text" id="miname" name="miname">
             </fieldset>
             <fieldset>
-              <label for="miStand">규격</label> <input type="text" id="miStand">
-              <label for="miunit">단위</label> <input type="text" id="miunit">
+              <label for="mistand">규격</label> <input type="text" id="mistand" name="mistand">
+              <label for="miunit">단위</label> <input type="text" id="miunit" name="miunit">
             </fieldset>
             <fieldset>
-              <label for="miSafe">안전재고</label> <input type="text" id="miSafe">
-              <label for="miMax">MAX재고</label> <input type="text" id="miMax">
-              <label for="miMin">MIN재고</label> <input type="text" id="miMin">
+              <label for="misafe">안전재고</label> <input type="text" id="misafe" name="misafe">
+              <label for="mimax">MAX재고</label> <input type="text" id="mimax" name="mimax">
+              <label for="mimin">MIN재고</label> <input type="text" id="mimin" name="mimin">
             </fieldset>
           </form>
         </div>
@@ -113,6 +118,39 @@
     </body>
     
     <script>
+    //새자료
+    $('#newthat').click(function () {
+      $('#matmain>*>input').val('');
+    })
+    
+    //라디오버튼 클릭시 내용을 input창으로
+    $(document).on('click', 'input[name="list"]', function(){
+    
+		$('#micode').val($('input[name=list]:checked').parent().parents().children().eq(1).text())
+		$('#miname').val($('input[name=list]:checked').parent().parents().children().eq(2).text())
+		$('#mistand').val($('input[name=list]:checked').parent().parents().children().eq(3).text())
+		$('#miunit').val($('input[name=list]:checked').parent().parents().children().eq(4).text())
+		$('#misafe').val($('input[name=list]:checked').parent().parents().children().eq(5).text())
+		$('#mimax').val($('input[name=list]:checked').parent().parents().children().eq(6).text())
+		$('#mimin').val($('input[name=list]:checked').parent().parents().children().eq(7).text())
+	});
+    
+    
+    function check(){
+		if ($(micode).val() == ''){
+			document.matmain.action="matinfoinsert.do"
+			document.matmain.submit();
+		}
+		else{
+			document.matmain.action="matinfoupdate.do"
+			document.matmain.submit();
+		}
+	}
+	
+	function del(){
+		document.matmain.action="matinfodelete.do"
+		document.matmain.submit();
+	}
     </script>
     </th:block>
     </html>
