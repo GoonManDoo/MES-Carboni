@@ -2,6 +2,7 @@ package co.carboni.prj.sales.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 
 import co.carboni.prj.sales.vo.SalesVO;
 
@@ -28,8 +29,13 @@ public interface SalesService {
 		public List<SalesVO> findGiList(String giname);
 	
 	//생산의뢰관리
+		
+		//생산의뢰관리 > 생산의뢰목록 조회
+		public List<SalesVO> findPrcloseList(String startCd, String endCd, String startPr, String endPr,  String gsCode, String complete);
 	
-	
+		//생산의뢰관리 > 생산의뢰 삭제
+		public void findDelPrList(SalesVO vo);
+		
 	//제품재고관리
 	
 	

@@ -30,6 +30,7 @@ public class SalesVO {
 	public String cnstatus; //출하진행상태
 	
 	public List<String> cnList; //삭제할 수주번호 목록
+	public List<String> prList; //삭제할 생산의뢰번호 목록
 	
 	
 	//생산의뢰관리

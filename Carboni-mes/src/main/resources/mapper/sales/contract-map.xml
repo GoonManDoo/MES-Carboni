@@ -11,7 +11,15 @@
 			<foreach collection="cnList" item="arr" open="(" separator="," close=")" >
 				#{arr}
 			</foreach>
-			
+		</delete>
+		
+		<!-- 생산의뢰목록 삭제 -->
+		<delete id="findDelPrList">
+			DELETE prodreq
+			WHERE prnum in
+			<foreach collection="prList" item="arr" open="(" separator="," close=")">
+				#{arr}
+			</foreach>
 		</delete>
 		
 		<!-- 수주일자 조회 -->
@@ -40,15 +48,32 @@
 			AND csgb = '제품거래'
 		</select>
 		
-		<!-- 거래처모달 전체조회 -->
+		<!-- 제품모달 전체조회 -->
 		<select id="findAllGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT gicode, giname, giunit FROM goodsinfo
 		</select>
 		
-		<!-- 거래처모달 검색조회 -->
+		<!-- 제품모달 검색조회 -->
 		<select id="findGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT gicode, giname, giunit FROM goodsinfo
 			WHERE giname like '%' || #{giname} || '%'
+		</select>
+		
+	<!-- 생산의뢰관리 -->
+	
+		<!-- 생산의뢰 조회 -->
+		<select id="findPrcloseList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT p.prnum, p.cnnum, c.gicode, c.cscode, c.cndate, c.cnperiod, p.prclose, p.prstatus
+			FROM contract c, prodreq p
+			WHERE (c.cnnum = p.cnnum)
+			AND
+			((c.cndate>=TO_DATE(#{startCd}, 'YY/MM/DD') AND TO_DATE(#{endCd}, 'YY/MM/DD') >= c.cndate)
+			AND
+			(p.prclose>=TO_DATE(#{startPr}, 'YY/MM/DD') AND TO_DATE(#{endPr}, 'YY/MM/DD') >= p.prclose)
+			AND
+			p.prstatus = #{complete}
+			AND
+			c.gicode =#{gsCode})
 		</select>
 		
 		

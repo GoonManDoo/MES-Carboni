@@ -30,12 +30,15 @@ public interface SalesMapper {
 		//수주관리 > 제품모달 검색조회
 		public List<SalesVO> findGiList(@Param("giname") String giname);
 
+		
 
-
-	
-	
 	//생산의뢰관리
-	
+		
+		//생산의뢰관리 > 생산의뢰 조회
+		public List<SalesVO> findPrcloseList(@Param("startCd") String startCd, @Param("endCd") String endCd, @Param("startPr") String startPr, 
+											 @Param("endPr") String endPr, @Param("gsCode") String gsCode, @Param("complete") String complete);
+		//생산의뢰관리 > 생산의뢰 삭제
+		public void findDelPrList(SalesVO vo);
 	
 	//제품재고관리
 	
