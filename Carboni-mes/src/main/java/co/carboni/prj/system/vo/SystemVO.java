@@ -15,7 +15,7 @@ import lombok.Data;
  */
 
 @Data
-public class SysmanVO {
+public class SystemVO {
 	
 	//설비정보
 	private String sinum; //설비번호
@@ -33,9 +33,7 @@ public class SysmanVO {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date smnextdat;//설비 다음 점검일
 	private String smstatus;//설비 가동여부
-	private int smobjam;//설비 제품생산량
-	private String smspeed;//설비 공정속도
-	private int smtmpman;//설비 온도관리
+	private int smsaftem;//설비 온도관리
 	
 	
 }
