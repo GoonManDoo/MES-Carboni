@@ -52,9 +52,9 @@
 	WHERE MINAME LIKE '%' || #{miname} || '%'
 	</select>
 	
-	<!--발주관리의 발주일자 조회해서 메인 그리드에 표시  -->
+	<!--발주관리의 발주일자 조회해서 메인 그리드에 표시 (조회용) DB에서 찾아올떄-->
 	<select id="findReqDate" resultType="co.carboni.prj.mat.vo.MatVO">
-	SELECT O.MOODATE,O.MICODE,O.CSCODE,M.MINAME,C.CSNAME,K.MSCIAM
+	SELECT O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,M.MINAME,C.CSNAME,K.MSCIAM
 	FROM MATORD O,MATINFO M, MATSTK K,COSTOMER C
 	WHERE O.MICODE = M.MICODE
 	AND K.MICODE = O.MICODE
@@ -64,6 +64,14 @@
 	AND O.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
 	AND TO_DATE(#{endD},'YYYY/MM/DD') >= O.MOODATE
 	</select>
+	<!-- 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 -->
+	<select id="findCode" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT MICODE,MINAME,
+		(SELECT CSNAME FROM COSTOMER WHERE CSCODE = #{cusCode}) AS CSNAME
+		FROM MATINFO
+		WHERE MICODE= #{matCode}
+	</select>	
 	
+
 	
 </mapper>
