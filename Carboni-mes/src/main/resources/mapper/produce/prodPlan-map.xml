@@ -36,9 +36,16 @@
 		AND p.prnum = #{prn}
 	</select>
 	
+	<!-- 자재발주요청 -->
 	<insert id="requestMat">
 		INSERT INTO matreq
 		VALUES ('MR-'||TO_CHAR(matreq_REQNUM_seq.nextval), #{micode}, #{orderAmount}, 'N')
+	</insert>
+	
+	<!-- 생산계획등록 -->
+	<insert id="addProdPlan" parameterType="java.util.HashMap" useGeneratedKeys="true" keyColumn="ppnum" keyProperty="planNum">
+		INSERT INTO prodplan
+		VALUES (('PP-'||prodplan_ppnum_seq.nextval), TO_DATE(#{planDt}, 'YYYY/MM/DD'), #{planName}, '미지시', #{planNote})
 	</insert>
 	
 </mapper>

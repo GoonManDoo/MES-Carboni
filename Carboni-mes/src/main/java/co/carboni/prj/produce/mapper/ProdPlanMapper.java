@@ -3,6 +3,7 @@ package co.carboni.prj.produce.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
@@ -23,8 +24,8 @@ public interface ProdPlanMapper {
 	// 생산계획에서 부족한 자재 발주요청
 	public void requestMat(ProdPlanVO vo);
 
-
 	// 생산계획등록
+	public String addProdPlan(@Param("planDt") String planDt, @Param("planName") String planName, @Param("planNote") String planNote);
 
 	// 생산계획수정
 	

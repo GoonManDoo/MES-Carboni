@@ -80,14 +80,14 @@
 									</tr>
 									<tr>
 										<th>생산계획명</th>
-										<td><input type="text" id="planDt" class="form-control ht"
-											style="width: 500px;" maxlength="10" tabindex="2"></td>
+										<td><input type="text" id="planName" class="form-control ht"
+											style="width: 500px;" maxlength="10"></td>
 										<td colspan="5">
 									</tr>
 									<tr>
 										<th>비  고</th>
-										<td><input type="text" id="remark" class="form-control ht"
-											style="width: 500px;" maxlength="10" tabindex="2"></td>
+										<td><input type="text" id="planNote" class="form-control ht"
+											style="width: 500px;"></td>
 										<td colspan="3">
 									</tr>
 								</tbody>
@@ -260,6 +260,160 @@
 		
 		$(function(){
 			
+			// 그리드---------------------------------------------
+
+			/* 필요자재 */
+			const selectMat = [];
+
+			const matGrid = new tui.Grid({
+				el : document.getElementById('matneed'),
+				data : selectMat,
+				scrollX : false,
+				rowHeaders : [ 'rowNum' ],
+				columns : [ {
+					header : '제품코드',
+					name : 'gicode',
+					align : 'center'
+				}, {
+					header : '자재코드',
+					name : 'micode',
+					align : 'center'
+				}, {
+					header : '자재명',
+					name : 'miname',
+					align : 'center'
+				}, {
+					header : '소요량(개당)',
+					name : 'bam',
+					align : 'center'
+				}, {
+					header : '필요량',
+					name : 'pamount',
+					align : 'center'
+				}, {
+					header : '재고량',
+					name : 'msciam',
+					align : 'center'
+				}, {
+					header : '부족량',
+					name : 'lamount',
+					align : 'center'
+				} ]
+			});
+
+			/* 전체제품 */
+			const totalPd = [];
+
+			const pdGrid = new tui.Grid({
+				el : document.getElementById('total'),
+				data : totalPd,
+				scrollX : false,
+				rowHeaders : [ 'rowNum', 'checkbox' ],
+				columns : [ {
+					header: '제품코드',
+					name: 'gicode',
+					align: 'center',
+					editor: 'text'
+				}, {
+					header : '제품명',
+					name: 'giname',
+					align : 'center',
+					editor: 'text'
+				}, {
+					header : '규격',
+					name: 'giunit',
+					align : 'center',
+					editor: 'text'
+				}, {
+					header : '의뢰번호',
+					name: 'prnum',
+					align : 'center'
+				}, {
+					header : '마감일자',
+					name: 'prclose',
+					align : 'center'
+				}, {
+					header : '수주잔량',
+					name: 'cnrest',
+					align : 'center'
+				}, {
+					header : '기계획량',
+					name: 'ppdam',
+					align : 'center',
+					editor: 'text'
+				}, {
+					header : '미계획량',
+					name : 'uplam',
+					align : 'center',
+					editor: 'text'
+				}, {
+					header : '작업일자',
+					name: 'ppddate',
+					align : 'center',
+					editor : 'datePicker',
+					language : 'ko'
+				} ]
+			});
+			
+			/* 미생산의뢰목록 그리드 */
+			const orderList = [];
+				
+			const rqGrid = new tui.Grid({
+			      el: document.getElementById('requestList'),
+			      data: orderList,
+			      rowHeaders : [ 'checkbox' ],
+			      columns: [
+			        {
+			          header: '의뢰번호',
+			          name: 'prnum',
+			          align : 'center'
+			        },
+			        {
+			          header: '수주일자',
+			          name: 'cndate',
+			          align : 'center'
+			        },
+			        {
+			          header: '거래처이름',
+			          name: 'csname',
+			          align : 'center'
+			        },
+			        {
+			          header: '마감일자',
+			          name: 'prclose',
+			          align : 'center'
+			        }
+			     ]
+		    });
+			
+			/* 생산계획목록 그리드 */
+			const planList = [];
+				
+			const planGrid = new tui.Grid({
+			     el: document.getElementById('planList'),
+			     data: planList,
+			     columns: [
+			       {
+			         header: '계획일자',
+			         align : 'center'
+			       },
+			       {
+			         header: '계획번호',
+			         align : 'center'
+			       },
+			       {
+			         header: '계획명',
+			         align : 'center'
+			       },
+			       {
+			         header: '비고',
+			         align : 'center'
+			       }
+			     ]
+		    });
+			
+			// 그리드끝------------------------------------------
+			
 			// 모달----------------------------------------
 			var modal1 = makeModal("#planModal", planView)
 			var modal2 = makeModal("#requestModal", requestAdd)
@@ -294,6 +448,7 @@
 				})
 			})
 			/* 미생산의뢰조회 후 생산할 제품 계획에 등록 */
+			
 			function requestAdd() {
 				const result = rqGrid.getCheckedRows();
 				const orderNum = result.map((e)=>{return e.prnum})
@@ -310,24 +465,6 @@
 						for(i=0; i<prk+1; i++) {
 							pdGrid.setValue(i, 'ppdam', pdGrid.getRow(i).cnrest, false)
 						}
-						
-						
-						
-						// 그리드에 값 넣어주기
-						/*for(i=0; i<mrk+1; i++) {
-							// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
-							matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
-							if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
-								matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
-								matGrid.addCellClassName(i, 'lamount', 'matDanger')
-								matGrid.on('dblclick', el => {
-									mc = matGrid.getRow(el.rowKey).micode
-									$('#matCode').val(mc)
-									$('#matorderModal').css('display', '')
-									modal3.dialog('open')
-								})
-							}
-						}*/
 					}
 				})
 				modal2.dialog('close')
@@ -355,162 +492,8 @@
 		// 모달끝--------------------------------------------
 		
 		
-		// 그리드---------------------------------------------
-
-		/* 필요자재 */
-		const selectMat = [];
-
-		const matGrid = new tui.Grid({
-			el : document.getElementById('matneed'),
-			data : selectMat,
-			scrollX : false,
-			rowHeaders : [ 'rowNum' ],
-			columns : [ {
-				header : '제품코드',
-				name : 'gicode',
-				align : 'center'
-			}, {
-				header : '자재코드',
-				name : 'micode',
-				align : 'center'
-			}, {
-				header : '자재명',
-				name : 'miname',
-				align : 'center'
-			}, {
-				header : '소요량(개당)',
-				name : 'bam',
-				align : 'center'
-			}, {
-				header : '필요량',
-				name : 'pamount',
-				align : 'center'
-			}, {
-				header : '재고량',
-				name : 'msciam',
-				align : 'center'
-			}, {
-				header : '부족량',
-				name : 'lamount',
-				align : 'center'
-			} ]
-		});
-
-		/* 전체제품 */
-		const totalPd = [];
-
-		const pdGrid = new tui.Grid({
-			el : document.getElementById('total'),
-			data : totalPd,
-			scrollX : false,
-			rowHeaders : [ 'rowNum', 'checkbox' ],
-			columns : [ {
-				header: '제품코드',
-				name: 'gicode',
-				align: 'center',
-				editor: 'text'
-			}, {
-				header : '제품명',
-				name: 'giname',
-				align : 'center',
-				editor: 'text'
-			}, {
-				header : '규격',
-				name: 'giunit',
-				align : 'center',
-				editor: 'text'
-			}, {
-				header : '의뢰번호',
-				name: 'prnum',
-				align : 'center'
-			}, {
-				header : '마감일자',
-				name: 'prclose',
-				align : 'center'
-			}, {
-				header : '수주잔량',
-				name: 'cnrest',
-				align : 'center'
-			}, {
-				header : '기계획량',
-				name: 'ppdam',
-				align : 'center',
-				editor: 'text'
-			}, {
-				header : '미계획량',
-				name : 'uplam',
-				align : 'center',
-				editor: 'text'
-			}, {
-				header : '작업일자',
-				name: 'ppddate',
-				align : 'center',
-				editor : 'datePicker',
-				language : 'ko'
-			} ]
-		});
-		
-		/* 미생산의뢰목록 그리드 */
-		const orderList = [];
-			
-		const rqGrid = new tui.Grid({
-		      el: document.getElementById('requestList'),
-		      data: orderList,
-		      rowHeaders : [ 'checkbox' ],
-		      columns: [
-		        {
-		          header: '의뢰번호',
-		          name: 'prnum',
-		          align : 'center'
-		        },
-		        {
-		          header: '수주일자',
-		          name: 'cndate',
-		          align : 'center'
-		        },
-		        {
-		          header: '거래처이름',
-		          name: 'csname',
-		          align : 'center'
-		        },
-		        {
-		          header: '마감일자',
-		          name: 'prclose',
-		          align : 'center'
-		        }
-		     ]
-	    });
-		
-		/* 생산계획목록 그리드 */
-		const planList = [];
-			
-		const planGrid = new tui.Grid({
-		     el: document.getElementById('planList'),
-		     data: planList,
-		     columns: [
-		       {
-		         header: '계획일자',
-		         align : 'center'
-		       },
-		       {
-		         header: '계획번호',
-		         align : 'center'
-		       },
-		       {
-		         header: '계획명',
-		         align : 'center'
-		       },
-		       {
-		         header: '비고',
-		         align : 'center'
-		       }
-		     ]
-	    });
-		
-		// 그리드끝------------------------------------------
-		
-		
 		// 그리드 함수 --------------------------------------
+		
 			
 			// 자재정보 출력을 위한 제품목록 그리드 클릭이벤트
 			pdGrid.on('dblclick', e => {
@@ -590,10 +573,31 @@
 		}
 		
 		/* 생산계획 등록 */
+		
 		$('#saveBtn').on('click', function(){
-			if($('#planNum').val() == null) {
+			if($('#planNum').val() == '') {
 				// 등록
-				
+				var planDt = $('#planDt').val() // 생산계획일자
+				var planName = $('#planName').val() // 생산계획이름
+				var planNote = $('#planNote').val() // 생산계획비고
+				/* var allData = [];
+				ark = (pdGrid.getRowCount())-1
+				for(i=0; i<ark+1; i++) {
+					allData.push(pdGrid.getRow(i))
+				} */
+				/*new Promise((succ, fail) => {*/
+				$.ajax({
+					url: 'addProdPlan',
+					method: 'POST',
+					data: { planDt, planName, planNote },
+					success: function(result) {
+						console.log(result)
+						console.log('쿼리성공')
+					}
+				})
+				/* }).then((arg) => {
+					
+				})*/
 			} else {
 				// 수정
 				
@@ -606,6 +610,7 @@
 		
 		// 버튼끝------------------------------------------
 		
+
 		}) // $(function) 끝
 		
 		

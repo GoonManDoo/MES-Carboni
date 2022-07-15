@@ -22,7 +22,8 @@ public interface ProdPlanService {
 		public void requestMat(ProdPlanVO vo);
 		
 	// 생산계획등록
-
+		public String addProdPlan(String planDt, String planName, String planNote);
+		
 	// 생산계획수정
 		
 	// 생산계획삭제
