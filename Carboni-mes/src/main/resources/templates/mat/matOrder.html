@@ -63,7 +63,7 @@
 							<button type="button" id="btnModal" class="btn btn-secondary"
 								style="margin-right: 5px;">요청</button>
 							<button type="button" id="saveBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">저장</button>
+								style="margin-right: 5px;">주문</button>
 							<button type="button" id="removeBtn" class="btn btn-secondary"
 								style="margin-right: 5px;">삭제</button>
 						</div>
@@ -127,7 +127,7 @@
 									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="addBtn">추가</button>
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;">주문</button>
+										style="margin-right: 5px;" id="listBtn">조회</button>
 								</div>
 							</div>
 						</form>
@@ -202,8 +202,8 @@
 							container : '#endpicker-container'
 						}
 					});
-					/*발주일자 거래처코드 자재코드로 메인그리드 출력*/
-					$('#addBtn').on('click',function(){
+					/*발주일자 조회 거래처코드 자재코드로 메인그리드 출력*/
+					$('#listBtn').on('click',function(){
 						var startD = $('#startpicker-input').val()
 						var endD =$('#endpicker-input').val()
 						var cusCode = $('#rightcom').val()
@@ -211,8 +211,9 @@
 						$.ajax({
 							url :'findreqdate',
 							method :'POST',
-							data:{startD,endD,cusCode,matCode},
+							data:{ startD:startD,endD:endD,cusCode:cusCode, matCode:matCode },
 							success :function(result){
+								console.log(result)
 								grid.refreshLayout();
 								grid.resetData(result)
 							}
@@ -239,6 +240,10 @@
 							name :'monum',
 							align : 'center'
 						}, {
+							header : '요청번호',
+							name :'reqnum',
+							align : 'center'
+						}, {
 							header : '자재코드',
 							name :'micode',
 							align : 'center'
@@ -246,11 +251,11 @@
 							header : '자재명',
 							name :'miname',
 							align : 'center'
-						}, {
-							header : '입고일자',
-							name :'mordate',
-							align : 'center'
-						}, {
+						}, /*{
+							*header : '입고일자',
+							*name :'mordate',
+							*align : 'center'
+						},  */{
 							header : '발주업체',
 							name :'csname',
 							align : 'center'
@@ -261,11 +266,11 @@
 						}, /*{
 							*header : '입고량',
 							*align : 'center'
+						},  *{
+							*header : '자재량',
+							*name :'msciam',
+							*align : 'center'
 						}, */{
-							header : '자재량',
-							name :'msciam',
-							align : 'center'
-						}, {
 							header : '주문수량',
 							name :'moaskam',
 							editor:'text',
@@ -274,10 +279,10 @@
 							header : '발주상태',
 							name :'mostatus',
 							align : 'center'
-						}/*, {
-							*header : '비고',
-							*align : 'center'
-						} */]
+						}, {
+							header : '비고',
+							align : 'center'
+						} ]
 					});
 
 					

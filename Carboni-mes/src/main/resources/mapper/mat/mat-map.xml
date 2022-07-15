@@ -52,7 +52,7 @@
 	WHERE MINAME LIKE '%' || #{miname} || '%'
 	</select>
 	
-	<!--발주관리의 발주일자 조회해서 메인 그리드에 표시  -->
+	<!--발주관리의 발주일자 조회해서 메인 그리드에 표시 (조회용) DB에서 찾아올떄-->
 	<select id="findReqDate" resultType="co.carboni.prj.mat.vo.MatVO">
 	SELECT O.MOODATE,O.MICODE,O.CSCODE,M.MINAME,C.CSNAME,K.MSCIAM
 	FROM MATORD O,MATINFO M, MATSTK K,COSTOMER C
@@ -64,6 +64,6 @@
 	AND O.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
 	AND TO_DATE(#{endD},'YYYY/MM/DD') >= O.MOODATE
 	</select>
-	
+
 	
 </mapper>
