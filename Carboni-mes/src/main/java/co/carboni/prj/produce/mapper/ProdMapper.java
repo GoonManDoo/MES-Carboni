@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
-public interface ProdPlanMapper {
+public interface ProdMapper {
 
 	// 생산계획조회
 	
@@ -25,7 +25,7 @@ public interface ProdPlanMapper {
 	public void requestMat(ProdPlanVO vo);
 
 	// 생산계획등록
-	public String addProdPlan(@Param("planDt") String planDt, @Param("planName") String planName, @Param("planNote") String planNote);
+	public int addProdPlan(ProdPlanVO vo);
 
 	// 생산계획수정
 	

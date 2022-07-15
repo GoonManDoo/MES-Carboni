@@ -515,18 +515,21 @@
 								matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
 								matGrid.addCellClassName(i, 'lamount', 'matDanger')
 								matGrid.on('dblclick', el => {
-									mc = matGrid.getRow(el.rowKey).micode
-									oa = matGrid.getRow(el.rowKey).lamount
-									$('#matCode').val(mc)
-									$('#orderAmount').val(oa)
-									$('#matorderModal').css('display', '')
-									modal3.dialog('open')
+									if(matGrid.getValue(el.rowKey, 'lamount') !== null) {
+										mc = matGrid.getRow(el.rowKey).micode
+										oa = matGrid.getRow(el.rowKey).lamount
+										$('#matCode').val(mc)
+										$('#orderAmount').val(oa)
+										$('#matorderModal').css('display', '')
+										modal3.dialog('open')
+									}
 								})
 							}
 						}
 					}
 				})
 			})
+			
 			
 			// 부족한 자재 발주요청
 			function requestMat(){
@@ -577,21 +580,22 @@
 		$('#saveBtn').on('click', function(){
 			if($('#planNum').val() == '') {
 				// 등록
-				var planDt = $('#planDt').val() // 생산계획일자
-				var planName = $('#planName').val() // 생산계획이름
-				var planNote = $('#planNote').val() // 생산계획비고
-				/* var allData = [];
+				var ppdate = new Date($('#planDt').val()) // 생산계획일자(text)
+				var ppname = $('#planName').val() // 생산계획이름
+				var ppnote = $('#planNote').val() // 생산계획비고
+				var allData = [];
 				ark = (pdGrid.getRowCount())-1
 				for(i=0; i<ark+1; i++) {
 					allData.push(pdGrid.getRow(i))
-				} */
+				}
+				console.log(allData)
 				/*new Promise((succ, fail) => {*/
 				$.ajax({
-					url: 'addProdPlan',
+					url: 'addProdPlan', // 생산계획등록
 					method: 'POST',
-					data: { planDt, planName, planNote },
+					data: { ppdate, ppname, ppnote },
 					success: function(result) {
-						console.log(result)
+						console.log(result.ppnum)
 						console.log('쿼리성공')
 					}
 				})

@@ -5,7 +5,7 @@ import java.util.List;
 
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
-public interface ProdPlanService {
+public interface ProdService {
 	
 	// 생산계획조회
 	
@@ -22,7 +22,7 @@ public interface ProdPlanService {
 		public void requestMat(ProdPlanVO vo);
 		
 	// 생산계획등록
-		public String addProdPlan(String planDt, String planName, String planNote);
+		public int addProdPlan(ProdPlanVO vo);
 		
 	// 생산계획수정
 		
