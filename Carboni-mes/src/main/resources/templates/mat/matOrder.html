@@ -66,8 +66,6 @@
 								style="margin-right: 5px;">요청</button>
 							<button type="button" id="saveBtn" class="btn btn-secondary"
 								style="margin-right: 5px;">주문</button>
-							<button type="button" id="removeBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">삭제</button>
 						</div>
 					</div>
 				</div>
@@ -127,9 +125,12 @@
 							<div class="container-fluid px-4 mb-2">
 								<div style="display: flex; justify-content: flex-end;">
 									<button type="button" class="btn btn-secondary"
+										style="margin-right: 5px;" id="listBtn">조회</button>
+									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="addBtn">추가</button>
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="listBtn">조회</button>
+										style="margin-right: 5px;" id="removeBtn">삭제</button>
+
 								</div>
 							</div>
 						</form>
@@ -356,6 +357,12 @@
 							success : function(result) {
 								reqG.refreshLayout();
 								reqG.resetData(result)
+								erow = result.rowKey
+								/*if(reqG.getValue(erow,'mrstatus')=='Y'){
+									요구사항을 발주 완료하여 처리상태가 Y가 되면 
+									안보이게 함
+								}*/
+								
 							}
 						})
 					})
@@ -364,6 +371,11 @@
 					function check() {
 						reqlist=reqG.getCheckedRows();
 							grid.appendRows(reqlist)
+							/*발주 요청량이 존재할떄 주문수량도 같이 입력됨*/
+							prk = (grid.getRowCount())-1
+								for(i=0; i<prk+1; i++) {
+									grid.setValue(i, 'moaskam', grid.getRow(i).mrreqam, false)
+								}
 						dia.dialog('close') 
 					}
 					
@@ -593,8 +605,7 @@
 						}
 					
 					$('#removeBtn').on('click', function(){
-						pdGrid.removeCheckedRows('')
-						/*DB에서도 지우는 함수 넣기*/
+						grid.removeCheckedRows('')
 					})
 					
 

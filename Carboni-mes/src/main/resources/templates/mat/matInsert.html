@@ -69,6 +69,8 @@ ul {
 			<div class="card mb-2">
 				<div class="card-header">
 					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" id="resetBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">새자료</button>
 						<button type="button" id="researchBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">조회</button>
 						<button type="button" id="saveBtn" class="btn btn-secondary"
@@ -188,9 +190,31 @@ ul {
 		<!-- 그리드 내용  -->
 		<script>
 			$(function() {
+				/*메이크 모달*/
+				function makeModal(e, fnc) {
+					var dialog = $(e).dialog({
+						autoOpen : false,
+						height : 600,
+						width : 700,
+						modal : true,
+						buttons : {
+							'확인' : fnc,
+							'취소' : function() {
+								$(this).dialog('close')
+							}
+						}
+					});
+					$('.ui-dialog-titlebar-close').html('X').css('border',
+							'none')
+					$('.ui-dialog-buttonset').children().attr('class',
+							'btn btn-secondary')
+					return dialog;
+				}
+				/*메이크모달 끝*/
+				
 				/* 입고일자 데이트 피커  */
 				var today = new Date();
-				var picker = tui.DatePicker.createRangePicker({
+				var picker1 = tui.DatePicker.createRangePicker({
 					startpicker : {
 						date : today,
 						input : '#startpicker-input',
@@ -204,8 +228,7 @@ ul {
 				});
 
 				/* 발주일자 데이트 피커  */
-				var today = new Date();
-				var picker = tui.DatePicker.createRangePicker({
+				var picker2 = tui.DatePicker.createRangePicker({
 					startpicker : {
 						date : today,
 						input : '#orderSdate',
@@ -265,27 +288,6 @@ ul {
 					} ]
 				});
 
-				/*메이크 모달*/
-				function makeModal(e, fnc) {
-					var dialog = $(e).dialog({
-						autoOpen : false,
-						height : 600,
-						width : 700,
-						modal : true,
-						buttons : {
-							'확인' : fnc,
-							'취소' : function() {
-								$(this).dialog('close')
-							}
-						}
-					});
-					$('.ui-dialog-titlebar-close').html('X').css('border',
-							'none')
-					$('.ui-dialog-buttonset').children().attr('class',
-							'btn btn-secondary')
-					return dialog;
-				}
-				/*메이크모달 끝*/
 				
 
 				/*발주일자 검색 모달*/
@@ -426,6 +428,19 @@ ul {
 				}
 				
 				/*입고처명 모달 끝*/
+				
+				
+					$('#resetBtn').on('click', function(){
+						fnFormClear();
+					})
+						function fnFormClear() {
+							document.getElementById('dataForm').reset();
+							picker1.setStartDate(new Date());
+							picker1.setEndDate(new Date());
+							picker2.setStartDate(new Date());
+							picker2.setEndDate(new Date());
+							grid.resetData(gridData);
+						}
 
 			})
 		</script>
