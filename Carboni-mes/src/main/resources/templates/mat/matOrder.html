@@ -60,6 +60,8 @@
 				<div class="card mb-4">
 					<div class="card-header">
 						<div style="display: flex; justify-content: flex-end;">
+							<button type="button" id="resetBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">새자료</button>
 							<button type="button" id="btnModal" class="btn btn-secondary"
 								style="margin-right: 5px;">요청</button>
 							<button type="button" id="saveBtn" class="btn btn-secondary"
@@ -160,6 +162,15 @@
 					</div>
 					<div id="codegrid"></div>
 				</div>
+				<!-- 요청 정보 넘어왔을떄 기업 선택 모달 -->
+				<div id="reqcommodal" title="발주업체 선택" style="padding: 20px;">
+					<div class="title">
+						<span>거래처명</span> <input type="text" class="input"
+							id="reqmiSearchName">
+						<button class="btn btn-secondary" id="reqmiSearchBtn">검색</button>
+					</div>
+					<div id="companygrid"></div>
+				</div>
 			</div>
 
 			<!-- 그리드 내용 만들기  -->
@@ -211,11 +222,27 @@
 						$.ajax({
 							url :'findreqdate',
 							method :'POST',
-							data:{ startD:startD,endD:endD,cusCode:cusCode, matCode:matCode },
+							data:{startD,endD,cusCode, matCode },
 							success :function(result){
-								console.log(result)
 								grid.refreshLayout();
 								grid.resetData(result)
+							}
+						})
+					})
+					
+					/*발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력*/
+					$('#addBtn').on('click',function(){
+						var cusCode = $('#rightcom').val()
+						var matCode =$('#rightmat').val()
+						$.ajax({
+							url: 'findcodelist',
+							method : 'post',
+							data : {cusCode,matCode},
+							success : function(result){
+								grid.refreshLayout();
+								grid.appendRows(result)
+								/*grid.resetData(result)*/
+								
 							}
 						})
 					})
@@ -285,10 +312,6 @@
 						} ]
 					});
 
-					
-
-					var dia = makeModal("#reqmodal", check)
-
 					/*발주 모달안의 그리드*/
 					const totaldata = [];
 					var reqG = new tui.Grid({
@@ -320,12 +343,12 @@
 							align : 'center',
 						} ]
 					});
+					var dia = makeModal("#reqmodal", check)
 
 					/*생산에서 넘어오는 정보를 가지고있는 모달*/
 					$("#btnModal").on("click", function() {
 						$("#reqmodal").css('display', '');
 						dia.dialog('open')
-
 						$.ajax({
 							url : 'reqlist',
 							method : 'POST',
@@ -339,8 +362,69 @@
 
 					/*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 */
 					function check() {
-
+						reqlist=reqG.getCheckedRows();
+							grid.appendRows(reqlist)
+						dia.dialog('close') 
 					}
+					
+					//메인그리드에서 업체를 더블클릭했을떄 
+					var clickmodal = makeModal("#reqcommodal",dbclickfn)
+						grid.on('dblclick',function(e){
+							erow = e.rowKey
+							//console.log(grid.getValue(e.rowKey, 'csname'))
+							if(grid.getValue(erow,'csname') == null){
+								$("#reqcommodal").css('display', '')
+								clickmodal.dialog('open')
+							$.ajax({
+									url : 'companyList',
+									method : 'POST',
+									dataType : 'json',
+									success : function(result) {
+										company.refreshLayout();
+										company.resetData(result)
+										company.on('click',e=>{
+											var rk = e.rowKey
+											cs = company.getRow(rk).csname
+										})
+									}
+								})
+								
+							}
+						})
+					
+					//그리드안에 더블클릭 모달에서 선택후 확인 눌렀을떄
+					function dbclickfn() {
+						grid.setValue(erow,'csname',cs,false)
+						clickmodal.dialog('close')
+					}
+					/*메인그리드에서 검색시 출력*/
+					const conpany =[];
+					const company =  new tui.Grid({
+						el : document.getElementById('companygrid'),
+						data : conpany,
+						scrollX : false,
+						bodyHeight : 430,
+						columns : [ {
+							header : '거래처코드',
+							name : 'cscode',
+							align : 'center',
+						}, {
+							header : '거래처명',
+							name : 'csname',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '사업자등록번호',
+							name : 'csnum',
+							align : 'center',
+						}, {
+							header : '전화번호',
+							name : 'cstel',
+							align : 'center',
+						} ]
+					});
+					
 					
 					/*기업체 검색 모달 시작 */
 					var log = makeModal("#searchmodal", giup)
@@ -429,7 +513,6 @@
 						el : document.getElementById('codegrid'),
 						data : giupdata,
 						scrollX : false,
-						rowHeaders : [ 'checkbox' ],
 						bodyHeight : 430,
 						columns : [ {
 							header : '자재코드',
@@ -491,7 +574,6 @@
 							}
 						})
 					})
-					c
 					/*자재검색 확인 눌렀을때 */
 					function cdcheck() {
 						$("#codeBtn").val(mi)
@@ -499,6 +581,22 @@
 						cdmo.dialog('close')
 					}
 					/*자재코드 검색 모달 끝!*/
+					/*저장안한 행삭제*/
+					$('#resetBtn').on('click', function(){
+						fnFormClear();
+					})
+						function fnFormClear() {
+							document.getElementById('dataForm').reset();
+							picker.setStartDate(new Date());
+							picker.setEndDate(new Date());
+							grid.resetData(gridData);
+						}
+					
+					$('#removeBtn').on('click', function(){
+						pdGrid.removeCheckedRows('')
+						/*DB에서도 지우는 함수 넣기*/
+					})
+					
 
 				})
 			</script>

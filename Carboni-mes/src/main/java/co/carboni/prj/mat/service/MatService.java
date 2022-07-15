@@ -33,6 +33,8 @@ public interface MatService {
 	public List<MatVO> findReqDate(String startD, String endD, String cusCode, String matCode);
 	
 	//발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력
-	public List<MatVO> findCode()
+	public List<MatVO> findCode(String cusCode, String matCode);
+	
+
 
 }

@@ -52,7 +52,10 @@ public class MatServiceImpl implements MatService {
 		return map.findReqDate(startD, endD, cusCode, matCode);
 	}
 
-
+	@Override
+	public List<MatVO> findCode(String cusCode, String matCode) {
+		return map.findCode(cusCode, matCode);
+	}
 
 
 
