@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.carboni.prj.produce.mapper.ProdPlanMapper;
+import co.carboni.prj.produce.mapper.ProdMapper;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
 
@@ -18,7 +18,7 @@ import co.carboni.prj.produce.vo.ProdPlanVO;
 public class ProdController {
 	
 	@Autowired
-	ProdPlanMapper mapper;
+	ProdMapper mapper;
 	
 	// 생산계획관리
 	@RequestMapping("/prodplan.do")
@@ -60,9 +60,9 @@ public class ProdController {
 		// 생산계획관리 - 생산계획 등록
 		@RequestMapping("addProdPlan")
 		@ResponseBody
-		public String addProdPlan(@RequestParam String planDt, @RequestParam String planName, @RequestParam String planNote) {
-			String ppnum = mapper.addProdPlan(planDt, planName, planNote);
-			return ppnum;
+		public ProdPlanVO addProdPlan(ProdPlanVO vo) {
+			mapper.addProdPlan(vo);
+			return vo;
 		}
 	
 	// 생산지시관리
