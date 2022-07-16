@@ -26,6 +26,9 @@ public interface ProdMapper {
 
 	// 생산계획등록
 	public int addProdPlan(ProdPlanVO vo);
+	
+	// 생산계획상세등록
+	public void addPPlanDetail(ProdPlanVO vo);
 
 	// 생산계획수정
 	

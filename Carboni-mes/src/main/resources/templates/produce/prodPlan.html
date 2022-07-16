@@ -352,8 +352,18 @@
 					align : 'center',
 					editor : 'datePicker',
 					language : 'ko'
+				}, {
+					header : '계획번호',
+					name: 'ppnum',
+					align : 'center'
+				}, {
+					header : '상세계획번호',
+					name: 'ppdnum',
+					align : 'center'
 				} ]
 			});
+			pdGrid.hideColumn('ppnum'); // 생산계획번호 숨기기
+			pdGrid.hideColumn('ppdnum'); // 생산계획상세번호 숨기기
 			
 			/* 미생산의뢰목록 그리드 */
 			const orderList = [];
@@ -576,38 +586,59 @@
 		}
 		
 		/* 생산계획 등록 */
-		
-		$('#saveBtn').on('click', function(){
+		$(document).on('click', '#saveBtn' ,function(e){
 			if($('#planNum').val() == '') {
 				// 등록
 				var ppdate = new Date($('#planDt').val()) // 생산계획일자(text)
 				var ppname = $('#planName').val() // 생산계획이름
 				var ppnote = $('#planNote').val() // 생산계획비고
-				var allData = [];
-				ark = (pdGrid.getRowCount())-1
-				for(i=0; i<ark+1; i++) {
-					allData.push(pdGrid.getRow(i))
-				}
-				console.log(allData)
-				/*new Promise((succ, fail) => {*/
-				$.ajax({
-					url: 'addProdPlan', // 생산계획등록
-					method: 'POST',
-					data: { ppdate, ppname, ppnote },
-					success: function(result) {
-						console.log(result.ppnum)
-						console.log('쿼리성공')
+				var promise = $.ajax({
+									url: 'addProdPlan',
+									method: 'POST',
+									data: { ppdate, ppname, ppnote },
+									});
+				
+				promise.done(pplanInsert);
+				promise.fail(failFnc);
+				
+				// 등록 promise
+				function pplanInsert(result) {
+					$('#planNum').val(result.ppnum) // input hidden에 생산계획일 담기
+					var ppnum = $('#planNum').val()
+					ark = (pdGrid.getRowCount())-1 
+					for(i=0; i<ark+1; i++) {
+						pdGrid.setValue(i, 'ppnum', ppnum, false)
+						pdGrid.setValue(i, 'ppdnum', ppnum+'-'+(i+1), false)
+						if((pdGrid.getValue(i, 'ppddate')) == null) {
+							swal('입력되지 않은 값이 있습니다.', '', 'warning')
+							 e.preventDefault();
+						} else {
+							continue;
+						}
 					}
-				})
-				/* }).then((arg) => {
-					
-				})*/
+					allData = pdGrid.getData() // 제품목록에 있는 모든 정보
+					$.ajax({
+						url: 'addPPlanDetail',
+						method: 'POST',
+						data: JSON.stringify(allData), // 객체배열 json타입으로 변경
+						contentType:'application/json',
+						success: function(){
+							swal('성공', '생산계획 등록이 완료되었습니다.', 'success')
+						}
+					})
+				}
+						
+				function failFnc(result) {
+					swal('실패', '생산계획 등록에 실패했습니다.', 'error')
+				}
+				
 			} else {
 				// 수정
 				
 			}
 			
 		}) 
+		
 		
 		/* 생산계획 삭제 */
 		

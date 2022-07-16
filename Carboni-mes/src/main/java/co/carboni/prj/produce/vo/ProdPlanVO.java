@@ -23,9 +23,21 @@ public class ProdPlanVO {
 		public String ppnote; // 비고
 	
 	// 생산계획등록
+		// 생산계획번호
+		// 생산계획일자
+		// 생산계획명
+		// 계획상태
+		// 비고
 		
 	// 생산계획상세등록
+		public String[] allData; // 등록시 넘어온 배열객체
 		public String ppdnum; // 생산계획상세번호
+		// 생산계획번호
+		// 의뢰번호
+		// 제품코드
+		// 기계획량
+		// 미계획량
+		// 작업일자
 		
 	// 생산계획수정
 		
