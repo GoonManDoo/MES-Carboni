@@ -255,43 +255,59 @@ ul {
 					columns : [ {
 						header : '입고일자',
 						align : 'center',
+						name :'mordate',
 						editor: 'datePicker'
-					}, {
+					}  /*, {
+						*	header : '발주일자',
+						*name :'moodate',
+						*align : 'center'
+					   }*/, {
 						header : '입고업체',
+						name :'csname',
 						align : 'center'
 					}, {
 						header : '자재코드',
+						name :'micode',
 						sortingType : 'desc',
 						align : 'center',
 						sortable : true
 					}, {
 						header : '자재명',
+						name :'miname',
 						align : 'center'
 					}, {
 						header : '규격',
+						name :'mistand',
 						align : 'center'
 					}, {
 						header : '자재단위',
+						name :'miunit',
 						align : 'center'
 					}, {
 						header : '발주번호',
+						name :'monum',
 						align : 'center'
 					}, {
 						header : '입고량',
+						name :'msam',
 						align : 'center',
 						editor : 'text'
 					}, {
 						header : '자재 LOT.NO',
+						name :'mlnum',
 						align : 'center',
 						editor : 'text'
 					}, {
 						header : '특이사항',
+						name :'msnote',
 						align : 'center',
 						editor :'text'
 					} ]
 				});
+				
+				
 
-				/*발주일자 검색 모달*/
+				/*발주일자 검색 모달 안의 내용이 나와야함 */
 				var inmo = makeModal("#inmodal", inupdate)
 				
 				$("#btnModal").on('click', function() {
@@ -311,9 +327,11 @@ ul {
 					})
 				})
 				
-				/*성공했을때 업데이트*/
+				/*발주일자 성공했을때 메인 그리드에 나올내용업데이트*/
 				function inupdate() {
-					
+					baljo=inmod.getCheckedRows();
+					grid.appendRows(baljo)
+					inmo.dialog('close')
 				}
 				
 				/*발주일자 검색 그리드 */
@@ -401,6 +419,7 @@ ul {
 							giupgir.on('click',e=>{
 									var rk = e.rowKey
 									cs = giupgir.getRow(rk).csname
+									csco =giupgir.getRow(rk).cscode
 								})
 						}
 					})
@@ -418,6 +437,7 @@ ul {
 								giupgir.on('click',e=>{
 									var rk = e.rowKey
 									cs = giupgir.getRow(rk).csname
+									csco =giupgir.getRow(rk).cscode
 								})
 							}
 						})
@@ -425,12 +445,12 @@ ul {
 				/*기업모달에서 확인 눌렀을떄 */
 				function giupcheck() {
 					$("#searchBtn").val(cs)
+					$('#rightcom').val(csco)
 					log.dialog('close')
 				}
-				
 				/*입고처명 모달 끝*/
 				
-				
+				/*새자료 눌렀을때 리셋*/
 					$('#resetBtn').on('click', function(){
 						fnFormClear();
 					})
@@ -442,7 +462,10 @@ ul {
 							picker2.setEndDate(new Date());
 							grid.resetData(gridData);
 						}
-
+				/*삭제눌렀을때*/
+				$('#removeBtn').on('click', function(){
+					grid.removeCheckedRows('')
+				})
 			})
 		</script>
 	</th:block>

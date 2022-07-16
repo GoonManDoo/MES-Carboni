@@ -594,6 +594,7 @@
 						cdmo.dialog('close')
 					}
 					/*자재코드 검색 모달 끝!*/
+					
 					/*저장안한 행삭제*/
 					$('#resetBtn').on('click', function(){
 						fnFormClear();
@@ -604,12 +605,11 @@
 							picker.setEndDate(new Date());
 							grid.resetData(gridData);
 						}
-					
+					/*삭제눌렀을때*/
 					$('#removeBtn').on('click', function(){
 						grid.removeCheckedRows('')
 					})
 					
-
 				})
 			</script>
 		</div>
