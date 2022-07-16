@@ -37,5 +37,4 @@ public interface MatMapper {
 	// 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력
 	public List<MatVO> findCode(@Param("cusCode") String cusCode, @Param("matCode") String matCode);
 
-
 }
