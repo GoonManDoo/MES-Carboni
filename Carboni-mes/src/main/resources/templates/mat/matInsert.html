@@ -293,7 +293,7 @@ ul {
 				
 				
 
-				/*발주일자 검색 모달*/
+				/*발주일자 검색 모달 안의 내용이 나와야함 */
 				var inmo = makeModal("#inmodal", inupdate)
 				
 				$("#btnModal").on('click', function() {
@@ -313,9 +313,13 @@ ul {
 					})
 				})
 				
-				/*성공했을때 업데이트*/
+				/*발주일자 성공했을때 메인 그리드에 나올내용업데이트*/
 				function inupdate() {
-					
+					baljo=inmod.getCheckedRows();
+					grid.appendRows(baljo)
+					//값이 왜 안내려올까???
+							
+					inmo.dailog('close')
 				}
 				
 				/*발주일자 검색 그리드 */
@@ -403,6 +407,7 @@ ul {
 							giupgir.on('click',e=>{
 									var rk = e.rowKey
 									cs = giupgir.getRow(rk).csname
+									csco =giupgir.getRow(rk).cscode
 								})
 						}
 					})
@@ -420,6 +425,7 @@ ul {
 								giupgir.on('click',e=>{
 									var rk = e.rowKey
 									cs = giupgir.getRow(rk).csname
+									csco =giupgir.getRow(rk).cscode
 								})
 							}
 						})
@@ -427,6 +433,7 @@ ul {
 				/*기업모달에서 확인 눌렀을떄 */
 				function giupcheck() {
 					$("#searchBtn").val(cs)
+					$('#rightcom').val(csco)
 					log.dialog('close')
 				}
 				

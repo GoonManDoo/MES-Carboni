@@ -53,6 +53,7 @@
 	AND O.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
 	AND TO_DATE(#{endD},'YYYY/MM/DD') >= O.MOODATE
 	</select>
+	
 	<!-- 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 -->
 	<select id="findCode" resultType="co.carboni.prj.mat.vo.MatVO">
 		SELECT MICODE,MINAME,
