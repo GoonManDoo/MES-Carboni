@@ -255,37 +255,51 @@ ul {
 					columns : [ {
 						header : '입고일자',
 						align : 'center',
+						name :'mordate',
 						editor: 'datePicker'
-					}, {
+					}  /*, {
+						*	header : '발주일자',
+						*name :'moodate',
+						*align : 'center'
+					   }*/, {
 						header : '입고업체',
+						name :'csname',
 						align : 'center'
 					}, {
 						header : '자재코드',
+						name :'micode',
 						sortingType : 'desc',
 						align : 'center',
 						sortable : true
 					}, {
 						header : '자재명',
+						name :'miname',
 						align : 'center'
 					}, {
 						header : '규격',
+						name :'mistand',
 						align : 'center'
 					}, {
 						header : '자재단위',
+						name :'miunit',
 						align : 'center'
 					}, {
 						header : '발주번호',
+						name :'monum',
 						align : 'center'
 					}, {
 						header : '입고량',
+						name :'msam',
 						align : 'center',
 						editor : 'text'
 					}, {
 						header : '자재 LOT.NO',
+						name :'mlnum',
 						align : 'center',
 						editor : 'text'
 					}, {
 						header : '특이사항',
+						name :'msnote',
 						align : 'center',
 						editor :'text'
 					} ]
@@ -317,9 +331,7 @@ ul {
 				function inupdate() {
 					baljo=inmod.getCheckedRows();
 					grid.appendRows(baljo)
-					//값이 왜 안내려올까???
-							
-					inmo.dailog('close')
+					inmo.dialog('close')
 				}
 				
 				/*발주일자 검색 그리드 */
@@ -436,10 +448,9 @@ ul {
 					$('#rightcom').val(csco)
 					log.dialog('close')
 				}
-				
 				/*입고처명 모달 끝*/
 				
-				
+				/*새자료 눌렀을때 리셋*/
 					$('#resetBtn').on('click', function(){
 						fnFormClear();
 					})
@@ -451,7 +462,10 @@ ul {
 							picker2.setEndDate(new Date());
 							grid.resetData(gridData);
 						}
-
+				/*삭제눌렀을때*/
+				$('#removeBtn').on('click', function(){
+					grid.removeCheckedRows('')
+				})
 			})
 		</script>
 	</th:block>
