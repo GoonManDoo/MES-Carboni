@@ -35,6 +35,8 @@ public interface MatService {
 	//발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력
 	public List<MatVO> findCode(String cusCode, String matCode);
 	
+	//입고관리에서 발주일자로 관련 발주내용 찾는 모달안에 내용
+	public List<MatVO> findInputList(String startD, String endD, String cusCode, String matCode);
 
 
 }

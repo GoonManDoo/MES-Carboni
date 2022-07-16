@@ -86,3 +86,12 @@ and c.cscode = '1'
 and m.micode = '1'
 and o.moodate >= TO_DATE('2022/07/11','YYYY/MM/DD')
 and TO_DATE('2022/07/31','YYYY/MM/DD') >= o.moodate;
+
+--입고관리에서 발주일자로 입고관리로 넘길 정보 검색
+select o.moodate,o.monum,o.cscode,o.micode,c.csname,m.miname
+from matord o ,costomer c, matinfo m
+where o.micode=m.micode
+and c.cscode = o.cscode;
+--여기에 관련 날짜도 같이 
+and o.moodate >= TO_DATE('2022/07/11','YYYY/MM/DD')
+and TO_DATE('2022/07/31','YYYY/MM/DD') >= o.moodate;
