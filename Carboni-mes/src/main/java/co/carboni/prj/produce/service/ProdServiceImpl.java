@@ -3,6 +3,7 @@ package co.carboni.prj.produce.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.carboni.prj.produce.mapper.ProdMapper;
@@ -42,8 +43,15 @@ public class ProdServiceImpl implements ProdService {
 		@Override
 		public int addProdPlan(ProdPlanVO vo) {
 			mapper.addProdPlan(vo);
-			System.out.println(vo);
 			return 1;
+		}
+		
+		// 생산계획상세등록
+		@Override
+		public void addPPlanDetail(List<ProdPlanVO> list) {
+			for (ProdPlanVO vo : list) {
+				mapper.addPPlanDetail(vo);
+			}
 		}
 
 

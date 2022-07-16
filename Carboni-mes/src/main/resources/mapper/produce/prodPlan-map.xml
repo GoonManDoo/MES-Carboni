@@ -51,4 +51,11 @@
 		</selectKey>
 	</insert>
 	
+	<!-- 생산계획상세등록 -->
+	<insert id="addPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			INSERT INTO prodplan_d
+			VALUES
+			(#{ppdnum}, #{ppnum}, #{prnum}, #{gicode}, TO_NUMBER(#{ppdam}), TO_NUMBER(#{uplam}), TO_DATE(#{ppddate, jdbcType=DATE}, 'YYYY/MM/DD'))
+	</insert>
+	
 </mapper>

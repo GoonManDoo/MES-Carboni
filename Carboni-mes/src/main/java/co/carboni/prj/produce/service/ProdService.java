@@ -7,7 +7,7 @@ import co.carboni.prj.produce.vo.ProdPlanVO;
 
 public interface ProdService {
 	
-	// 생산계획조회
+	// 생산계획관리
 	
 		// 미생산주문조회 - 기간검색
 		public List<ProdPlanVO> findUnprod(String startDt, String endDt);
@@ -20,14 +20,16 @@ public interface ProdService {
 		
 		// 생산계획에서 부족한 자재 발주요청
 		public void requestMat(ProdPlanVO vo);
-		
-	// 생산계획등록
+			
+		// 생산계획등록
 		public int addProdPlan(ProdPlanVO vo);
-		
-	// 생산계획수정
-		
-	// 생산계획삭제
-		
-	// 발주요청
+			
+		// 생산계획상세등록
+		public void addPPlanDetail(List<ProdPlanVO> list);
+			
+		// 생산계획수정
+			
+		// 생산계획삭제
+			
 
 }
