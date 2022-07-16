@@ -95,8 +95,8 @@ ul {
 									<tbody>
 										<!-- 일자겁색 -->
 										<tr>
-											<th><label>입고일자</label></th>
-											<td>
+											<th style="width: 25%;"><label>입고일자</label></th>
+											<td colspan='3'>
 												<div class="mt-1">
 													<div
 														class="tui-datepicker-input tui-datetime-input tui-has-focus">
@@ -119,10 +119,13 @@ ul {
 										</tr>
 										<!-- 입고업체  -->
 										<tr>
-											<th>입고업체</th>
-											<td><input type="text" id="searchBtn"
+											<th style="width: 25%;"><label>입고업체</label></th>
+											<td style="width: 200px;"><input type="text" id="searchBtn" style="width: 200px;"
 												class="form-control ht" tabindex="2" placeholder="입고처명 검색">
 											</td>
+											<th style="width: 25%;"><label>업체명코드</label></th>
+											<td style="width: 200px;"><input type="text" class="form-control ht"
+												id="rightcom" readonly style="width: 200px;"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -287,8 +290,6 @@ ul {
 						editor :'text'
 					} ]
 				});
-
-				
 
 				/*발주일자 검색 모달*/
 				var inmo = makeModal("#inmodal", inupdate)

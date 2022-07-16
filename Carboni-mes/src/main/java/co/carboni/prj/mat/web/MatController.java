@@ -133,6 +133,9 @@ public class MatController {
 		List<MatVO> findcodelist = mapper.findCode(cusCode, matCode);
 		return findcodelist;
 	}
+	
+	// 입고관리에서 발주일자로 관련 발주내용 찾는 모달안에 내용
+	
 
 
 }
