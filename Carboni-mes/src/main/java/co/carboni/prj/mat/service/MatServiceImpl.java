@@ -57,9 +57,5 @@ public class MatServiceImpl implements MatService {
 		return map.findCode(cusCode, matCode);
 	}
 
-	@Override
-	public List<MatVO> findInputList(String startD, String endD, String cusCode, String matCode) {
-		return map.findInputList(startD, endD, cusCode, matCode);
-	}
 
 }
