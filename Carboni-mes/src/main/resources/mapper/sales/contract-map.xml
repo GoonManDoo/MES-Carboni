@@ -13,15 +13,6 @@
 			</foreach>
 		</delete>
 		
-		<!-- 생산의뢰목록 삭제 -->
-		<delete id="findDelPrList">
-			DELETE prodreq
-			WHERE prnum in
-			<foreach collection="prList" item="arr" open="(" separator="," close=")">
-				#{arr}
-			</foreach>
-		</delete>
-		
 		<!-- 수주일자 조회 -->
 		<select id="findCndateList" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT m.cnnum, c.csname, g.giname, m.cnam, m.cnrest, m.cndate, m.cnperiod, m.cnstatus, g.giunit
@@ -75,6 +66,15 @@
 			AND
 			c.gicode =#{gsCode})
 		</select>
+		<!-- 생산의뢰목록 삭제 -->
+		
+		<delete id="findDelPrList">
+			DELETE prodreq
+			WHERE prnum in
+			<foreach collection="prList" item="arr" open="(" separator="," close=")">
+				#{arr}
+			</foreach>
+		</delete>
 		
 		
 </mapper>
