@@ -54,6 +54,9 @@ public interface ProdMapper {
 		
 		// 미지시계획조회
 		public List<ProdOrderVO> unorderList(@Param("startDt") String startDt, @Param("endDt") String endDt);
+		
+		// 생산지시에 추가할 계획목록
+		public List<ProdOrderVO> addPlan(ProdOrderVO vo);
 
 
 

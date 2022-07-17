@@ -48,6 +48,9 @@ public interface ProdService {
 		
 		// 미지시계획조회 - 기간검색
 		public List<ProdOrderVO> unorderList(String startDt, String endDt);
+		
+		// 생산지시에 계획 추가
+		public List<ProdOrderVO> addPlan(ProdOrderVO vo);
 
 		
 
