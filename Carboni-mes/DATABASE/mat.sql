@@ -95,3 +95,8 @@ and c.cscode = o.cscode;
 --여기에 관련 날짜도 같이 
 and o.moodate >= TO_DATE('2022/07/11','YYYY/MM/DD')
 and TO_DATE('2022/07/31','YYYY/MM/DD') >= o.moodate;
+--자재조회에서
+select s.micode,m.miname,s.mscoam,s.msciam,a.msinam,a.msoutam
+from matinfo m , matstk s, matsar a
+where m.micode = s.micode
+and s.msnum=a.msnum;

@@ -16,7 +16,7 @@ import co.carboni.prj.mat.vo.MatVO;
 public class MatController {
 
 	@Autowired
-	MatMapper mapper;
+	MatMapper mapper;	
 
 	// 발주관리
 	@RequestMapping("/matOrder.do")
@@ -133,7 +133,5 @@ public class MatController {
 		List<MatVO> findcodelist = mapper.findCode(cusCode, matCode);
 		return findcodelist;
 	}
-	
-
 
 }
