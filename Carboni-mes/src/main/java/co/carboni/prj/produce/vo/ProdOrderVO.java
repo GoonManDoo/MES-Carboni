@@ -1,6 +1,7 @@
 package co.carboni.prj.produce.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -37,6 +38,7 @@ public class ProdOrderVO {
 	
 	
 	// 전체계획
+		public List<String> planNums; // 미지시계획조회에서 가져온 계획번호 배열
 	
 	
 	// 선택한 계획의 제품정보

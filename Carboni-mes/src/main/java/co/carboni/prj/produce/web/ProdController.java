@@ -126,6 +126,14 @@ public class ProdController {
 			List<ProdOrderVO> unorderList = service.unorderList(startDt, endDt);
 			return unorderList;
 		}
+		
+		// 생산지시관리 - 생산지시에 추가할 계획 목록
+		@RequestMapping("addPlan")
+		@ResponseBody
+		public List<ProdOrderVO> addPlan(ProdOrderVO vo) {
+			List<ProdOrderVO> orderPlan = service.addPlan(vo);
+			return orderPlan;
+		}
 	
 	
 	// 생산지시조회

@@ -96,6 +96,12 @@ public class ProdServiceImpl implements ProdService {
 		public List<ProdOrderVO> unorderList(String startDt, String endDt) {
 			return mapper.unorderList(startDt, endDt);
 		}
+		
+		// 생산지시에 계획목록 추가
+		@Override
+		public List<ProdOrderVO> addPlan(ProdOrderVO vo) {
+			return mapper.addPlan(vo);
+		}
 
 		
 
