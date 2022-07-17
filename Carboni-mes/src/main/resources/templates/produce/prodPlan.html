@@ -72,7 +72,7 @@
 											<div
 												class="tui-datepicker-input tui-datetime-input tui-has-focus">
 												<input type="text" class="form-control" id="planDt"
-													aria-label="Date-Time" tabindex="1"> <span
+													aria-label="Date-Time" tabindex="1" required> <span
 													class="tui-ico-date"></span>
 											</div>
 											<div id="wrapper" style="margin-top: -1px;"></div>
@@ -81,7 +81,7 @@
 									<tr>
 										<th>생산계획명</th>
 										<td><input type="text" id="planName" class="form-control ht"
-											style="width: 500px;" maxlength="10"></td>
+											style="width: 500px;" required></td>
 										<td colspan="5">
 									</tr>
 									<tr>
@@ -214,9 +214,9 @@
 			<div class="container-fluid" style="margin-top: 40px; margin-bottom: 10px;">
 				<div>
 					<label class="fw">진행상태</label>
-					<select style="width:100px; height:28px; display: inline-block;">
-						<option value="unorder">미지시</option>
-						<option value="ordering">지시진행</option>
+					<select id="planStatus" style="width:100px; height:28px; display: inline-block;">
+						<option value="미지시">미지시</option>
+						<option value="지시진행">지시진행</option>
 					</select>
 				</div>
 			</div>
@@ -313,29 +313,47 @@
 					header: '제품코드',
 					name: 'gicode',
 					align: 'center',
-					editor: 'text'
+					editor: 'text',
+					validation: {
+						required: true
+					}
 				}, {
 					header : '제품명',
 					name: 'giname',
 					align : 'center',
-					editor: 'text'
+					editor: 'text',
+					validation: {
+						required: true
+					}
 				}, {
 					header : '규격',
 					name: 'giunit',
 					align : 'center',
-					editor: 'text'
+					editor: 'text',
+					validation: {
+						required: true
+					}
 				}, {
 					header : '의뢰번호',
 					name: 'prnum',
-					align : 'center'
+					align : 'center',
+					validation: {
+						required: true
+					}
 				}, {
 					header : '마감일자',
 					name: 'prclose',
-					align : 'center'
+					align : 'center',
+					validation: {
+						required: true
+					}
 				}, {
 					header : '수주잔량',
 					name: 'cnrest',
-					align : 'center'
+					align : 'center',
+					validation: {
+						required: true
+					}
 				}, {
 					header : '기계획량',
 					name: 'ppdam',
@@ -351,9 +369,22 @@
 					name: 'ppddate',
 					align : 'center',
 					editor : 'datePicker',
-					language : 'ko'
+					language : 'ko',
+					validation: {
+						required: true
+					}
+				}, {
+					header : '계획번호',
+					name: 'ppnum',
+					align : 'center'
+				}, {
+					header : '상세계획번호',
+					name: 'ppdnum',
+					align : 'center'
 				} ]
 			});
+			pdGrid.hideColumn('ppnum'); // 생산계획번호 숨기기
+			pdGrid.hideColumn('ppdnum'); // 생산계획상세번호 숨기기
 			
 			/* 미생산의뢰목록 그리드 */
 			const orderList = [];
@@ -424,6 +455,17 @@
 			$('#searchBtn').on('click', function(){
 				$('#planModal').css('display', '')
 				modal1.dialog('open')
+				var pstartDt = $('#pplanDtS').val() // 계획일자 시작
+				var pendDt = $('#pplanDtE').val() // 계획일자 끝
+				var pstatus = $('#planStatus option:selected').val() // 생산계획 진행상태
+				$.ajax({
+					url: 'searchPlan',
+					method: 'POST',
+					data: { pstartDt, pendDt, pstatus },
+					success: function(result) {
+						
+					}
+				})
 				planGrid.refreshLayout();
 			})
 			function planView() {
@@ -515,18 +557,21 @@
 								matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
 								matGrid.addCellClassName(i, 'lamount', 'matDanger')
 								matGrid.on('dblclick', el => {
-									mc = matGrid.getRow(el.rowKey).micode
-									oa = matGrid.getRow(el.rowKey).lamount
-									$('#matCode').val(mc)
-									$('#orderAmount').val(oa)
-									$('#matorderModal').css('display', '')
-									modal3.dialog('open')
+									if(matGrid.getValue(el.rowKey, 'lamount') !== null) {
+										mc = matGrid.getRow(el.rowKey).micode
+										oa = matGrid.getRow(el.rowKey).lamount
+										$('#matCode').val(mc)
+										$('#orderAmount').val(oa)
+										$('#matorderModal').css('display', '')
+										modal3.dialog('open')
+									}
 								})
 							}
 						}
 					}
 				})
 			})
+			
 			
 			// 부족한 자재 발주요청
 			function requestMat(){
@@ -572,41 +617,128 @@
 			pdGrid.resetData(totalPd);
 		}
 		
-		/* 생산계획 등록 */
 		
+		
+		/* 생산계획 등록 */
 		$('#saveBtn').on('click', function(){
-			if($('#planNum').val() == '') {
-				// 등록
-				var planDt = $('#planDt').val() // 생산계획일자
-				var planName = $('#planName').val() // 생산계획이름
-				var planNote = $('#planNote').val() // 생산계획비고
-				/* var allData = [];
-				ark = (pdGrid.getRowCount())-1
-				for(i=0; i<ark+1; i++) {
-					allData.push(pdGrid.getRow(i))
-				} */
-				/*new Promise((succ, fail) => {*/
-				$.ajax({
-					url: 'addProdPlan',
-					method: 'POST',
-					data: { planDt, planName, planNote },
-					success: function(result) {
-						console.log(result)
-						console.log('쿼리성공')
+			if($('#planNum').val() == '') { // input hidden에 담아놓은 생산계획번호가 없을 때만 등록
+				if($('#planName').val() != '') {
+					if($('td').hasClass('tui-grid-cell-invalid') == false) { // 제품테이블 그리드중에 입력안된값이 있으면 등록 못하도록
+						// 등록
+						addProdPlan();
+					} else {
+						swal('입력되지 않은 값이 있습니다.', '', 'warning')
 					}
-				})
-				/* }).then((arg) => {
-					
-				})*/
-			} else {
+				} else {
+					swal('생산계획명을 입력하세요.', '', 'warning')
+				}
+			} else { // input hidden에 담아놓은 생산계획번호가 있을 때는 수정
 				// 수정
-				
+				if($('#planName').val() != '') {
+					if($('td').hasClass('tui-grid-cell-invalid') == false) { // 제품테이블 그리드중에 입력안된값이 있으면 등록 못하도록
+						// 등록
+						updateProdPlan();
+					} else {
+						swal('입력되지 않은 값이 있습니다.', '', 'warning')
+					}
+				} else {
+					swal('생산계획명을 입력하세요.', '', 'warning')
+				}
 			}
-			
 		}) 
 		
-		/* 생산계획 삭제 */
+		/* 생산계획 등록 함수 */
+			function addProdPlan() {
+				// 등록
+				var ppdate = new Date($('#planDt').val()) // 생산계획일자(text)
+				var ppname = $('#planName').val() // 생산계획이름
+				var ppnote = $('#planNote').val() // 생산계획비고
+				var promise = $.ajax({
+									url: 'addProdPlan',
+									method: 'POST',
+									data: { ppdate, ppname, ppnote },
+									});
+				
+				promise.done(pplanInsert);
+				promise.fail(failFnc);
+				
+				// 등록 promise
+				function pplanInsert(result) {
+					$('#planNum').val(result.ppnum) // input hidden에 생산계획일 담기
+					var ppnum = $('#planNum').val()
+					ark = (pdGrid.getRowCount())-1 
+					for(i=0; i<ark+1; i++) {
+						pdGrid.setValue(i, 'ppnum', ppnum, false)
+						pdGrid.setValue(i, 'ppdnum', ppnum+'-'+(i+1), false)
+					}
+					allData = pdGrid.getData() // 제품목록에 있는 모든 정보
+					$.ajax({
+						url: 'addPPlanDetail',
+						method: 'POST',
+						data: JSON.stringify(allData), // 객체배열 json타입으로 변경
+						contentType:'application/json',
+						success: function(){
+							swal('성공', '생산계획 등록이 완료되었습니다.', 'success')
+						}
+					})
+				}
+						
+				function failFnc(result) {
+					swal('실패', '생산계획 등록에 실패했습니다.', 'error')
+				}
+				
+			}
 		
+		/* 생산계획 수정 함수 */
+			function updateProdPlan() {
+				var ppnum = $('#planNum').val() // 생산계획번호
+				var ppname = $('#planName').val() // 생산계획이름
+				var ppnote = $('#planNote').val() // 생산계획비고
+				var promise = $.ajax({
+					url: 'updateProdPlan',
+					method: 'POST',
+					data: { ppnum, ppname, ppnote },
+					});
+				
+				promise.done(pplanUpdate);
+				promise.fail(failFnc);
+				
+				function pplanUpdate(){
+					allData = pdGrid.getData() // 제품목록에 있는 모든 정보
+					$.ajax({
+						url: 'addPPlanDetail',
+						method: 'POST',
+						data: JSON.stringify(allData), // 객체배열 json타입으로 변경
+						contentType:'application/json',
+						success: function(){
+							swal('성공', '생산계획 수정이 완료되었습니다.', 'success')
+						}
+					})
+				}
+				
+				function failFnc(result) {
+					swal('실패', '생산계획 수정에 실패했습니다.', 'error')
+				}
+				
+			}
+		
+		/* 생산계획 삭제 */
+		$('#removeBtn').on('click', function(){
+			if($('#planNum').val() != '') {
+				var ppnum = $('#planNum').val()
+				$.ajax({
+					url: 'removeProdPlan',
+					method: 'POST',
+					data: { ppnum },
+					success: function(){
+						swal('성공', '생산계획 삭제가 완료되었습니다.', 'success')
+						fnFormClear();
+					}
+				})
+			} else {
+				swal('삭제할 내역이 없습니다.', '', 'warning')
+			}
+		})
 		
 		// 버튼끝------------------------------------------
 		
@@ -661,8 +793,6 @@
 		});
 		
 		// 달력끝------------------------------------------
-		
-		
 		
 		
 		

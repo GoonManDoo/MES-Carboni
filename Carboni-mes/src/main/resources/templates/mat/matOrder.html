@@ -60,12 +60,12 @@
 				<div class="card mb-4">
 					<div class="card-header">
 						<div style="display: flex; justify-content: flex-end;">
+							<button type="button" id="resetBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">새자료</button>
 							<button type="button" id="btnModal" class="btn btn-secondary"
 								style="margin-right: 5px;">요청</button>
 							<button type="button" id="saveBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">저장</button>
-							<button type="button" id="removeBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">삭제</button>
+								style="margin-right: 5px;">주문</button>
 						</div>
 					</div>
 				</div>
@@ -125,9 +125,12 @@
 							<div class="container-fluid px-4 mb-2">
 								<div style="display: flex; justify-content: flex-end;">
 									<button type="button" class="btn btn-secondary"
+										style="margin-right: 5px;" id="listBtn">조회</button>
+									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="addBtn">추가</button>
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;">주문</button>
+										style="margin-right: 5px;" id="removeBtn">삭제</button>
+
 								</div>
 							</div>
 						</form>
@@ -159,6 +162,15 @@
 						<button class="btn btn-secondary" id="miSearchBtn">검색</button>
 					</div>
 					<div id="codegrid"></div>
+				</div>
+				<!-- 요청 정보 넘어왔을떄 기업 선택 모달 -->
+				<div id="reqcommodal" title="발주업체 선택" style="padding: 20px;">
+					<div class="title">
+						<span>거래처명</span> <input type="text" class="input"
+							id="reqmiSearchName">
+						<button class="btn btn-secondary" id="reqmiSearchBtn">검색</button>
+					</div>
+					<div id="companygrid"></div>
 				</div>
 			</div>
 
@@ -202,8 +214,9 @@
 							container : '#endpicker-container'
 						}
 					});
-					/*발주일자 거래처코드 자재코드로 메인그리드 출력*/
-					$('#addBtn').on('click',function(){
+					
+					/*발주일자 조회 거래처코드 자재코드로 메인그리드 출력*/
+					$('#listBtn').on('click',function(){
 						var startD = $('#startpicker-input').val()
 						var endD =$('#endpicker-input').val()
 						var cusCode = $('#rightcom').val()
@@ -211,10 +224,27 @@
 						$.ajax({
 							url :'findreqdate',
 							method :'POST',
-							data:{startD,endD,cusCode,matCode},
+							data:{startD,endD,cusCode, matCode },
 							success :function(result){
 								grid.refreshLayout();
 								grid.resetData(result)
+							}
+						})
+					})
+					
+					/*발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력*/
+					$('#addBtn').on('click',function(){
+						var cusCode = $('#rightcom').val()
+						var matCode =$('#rightmat').val()
+						$.ajax({
+							url: 'findcodelist',
+							method : 'post',
+							data : {cusCode,matCode},
+							success : function(result){
+								grid.refreshLayout();
+								grid.appendRows(result)
+								/*grid.resetData(result)*/
+								
 							}
 						})
 					})
@@ -239,6 +269,10 @@
 							name :'monum',
 							align : 'center'
 						}, {
+							header : '요청번호',
+							name :'reqnum',
+							align : 'center'
+						}, {
 							header : '자재코드',
 							name :'micode',
 							align : 'center'
@@ -246,11 +280,11 @@
 							header : '자재명',
 							name :'miname',
 							align : 'center'
-						}, {
-							header : '입고일자',
-							name :'mordate',
-							align : 'center'
-						}, {
+						}, /*{
+							*header : '입고일자',
+							*name :'mordate',
+							*align : 'center'
+						},  */{
 							header : '발주업체',
 							name :'csname',
 							align : 'center'
@@ -261,11 +295,11 @@
 						}, /*{
 							*header : '입고량',
 							*align : 'center'
+						},  *{
+							*header : '자재량',
+							*name :'msciam',
+							*align : 'center'
 						}, */{
-							header : '자재량',
-							name :'msciam',
-							align : 'center'
-						}, {
 							header : '주문수량',
 							name :'moaskam',
 							editor:'text',
@@ -274,15 +308,11 @@
 							header : '발주상태',
 							name :'mostatus',
 							align : 'center'
-						}/*, {
-							*header : '비고',
-							*align : 'center'
-						} */]
+						}, {
+							header : '비고',
+							align : 'center'
+						} ]
 					});
-
-					
-
-					var dia = makeModal("#reqmodal", check)
 
 					/*발주 모달안의 그리드*/
 					const totaldata = [];
@@ -315,12 +345,12 @@
 							align : 'center',
 						} ]
 					});
+					var dia = makeModal("#reqmodal", check)
 
 					/*생산에서 넘어오는 정보를 가지고있는 모달*/
 					$("#btnModal").on("click", function() {
 						$("#reqmodal").css('display', '');
 						dia.dialog('open')
-
 						$.ajax({
 							url : 'reqlist',
 							method : 'POST',
@@ -328,14 +358,86 @@
 							success : function(result) {
 								reqG.refreshLayout();
 								reqG.resetData(result)
+								erow = result.rowKey
+								/*if(reqG.getValue(erow,'mrstatus')=='Y'){
+									요구사항을 발주 완료하여 처리상태가 Y가 되면 
+									안보이게 함
+								}*/
+								
 							}
 						})
 					})
 
 					/*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 */
 					function check() {
-
+						reqlist=reqG.getCheckedRows();
+							grid.appendRows(reqlist)
+							/*발주 요청량이 존재할떄 주문수량도 같이 입력됨*/
+							prk = (grid.getRowCount())-1
+								for(i=0; i<prk+1; i++) {
+									grid.setValue(i, 'moaskam', grid.getRow(i).mrreqam, false)
+								}
+						dia.dialog('close') 
 					}
+					
+					//메인그리드에서 업체를 더블클릭했을떄 
+					var clickmodal = makeModal("#reqcommodal",dbclickfn)
+						grid.on('dblclick',function(e){
+							erow = e.rowKey
+							//console.log(grid.getValue(e.rowKey, 'csname'))
+							if(grid.getValue(erow,'csname') == null){
+								$("#reqcommodal").css('display', '')
+								clickmodal.dialog('open')
+							$.ajax({
+									url : 'companyList',
+									method : 'POST',
+									dataType : 'json',
+									success : function(result) {
+										company.refreshLayout();
+										company.resetData(result)
+										company.on('click',e=>{
+											var rk = e.rowKey
+											cs = company.getRow(rk).csname
+										})
+									}
+								})
+								
+							}
+						})
+					
+					//그리드안에 더블클릭 모달에서 선택후 확인 눌렀을떄
+					function dbclickfn() {
+						grid.setValue(erow,'csname',cs,false)
+						clickmodal.dialog('close')
+					}
+					/*메인그리드에서 검색시 출력*/
+					const conpany =[];
+					const company =  new tui.Grid({
+						el : document.getElementById('companygrid'),
+						data : conpany,
+						scrollX : false,
+						bodyHeight : 430,
+						columns : [ {
+							header : '거래처코드',
+							name : 'cscode',
+							align : 'center',
+						}, {
+							header : '거래처명',
+							name : 'csname',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '사업자등록번호',
+							name : 'csnum',
+							align : 'center',
+						}, {
+							header : '전화번호',
+							name : 'cstel',
+							align : 'center',
+						} ]
+					});
+					
 					
 					/*기업체 검색 모달 시작 */
 					var log = makeModal("#searchmodal", giup)
@@ -424,7 +526,6 @@
 						el : document.getElementById('codegrid'),
 						data : giupdata,
 						scrollX : false,
-						rowHeaders : [ 'checkbox' ],
 						bodyHeight : 430,
 						columns : [ {
 							header : '자재코드',
@@ -486,7 +587,6 @@
 							}
 						})
 					})
-					c
 					/*자재검색 확인 눌렀을때 */
 					function cdcheck() {
 						$("#codeBtn").val(mi)
@@ -494,7 +594,22 @@
 						cdmo.dialog('close')
 					}
 					/*자재코드 검색 모달 끝!*/
-
+					
+					/*저장안한 행삭제*/
+					$('#resetBtn').on('click', function(){
+						fnFormClear();
+					})
+						function fnFormClear() {
+							document.getElementById('dataForm').reset();
+							picker.setStartDate(new Date());
+							picker.setEndDate(new Date());
+							grid.resetData(gridData);
+						}
+					/*삭제눌렀을때*/
+					$('#removeBtn').on('click', function(){
+						grid.removeCheckedRows('')
+					})
+					
 				})
 			</script>
 		</div>

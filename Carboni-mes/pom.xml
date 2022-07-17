@@ -55,9 +55,7 @@
 		<dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-        </dependency>
-        
-        <dependency>
+      <dependency>
 		    <groupId>com.oracle.database.security</groupId>
 		    <artifactId>oraclepki</artifactId>
 		</dependency>
@@ -69,7 +67,6 @@
 		    <groupId>com.oracle.database.security</groupId>
 		    <artifactId>osdt_cert</artifactId>
 		</dependency>
-        
 	</dependencies>
 
 	<build>

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.carboni.prj.produce.mapper.ProdPlanMapper">
+<mapper namespace="co.carboni.prj.produce.mapper.ProdMapper">
+	
+	<!-- 생산계획조회 -->
+	<select id="searchPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+		SELECT ppdate, ppnum, ppname, ppnote
+		FROM prodplan
+		WHERE ppdate >= TO_DATE(#{pstartDt}, 'YYYY/MM/DD')
+		AND TO_DATE(#{pendDt}, 'YYYY/MM/DD') >= ppdate
+		AND ppstatus =
+		<if test="pstatus == '미지시'">'미지시'</if>
+		<if test="pstatus == '지시진행'">'지시진행'</if>
+		ORDER BY ppnum ASC
+	</select>	
 	
 	<!-- 미생산주문조회 -->
 	<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
@@ -43,9 +55,44 @@
 	</insert>
 	
 	<!-- 생산계획등록 -->
-	<insert id="addProdPlan" parameterType="java.util.HashMap" useGeneratedKeys="true" keyColumn="ppnum" keyProperty="planNum">
+	<insert id="addProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO" useGeneratedKeys="true" keyColumn="ppnum" keyProperty="ppnum">
 		INSERT INTO prodplan
-		VALUES (('PP-'||prodplan_ppnum_seq.nextval), TO_DATE(#{planDt}, 'YYYY/MM/DD'), #{planName}, '미지시', #{planNote})
+		VALUES (('PP-'||PRODPLAN_PPNUM_SEQ.nextval), #{ppdate}, #{ppname}, '미지시', #{ppnote})
+		<selectKey resultType="string" keyProperty="ppnum" order="AFTER">
+			select 'PP-'||max(TO_NUMBER(SUBSTR(ppnum, 4))) as ppnum from prodplan
+		</selectKey>
 	</insert>
+	
+	<!-- 생산계획상세등록 -->
+	<insert id="addPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+		INSERT INTO prodplan_d
+		VALUES
+		(#{ppdnum}, #{ppnum}, #{prnum}, #{gicode}, TO_NUMBER(#{ppdam}), TO_NUMBER(#{uplam}), TO_DATE(#{ppddate, jdbcType=DATE}, 'YYYY/MM/DD'))
+	</insert>
+	
+	<!-- 생산계획수정 -->
+	<update id="updateProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+		UPDATE prodplan
+		SET ppname = #{ppname}, ppnote = #{ppnote}
+		WHERE ppnum = #{ppnum}
+	</update>
+	
+	<!-- 생산계획상세 삭제 -->
+	<delete id="delupPPdetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+		DELETE FROM prodplan_d
+		WHERE ppdnum like #{ppnum}||'%'
+	</delete>
+	
+	<!-- 생산계획삭제 -->
+	<delete id="removeProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+		DELETE FROM prodplan
+		WHERE ppnum = #{ppnum}
+	</delete>
+	
+	<!-- 생산계획상세 삭제 -->
+	<delete id="removePPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+		DELETE FROM prodplan_d
+		WHERE ppdnum like #{ppnum}||'%'
+	</delete>
 	
 </mapper>

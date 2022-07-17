@@ -5,9 +5,12 @@ import java.util.List;
 
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
-public interface ProdPlanService {
+public interface ProdService {
 	
-	// 생산계획조회
+	// 생산계획관리
+	
+		// 생산계획조회
+		public List<ProdPlanVO> searchPlan(String pstartDt, String pendDt, String pstatus);
 	
 		// 미생산주문조회 - 기간검색
 		public List<ProdPlanVO> findUnprod(String startDt, String endDt);
@@ -20,14 +23,22 @@ public interface ProdPlanService {
 		
 		// 생산계획에서 부족한 자재 발주요청
 		public void requestMat(ProdPlanVO vo);
+			
+		// 생산계획등록
+		public int addProdPlan(ProdPlanVO vo);
+			
+		// 생산계획상세등록 + 수정 시 재등록
+		public void addPPlanDetail(List<ProdPlanVO> plans);
+
+		// 생산계획수정
+		public void updateProdPlan(ProdPlanVO vo);
 		
-	// 생산계획등록
-		public String addProdPlan(String planDt, String planName, String planNote);
+		// 생산계획삭제
+		public void removeProdPlan(ProdPlanVO vo);
+
 		
-	// 생산계획수정
-		
-	// 생산계획삭제
-		
-	// 발주요청
+
+			
+			
 
 }

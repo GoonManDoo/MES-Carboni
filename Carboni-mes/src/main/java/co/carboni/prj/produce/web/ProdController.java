@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.carboni.prj.produce.mapper.ProdPlanMapper;
+import co.carboni.prj.produce.mapper.ProdMapper;
+import co.carboni.prj.produce.service.ProdService;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
 
@@ -18,7 +20,7 @@ import co.carboni.prj.produce.vo.ProdPlanVO;
 public class ProdController {
 	
 	@Autowired
-	ProdPlanMapper mapper;
+	ProdService service;
 	
 	// 생산계획관리
 	@RequestMapping("/prodplan.do")
@@ -26,11 +28,20 @@ public class ProdController {
 		return "produce/prodPlan";
 	}
 	
+		// 생산계획관리 - 생산계획조회
+		@RequestMapping("searchPlan")
+		@ResponseBody
+		public List<ProdPlanVO> searchPlan(@RequestParam String pstartDt, @RequestParam String pendDt, @RequestParam String pstatus) {
+			List<ProdPlanVO> planList = service.searchPlan(pstartDt, pendDt, pstatus);
+			return planList;
+		}
+	
+	
 		// 생산계획관리 - 미생산주문조회
 		@RequestMapping("unprodList")
 		@ResponseBody
 		public List<ProdPlanVO> unprodList(@RequestParam String startDt, @RequestParam String endDt) {
-			List<ProdPlanVO> unprodList = mapper.findUnprod(startDt, endDt);
+			List<ProdPlanVO> unprodList = service.findUnprod(startDt, endDt);
 			return unprodList;
 		}
 		
@@ -38,7 +49,7 @@ public class ProdController {
 		@RequestMapping("planProduct")
 		@ResponseBody
 		public List<ProdPlanVO> planProduct(ProdPlanVO vo) {
-			List<ProdPlanVO> planProduct = mapper.planProduct(vo);
+			List<ProdPlanVO> planProduct = service.planProduct(vo);
 			return planProduct;
 		}
 		
@@ -46,7 +57,7 @@ public class ProdController {
 		@RequestMapping("matCheck")
 		@ResponseBody
 		public List<ProdPlanVO> matCheck(@RequestParam("prn") String prnum) {
-			List<ProdPlanVO> matCheck = mapper.matList(prnum);
+			List<ProdPlanVO> matCheck = service.matList(prnum);
 			return matCheck;
 		}
 		
@@ -54,17 +65,38 @@ public class ProdController {
 		@RequestMapping("requestMat")
 		@ResponseBody
 		public void requestMat(ProdPlanVO vo) {
-			mapper.requestMat(vo);
+			service.requestMat(vo);
 		}
 		
 		// 생산계획관리 - 생산계획 등록
 		@RequestMapping("addProdPlan")
 		@ResponseBody
-		public String addProdPlan(@RequestParam String planDt, @RequestParam String planName, @RequestParam String planNote) {
-			String ppnum = mapper.addProdPlan(planDt, planName, planNote);
-			return ppnum;
+		public ProdPlanVO addProdPlan(ProdPlanVO vo) {
+			service.addProdPlan(vo);
+			return vo;
 		}
-	
+		
+		// 생산계획관리 - 생산계획상세 등록 + 수정 시 재등록
+		@RequestMapping("addPPlanDetail")
+		@ResponseBody
+		public void addPPlanDetail(@RequestBody List<ProdPlanVO> plans) {
+			service.addPPlanDetail(plans);
+		}
+		
+		// 생산계획관리 - 생산계획 수정
+		@RequestMapping("updateProdPlan")
+		@ResponseBody
+		public void updateProdPlan(ProdPlanVO vo) {
+			service.updateProdPlan(vo);
+		}
+		
+		// 생산계획관리 - 생산계획 삭제
+		@RequestMapping("removeProdPlan")
+		@ResponseBody
+		public void removeProdPlan(ProdPlanVO vo) {
+			service.removeProdPlan(vo);
+		}
+		
 	// 생산지시관리
 	@RequestMapping("/prodorder.do")
 	public String prodOrder() {

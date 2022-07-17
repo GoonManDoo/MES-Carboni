@@ -69,6 +69,8 @@ ul {
 			<div class="card mb-2">
 				<div class="card-header">
 					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" id="resetBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">새자료</button>
 						<button type="button" id="researchBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">조회</button>
 						<button type="button" id="saveBtn" class="btn btn-secondary"
@@ -93,8 +95,8 @@ ul {
 									<tbody>
 										<!-- 일자겁색 -->
 										<tr>
-											<th><label>입고일자</label></th>
-											<td>
+											<th style="width: 25%;"><label>입고일자</label></th>
+											<td colspan='3'>
 												<div class="mt-1">
 													<div
 														class="tui-datepicker-input tui-datetime-input tui-has-focus">
@@ -117,10 +119,14 @@ ul {
 										</tr>
 										<!-- 입고업체  -->
 										<tr>
-											<th>입고업체</th>
-											<td><input type="text" id="searchBtn"
-												class="form-control ht" tabindex="2" placeholder="입고처명 검색">
-											</td>
+											<th style="width: 25%;"><label>입고업체</label></th>
+											<td style="width: 200px;"><input type="text"
+												id="searchBtn" style="width: 200px;" class="form-control ht"
+												tabindex="2" placeholder="입고처명 검색"></td>
+											<th style="width: 25%;"><label>업체명코드</label></th>
+											<td style="width: 200px;"><input type="text"
+												class="form-control ht" id="rightcom" readonly
+												style="width: 200px;"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -188,9 +194,31 @@ ul {
 		<!-- 그리드 내용  -->
 		<script>
 			$(function() {
+				/*메이크 모달*/
+				function makeModal(e, fnc) {
+					var dialog = $(e).dialog({
+						autoOpen : false,
+						height : 600,
+						width : 700,
+						modal : true,
+						buttons : {
+							'확인' : fnc,
+							'취소' : function() {
+								$(this).dialog('close')
+							}
+						}
+					});
+					$('.ui-dialog-titlebar-close').html('X').css('border',
+							'none')
+					$('.ui-dialog-buttonset').children().attr('class',
+							'btn btn-secondary')
+					return dialog;
+				}
+				/*메이크모달 끝*/
+				
 				/* 입고일자 데이트 피커  */
 				var today = new Date();
-				var picker = tui.DatePicker.createRangePicker({
+				var picker1 = tui.DatePicker.createRangePicker({
 					startpicker : {
 						date : today,
 						input : '#startpicker-input',
@@ -204,8 +232,7 @@ ul {
 				});
 
 				/* 발주일자 데이트 피커  */
-				var today = new Date();
-				var picker = tui.DatePicker.createRangePicker({
+				var picker2 = tui.DatePicker.createRangePicker({
 					startpicker : {
 						date : today,
 						input : '#orderSdate',
@@ -229,66 +256,59 @@ ul {
 					columns : [ {
 						header : '입고일자',
 						align : 'center',
+						name :'mordate',
 						editor: 'datePicker'
 					}, {
+							header : '발주일자',
+						name :'moodate',
+						align : 'center'
+					}, {
 						header : '입고업체',
+						name :'csname',
 						align : 'center'
 					}, {
 						header : '자재코드',
+						name :'micode',
 						sortingType : 'desc',
 						align : 'center',
 						sortable : true
 					}, {
 						header : '자재명',
+						name :'miname',
 						align : 'center'
 					}, {
 						header : '규격',
+						name :'mistand',
 						align : 'center'
 					}, {
 						header : '자재단위',
+						name :'miunit',
 						align : 'center'
 					}, {
 						header : '발주번호',
+						name :'monum',
 						align : 'center'
 					}, {
 						header : '입고량',
+						name :'msam',
 						align : 'center',
 						editor : 'text'
 					}, {
 						header : '자재 LOT.NO',
+						name :'mlnum',
 						align : 'center',
 						editor : 'text'
 					}, {
 						header : '특이사항',
+						name :'msnote',
 						align : 'center',
 						editor :'text'
 					} ]
 				});
-
-				/*메이크 모달*/
-				function makeModal(e, fnc) {
-					var dialog = $(e).dialog({
-						autoOpen : false,
-						height : 600,
-						width : 700,
-						modal : true,
-						buttons : {
-							'확인' : fnc,
-							'취소' : function() {
-								$(this).dialog('close')
-							}
-						}
-					});
-					$('.ui-dialog-titlebar-close').html('X').css('border',
-							'none')
-					$('.ui-dialog-buttonset').children().attr('class',
-							'btn btn-secondary')
-					return dialog;
-				}
-				/*메이크모달 끝*/
+				
 				
 
-				/*발주일자 검색 모달*/
+				/*발주일자 검색 모달 안의 내용이 나와야함 */
 				var inmo = makeModal("#inmodal", inupdate)
 				
 				$("#btnModal").on('click', function() {
@@ -308,9 +328,11 @@ ul {
 					})
 				})
 				
-				/*성공했을때 업데이트*/
+				/*발주일자 성공했을때 메인 그리드에 나올내용업데이트*/
 				function inupdate() {
-					
+					baljo=inmod.getCheckedRows();
+					grid.appendRows(baljo)
+					inmo.dialog('close')
 				}
 				
 				/*발주일자 검색 그리드 */
@@ -398,6 +420,7 @@ ul {
 							giupgir.on('click',e=>{
 									var rk = e.rowKey
 									cs = giupgir.getRow(rk).csname
+									csco =giupgir.getRow(rk).cscode
 								})
 						}
 					})
@@ -415,6 +438,7 @@ ul {
 								giupgir.on('click',e=>{
 									var rk = e.rowKey
 									cs = giupgir.getRow(rk).csname
+									csco =giupgir.getRow(rk).cscode
 								})
 							}
 						})
@@ -422,11 +446,27 @@ ul {
 				/*기업모달에서 확인 눌렀을떄 */
 				function giupcheck() {
 					$("#searchBtn").val(cs)
+					$('#rightcom').val(csco)
 					log.dialog('close')
 				}
-				
 				/*입고처명 모달 끝*/
-
+				
+				/*새자료 눌렀을때 리셋*/
+					$('#resetBtn').on('click', function(){
+						fnFormClear();
+					})
+						function fnFormClear() {
+							document.getElementById('dataForm').reset();
+							picker1.setStartDate(new Date());
+							picker1.setEndDate(new Date());
+							picker2.setStartDate(new Date());
+							picker2.setEndDate(new Date());
+							grid.resetData(gridData);
+						}
+				/*삭제눌렀을때*/
+				$('#removeBtn').on('click', function(){
+					grid.removeCheckedRows('')
+				})
 			})
 		</script>
 	</th:block>
