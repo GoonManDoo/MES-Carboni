@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.carboni.prj.produce.mapper.ProdMapper;
 import co.carboni.prj.produce.service.ProdService;
+import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
 
@@ -28,12 +29,27 @@ public class ProdController {
 		return "produce/prodPlan";
 	}
 	
-		// 생산계획관리 - 생산계획조회
+		// 생산계획관리 - 생산계획검색
 		@RequestMapping("searchPlan")
 		@ResponseBody
 		public List<ProdPlanVO> searchPlan(@RequestParam String pstartDt, @RequestParam String pendDt, @RequestParam String pstatus) {
 			List<ProdPlanVO> planList = service.searchPlan(pstartDt, pendDt, pstatus);
 			return planList;
+		}
+		
+		// 생산계획관리 - 생산계획 페이지로드
+		@RequestMapping("prodPlan")
+		@ResponseBody
+		public ProdPlanVO prodPlan(@RequestParam String findNum) {
+			return service.prodPlan(findNum);
+		}
+		
+		// 생산계핵관리 - 생산계획상세 로드
+		@RequestMapping("prodPlanDetail")
+		@ResponseBody
+		public List<ProdPlanVO> prodPlanDetail(@RequestParam String findDNum) {
+			List<ProdPlanVO> prodPlanDLIst = service.prodPlanDetail(findDNum);
+			return prodPlanDLIst;
 		}
 	
 	
@@ -102,6 +118,14 @@ public class ProdController {
 	public String prodOrder() {
 		return "produce/prodOrder";
 	}
+		
+		// 생산지시관리 - 미지시계획목록 조회
+		@RequestMapping("unorderList")
+		@ResponseBody
+		public List<ProdOrderVO> unorderList(@RequestParam String startDt, @RequestParam String endDt) {
+			List<ProdOrderVO> unorderList = service.unorderList(startDt, endDt);
+			return unorderList;
+		}
 	
 	
 	// 생산지시조회

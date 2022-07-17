@@ -35,6 +35,9 @@
 .tui-grid-cell.matDanger {
 	background-color: #ffcaca;
 }
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;	
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -426,18 +429,22 @@
 			     columns: [
 			       {
 			         header: '계획일자',
+			         name: 'ppdate',
 			         align : 'center'
 			       },
 			       {
 			         header: '계획번호',
+			         name: 'ppnum',
 			         align : 'center'
 			       },
 			       {
 			         header: '계획명',
+			         name: 'ppname',
 			         align : 'center'
 			       },
 			       {
 			         header: '비고',
+			         name: 'ppnote',
 			         align : 'center'
 			       }
 			     ]
@@ -455,28 +462,73 @@
 			$('#searchBtn').on('click', function(){
 				$('#planModal').css('display', '')
 				modal1.dialog('open')
-				var pstartDt = $('#pplanDtS').val() // 계획일자 시작
-				var pendDt = $('#pplanDtE').val() // 계획일자 끝
-				var pstatus = $('#planStatus option:selected').val() // 생산계획 진행상태
-				$.ajax({
-					url: 'searchPlan',
-					method: 'POST',
-					data: { pstartDt, pendDt, pstatus },
-					success: function(result) {
-						
-					}
-				})
 				planGrid.refreshLayout();
+				$('#planBtn').on('click', function(){
+					var pstartDt = $('#pplanDtS').val() // 계획일자 시작
+					var pendDt = $('#pplanDtE').val() // 계획일자 끝
+					var pstatus = $('#planStatus option:selected').val() // 생산계획 진행상태
+					$.ajax({
+						url: 'searchPlan',
+						method: 'POST',
+						data: { pstartDt, pendDt, pstatus },
+						success: function(result) {
+							planGrid.resetData(result);
+							planGrid.on('click', e => {
+								var rk = e.rowKey;
+								for(i=0; i<planGrid.getRowCount(); i++) {
+									planGrid.removeRowClassName(i, 'rowSelect')
+								}
+								planGrid.addRowClassName(rk, 'rowSelect')
+								findNum = planGrid.getValue(rk, 'ppnum')
+							})
+						
+						}
+					})
+				})
 			})
+			/* 페이지에 생산계획 로드 */
 			function planView() {
+				var promise = $.ajax({
+										url: 'prodPlan',
+										method: 'POST',
+										data: { findNum },
+									});
 				
+				promise.done(loadProdPlan);
+				promise.fail(failFnc);
+				
+				function loadProdPlan(result) {
+					$('#planNum').val(result.ppnum) // hidden에 조회한 계획번호 입력
+					$('#planDt').val(result.ppdate)
+					$('#planName').val(result.ppname)
+					$('#planNote').val(result.ppnote)
+					var findDNum = $('#planNum').val();
+					$.ajax({
+						url: 'prodPlanDetail',
+						method: 'POST',
+						data : { findDNum },
+						success: function(list) {
+							pdGrid.refreshLayout();
+							planGrid.resetData(planList);
+							picker.setStartDate(new Date());
+							picker.setEndDate(new Date());
+							pdGrid.resetData(list)
+							modal1.dialog('close')
+						}
+					})
+				}
+				
+				function failFnc(result) {
+					swal('실패', '생산계획 로드에 실패했습니다.', 'error')
+				}
 			}
-			
+
 			
 			/* 미생산의뢰 모달 */
 			$('#unprodBtn').on('click', function(){
 				$('#requestModal').css('display', '')
 				modal2.dialog('open')
+				rqGrid.refreshLayout();
 				var startDt = $('#requestDtS').val()
 				var endDt = $('#requestDtE').val()
 				$.ajax({
@@ -484,27 +536,25 @@
 					method: 'POST',
 					data : { startDt, endDt },
 					success: function(result) {
-						rqGrid.refreshLayout();
-						rqGrid.resetData(result)
+						rqGrid.resetData(result);
 					}
 				})
 			})
 			/* 미생산의뢰조회 후 생산할 제품 계획에 등록 */
-			
 			function requestAdd() {
-				const result = rqGrid.getCheckedRows();
-				const orderNum = result.map((e)=>{return e.prnum})
+				const count = rqGrid.getCheckedRows();
+				const rqNum = count.map((e)=>{return e.prnum})
 				$.ajax({
 					url: 'planProduct',
 					method: 'POST',
-					data: { orderNum },
+					data: { rqNum },
 					dataType: 'json',
 					success: function(rs) {
 						pdGrid.refreshLayout();
 						matGrid.resetData(selectMat); // 계획 추가하면 자재그리드 reset
 						pdGrid.resetData(rs)
-						prk = (pdGrid.getRowCount())-1 // 로우키라고 생각
-						for(i=0; i<prk+1; i++) {
+						prk = pdGrid.getRowCount()
+						for(i=0; i<prk; i++) {
 							pdGrid.setValue(i, 'ppdam', pdGrid.getRow(i).cnrest, false)
 						}
 					}
@@ -523,12 +573,21 @@
 					buttons: {
 						"확인": fnc,
 						"취소": function(){
+							planGrid.resetData(planList);
+							rqGrid.resetData(orderList);
+							picker.setStartDate(new Date());
+							picker.setEndDate(new Date());
 							$(this).dialog('close')
 						}
 					}
 				});
 				$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-				$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
+				$('.ui-dialog-titlebar-close').html('X').css('border', 'none').on('click', function(){ // 타이틀바 x 닫기
+					planGrid.resetData(planList);
+					rqGrid.resetData(orderList);
+					picker.setStartDate(new Date());
+					picker.setEndDate(new Date());
+				})
 				return dialog;
 			}
 		// 모달끝--------------------------------------------
@@ -541,6 +600,10 @@
 			pdGrid.on('dblclick', e => {
 				var rk = e.rowKey;
 				prn = pdGrid.getRow(rk).prnum
+				for(i=0; i<pdGrid.getRowCount(); i++) {
+					pdGrid.removeRowClassName(i, 'rowSelect')
+				}
+				pdGrid.addRowClassName(rk, 'rowSelect')
 				$.ajax({
 					url: 'matCheck',
 					method: 'POST',
@@ -548,9 +611,9 @@
 					success: function(result) {
 						matGrid.resetOriginData()
 						matGrid.resetData(result)
-						mrk = (matGrid.getRowCount())-1 // 로우키라고 생각
+						mrk = matGrid.getRowCount() // 로우키라고 생각
 						// 그리드에 값 넣어주기
-						for(i=0; i<mrk+1; i++) {
+						for(i=0; i<mrk; i++) {
 							// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
 							matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
 							if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
@@ -613,10 +676,11 @@
 			datepicker1.setDate(new Date());
 			datepicker2.setStartDate(new Date());
 			datepicker2.setEndDate(new Date());
+			picker.setStartDate(new Date());
+			picker.setEndDate(new Date());
 			matGrid.resetData(selectMat);
 			pdGrid.resetData(totalPd);
 		}
-		
 		
 		
 		/* 생산계획 등록 */
@@ -672,6 +736,7 @@
 						pdGrid.setValue(i, 'ppdnum', ppnum+'-'+(i+1), false)
 					}
 					allData = pdGrid.getData() // 제품목록에 있는 모든 정보
+					console.log(pdGrid.getValue(0, 'ppdnum'))
 					$.ajax({
 						url: 'addPPlanDetail',
 						method: 'POST',

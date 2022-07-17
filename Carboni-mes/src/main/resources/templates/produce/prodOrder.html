@@ -157,7 +157,7 @@
 		<div class="container-fluid px-4">
 			<div class="card mb-4">
 				<div class="card-header">
-					<i class="fas fa-table me-1"></i> 계획목록
+					<i class="fas fa-table me-1"></i> 생산계획목록
 				</div>
 				<div class="card-body">
 					<div id="totalPlan"></div>
@@ -241,9 +241,9 @@
 										name="orderDtS"> <span class="tui-ico-date"></span>
 									<div id="orderDtS-wapper" style="margin-left: -1px;"></div>
 								</div>
-
+	
 								<span class="mg5">~</span>
-
+	
 								<!-- 종료일 -->
 								<div class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
 									<input id="orderDtE" type="text" class="form-control" aria-label="Date"
@@ -255,7 +255,7 @@
 						</ul>
 					</div>
 				</form>
-
+	
 				<!-- 진행상태 구분 -->
 				<div class="container-fluid" style="margin-top: 40px; margin-bottom: 10px;">
 					<div>
@@ -266,11 +266,11 @@
 						</select>
 					</div>
 				</div>
-
+	
 				<!-- 그리드 -->
 				<div id="orderList"></div>
 			</div>
-
+	
 			<div id="planModal" style="padding:20px;" title="미지시계획조회">
 				<div id="planList"></div>
 			</div>
@@ -281,6 +281,165 @@
 		<script type="text/javascript">
 
 			$(function () {
+				
+				// 그리드 ---------------------------------------
+				/* 계획목록 */
+				const totalPlan = [];
+
+				const pnGrid = new tui.Grid({
+					el: document.getElementById('totalPlan'),
+					data: totalPlan,
+					scrollX: false,
+					rowHeaders: ['checkbox'],
+					columns: [{
+						header: '계획번호',
+						align: 'center'
+					}, {
+						header: '계획명',
+						align: 'center'
+					}, {
+						header: '제품명',
+						align: 'center'
+					}, {
+						header: '납기일자',
+						align: 'center'
+					}, {
+						header: '공정코드',
+						align: 'center'
+					}, {
+						header: '계획량',
+						align: 'center'
+					}, {
+						header: '지시량',
+						align: 'center'
+					}, {
+						header: '생산구분',
+						align: 'center'
+					}, {
+						header: '작업시작일',
+						align: 'center'
+					}, {
+						header: '담당자',
+						align: 'center'
+					}]
+				});
+
+				/* 자재목록 */
+				const material = [];
+
+				const matlist = new tui.Grid({
+					el: document.getElementById('matlist'),
+					data: material,
+					scrollX: false,
+					rowHeaders: ['checkbox', 'rowNum'],
+					columns: [{
+						header: '자재코드',
+						align: 'center'
+					}, {
+						header: '자재명',
+						align: 'center'
+					}, {
+						header: '소요량',
+						align: 'center'
+					}, {
+						header: '재고량',
+						align: 'center'
+					}]
+				});
+
+				/* 공정선택 */
+				const process = [];
+
+				const prclist = new tui.Grid({
+					el: document.getElementById('prclist'),
+					data: process,
+					bodyHeight: 200,
+					scrollX: false,
+					rowHeaders: ['checkbox'],
+					columns: [{
+						header: '순번',
+						align: 'center'
+					}, {
+						header: '공정코드',
+						align: 'center'
+					}, {
+						header: '1차공정',
+						align: 'center'
+					}, {
+						header: '2차공정',
+						align: 'center'
+					}, {
+						header: '3차공정',
+						align: 'center'
+					}, {
+						header: '4차공정',
+						align: 'center'
+					}, {
+						header: '비고',
+						align: 'center'
+					}]
+				});
+				
+				/* 생산지시목록모달 그리드 */
+				const orderList = [];
+				
+				const orderGrid = new tui.Grid({
+			      el: document.getElementById('orderList'),
+			      data: orderList,
+			      columns: [
+			        {
+			          header: '지시일자',
+			          align : 'center'
+			        },
+			        {
+			          header: '지시번호',
+			          align : 'center'
+			        },
+			        {
+			          header: '지시명',
+			          align : 'center'
+			        },
+			        {
+			          header: '비고',
+			          align : 'center'
+			        }
+			      ]
+		    	});
+
+				/* 미지시계획모달 그리드 */
+				const planList = [];
+
+				const planGrid = new tui.Grid({
+					el: document.getElementById('planList'),
+					data: planList,
+					rowHeaders : [ 'checkbox' ],
+					columns: [
+						{
+							header: '계획일자',
+							name: 'ppdate',							
+							align: 'center'
+						},
+						{
+							header: '계획번호',
+							name: 'ppnum',
+							align: 'center'
+						},
+						{
+							header: '계획명',
+							name: 'ppname',
+							align: 'center'
+						},
+						{
+							header: '비고',
+							name: 'ppnote',
+							align: 'center'
+						}
+					]
+				});
+
+				// 그리드끝-----------------------------------
+
+
 
 				// 모달----------------------------------------
 				var modal1 = makeModal("#orderModal", orderView)
@@ -302,9 +461,32 @@
 					$('#planModal').css('display', '')
 					modal2.dialog('open')
 					planGrid.refreshLayout();
+					var startDt = $('#planDtS').val()
+					var endDt = $('#planDtE').val()
+					$.ajax({
+						url: 'unorderList',
+						method: 'POST',
+						data : { startDt, endDt },
+						success: function(result){
+							planGrid.resetData(result);
+						}
+					})
 				})
+				/* 미생산계획조회 후 생산계획 지시에 등록 */
 				function planAdd() {
-
+					/* const count = planGrid.getCheckedRows();
+					const planNums = count.map((e)=>{return e.ppnum})
+					$.ajax({
+						url: 'addPlan',
+						data: { planNums },
+						dataType: 'json',
+						success: function(rs){
+							pnGrid.refreshLayout();
+							matlist.resetData(material);
+							prclist.resetData(process);
+							pnGrid.resetData(rs)
+						}
+					}) */
 				}
 
 				/* 모달틀 */
@@ -317,15 +499,50 @@
 						buttons: {
 							"확인": fnc,
 							"취소": function () {
+								orderGrid.resetData(orderList);
+								planGrid.resetData(planList);
+								picker.setStartDate(new Date());
+								picker.setEndDate(new Date());
 								$(this).dialog('close')
 							}
 						}
 					});
 					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-					$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
+					$('.ui-dialog-titlebar-close').html('X').css('border', 'none').on('click', function(){
+						orderGrid.resetData(orderList);
+						planGrid.resetData(planList);
+						picker.setStartDate(new Date());
+						picker.setEndDate(new Date());
+					})
 					return dialog;
 				}
-			})
+				// 모달 끝-----------------------------------
+				
+				
+				// 버튼 -------------------------------------
+
+				/* 새자료 */
+				$('#resetBtn').on('click', function () {
+					fnFormClear();
+				})
+
+				function fnFormClear() {
+					document.getElementById('dataForm').reset();
+					$('#orderDt').val('');
+					datepicker1.setDate(new Date());
+					datepicker2.setStartDate(new Date());
+					datepicker2.setEndDate(new Date());
+					picker.setStartDate(new Date());
+					picker.setEndDate(new Date());
+					pnGrid.resetData(totalPlan);
+					matlist.resetData(material);
+					prclist.resetData(process);
+				}
+
+				// 버튼 끝 ----------------------------------
+				
+				
+			}) // function 끝
 
 
 			// 달력---------------------------------------------
@@ -356,9 +573,6 @@
 					input : '#planDtE',
 					container : '#planDtE-wapper'
 				},
-				selectableRanges : [ [
-						today,
-						range ] ],
 				language : 'ko'
 			});
 			
@@ -374,186 +588,12 @@
 					input : '#orderDtE',
 					container : '#orderDtE-wapper'
 				},
-				selectableRanges : [ [
-						today,
-						range ] ],
 				language : 'ko'
 			});
 			
 			// 달력끝------------------------------------------
 
-			// 그리드 ---------------------------------------
-			/* 계획목록 */
-			const totalPlan = [];
 
-			const pdGrid = new tui.Grid({
-				el: document.getElementById('totalPlan'),
-				data: totalPlan,
-				scrollX: false,
-				rowHeaders: ['checkbox'],
-				columns: [{
-					header: '계획번호',
-					align: 'center'
-				}, {
-					header: '계획명',
-					align: 'center'
-				}, {
-					header: '제품명',
-					align: 'center'
-				}, {
-					header: '납기일자',
-					align: 'center'
-				}, {
-					header: '공정코드',
-					align: 'center'
-				}, {
-					header: '계획량',
-					align: 'center'
-				}, {
-					header: '지시량',
-					align: 'center'
-				}, {
-					header: '생산구분',
-					align: 'center'
-				}, {
-					header: '작업시작일',
-					align: 'center'
-				}, {
-					header: '비고',
-					align: 'center'
-				}, {
-					header: '담당자',
-					align: 'center'
-				}]
-			});
-
-			/* 자재목록 */
-			const material = [];
-
-			const matlist = new tui.Grid({
-				el: document.getElementById('matlist'),
-				data: material,
-				scrollX: false,
-				rowHeaders: ['checkbox', 'rowNum'],
-				columns: [{
-					header: '자재코드',
-					align: 'center'
-				}, {
-					header: '자재명',
-					align: 'center'
-				}, {
-					header: '소요량',
-					align: 'center'
-				}, {
-					header: '재고량',
-					align: 'center'
-				}]
-			});
-
-			/* 공정선택 */
-			const process = [];
-
-			const prclist = new tui.Grid({
-				el: document.getElementById('prclist'),
-				data: process,
-				bodyHeight: 200,
-				scrollX: false,
-				rowHeaders: ['checkbox'],
-				columns: [{
-					header: '순번',
-					align: 'center'
-				}, {
-					header: '공정코드',
-					align: 'center'
-				}, {
-					header: '1차공정',
-					align: 'center'
-				}, {
-					header: '2차공정',
-					align: 'center'
-				}, {
-					header: '3차공정',
-					align: 'center'
-				}, {
-					header: '4차공정',
-					align: 'center'
-				}, {
-					header: '비고',
-					align: 'center'
-				}]
-			});
-			
-			/* 생산지시목록모달 그리드 */
-			const orderList = [];
-			
-			const orderGrid = new tui.Grid({
-		      el: document.getElementById('orderList'),
-		      data: orderList,
-		      columns: [
-		        {
-		          header: '지시일자',
-		          align : 'center'
-		        },
-		        {
-		          header: '지시번호',
-		          align : 'center'
-		        },
-		        {
-		          header: '지시명',
-		          align : 'center'
-		        },
-		        {
-		          header: '비고',
-		          align : 'center'
-		        }
-		      ]
-	    	});
-
-			/* 미지시계획모달 그리드 */
-			const planList = [];
-
-			const planGrid = new tui.Grid({
-				el: document.getElementById('planList'),
-				data: planList,
-				columns: [
-					{
-						header: '계획일자',
-						align: 'center'
-					},
-					{
-						header: '계획번호',
-						align: 'center'
-					},
-					{
-						header: '계획명',
-						align: 'center'
-					},
-					{
-						header: '비고',
-						align: 'center'
-					}
-				]
-			});
-
-			// 그리드끝-----------------------------------
-
-			// 버튼 -------------------------------------
-
-			/* 새자료 */
-			$('#resetBtn').on('click', function () {
-				fnFormClear();
-			})
-
-			function fnFormClear() {
-				document.getElementById('dataForm').reset();
-				$('#orderDt').val('');
-				datepicker1.setDate(new Date());
-				datepicker2.setStartDate(new Date());
-				datepicker2.setEndDate(new Date());
-				grid.resetData(gridData);
-			}
-
-			// 버튼 끝 ----------------------------------
 		</script>
 	</th:block>
 </body>
