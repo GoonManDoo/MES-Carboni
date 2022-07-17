@@ -136,6 +136,18 @@ public class CommonController {
 		return selectBom;
 	}
 	
+	@RequestMapping("/bominsert")
+	public String bominsert(BomVO vo) {
+		bomDAO.bominsert(vo);
+		return "redirect:bom.do";
+	}
+	
+	@RequestMapping("/bomdelete")
+	public String bomdelete(BomVO vo) {
+		bomDAO.bomdelete(vo);
+		return "redirect:bom.do";
+	}
+	
 	
 	//
 	

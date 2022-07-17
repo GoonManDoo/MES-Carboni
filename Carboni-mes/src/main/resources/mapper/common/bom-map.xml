@@ -7,10 +7,32 @@
 	</select>
 	
 	<select id="selectBom" resultType="map">
-		SELECT M.MICODE, G.GINAME, M.MINAME, B.BAM, B.BNOTE
+		SELECT G.GICODE, M.MICODE, G.GINAME, M.MINAME, B.BAM, B.BNOTE
 		FROM BOM B JOIN MATINFO M ON B.MICODE = M.MICODE
 	    		   JOIN GOODSINFO G ON B.GICODE = G.GICODE
 		WHERE G.GICODE = #{gicode}
 	</select>
+	<insert id="bominsert" parameterType="co.carboni.prj.common.vo.BomVO">
+		DECLARE
+		    V_CNT NUMBER;
+		BEGIN
+    		SELECT COUNT(*)
+    		INTO V_CNT FROM(
+    		SELECT * FROM BOM
+    		WHERE GICODE=#{gicode} AND MICODE = #{micode});
+    
+    		IF V_CNT > 0 THEN
+    		UPDATE BOM
+    		SET BAM = #{bam}, BNOTE = #{bnote}
+    		WHERE GICODE = #{gicode} and micode = #{micode};
+    		ELSE
+    		INSERT INTO BOM
+    		VALUES(BOM_BCODE_SEQ.NEXTVAL, #{gicode}, #{micode}, #{bam}, #{bnote});
+    		END IF;
+		END;
+	</insert>
+	<delete id="bomdelete" parameterType="co.carboni.prj.common.vo.BomVO">
+		DELETE FROM BOM WHERE GICODE=#{gicode} AND MICODE=#{micode}
+	</delete>
 
 </mapper>

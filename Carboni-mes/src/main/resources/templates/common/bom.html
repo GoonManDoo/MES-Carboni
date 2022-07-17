@@ -60,23 +60,14 @@
         <table id="datatablesSimple">
           <thead>
             <tr>
-              <th><input type="checkbox"></th>
+              <th><input type="radio"></th>
               <th>자재코드</th>
               <th>자재명</th>
               <th>사용량</th>
-              <th>제품단위</th>
               <th>비고</th>
             </tr>
           </thead>
           <tbody id="tbody">
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>7E-ABC</td>
-              <td>1EA</td>
-              <td>BOX</td>
-              <td></td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -195,6 +186,9 @@
     })
     
     $('#search').click(function() {
+    	if($('#gicode').val() == ''){
+    		alert('제품코드를 입력하십시오.');
+    	} else{
     		$.ajax({
     			url: 'selectBom',
     			data: {gicode: gicode.value},
@@ -204,16 +198,49 @@
   					    giresult.forEach(ele => {
     					var mktr = $('<tr>');
     					mktr.append($('<td>').html('<input type="radio" name="list">'))
+    					mktr.append($('<td style="display:none">').html(ele.GICODE))
     					mktr.append($('<td>').html(ele.MICODE))
     					mktr.append($('<td>').html(ele.MINAME))
     					mktr.append($('<td>').html(ele.BAM))
-    					mktr.append($('<td>').html(''))
     					mktr.append($('<td>').html(ele.BNOTE))
     					mktr.appendTo($('#tbody'))
           })
         }
       })
+    		
+    	}
     })
+    
+    $('#newthat').click(function () {
+      $('#myf>input').val('');
+    })
+    
+    function check(){
+    	if($('#gicode').val() == '' || $('#micode').val() == '' ){
+    		alert('제품코드와 자재코드를 입력하여 저장해 주십시오')
+    	} else{
+    		document.subform.action='bominsert';
+    		document.subform.submit();
+    	}
+    }
+    
+    function del(){
+    	if($('#gicode').val() == '' || $('#micode').val() == '' ){
+    		alert('제품코드와 자재코드를 입력하여 삭제해 주십시오')
+    	} else{
+    		document.subform.action='bomdelete';
+    		document.subform.submit();
+    	}
+    }
+    
+    $(document).on('click', 'input[name="list"]', function(){
+        
+		$('#gicode').val($('input[name=list]:checked').parent().parents().children().eq(1).text())
+		$('#micode').val($('input[name=list]:checked').parent().parents().children().eq(2).text())
+		$('#bam').val($('input[name=list]:checked').parent().parents().children().eq(4).text())
+		$('#bnote').val($('input[name=list]:checked').parent().parents().children().eq(5).text())
+	});
+    
 		
 		
 </script>
