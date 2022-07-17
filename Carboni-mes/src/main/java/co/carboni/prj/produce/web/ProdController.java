@@ -19,9 +19,6 @@ import co.carboni.prj.produce.vo.ProdPlanVO;
 @Controller
 public class ProdController {
 	
-	/*
-	 * @Autowired ProdMapper mapper;
-	 */
 	@Autowired
 	ProdService service;
 	
@@ -30,6 +27,15 @@ public class ProdController {
 	public String prodPlan() {
 		return "produce/prodPlan";
 	}
+	
+		// 생산계획관리 - 생산계획조회
+		@RequestMapping("searchPlan")
+		@ResponseBody
+		public List<ProdPlanVO> searchPlan(@RequestParam String pstartDt, @RequestParam String pendDt, @RequestParam String pstatus) {
+			List<ProdPlanVO> planList = service.searchPlan(pstartDt, pendDt, pstatus);
+			return planList;
+		}
+	
 	
 		// 생산계획관리 - 미생산주문조회
 		@RequestMapping("unprodList")
@@ -70,13 +76,27 @@ public class ProdController {
 			return vo;
 		}
 		
-		// 생산계획관리 - 생산계획상세 등록
+		// 생산계획관리 - 생산계획상세 등록 + 수정 시 재등록
 		@RequestMapping("addPPlanDetail")
 		@ResponseBody
-		public void addPPlanDetail(@RequestBody List<ProdPlanVO> list) {
-			service.addPPlanDetail(list);
+		public void addPPlanDetail(@RequestBody List<ProdPlanVO> plans) {
+			service.addPPlanDetail(plans);
 		}
-	
+		
+		// 생산계획관리 - 생산계획 수정
+		@RequestMapping("updateProdPlan")
+		@ResponseBody
+		public void updateProdPlan(ProdPlanVO vo) {
+			service.updateProdPlan(vo);
+		}
+		
+		// 생산계획관리 - 생산계획 삭제
+		@RequestMapping("removeProdPlan")
+		@ResponseBody
+		public void removeProdPlan(ProdPlanVO vo) {
+			service.removeProdPlan(vo);
+		}
+		
 	// 생산지시관리
 	@RequestMapping("/prodorder.do")
 	public String prodOrder() {

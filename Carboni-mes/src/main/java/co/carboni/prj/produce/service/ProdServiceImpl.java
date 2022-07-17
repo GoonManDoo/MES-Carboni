@@ -16,6 +16,13 @@ public class ProdServiceImpl implements ProdService {
 	ProdMapper mapper;
 	
 	// 생산계획관리
+
+		// 생산계획조회
+		@Override
+		public List<ProdPlanVO> searchPlan(String pstartDt, String pendDt, String pstatus) {
+			return mapper.searchPlan(pstartDt, pendDt, pstatus);
+		}
+		
 		// 미생산주문조회
 		@Override
 		public List<ProdPlanVO> findUnprod(String startDt, String endDt) {
@@ -46,13 +53,31 @@ public class ProdServiceImpl implements ProdService {
 			return 1;
 		}
 		
-		// 생산계획상세등록
+		// 생산계획상세등록 + 수정 시 재등록
 		@Override
-		public void addPPlanDetail(List<ProdPlanVO> list) {
-			for (ProdPlanVO vo : list) {
+		public void addPPlanDetail(List<ProdPlanVO> plans) {
+			for (ProdPlanVO vo : plans) {
 				mapper.addPPlanDetail(vo);
 			}
 		}
+
+		// 생산계획수정
+		@Override
+		public void updateProdPlan(ProdPlanVO vo) {
+			mapper.updateProdPlan(vo);
+			mapper.delupPPdetail(vo); // 수정을 위한 삭제
+		}
+		
+		// 생산계획삭제
+		@Override
+		public void removeProdPlan(ProdPlanVO vo) {
+			mapper.removeProdPlan(vo);
+			mapper.removePPlanDetail(vo);
+		}
+		
+		
+
+		
 
 
 	
