@@ -148,7 +148,9 @@ span {
 	<div id="prodReqModal" style="padding: 20px;" title="생산의뢰등록">
 			<div class="container">
 		<div class="title">
-			수주기간<input type="text" id="cninput" class="input" placeholder="수주번호"> 
+			<span> 수주일자<input type="date" name="startCndate" id="startCndate" class="input" />~ 
+				             <input type="date" name="endCndate" id="endCndate" class="input" /> 
+			</span>
 			<button id="cnsearchBtn" class="btn btn-secondary">조회</button><br>
 		</div>
 		</div>
@@ -235,7 +237,7 @@ span {
 		$('#insertBtn').on('click', function() {
 			$("#prodReqModal").css('display', '')
 			modal2.dialog('open')
-					reqprodrefreshLayout();
+					reqprod.refreshLayout();
 					reqprod.resetData(result)
 		
 		})
@@ -344,13 +346,13 @@ span {
 			sortingType : 'desc',
 			sortable : true
 		}, {
-			header : '제품코드',
+			header : '제품명',
 			name : 'gicode',
 			align : 'center',
 			sortingType : 'desc',
 			sortable : true
 		}, {
-			header : '거래처코드',
+			header : '거래처명',
 			name : 'cscode',
 			align : 'center',
 			sortingType : 'desc',
@@ -434,13 +436,13 @@ span {
 				sortingType : 'desc',
 				sortable : true
 			}, {
-				header : '제품코드',
+				header : '제품명',
 				name : 'gicode',
 				align : 'center',
 				sortingType : 'desc',
 				sortable : true
 			}, {
-				header : '거래처코드',
+				header : '거래처명',
 				name : 'cscode',
 				align : 'center',
 				sortingType : 'desc',

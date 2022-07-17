@@ -26,7 +26,8 @@ span {
 
 .input {
 	height: 23px;
-	margin-left: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
 	display: inline-block;
 	padding: 0 10px;
 	vertical-align: middle;
@@ -37,8 +38,12 @@ span {
 	text-align: center;
 }
 
-#leftinput {
-	width: 42%;
+#leftinput, #rightinput {
+	margin-right: 17px;
+}
+
+#leftinput1 {
+	background-color: #f1f1f1;
 }
 
 #startCNDATE {
@@ -84,7 +89,8 @@ span {
 			<div class="card-body">
 				 <span> 정산일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~
 		                     <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br>
-                        제품코드<input type="text" id="leftinput" placeholder="제품코드입력" class="input"><br>
+                        제품정보<input type="text" id="leftinput" placeholder="제품검색" class="input" readonly="readonly">
+                        	 <input type="text" id="leftinput1" placeholder="제품 코드" class="input"  readonly="readonly">	<br>
                      </span> 
 			</div>
 		</div>
@@ -92,21 +98,17 @@ span {
 
 <!-- 모달 -->
 	<div id="modal">
+	
+	<!-- 제품 모달 -->
 	<div id="prodNameModal" style="padding: 20px;" title="제품정보조회">
 			<div class="container">
 		<div class="title">
 			제품명<input type="text" class="input" placeholder="제품명"> 
-			제품코드<input type="text" class="input" placeholder="제품코드">
-			<button class="btn btn-secondary">조회</button><br>
+			<button id="gisearchBtn" class="btn btn-secondary">조회</button><br>
 		</div>
-		<table border="1">
-			<tr>
-			</tr>
-			<tr>
-				<!-- function 기능 들어갈 곳  -->
-			</tr>
-		</table>
 		</div>
+		
+	<!-- 제품모달 그리드 -->
 	<div class="container-fluid px-4">
 		<div class="card mb-4">
 			<div class="card-header" style="text-align: center;">
@@ -131,19 +133,6 @@ span {
 
 <script>
 	const gridData = [];
-
-	(function() {
-		for (let i = 0; i < 10; i += 1) {
-			gridData.push({
-				c1 : (i + 1),
-				c2 : ((i + 5) % 8) * 100 + i,
-				c3 : ((i + 3) % 7) * 60,
-				c4 : ((i + 3) % 7) * 60,
-				c5 : ((i + 3) % 7) * 60,
-				c6 : ((i + 3) % 7) * 60,
-			});
-		}
-	})();
 
 	const grid = new tui.Grid({
 		el : document.getElementById('grid'),
@@ -204,17 +193,59 @@ span {
 			return dialog;
 		}
 
-		var modal2 = makeModal("#prodNameModal", giup)
+		var modal1 = makeModal("#prodNameModal", giup)
+			modal1 = makeModal("#prodNameModal", giup1)
 
 		/* 제품정보 모달 */
 		$("#leftinput").on("click", function() {
 					$("#prodNameModal").css('display', '')
-					modal2.dialog('open')
-					gomo.refreshLayout();
+					modal1.dialog('open')
+					//전체제품 바로 띄우는 ajax 호출
+					$.ajax({
+						url:'allGoodsList',
+						method: 'POST',
+						success: function(result) {
+							jepoom.refreshLayout();
+							jepoom.resetData(result)
+							jepoom.on('click', e => {
+								var rok = e.rowKey
+								gin = jepoom.getRow(rok).giname
+								gic = jepoom.getRow(rok).gicode
+							})
+						}
+					})
 				})
-		/*확인 눌렀을떄 */
+				
+		/* 제품정보 모달 검색 이벤트 */
+		$('#gisearchBtn').on('click', function() {
+			var giname = $('#giinput').val()
+			$.ajax({
+				url: 'goodsList',
+				method: 'POST',
+				data : {giname},
+				success: function(result) {
+					jepoom.resetData(result)
+					jepoom.on('click', e => {
+						var rok = e.rowKey
+						gin1 = jepoom.getRow(rok).giname
+						gic1 = jepoom.getRow(rok).gicode
+					})
+				}
+			})
+		})
+				
+		/*제품정보 검색조회 모달 확인버튼 눌렀을떄 */
 		function giup() {
+			$('#leftinput').val(gin1)
+			$('#leftinput1').val(gic1)
+			modal1.dialog('close')
+		}
 
+		/*제품정보 전체조회 모달 확인버튼 눌렀을떄 */
+		function giup1() {
+			$('#leftinput').val(gin)
+			$('#leftinput1').val(gic)
+			modal1.dialog('close')
 		}
 
 		/* 그리드 표만들기 */
@@ -223,7 +254,7 @@ span {
 		/*제품정보 그리드*/
 		const giupdata = [];
 
-		let gomo = new tui.Grid({
+		let jepoom = new tui.Grid({
 			el : document.getElementById('gridpro'),
 			data : giupdata,
 			scrollX : false,
@@ -231,16 +262,19 @@ span {
 			bodyHeight : 430,
 			columns : [ {
 				header : '제품코드',
+				name : 'gicode',
 				align : 'center',
 				sortingType : 'desc',
 				sortable : true
 			}, {
 				header : '제품명',
+				name : 'giname',
 				align : 'center',
 				sortingType : 'desc',
 				sortable : true
 			}, {
 				header : '제품단위',
+				name : 'giunit',
 				align : 'center',
 				sortingType : 'desc',
 				sortable : true
