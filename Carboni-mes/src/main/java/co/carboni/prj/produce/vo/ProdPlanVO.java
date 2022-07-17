@@ -52,7 +52,7 @@ public class ProdPlanVO {
 		public Date prclose; // 마감일자
 	
 	// 전체제품
-		public List<String> orderNum; // 미생산주문조회에서 가져온 의뢰번호 배열
+		public List<String> rqNum; // 미생산주문조회에서 가져온 의뢰번호 배열
 		
 		public String gicode; // 제품코드
 		public String giname;// 제품명
@@ -63,6 +63,7 @@ public class ProdPlanVO {
 		public int cnrest; // 수주잔량
 		public int ppdam; // 기계획량
 		public int uplam; // 미계획량
+		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date ppddate; // 작업일자
 		
 	// 선택한 제품의 자재목록

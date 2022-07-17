@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.carboni.prj.produce.mapper.ProdMapper;
+import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
 @RestController
@@ -17,10 +18,22 @@ public class ProdServiceImpl implements ProdService {
 	
 	// 생산계획관리
 
-		// 생산계획조회
+		// 생산계획검색
 		@Override
 		public List<ProdPlanVO> searchPlan(String pstartDt, String pendDt, String pstatus) {
 			return mapper.searchPlan(pstartDt, pendDt, pstatus);
+		}
+		
+		// 생산계획 로드
+		@Override
+		public ProdPlanVO prodPlan(String findNum) {
+			return mapper.prodPlan(findNum);
+		}
+		
+		// 생산계획상세 로드
+		@Override
+		public List<ProdPlanVO> prodPlanDetail(String findDNum) {
+			return mapper.prodPlanDetail(findDNum);
 		}
 		
 		// 미생산주문조회
@@ -74,6 +87,18 @@ public class ProdServiceImpl implements ProdService {
 			mapper.removeProdPlan(vo);
 			mapper.removePPlanDetail(vo);
 		}
+
+		
+	// 생산계획관리
+		
+		// 미지시계획조회
+		@Override
+		public List<ProdOrderVO> unorderList(String startDt, String endDt) {
+			return mapper.unorderList(startDt, endDt);
+		}
+
+		
+
 		
 		
 

@@ -2,15 +2,21 @@ package co.carboni.prj.produce.service;
 
 import java.util.List;
 
-
+import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
 public interface ProdService {
 	
 	// 생산계획관리
 	
-		// 생산계획조회
+		// 생산계획검색
 		public List<ProdPlanVO> searchPlan(String pstartDt, String pendDt, String pstatus);
+		
+		// 생산계획 페이지로드
+		public ProdPlanVO prodPlan(String findNum);
+		
+		// 생산계획상세 로드
+		public List<ProdPlanVO> prodPlanDetail(String findDNum);
 	
 		// 미생산주문조회 - 기간검색
 		public List<ProdPlanVO> findUnprod(String startDt, String endDt);
@@ -35,6 +41,15 @@ public interface ProdService {
 		
 		// 생산계획삭제
 		public void removeProdPlan(ProdPlanVO vo);
+
+		
+		
+	// 생산지시관리
+		
+		// 미지시계획조회 - 기간검색
+		public List<ProdOrderVO> unorderList(String startDt, String endDt);
+
+		
 
 		
 
