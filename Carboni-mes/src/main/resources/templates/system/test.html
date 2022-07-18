@@ -1,0 +1,16 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org"> <head> <meta charset="UTF-8"> <title>Insert title here</title>
+</head> <body> <table>
+ <tr>
+ <th>SINUM</th>
+ <th>SINAME</th>
+ <th>SISAFTEM</th>
+ </tr> <tr th:each="emp : ${test}">
+ <td th:text="${emp.sinum}"></td>
+ <td th:text="${emp.siname}"></td>
+ <td th:text="${emp.smsaftem}"></td>
+ <!--<td th:text="${emp.hireDate}"></td>-->
+ </tr>
+</table>
+</body>
+</html>
