@@ -62,14 +62,28 @@ public class SalesServiceImpl implements SalesService {
 			
 			//생산의뢰관리 > 생산의뢰 삭제
 			public void findDelPrList(SalesVO vo) {
-				
+			}
+			
+			//생산의뢰관리 > 수주일자조회
+			@Override
+			public List<SalesVO> findPcndateList(String startDt, String endDt) {
+				return mapper.findPcndateList(startDt, endDt);
 			}
 		
 		//제품재고관리
 		
 		
 		//출하관리
-		
+			
+			//생산의뢰관리 > 생산의뢰 조회
+			@Override
+			public List<SalesVO> findShipList(String startCp, String endCp, String startSd, String endSd, String gsCode){
+				return mapper.findShipList(startCp, endCp, startSd, endSd, gsCode);
+			}
+			
+			//출하관리 > 출하목록 삭제
+			public void findDelShList(SalesVO vo) {
+			}
 		
 		//배송관리
 }

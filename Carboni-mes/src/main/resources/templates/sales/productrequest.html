@@ -73,6 +73,9 @@ span {
 	margin-bottom: 10px;
 	margin-top: -10px;
 }
+.tui-datepicker {
+margin-right : -500px;
+}
         
 </style>
 </head>
@@ -148,8 +151,8 @@ span {
 	<div id="prodReqModal" style="padding: 20px;" title="생산의뢰등록">
 			<div class="container">
 		<div class="title">
-			<span> 수주일자<input type="date" name="startCndate" id="startCndate" class="input" />~ 
-				             <input type="date" name="endCndate" id="endCndate" class="input" /> 
+			<span> 수주일자<input type="date" name="startCndate1" id="startCndate1" class="input" />~ 
+				             <input type="date" name="endCndate1" id="endCndate1" class="input" /> 
 			</span>
 			<button id="cnsearchBtn" class="btn btn-secondary">조회</button><br>
 		</div>
@@ -159,7 +162,7 @@ span {
 	<div class="container-fluid px-4">
 		<div class="card mb-4">
 			<div class="card-header" style="text-align: center;">
-				<i class="fas fa-table me-1"></i> 생산의뢰등록
+				<i class="fas fa-table me-1"></i> 수주목록
 			</div>
 			<div id="gridcn"></div>
 		</div>
@@ -219,7 +222,7 @@ span {
 			var dialog = $(e).dialog({
 				autoOpen : false,
 				height : 742,
-				width : 700,
+				width : 900,
 				modal : true,
 				buttons : {
 					'확인' : fnc,
@@ -233,17 +236,9 @@ span {
 			return dialog;
 		}
 
-		/* 생산의뢰등록 모달 버튼 */
-		$('#insertBtn').on('click', function() {
-			$("#prodReqModal").css('display', '')
-			modal2.dialog('open')
-					reqprod.refreshLayout();
-					reqprod.resetData(result)
-		
-		})
 		
 		/* 생산의뢰목록 모달 검색 이벤트 */
-		$('#cnsearchBtn').on('click', function() {
+		/* $('#cnsearchBtn').on('click', function() {
 			var cnnum = $('#cninput').val()
 			$.ajax({
 				url: 'cnsList',
@@ -257,11 +252,37 @@ span {
 					})
 				}
 			})
-		})
+		}) */
 		
 		var modal1 = makeModal("#prodNameModal", giup)
 			modal1 = makeModal("#prodNameModal", giup1)
 		var modal2 = makeModal("#prodReqModal", check)
+		
+		/* 생산의뢰등록 모달 버튼 */
+		$('#insertBtn').on('click', function() {
+			$("#prodReqModal").css('display', '')
+			modal2.dialog('open')
+					reqprod.refreshLayout()
+		})
+		
+		/* 생산의뢰등록 수주기간 검색 */
+		$('#cnsearchBtn').on('click', function() {
+			var startDt = $('#startCndate1').val()
+			var endDt = $('#endCndate1').val()
+			$.ajax({
+				url:'pCndateList',
+				method: 'POST',
+				data: {startDt, endDt},
+				success: function(result) {
+					reqprod.refreshLayout();
+					reqprod.resetData(result)
+					/* reqprod.on('click', e => {
+						var rr = e.rowKey
+					}) */
+				
+				}
+			})
+		})
 
 		/* 제품정보 모달 */
 		$("#leftinput").on("click", function() {
@@ -317,7 +338,7 @@ span {
 		
 		/* 생산의뢰등록 전체조회 모달 확인버튼 눌렀을때 */
 		function check() {
-			
+			modal2.dialog('close')
 		}
 
 		
@@ -347,13 +368,13 @@ span {
 			sortable : true
 		}, {
 			header : '제품명',
-			name : 'gicode',
+			name : 'giname',
 			align : 'center',
 			sortingType : 'desc',
 			sortable : true
 		}, {
 			header : '거래처명',
-			name : 'cscode',
+			name : 'csname',
 			align : 'center',
 			sortingType : 'desc',
 			sortable : true
@@ -376,7 +397,7 @@ span {
 			sortingType : 'desc',
 			sortable : true
 		}, {
-			header : '생산여부',
+			header : '생산마감여부',
 			name : 'prstatus',
 			align : 'center',
 			sortingType : 'desc',
@@ -424,53 +445,32 @@ span {
 			rowHeaders : [ 'rowNum', 'checkbox' ],
 			bodyHeight : 430,
 			columns : [ {
-				header : '의뢰번호',
-				name : 'prnum',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
-			}, {
 				header : '수주번호',
 				name : 'cnnum',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
+				align : 'center'
 			}, {
 				header : '제품명',
-				name : 'gicode',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
+				name : 'giname',
+				align : 'center'
 			}, {
 				header : '거래처명',
-				name : 'cscode',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
+				name : 'csname',
+				align : 'center'
 			}, {
 				header : '수주일자',
 				name : 'cndate',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
+				align : 'center'
 			}, {
 				header : '납기일자',
 				name : 'cnperiod',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
+				align : 'center'
 			}, {
 				header : '마감일자',
 				name : 'prclose',
 				align : 'center',
-				sortingType : 'desc',
-				sortable : true
-			}, {
-				header : '마감여부',
-				name : 'prstatus',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
+				language: 'ko',
+			    editor: 'datePicker',
+			    width: 240
 			} ]
 		});
 		
