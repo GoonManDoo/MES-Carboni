@@ -52,7 +52,6 @@ public class ProdController {
 			return prodPlanDLIst;
 		}
 	
-	
 		// 생산계획관리 - 미생산주문조회
 		@RequestMapping("unprodList")
 		@ResponseBody
@@ -92,7 +91,7 @@ public class ProdController {
 			return vo;
 		}
 		
-		// 생산계획관리 - 생산계획상세 등록 + 수정 시 재등록
+		// 생산계획관리 - 생산계획상세 등록
 		@RequestMapping("addPPlanDetail")
 		@ResponseBody
 		public void addPPlanDetail(@RequestBody List<ProdPlanVO> plans) {
@@ -104,6 +103,13 @@ public class ProdController {
 		@ResponseBody
 		public void updateProdPlan(ProdPlanVO vo) {
 			service.updateProdPlan(vo);
+		}
+		
+		// 생산계획관리 - 생산계획상세 수정
+		@RequestMapping("upPPlanDetail")
+		@ResponseBody
+		public void upPPlanDetail(@RequestBody List<ProdPlanVO> plans) {
+			service.upPPlanDetail(plans);
 		}
 		
 		// 생산계획관리 - 생산계획 삭제

@@ -40,10 +40,9 @@ public interface ProdMapper {
 	
 		// 생산계획수정
 		public void updateProdPlan(ProdPlanVO vo);
-		public void delupPPdetail(ProdPlanVO vo); // 수정을 위한 삭제
 		
 		// 생산계획상세수정
-		public void updatePPlanDetail1(ProdPlanVO vo);
+		public void upPPlanDetail(ProdPlanVO vo);
 	
 		// 생산계획삭제
 		public void removeProdPlan(ProdPlanVO vo); // 생산계획
@@ -57,6 +56,8 @@ public interface ProdMapper {
 		
 		// 생산지시에 추가할 계획목록
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo);
+
+		
 
 
 
