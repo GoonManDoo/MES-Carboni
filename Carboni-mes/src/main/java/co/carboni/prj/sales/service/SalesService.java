@@ -36,10 +36,20 @@ public interface SalesService {
 		//생산의뢰관리 > 생산의뢰 삭제
 		public void findDelPrList(SalesVO vo);
 		
+		//생산의뢰관리 > 수주일자조회
+		public List<SalesVO> findPcndateList(String startDt, String endDt);
+
+		
 	//제품재고관리
 	
 	
 	//출하관리
+		
+		//출하관리 > 출고목록 조회
+		public List<SalesVO> findShipList(String startCp, String endCp, String startSd, String endSd, String gsCode);
+		
+		//출하관리 > 출하목록 삭제
+		public void findDelShList(SalesVO vo);
 	
 	
 	//배송관리
