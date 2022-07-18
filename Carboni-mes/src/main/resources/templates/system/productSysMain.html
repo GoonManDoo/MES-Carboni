@@ -1,83 +1,307 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{layouts/layout}">
+<link rel="stylesheet"
+   href="https://uicdn.toast.com/toast-ui.select-box/latest/toastui-select-box.css">
+<script
+   src="https://uicdn.toast.com/toast-ui.select-box/latest/toastui-select-box.js"></script>
+<link rel="stylesheet"
+   href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
+<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+<link rel="canonical"
+   href="https://getbootstrap.com/docs/5.2/examples/jumbotron/">
+<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet"
+   href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+   href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
 
 
 <head>
 
-
-	
 </head>
-
-
 <body>
-	<th:block layout:fragment="main">
 
-		<div class="container py-4">
-		
-			<!--박스 외곽-->
-			<div class="p-5 mb-4 bg-light rounded-3">
-				
-			
-				<!--컨텐츠 박스-->
-				<div class="container-fluid py-5">
-					 <div id="select-box" style="width: 200px"></div>
-				</div>
-				
-			</div>	
-			
-				<div class="inframe2">
-					<button class="sysupdate"><img src="/assets/img/newProdSys.svg"
-							alt="sysupdate"></button>
-				</div>
-		</div>
-	</th:block>
-		<script>
-		var selectBox = new tui.SelectBox('#select-box', {
-		        data: [
-		          {
-		            label: 'Fruits',
-		            data: [{ label: 'Apple', value: 'apple' }, { label: 'Banana', value: 'banana' }]
-		          },
-		          { label: 'The quick brown fox jumps over the lazy dog.', value: 'none' },
-		          {
-		            label: 'Colors',
-		            data: [
-		              { label: 'Red', value: 'red' },
-		              { label: 'Yellow', value: 'yellow' },
-		              { label: 'Green', value: 'green', disabled: true },
-		              { label: 'Blue', value: 'blue', disabled: true },
-		              { label: 'Purple', value: 'purple' }
-		            ]
-		          }
-		        ],
-		        showIcon: false,
-		        theme: {
-		          'common.border': '1px solid #e4e4e4',
-		          'common.color': '#353535',
-		          'common.background': '#fcfcfc',
-		          'common.width': '200px',
-		          'common.height': '50px',
-		
-		          'common.disabled.background': '#f1f1f1',
-		          'common.disabled.color': '#d8d8d8',
-		
-		          'dropdown.maxHeight': '300px',
-		
-		          'itemGroup.items.paddingLeft': '15px',
-		
-		          'itemGroup.label.color': 'black',
-		
-		          'item.selected.background': '#b3ca9a',
-		          'item.selected.color': 'white',
-		
-		          'item.highlighted.background': '#fbf3c1'
-		        }
-		      });
-		    
-		</script>
-	</th:block>
+   <th:block layout:fragment="main">
+
+
+      </head>
+      <body>
+         <div class="container py-4">
+
+            <div class="col-md-6" id="frame1">
+               <!-- 설비 -->
+               <div class="h-100 p-3 bg-white border rounded-3 position-relative"
+                  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
+                  <div
+                     style="width: 318px; display: block; height: 60px; margin-left: -9px; position: absolute; top: 22px; left: 40px;">
+                     <h2 style="display: block; border-left: 2px solid gray;">headline</h2>
+                     <!--headline  -->
+                  </div>
+                  <div class="card bg-white" style="width: 18rem; margin-top: 68px;">
+                     <div class="card-body">
+                        <form>
+
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly><br>
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly><br>
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly><br>
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly>
+                        </form>
+                     </div>
+                  </div>
+                  <div class="card bg-white" style="width: 18rem; height: 351px;">
+                     <div class="card-body">
+                        <div style="border-bottom: solid #d1d1d1 1px;">
+                           <h3 style="display: block;">2ndline</h3>
+                        </div>
+                        <form></form>
+                     </div>
+                  </div>
+                  <div class="card bg-white"
+                     style="width: 590px; height: 200px; margin-top: 17px;">
+                     <div class="card-body">
+                        <div style="border-bottom: solid #d1d1d1 1px;">
+                           <h5 style="display: block;">3thline</h5>
+                        </div>
+                        <form></form>
+                     </div>
+                  </div>
+                  <button type="button" data-bs-toggle="collapse"
+                     href="#collapseExample" role="button" aria-expanded="false"
+                     aria-controls="collapseExample"
+                     style="margin-bottom: -8px; margin-top: 10px; margin-left: 426px; border: none; background-color: white; font-size: x-large;">자세히보기></button>
+               </div>
+            </div>
+
+            <!-- ================================================================================================================================== -->
+            <!-- ================================================================================================================================== -->
+            <div
+               class="collapse bg-white border rounded-3 position-relative p-3 "
+               id="collapseExample">
+               <!--콜랍스 매뉴  -->
+               <div
+                  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
+                  <div style="width: 33rem; height: 300px; margin-bottom: 20px;">
+                     <div class="card bg-white" style="width: 33rem; height: 260px;">
+                        <div class="card-body"></div>
+                     </div>
+                     <button
+                        style="width: 50px; height: 25px; margin-left: 463px; margin-top: 12px; border: none; background-color: white;">버튼</button>
+                  </div>
+
+                  <div class="card bg-white"
+                     style="width: 42rem; height: 300px; margin-bottom: 20px;">
+                     <div class="card-body"
+                        style="display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;">
+                        <div
+                           style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;">
+                           <!-- progress1  -->
+                           <h4>가동일</h4>
+                           <div class="progress"
+                              style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
+                              <div
+                                 class="progress-bar progress-bar-striped progress-bar-animated"
+                                 role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: 75%"></div>
+                           </div>
+                        </div>
+
+                        <div
+                           style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;">
+                           <!-- progress1  -->
+                           <h4>정기점검</h4>
+                           <div class="progress"
+                              style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
+                              <div
+                                 class="progress-bar progress-bar-striped progress-bar-animated"
+                                 role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: 35%"></div>
+                           </div>
+                        </div>
+
+
+                     </div>
+                  </div>
+
+                  <div class="card bg-white" style="width: 33rem; height: 300px;">
+                     <!--3번 공정순서  -->
+                     <div class="card-body">
+                        <div
+                           style="width: 318px; display: block; height: 40px; margin-left: 3px; position: inherit;">
+                           <h4 style="display: block; border-left: 2px solid gray;">headline</h4>
+                        </div>
+                        <form>
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly><br>
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly><br>
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly><br>
+                           <input class="form-control bg-white"
+                              style="text-align: center;" type="text"
+                              value="Disabled readonly input"
+                              aria-label="Disabled input example" disabled readonly>
+                        </form>
+                     </div>
+                  </div>
+                  <div style="width: 42rem; height: 300px; margin-bottom: 35px;">
+                     <div class="card bg-white" style="width: 42rem; height: 300px;">
+                        <div class="card-body"></div>
+                     </div>
+                     <button data-bs-toggle="modal" href="#exampleModalToggle" role="button"
+                        style="width: 50px; height: 25px; margin-left: 613px; margin-top: 12px; border: none; background-color: white;">버튼</button>
+                  </div>
+               </div>
+            </div>
+
+
+
+            <!-- ================================================================================================================================== -->
+            <!-- ================================================================================================================================== -->
+
+            <div id="NewProdSys"style="width: 100%; margin-top: 35px; display: flex; justify-content: center;">
+               <button type="button" class="btn btn-primary"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  style="background-color: white; border: none;">
+                  <img alt="설비추가버튼" src="/assets/img/newProdSys.svg">
+               </button>
+            </div>
+
+            <!-- ================================================================================================================================== -->
+
+
+            <!--    MODAL -->
+
+
+            <!-- ================================================================================================================================== -->
+
+            <!-- Button trigger modal -->
+            <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+               data-bs-target="#exampleModal">Launch demo modal</button> -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1"
+               aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                     <div class="modal-header" style="border: none;"></div>
+                     <div class="modal-body">
+                        <form>
+                           <input class="form-control bg-white" style="text-align: center;" type="text"value="Disabled readonly input" aria-label="자동입력" disabled readonly><br>
+                           <input class="form-control"type="text" placeholder="설비 이름을 입력해주세요"aria-label="default input example" style="text-align: center;"><br>
+                           <div class="tui-datepicker-input tui-datetime-input tui-has-focus" style="width: 466px;height: 40px; border-radius: 5px; border-color: #cdcdcd;">
+                                    <input type="text" class="form-control" id="planDt"aria-label="Date-Time" tabindex="1" style="text-align: center; font-size: unset;"> 
+                                    <span class="tui-ico-date"></span>
+                           </div>
+                           <div id="wrapper" style="margin-top: -1px;"></div>
+                           <div style="margin: 20px; line-height: 60px;">
+                           <select style="width: 466px;height: 40px;border-radius: 5px;border-color: #cdcdcd;margin-left: -20px;text-align: center;">
+                              <option>사원1</option>
+                              <option>사원2</option>
+                              <option>사원3</option>
+                           </select>
+                        </div>
+                        </form>
+                     </div>
+                     <div class="modal-footer"
+                        style="display: flex; justify-content: center; border: none;">
+                        <button type="button" class="btn btn-secondary"
+                           data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="acceptMod" class="btn btn-primary">Save
+                           changes</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Show a second modal and hide this one with the button below.
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Hide this modal and show the first with the button below.
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+         <!--    <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
+            
+             -->
+            
+            
+            
+            
+            
+         </div>
+
+         <script>
+         
+         const datepicker1 = new tui.DatePicker('#wrapper', {
+            date : new Date(),
+            input : {
+               element : '#planDt',
+               format : 'yyyy-MM-dd'
+            },
+            language : 'ko'
+
+         });
+         
+         
+const myModal = document.getElementById('myModal')
+const myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', () => {
+  myInput.focus()
+})
+
+$(function(){
+   $("#acceptMod").on("click", function() {
+      $("#NewProdSys").before($("#frame1").html());
+      })
+})
+</script>
+   </th:block>
 </body>
 
 </html>
