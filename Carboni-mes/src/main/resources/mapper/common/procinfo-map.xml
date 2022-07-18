@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.carboni.prj.common.mapper.ProcinfoMapper">
+
+	<select id="selectProcinfo" resultType="co.carboni.prj.common.vo.ProcinfoVO">
+		SELECT * FROM PROCINFO
+	</select>
+	<insert id="procinfoinsert" parameterType="co.carboni.prj.common.vo.ProcinfoVO">
+		INSERT INTO PROCINFO
+		VALUES(PROCINFO_PICODEID_SEQ.NEXTVAL, #{piname}, #{pione}, #{pitwo}, #{pithree}, #{pifour}, #{pidate}, #{sinum})
+	</insert>
+	<update id="procinfoupdate" parameterType="co.carboni.prj.common.vo.ProcinfoVO">
+		UPDATE PROCINFO
+		<set>
+		PINAME=#{piname},
+		PIONE=#{pione},
+		PITWO=#{pitwo},
+		PITHREE=#{pithree},
+		PIFOUR=#{pifour},
+		PIDATE=#{pidate},
+		SINUM=#{sinum},
+		</set>
+		WHERE PICODEID=#{picodeid}
+	</update>
+	<delete id="procinfodelete">
+		DELETE FROM PROCINFO WHERE PICODEID = #{picodeid}
+	</delete>
+	<select id="selectLine" resultType="co.carboni.prj.common.vo.ProcinfoVO">
+		SELECT PIONE, PITWO, PITHREE, PIFOUR FROM PROCINFO WHERE PICODEID = #{picodeid}
+	</select>
+	
+</mapper>

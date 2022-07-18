@@ -33,6 +33,11 @@
       width: 60px;
       font-size: 80%;
     }
+    
+    #lineGrid {
+      margin: 10px;
+    }
+    
     </style>
     
     <body>
@@ -42,19 +47,20 @@
         <a href="/">홈</a> > 기준정보관리 > <b>공정코드관리</b>
       </div>
       <div id="btns" class="card-header">
-        <button type="button" class="btn btn-secondary" id="newbtn">신규</button>
-        <button type="button" class="btn btn-secondary" id="savbtn">저장</button>
-        <button type="button" class="btn btn-secondary">삭제</button>
+        <input type="button" class="btn btn-secondary" value="신규" onclick="showit()">
+        <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
-      <form action="#" id="myf">
-        <label for="piCode">공정코드</label> <input type="text" id="piCode">
-        <label for="piName">공정명</label> <input type="text" id="piName">
-        <label for="piDate">소요일수</label> <input type="text" id="piDate">
-        <label for="piNote">비고</label> <input type="text" id="piNote">
-        <label for="pione">1차공정</label> <input type="text" id="pione">
-        <label for="pitwo">2차공정</label> <input type="text" id="pitwo">
-        <label for="pithree">3차공정</label> <input type="text" id="pithree">
-        <label for="pifour">4차공정</label> <input type="text" id="pifour">
+      <form id="myf" name="myf">
+        <label for="picodeid">공정코드</label> <input type="text" id="picodeid" name="picodeid" readonly>
+        <label for="piname">공정명</label> <input type="text" id="piname" name="piname">
+        <label for="pidate">소요일수</label> <input type="text" id="pidate" name="pidate">
+        <label for="sinum">설비번호</label> <input type="text" id="sinum" name="sinum">
+        <hr>
+        <label for="pione">1차공정</label> <input type="text" id="pione" name="pione">
+        <label for="pitwo">2차공정</label> <input type="text" id="pitwo" name="pitwo">
+        <label for="pithree">3차공정</label> <input type="text" id="pithree" name="pithree">
+        <label for="pifour">4차공정</label> <input type="text" id="pifour" name="pifour">
       </form>
       <div id="container">
         <div class="card mb-4">
@@ -65,34 +71,104 @@
             <table id="datatablesSimple">
               <thead>
                 <tr>
-                  <th><input type="checkbox"></th>
+                  <th><input type="radio" name="proc"></th>
                   <th>공정코드</th>
                   <th>공정명</th>
-                  <th>생산일수</th>
-                  <th>비고</th>
+                  <th>소요일수</th>
+                  <th>설비번호</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>002</td>
-                  <td>7E-ABC</td>
-                  <td>10일</td>
-                  <td></td>
+                <tr th:each="p : ${list}">
+                  <td><input type="radio" name="proc"></td>
+                  <td th:text = "${p.picodeid}"></td>
+                  <td th:text = "${p.piname}"></td>
+                  <td th:text = "${p.pidate}"></td>
+                  <td th:text = "${p.sinum}"></td>
+                  <td style="display:none" th:text = "${p.pione}"></td>
+                  <td style="display:none" th:text = "${p.pitwo}"></td>
+                  <td style="display:none" th:text = "${p.pithree}"></td>
+                  <td style="display:none" th:text = "${p.pifour}"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+        <div id="lineGrid"></div>
       </div>
     </body>
     <script>
-      $('#newbtn').click(function() {
-        $('#myf').show();
-      })
-      $('#savbtn').click(function() {
-        $('#myf').hide();
-      })
+    
+    	function showit(){
+			$('#myf>input').val('');
+			$('#myf').show();
+    	}
+    	
+    	function check(){
+    		if($(piname).val() == '' || $(pidate).val() == '' || $(pione).val()==''){
+    			swal('항목을 입력하십시오', '공정명, 소요일수, 1차공정은 필수 입력 항목입니다.', 'warning');
+    		} else if ($(picodeid).val() == ''){
+    			document.myf.action = 'procinfoinsert';
+    			document.myf.submit();
+    		} else {
+    			document.myf.action = 'procinfoupdate';
+    			document.myf.submit();
+    		}
+    	}
+    	
+    	function del(){
+    		if($(picodeid).val() == ''){
+    			swal('항목을 입력하십시오', '공정을 선택하여 삭제하여 주십시오.', 'warning');
+    		} else {
+    			document.myf.action = 'procinfodelete';
+    			document.myf.submit();
+    		}
+    	}
+    	
+    $(document).on('click', 'input[name="proc"]', function(){
+		$(picodeid).val($('input[name=proc]:checked').parent().parents().children().eq(1).text())
+		$(piname).val($('input[name=proc]:checked').parent().parents().children().eq(2).text())
+		$(pidate).val($('input[name=proc]:checked').parent().parents().children().eq(3).text())
+		$(sinum).val($('input[name=proc]:checked').parent().parents().children().eq(4).text())
+		$(pione).val($('input[name=proc]:checked').parent().parents().children().eq(5).text())
+		$(pitwo).val($('input[name=proc]:checked').parent().parents().children().eq(6).text())
+		$(pithree).val($('input[name=proc]:checked').parent().parents().children().eq(7).text())
+		$(pifour).val($('input[name=proc]:checked').parent().parents().children().eq(8).text())
+    	$('#lineGrid').children().remove();
+  $.ajax({
+        url : 'selectLine',
+        data: {picodeid:picodeid.value},
+        dataType: 'JSON',
+        success : function(result){
+            grid.resetData(result);
+        } 
+    });
+    var grid = new tui.Grid({
+      el: document.getElementById('lineGrid'),
+      scrollX: false,
+      scrollY: false,
+      columns: [{
+        header: '1차공정',
+        name: 'pione',
+        align: 'center',
+      }, {
+        header: '2차공정',
+        name: 'pitwo',
+        align: 'center'
+      }, {
+        header: '3차공정',
+        name: 'pithree',
+        align: 'center'
+      }, {
+        header: '4차공정',
+        name: 'pifour',
+        align: 'center'
+      }]
+    });
+		
+		
+	});
+    	
       
     </script>
 </th:block>
