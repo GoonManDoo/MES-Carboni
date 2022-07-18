@@ -1,6 +1,7 @@
 package co.carboni.prj.mat.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -37,7 +38,6 @@ public class MatVO {
 	private String monum; //발주코드
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date moodate; //발주일자
-	private Date mordate; //입고일자 
 	private int mooam; //발주량
 	private int moaskam;//주문수량
 	private String mostatus;//발주상태
@@ -54,15 +54,11 @@ public class MatVO {
 	private Date msindate; //입고일자
 	private String pcdnum; //생산지시번호
 	
+	private String monote; //발주비고
+	private List<MatVO> nullArr; 
+	private String[] monumArr;
 	
 	
-	
-	
-	
-	
-	
-
-
 
 
 }

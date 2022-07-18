@@ -1,16 +1,19 @@
 package co.carboni.prj.mat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.carboni.prj.mat.mapper.MatMapper;
 import co.carboni.prj.mat.vo.MatVO;
 
+@Service
 public class MatServiceImpl implements MatService {
 
 	@Autowired
-	private MatMapper map;
+	MatMapper map;
 
 	@Override
 	public List<MatVO> findreq(MatVO vo) {
@@ -43,11 +46,6 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
-	public List<MatVO> showFindReq(MatVO vo) {
-		return map.showFindReq(vo);
-	}
-
-	@Override
 	public List<MatVO> findReqDate(String startD, String endD, String cusCode, String matCode) {
 		return map.findReqDate(startD, endD, cusCode, matCode);
 	}
@@ -56,6 +54,13 @@ public class MatServiceImpl implements MatService {
 	public List<MatVO> findCode(String cusCode, String matCode) {
 		return map.findCode(cusCode, matCode);
 	}
+
+	@Override
+	public int addRequestList(MatVO vo) {
+		map.addRequestList(vo);
+		return 1;
+	}
+
 
 
 }
