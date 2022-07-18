@@ -7,9 +7,7 @@
 		<select id="searchPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
 			SELECT ppdate, ppnum, ppname, ppnote
 			FROM prodplan
-			WHERE (ppdate
-			BETWEEN TO_DATE(#{pstartDt}, 'YYYY-MM-DD')
-			AND TO_DATE(#{pendDt}, 'YYYY-MM-DD'))
+			WHERE (ppdate BETWEEN #{pstartDt} AND #{pendDt})
 			AND ppstatus =
 			<if test="pstatus == '미지시'">'미지시'</if>
 			<if test="pstatus == '지시진행'">'지시진행'</if>
@@ -25,7 +23,7 @@
 		
 		<!-- 생산계획상세로드 -->
 		<select id="prodPlanDetail" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-			SELECT p.gicode, g.giname, g.giunit, p.prnum, r.prclose, c.cnrest, p.ppdam, p.uplam, p.ppddate
+			SELECT p.ppdnum, p.gicode, g.giname, g.giunit, p.prnum, r.prclose, c.cnrest, p.ppdam, p.uplam, p.ppddate
 			FROM prodplan_d p, goodsinfo g, prodreq r, contract c
 			WHERE
 			p.gicode = g.gicode
@@ -43,8 +41,7 @@
 			FROM prodreq x, contract y, costomer z
 			WHERE x.cnnum = y.cnnum
 			AND y.cscode = z.cscode
-			AND (x.prclose BETWEEN TO_DATE(#{startDt}, 'YYYY-MM-DD')
-			AND TO_DATE(#{endDt}, 'YYYY-MM-DD'))
+			AND (x.prclose BETWEEN #{startDt} AND #{endDt})
 			AND x.prstatus = 'N'
 		</select>
 		
@@ -100,11 +97,12 @@
 			WHERE ppnum = #{ppnum}
 		</update>
 		
-		<!-- 생산계획상세 삭제 -->
-		<delete id="delupPPdetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
-			DELETE FROM prodplan_d
-			WHERE ppdnum LIKE #{ppnum}||'%'
-		</delete>
+		<!-- 생산계획상세수정 -->
+		<update id="upPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			UPDATE prodplan_d
+			SET ppdam = TO_NUMBER(#{ppdam}), uplam = TO_NUMBER(#{uplam}), ppddate = #{ppddate}
+			WHERE ppdnum = #{ppdnum}
+		</update>
 		
 		<!-- 생산계획삭제 -->
 		<delete id="removeProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
@@ -125,10 +123,14 @@
 		<select id="unorderList" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
 			SELECT ppnum, ppdate, ppname, ppnote
 			FROM prodplan
-			WHERE
-			(ppdate BETWEEN TO_DATE(#{startDt}, 'YYYY-MM-DD') AND TO_DATE(#{endDt}, 'YYYY-MM-DD'))
+			WHERE (ppdate BETWEEN #{startDt} AND #{endDt})
 			AND
 			ppstatus = '미지시'
+		</select>
+		
+		<!-- 생산지시에 추가할 계획목록 -->
+		<select id="addPlan" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			
 		</select>
 	
 	

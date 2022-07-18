@@ -597,7 +597,7 @@
 		
 			
 			// 자재정보 출력을 위한 제품목록 그리드 클릭이벤트
-			pdGrid.on('dblclick', e => {
+			pdGrid.on('click', e => {
 				var rk = e.rowKey;
 				prn = pdGrid.getRow(rk).prnum
 				for(i=0; i<pdGrid.getRowCount(); i++) {
@@ -714,7 +714,7 @@
 		/* 생산계획 등록 함수 */
 			function addProdPlan() {
 				// 등록
-				var ppdate = new Date($('#planDt').val()) // 생산계획일자(text)
+				var ppdate = $('#planDt').val() // 생산계획일자(text)
 				var ppname = $('#planName').val() // 생산계획이름
 				var ppnote = $('#planNote').val() // 생산계획비고
 				var promise = $.ajax({
@@ -736,7 +736,6 @@
 						pdGrid.setValue(i, 'ppdnum', ppnum+'-'+(i+1), false)
 					}
 					allData = pdGrid.getData() // 제품목록에 있는 모든 정보
-					console.log(pdGrid.getValue(0, 'ppdnum'))
 					$.ajax({
 						url: 'addPPlanDetail',
 						method: 'POST',
@@ -771,7 +770,7 @@
 				function pplanUpdate(){
 					allData = pdGrid.getData() // 제품목록에 있는 모든 정보
 					$.ajax({
-						url: 'addPPlanDetail',
+						url: 'upPPlanDetail',
 						method: 'POST',
 						data: JSON.stringify(allData), // 객체배열 json타입으로 변경
 						contentType:'application/json',

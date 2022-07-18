@@ -9,3 +9,10 @@ create sequence prodplan_PPNUM_seq
 	increment by 1
     start with 1
     nocache;
+    
+
+-- 생산지시관리 테이블 시퀀스 생성
+create sequence prodcomm_PCNUM_seq
+	increment by 1
+    start with 1
+    nocache;

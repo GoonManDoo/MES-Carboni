@@ -3,6 +3,8 @@ package co.carboni.prj.produce.vo;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
@@ -16,6 +18,7 @@ public class ProdPlanVO {
 	
 	// 생산계획조회
 		public String ppnum; // 생산계획번호
+		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date ppdate; // 생산계획일자
 		public String ppname; // 생산계획명
@@ -45,9 +48,11 @@ public class ProdPlanVO {
 	
 	// 미생산주문조회 모달
 		public String prnum; // 의뢰번호
+		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date cndate; // 수주일자
 		public String csname; // 거래처이름
+		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date prclose; // 마감일자
 	
@@ -63,6 +68,7 @@ public class ProdPlanVO {
 		public int cnrest; // 수주잔량
 		public int ppdam; // 기계획량
 		public int uplam; // 미계획량
+		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date ppddate; // 작업일자
 		

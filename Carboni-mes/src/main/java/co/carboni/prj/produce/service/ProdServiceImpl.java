@@ -3,6 +3,7 @@ package co.carboni.prj.produce.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +12,7 @@ import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
 @RestController
+@Service
 public class ProdServiceImpl implements ProdService {
 	
 	@Autowired
@@ -66,7 +68,7 @@ public class ProdServiceImpl implements ProdService {
 			return 1;
 		}
 		
-		// 생산계획상세등록 + 수정 시 재등록
+		// 생산계획상세등록
 		@Override
 		public void addPPlanDetail(List<ProdPlanVO> plans) {
 			for (ProdPlanVO vo : plans) {
@@ -78,7 +80,14 @@ public class ProdServiceImpl implements ProdService {
 		@Override
 		public void updateProdPlan(ProdPlanVO vo) {
 			mapper.updateProdPlan(vo);
-			mapper.delupPPdetail(vo); // 수정을 위한 삭제
+		}
+		
+		// 생산계획상세수정
+		@Override
+		public void upPPlanDetail(List<ProdPlanVO> plans) {
+			for (ProdPlanVO vo : plans) {
+				mapper.upPPlanDetail(vo);
+			}
 		}
 		
 		// 생산계획삭제
@@ -102,6 +111,8 @@ public class ProdServiceImpl implements ProdService {
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo) {
 			return mapper.addPlan(vo);
 		}
+
+		
 
 		
 
