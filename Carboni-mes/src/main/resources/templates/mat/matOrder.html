@@ -244,20 +244,21 @@
 								grid.refreshLayout();
 								grid.appendRows(result)
 								/*grid.resetData(result)*/
-								
+								var date1 =new Date(grid.setValue())
 							}
 						})
 					})
 
 					/* 발주메인 그리드 */
 					const gridData = [];
+					
 
 					const grid = new tui.Grid({
 						el : document.getElementById('grid'),
 						data : gridData,
 						scrollX : false,
 						bodyHeight : 500,
-						rowHeaders : [ 'checkbox' ],
+						rowHeaders : [ 'rowNum' ],
 						columns : [ {
 							header : '발주일자',
 							sortingType : 'desc',
@@ -280,6 +281,10 @@
 							header : '자재명',
 							name :'miname',
 							align : 'center'
+						}, {
+							header : '업체코드',
+							name :'cscode',
+							align : 'center'
 						}, /*{
 							*header : '입고일자',
 							*name :'mordate',
@@ -301,18 +306,22 @@
 							*align : 'center'
 						}, */{
 							header : '주문수량',
-							name :'moaskam',
-							editor:'text',
-							align : 'center'
+							name   :'moaskam',
+							editor :'text',
+							align  : 'center'
 						}, {
 							header : '발주상태',
-							name :'mostatus',
-							align : 'center'
+							name   :'mostatus',
+							align  : 'center'
 						}, {
 							header : '비고',
-							align : 'center'
+							name : 'monote',
+							editor : 'text',
+							align  : 'center'
 						} ]
 					});
+					grid.hideColumn('micode')
+					grid.hideColumn('cscode')
 
 					/*발주 모달안의 그리드*/
 					const totaldata = [];
@@ -606,9 +615,46 @@
 							grid.resetData(gridData);
 						}
 					/*삭제눌렀을때*/
+					grid.on('click',e=>{
+							drk = e.rowKey
+						})
 					$('#removeBtn').on('click', function(){
-						grid.removeCheckedRows('')
+						grid.removeRow(drk)
 					})
+					
+					/*자체발주 등록할때*/
+					$('#saveBtn').on('click',function(){
+						if(grid.getValue(drk,'monum')==null){
+							let getrow= grid.getRow(drk)
+							val = {micode: getrow.micode,
+								   cscode: getrow.cscode,
+								   miname: getrow.miname,
+								   csname: getrow.csname,
+								   mostatus : 'N',
+								   moaskam : getrow.moaskam
+								   }
+							
+							console.log(val)
+							  $.ajax({
+								url:'addrequestlist',
+								method : 'POST',
+								data : val,
+								success :function(result){
+									console.log(result)
+									result.moodate='2022-07-18'
+									grid.refreshLayout();
+									grid.appendRow({mostatus :'N',moaskam : getrow.moaskam,
+													monum : getrow.monum})
+									swal('성공', '발주가 완료되었습니다.', 'success')
+									/* grid.appendRow( { id : "", city : "", ... } ) */
+								}
+							})
+							
+						}else{
+							/*수정할때*/
+						}
+					})
+    			
 					
 				})
 			</script>

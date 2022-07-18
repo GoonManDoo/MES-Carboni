@@ -7,70 +7,103 @@
 		E.REQNUM,E.MICODE,D.MINAME,E.MRREQAM,E.MRSTATUS
 		FROM MATREQ E
 		JOIN
-		MATINFO D 
+		MATINFO D
 		ON E.MICODE=D.MICODE
 		WHERE E.MRSTATUS ='N'
 	</select>
 	<!-- 발주 메인에서 기업 검색 모달안의 내용 전체조회 -->
-	<!-- 입고에서 기업 검색 모달안의 내용 조회  -->
-	<select id="findComList" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT CSCODE, CSNAME, CSNUM,CSTEL 
+	<!-- 입고에서 기업 검색 모달안의 내용 조회 -->
+	<select id="findComList"
+		resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT CSCODE, CSNAME, CSNUM,CSTEL
 		FROM COSTOMER
 		WHERE CSGB='자재거래'
 	</select>
 
-		<!-- 발주 메인에서 자재 검색 모달의 내용 조회 -->
+	<!-- 발주 메인에서 자재 검색 모달의 내용 조회 -->
 	<select id="findMat" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT MICODE,MINAME,MISTAND,MIUNIT 
+		SELECT
+		MICODE,MINAME,MISTAND,MIUNIT
 		FROM MATINFO
 	</select>
 
-	<!-- 발주의 거래처명검색모달에서 거래처 검색  -->
-	<!-- 입고의 거래처명검색모달에서 거래처 검색  -->
-	<select id="findSearchComList" resultType="co.carboni.prj.mat.vo.MatVO">
-	SELECT CSCODE, CSNAME, CSNUM, CSTEL 
-	FROM COSTOMER
-	WHERE CSNAME LIKE '%' || #{csname} || '%'
-	AND  CSGB='자재거래'
+	<!-- 발주의 거래처명검색모달에서 거래처 검색 -->
+	<!-- 입고의 거래처명검색모달에서 거래처 검색 -->
+	<select id="findSearchComList"
+		resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT CSCODE, CSNAME, CSNUM, CSTEL
+		FROM COSTOMER
+		WHERE CSNAME LIKE '%' || #{csname} || '%'
+		AND CSGB='자재거래'
 	</select>
-	
+
 	<!-- 발주 메인에서 자재검색모달 안의 내용을 검색하여 조회 -->
-	<select id="findSearchMat" resultType="co.carboni.prj.mat.vo.MatVO">
-	SELECT MICODE,MINAME,MISTAND,MIUNIT
-	FROM MATINFO
-	WHERE MINAME LIKE '%' || #{miname} || '%'
+	<select id="findSearchMat"
+		resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT MICODE,MINAME,MISTAND,MIUNIT
+		FROM MATINFO
+		WHERE MINAME LIKE '%' || #{miname} || '%'
 	</select>
-	
-	<!--발주관리의 발주일자 조회해서 메인 그리드에 표시 (조회용) DB에서 찾아올떄-->
-	<select id="findReqDate" resultType="co.carboni.prj.mat.vo.MatVO">
-	SELECT O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,M.MINAME,C.CSNAME,K.MSCIAM
-	FROM MATORD O,MATINFO M, MATSTK K,COSTOMER C
-	WHERE O.MICODE = M.MICODE
-	AND K.MICODE = O.MICODE
-	AND O.CSCODE = C.CSCODE
-	AND C.CSCODE = #{cusCode}
-	AND M.MICODE = #{matCode}
-	AND O.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
-	AND TO_DATE(#{endD},'YYYY/MM/DD') >= O.MOODATE
+
+	<!--발주관리의 발주일자 조회해서 메인 그리드에 표시 (조회용) DB에서 찾아올떄 -->
+	<select id="findReqDate"
+		resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT
+		O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,M.MINAME,C.CSNAME,K.MSCIAM
+		FROM MATORD O,MATINFO M, MATSTK K,COSTOMER C
+		WHERE O.MICODE = M.MICODE
+		AND K.MICODE = O.MICODE
+		AND O.CSCODE = C.CSCODE
+		AND C.CSCODE = #{cusCode}
+		AND M.MICODE = #{matCode}
+
+
+		AND O.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
+		AND TO_DATE(#{endD},'YYYY/MM/DD') >= O.MOODATE
 	</select>
-	
+
 	<!-- 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 -->
 	<select id="findCode" resultType="co.carboni.prj.mat.vo.MatVO">
 		SELECT MICODE,MINAME,
-		(SELECT CSNAME FROM COSTOMER WHERE CSCODE = #{cusCode}) AS CSNAME
+		(SELECT
+		CSNAME FROM COSTOMER WHERE CSCODE = #{cusCode}) AS CSNAME
+		,#{cusCode} AS CSCODE
 		FROM MATINFO
 		WHERE MICODE= #{matCode}
-	</select>	
-	
-	<!-- 입고 관리에서 발주일자로 발주 내용 검색  -->
-	<select id="inModalSearch" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT E.MONUM,E.MOODATE,E.MICODE,E.CSCODE,D.MINAME,D.MISTAND,D.MIUNIT,Z.CSNAME
+	</select>
+
+	<!-- 입고 관리에서 발주일자로 발주 내용 검색 -->
+	<select id="inModalSearch"
+		resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT
+		E.MONUM,E.MOODATE,E.MICODE,E.CSCODE,D.MINAME,D.MISTAND,D.MIUNIT,Z.CSNAME
 		FROM MATORD E , MATINFO D ,COSTOMER Z
 		WHERE E.MICODE=D.MICODE
-		AND E.CSCODE=Z.CSCODE
+		AND
+		E.CSCODE=Z.CSCODE
 		AND E.MOODATE >= TO_DATE(#{startD},'YYYY/MM/DD')
-		AND TO_DATE(#{endD},'YYYY/MM/DD') >= E.MOODATE
+		AND
+		TO_DATE(#{endD},'YYYY/MM/DD') >= E.MOODATE
 		AND E.MOSTATUS='N'
 	</select>
-	
+
+	<insert id="addRequestList"
+		parameterType="co.carboni.prj.mat.vo.MatVO" useGeneratedKeys="true" keyColumn="monum" keyProperty="monum">
+			INSERT INTO MATORD
+			VALUES
+			(('MO-'||matord_MONUM_seq.nextval) ,
+			#{micode },
+			#{cscode },
+			#{reqnum , jdbcType=VARCHAR},
+			SYSDATE,
+			#{mooam , jdbcType=VARCHAR},
+			#{moaskam},
+			'N',
+			#{monote,jdbcType=VARCHAR})
+		<selectKey resultType="string" keyProperty="monum" order="AFTER">
+			select 'MO-'||max(TO_NUMBER(SUBSTR(monum,4))) as monum from matord
+		</selectKey> 
+	</insert>
+
+
 </mapper>

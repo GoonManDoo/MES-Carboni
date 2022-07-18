@@ -27,9 +27,6 @@ public interface MatMapper {
 	// 입고관리에서 발주일자로 검색시 모달안의 내용
 	public List<MatVO> inModalSearch(@Param("startD") String startD, @Param("endD") String endD);
 
-	// 발주관리에서 요청 내용이 메인 그리드에 표시
-	public List<MatVO> showFindReq(MatVO vo);
-
 	// 발주관리의 발주일자 조회
 	public List<MatVO> findReqDate(@Param("startD") String startD, @Param("endD") String endD,
 			@Param("cusCode") String cusCode, @Param("matCode") String matCode);
@@ -37,4 +34,6 @@ public interface MatMapper {
 	// 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력
 	public List<MatVO> findCode(@Param("cusCode") String cusCode, @Param("matCode") String matCode);
 
+	// 발주에서 발주내용 등록할때 //수정할떄도 
+	public int addRequestList(MatVO vo);
 }
