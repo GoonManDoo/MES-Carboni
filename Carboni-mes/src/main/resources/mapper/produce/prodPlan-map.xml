@@ -130,7 +130,18 @@
 		
 		<!-- 생산지시에 추가할 계획목록 -->
 		<select id="addPlan" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
-			
+			SELECT p.ppnum, p.ppname, g.giname, r.prclose, (d.ppdam+d.uplam) as ppadam, d.ppddate as pcdsdate, d.ppdnum
+			FROM prodplan p, prodplan_d d, goodsinfo g, prodreq r
+			WHERE (p.ppnum = d.ppnum
+			AND
+			d.gicode = g.gicode
+			AND
+			d.prnum = r.prnum)
+			AND
+			p.ppnum IN
+			<foreach collection="planNums" item="arr" open="(" separator="," close=")">
+				#{arr}
+			</foreach>
 		</select>
 	
 	

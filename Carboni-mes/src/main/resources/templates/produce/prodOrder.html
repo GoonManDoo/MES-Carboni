@@ -293,36 +293,51 @@
 					rowHeaders: ['checkbox'],
 					columns: [{
 						header: '계획번호',
+						name: 'ppnum',
 						align: 'center'
 					}, {
 						header: '계획명',
+						name: 'ppname',
 						align: 'center'
 					}, {
 						header: '제품명',
+						name: 'giname',
 						align: 'center'
 					}, {
 						header: '납기일자',
+						name: 'prclose',
 						align: 'center'
 					}, {
 						header: '라인코드',
+						name: 'lineid',
 						align: 'center'
 					}, {
 						header: '계획량',
+						name: 'ppadam',
 						align: 'center'
 					}, {
 						header: '지시량',
+						name: 'pcdam',
 						align: 'center'
 					}, {
 						header: '생산구분',
+						name: 'pcddiv',
 						align: 'center'
 					}, {
 						header: '작업시작일',
+						name: 'pcdsdate',
 						align: 'center'
 					}, {
 						header: '담당자',
+						name: 'pcdkeeper',
+						align: 'center'
+					}, {
+						header: '계획상세번호',
+						name: 'ppdnum',
 						align: 'center'
 					}]
 				});
+				pnGrid.hideColumn('ppdnum');
 
 				/* 자재목록 */
 				const material = [];
@@ -479,7 +494,6 @@
 					$.ajax({
 						url: 'addPlan',
 						data: { planNums },
-						dataType: 'json',
 						success: function(rs){
 							pnGrid.refreshLayout();
 							matlist.resetData(material);
@@ -487,6 +501,7 @@
 							pnGrid.resetData(rs)
 						}
 					})
+					modal2.dialog('close')
 				}
 
 				/* 모달틀 */
