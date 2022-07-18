@@ -16,7 +16,7 @@ import co.carboni.prj.mat.vo.MatVO;
 public class MatController {
 
 	@Autowired
-	MatMapper mapper;
+	MatMapper mapper;	
 
 	// 발주관리
 	@RequestMapping("/matOrder.do")
@@ -125,4 +125,13 @@ public class MatController {
 		List<MatVO> findreqdate = mapper.findReqDate(startD, endD, cusCode, matCode);
 		return findreqdate;
 	}
+
+	// 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력
+	@RequestMapping("findcodelist")
+	@ResponseBody
+	public List<MatVO> findcodelist(@RequestParam String cusCode, @RequestParam String matCode) {
+		List<MatVO> findcodelist = mapper.findCode(cusCode, matCode);
+		return findcodelist;
+	}
+
 }

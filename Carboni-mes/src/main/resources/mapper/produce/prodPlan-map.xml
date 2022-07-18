@@ -1,51 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.carboni.prj.produce.mapper.ProdPlanMapper">
+<mapper namespace="co.carboni.prj.produce.mapper.ProdMapper">
 	
-	<!-- 미생산주문조회 -->
-	<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT x.prnum, y.cndate, z.csname, x.prclose
-		FROM prodreq x, contract y, costomer z
-		WHERE x.cnnum = y.cnnum
-		AND y.cscode = z.cscode
-		AND x.prclose >= TO_DATE(#{startDt}, 'YYYY/MM/DD')
-		AND TO_DATE(#{endDt}, 'YYYY/MM/DD') >= x.prclose
-		AND x.prstatus = 'N'
-	</select>
+	<!-- 생산계획관리 -->
+		<!-- 생산계획검색 -->
+		<select id="searchPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+			SELECT ppdate, ppnum, ppname, ppnote
+			FROM prodplan
+			WHERE (ppdate BETWEEN #{pstartDt} AND #{pendDt})
+			AND ppstatus =
+			<if test="pstatus == '미지시'">'미지시'</if>
+			<if test="pstatus == '지시진행'">'지시진행'</if>
+			ORDER BY ppnum ASC
+		</select>
+		
+		<!-- 생산계획로드 -->
+		<select id="prodPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+			SELECT ppnum, ppdate, ppname, ppnote
+			FROM prodplan
+			WHERE ppnum = #{findNum}
+		</select>
+		
+		<!-- 생산계획상세로드 -->
+		<select id="prodPlanDetail" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+			SELECT p.ppdnum, p.gicode, g.giname, g.giunit, p.prnum, r.prclose, c.cnrest, p.ppdam, p.uplam, p.ppddate
+			FROM prodplan_d p, goodsinfo g, prodreq r, contract c
+			WHERE
+			p.gicode = g.gicode
+			AND
+			p.prnum = r.prnum
+			AND
+			r.cnnum = c.cnnum
+			AND
+			p.ppdnum LIKE #{findDNum}||'%'
+		</select>
+		
+		<!-- 미생산주문조회 -->
+		<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+			SELECT x.prnum, y.cndate, z.csname, x.prclose
+			FROM prodreq x, contract y, costomer z
+			WHERE x.cnnum = y.cnnum
+			AND y.cscode = z.cscode
+			AND (x.prclose BETWEEN #{startDt} AND #{endDt})
+			AND x.prstatus = 'N'
+		</select>
+		
+		<!-- 미생산주문에 들어있는 제품 목록 -->
+		<select id="planProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+			SELECT z.gicode, z.giname, z.giunit, x.prnum, x.prclose, y.cnrest
+			FROM prodreq x, contract y, goodsinfo z
+			WHERE y.cnnum = x.cnnum
+			AND y.gicode = z.gicode
+			AND x.prnum IN
+			<foreach collection="rqNum" item="arr" open="(" separator="," close=")">
+				#{arr}
+			</foreach>
+		</select>
+		
+		<!-- 제품목록에 있는 제품 선택했을 때 필요 자재 정보 뜨기 -->
+		<select id="matList" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
+			SELECT c.gicode, b.micode, m.miname, b.bam, c.cnrest, t.msciam
+			FROM prodreq p, contract c, bom b, matinfo m, matstk t
+			WHERE p.cnnum = c.cnnum
+			AND c.gicode = b.gicode
+			AND b.micode = m.micode
+			AND m.micode = t.micode
+			AND p.prnum = #{prn}
+		</select>
+		
+		<!-- 자재발주요청 -->
+		<insert id="requestMat">
+			INSERT INTO matreq
+			VALUES ('MR-'||TO_CHAR(matreq_REQNUM_seq.nextval), #{micode}, #{orderAmount}, 'N')
+		</insert>
+		
+		<!-- 생산계획등록 -->
+		<insert id="addProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO" useGeneratedKeys="true" keyColumn="ppnum" keyProperty="ppnum">
+			INSERT INTO prodplan
+			VALUES (('PP-'||PRODPLAN_PPNUM_SEQ.nextval), #{ppdate}, #{ppname}, '미지시', #{ppnote})
+			<selectKey resultType="string" keyProperty="ppnum" order="AFTER">
+				select 'PP-'||max(TO_NUMBER(SUBSTR(ppnum, 4))) as ppnum from prodplan
+			</selectKey>
+		</insert>
+		
+		<!-- 생산계획상세등록 -->
+		<insert id="addPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			INSERT INTO prodplan_d
+			VALUES
+			(#{ppdnum}, #{ppnum}, #{prnum}, #{gicode}, TO_NUMBER(#{ppdam}), TO_NUMBER(#{uplam}), #{ppddate})
+		</insert>
+		
+		<!-- 생산계획수정 -->
+		<update id="updateProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			UPDATE prodplan
+			SET ppname = #{ppname}, ppnote = #{ppnote}
+			WHERE ppnum = #{ppnum}
+		</update>
+		
+		<!-- 생산계획상세수정 -->
+		<update id="upPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			UPDATE prodplan_d
+			SET ppdam = TO_NUMBER(#{ppdam}), uplam = TO_NUMBER(#{uplam}), ppddate = #{ppddate}
+			WHERE ppdnum = #{ppdnum}
+		</update>
+		
+		<!-- 생산계획삭제 -->
+		<delete id="removeProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			DELETE FROM prodplan
+			WHERE ppnum = #{ppnum}
+		</delete>
+		
+		<!-- 생산계획상세 삭제 -->
+		<delete id="removePPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			DELETE FROM prodplan_d
+			WHERE ppdnum like #{ppnum}||'%'
+		</delete>
+		
 	
-	<!-- 미생산주문에 들어있는 제품 목록 -->
-	<select id="planProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT z.gicode, z.giname, z.giunit, x.prnum, x.prclose, y.cnrest
-		FROM prodreq x, contract y, goodsinfo z
-		WHERE y.cnnum = x.cnnum
-		AND y.gicode = z.gicode
-		AND x.prnum IN
-		<foreach collection="orderNum" item="arr" open="(" separator="," close=")">
-			#{arr}
-		</foreach>
-	</select>
+	<!-- 생산지시관리 -->
 	
-	<!-- 제품목록에 있는 제품 선택했을 때 필요 자재 정보 뜨기 -->
-	<select id="matList" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-		SELECT c.gicode, b.micode, m.miname, b.bam, c.cnrest, t.msciam
-		FROM prodreq p, contract c, bom b, matinfo m, matstk t
-		WHERE p.cnnum = c.cnnum
-		AND c.gicode = b.gicode
-		AND b.micode = m.micode
-		AND m.micode = t.micode
-		AND p.prnum = #{prn}
-	</select>
+		<!-- 미지시계획조회 -->
+		<select id="unorderList" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT ppnum, ppdate, ppname, ppnote
+			FROM prodplan
+			WHERE (ppdate BETWEEN #{startDt} AND #{endDt})
+			AND
+			ppstatus = '미지시'
+		</select>
+		
+		<!-- 생산지시에 추가할 계획목록 -->
+		<select id="addPlan" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			
+		</select>
 	
-	<!-- 자재발주요청 -->
-	<insert id="requestMat">
-		INSERT INTO matreq
-		VALUES ('MR-'||TO_CHAR(matreq_REQNUM_seq.nextval), #{micode}, #{orderAmount}, 'N')
-	</insert>
 	
-	<!-- 생산계획등록 -->
-	<insert id="addProdPlan" parameterType="java.util.HashMap" useGeneratedKeys="true" keyColumn="ppnum" keyProperty="planNum">
-		INSERT INTO prodplan
-		VALUES (('PP-'||prodplan_ppnum_seq.nextval), TO_DATE(#{planDt}, 'YYYY/MM/DD'), #{planName}, '미지시', #{planNote})
-	</insert>
+	
 	
 </mapper>

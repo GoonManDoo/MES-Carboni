@@ -24,7 +24,8 @@ span {
 
 .input {
 	height: 23px;
-	margin-left: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
 	display: inline-block;
 	padding: 0 10px;
 	vertical-align: middle;
@@ -35,8 +36,12 @@ span {
 	text-align: center;
 }
 
-#leftinput {
-	width: 42%;
+#leftinput, #rightinput {
+	margin-right: 18px;
+}
+
+#leftinput1 {
+	background-color: #f1f1f1;
 }
 
 #startCNDATE {
@@ -50,50 +55,10 @@ span {
 .dataTable-input {
 	height: 40px;
 }
-button {
-          background-color: #808080;
-          padding: 5px 10px;
-          border-radius: 4px;
-          cursor: pointer;
-					color: white;
-        }
 
-        .modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .modal .bg {
-          width: 100%;
-          height: 100%;
-        }
-
-        .modalBox {
-          position: absolute;
-          background-color: #fff;
-          width: 400px;
-          height: 200px;
-          padding: 15px;
-        }
-
-        .modalBox button {
-          display: block;
-          width: 80px;
-          margin: 0 auto;
-        }
-
-        .hidden {
-          display: none;
-        }
-        #rradio{
-        width:120px;
-        }
+    #rradio{
+    width:115px;
+    }
         
    .nameing{ 
 	float:right; 
@@ -108,6 +73,9 @@ button {
 	margin-bottom: 10px;
 	margin-top: -10px;
 }
+.tui-datepicker {
+margin-right : -500px;
+}
         
 </style>
 </head>
@@ -115,50 +83,60 @@ button {
 <th:block layout:fragment="main">
 	<div class="container-fluid px-4">
 		 <h2 class="mt-4">생산의뢰관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>생산의뢰관리</div></h2>
+		
+		<!-- 메인화면 버튼 -->
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-				<button class="btn btn-secondary">조회</button>
-				<button class="btn btn-secondary">등록</button>
-				<button class="btn btn-secondary">삭제</button>
+				<button id="searchBtn" class="btn btn-secondary">조회</button>
+				<button id="insertBtn" class="btn btn-secondary">등록</button>
+				<button id="deleteBtn" class="btn btn-secondary">삭제</button>
 			</div>
 		</div>
+		
+		<!-- 메인화면 검색 -->
 		<div class="card mb-4" id="pageing">
 			<div class="card-body">
-				<span> 수주일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
-				             <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br> 
-				       마감일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
-				             <input type="date" name="endCNDATE" id="endCNDATE" class="input" />
+				<span> 수주일자<input type="date" name="startCndate" id="startCndate" class="input" />~ 
+				             <input type="date" name="endCndate" id="endCndate" class="input" /><br> 
+				       마감일자<input type="date" name="startPrclose" id="startPrclose" class="input" />~ 
+				             <input type="date" name="endPrclose" id="endPrclose" class="input" />
 				            
-				            <form method="get" action="form-action.html">
+				            <form method="get">
 						      <a>마감여부</a>
-						      <label><input type="radio" name="fruit" value="apple" id="rradio" > 완료</label>
-						      <label><input type="radio" name="fruit" value="banana" id="rradio"> 미완료</label>
+						      <label><input type="radio" name="compYN" value="Y">완료</label>
+						      <label><input type="radio" name="compYN" value="N">미완료</label>
 						    </form>
 				            
 				        
-					   제품코드<input type="text" id="leftinput" placeholder="제품코드입력" readonly="readonly"class="input" ><br>
+					   제품코드<input type="text" id="leftinput" class="input" placeholder="제품 검색" readonly="readonly">
+					   		 <input type="text" id="leftinput1" class="input" placeholder="제품 코드" readonly="readonly"><br>
 				</span>
 			</div>
 		</div>
 	</div>
+	<!-- 메인화면 그리드 -->
+	<div class="container-fluid px-4">
+		<div class="card mb-4">
+		<div class="card-header">
+			<i class="fas fa-table me-1"></i> 생산의뢰목록
+		</div>
+		<div id="grid"></div>
+	</div>
+</div>
 	
 	<!-- 모달 -->
 	<div id="modal">
+	
+	<!-- 제품 모달 -->
 	<div id="prodNameModal" style="padding: 20px;" title="제품정보조회">
 			<div class="container">
 		<div class="title">
-			제품명<input type="text" class="input" placeholder="제품명"> 
-			제품코드<input type="text" class="input" placeholder="제품코드">
-			<button class="btn btn-secondary">조회</button><br>
+			제품명<input type="text" id="giinput" class="input" placeholder="제품명"> 
+			<button id="gisearchBtn" class="btn btn-secondary">조회</button><br>
 		</div>
-		<table border="1">
-			<tr>
-			</tr>
-			<tr>
-				<!-- function 기능 들어갈 곳  -->
-			</tr>
-		</table>
 		</div>
+		
+	<!-- 제품모달 그리드 -->
 	<div class="container-fluid px-4">
 		<div class="card mb-4">
 			<div class="card-header" style="text-align: center;">
@@ -168,95 +146,83 @@ button {
 		</div>
 	</div>
 			</div>
-	</div>
-
-<div class="container-fluid px-4">
-	<div class="card mb-4">
-		<div class="card-header">
-			<i class="fas fa-table me-1"></i> 생산의뢰목록
+			
+	<!-- 생산의뢰등록 모달 -->
+	<div id="prodReqModal" style="padding: 20px;" title="생산의뢰등록">
+			<div class="container">
+		<div class="title">
+			<span> 수주일자<input type="date" name="startCndate1" id="startCndate1" class="input" />~ 
+				             <input type="date" name="endCndate1" id="endCndate1" class="input" /> 
+			</span>
+			<button id="cnsearchBtn" class="btn btn-secondary">조회</button><br>
 		</div>
-		<div id="grid"></div>
+		</div>
+	
+	<!-- 생산의뢰등록 모달 그리드 -->
+	<div class="container-fluid px-4">
+		<div class="card mb-4">
+			<div class="card-header" style="text-align: center;">
+				<i class="fas fa-table me-1"></i> 수주목록
+			</div>
+			<div id="gridcn"></div>
+		</div>
 	</div>
-</div>
-
-   
+	
+	</div>
+	</div>
 
 <script>
-	const gridData = [];
-
-	(function() {
-		for (let i = 0; i < 10; i += 1) {
-			gridData.push({
-				c1 : (i + 1),
-				c2 : ((i + 5) % 8) * 100 + i,
-				c3 : ((i + 3) % 7) * 60,
-				c4 : ((i + 3) % 7) * 60,
-				c5 : ((i + 3) % 7) * 60,
-				c6 : ((i + 3) % 7) * 60,
-				c7 : ((i + 3) % 7) * 60,
-				c8 : ((i + 3) % 7) * 60,
-			});
-		}
-	})();
-
-	const grid = new tui.Grid({
-		el : document.getElementById('grid'),
-		data : gridData,
-		scrollX : false,
-		rowHeaders : [ 'rowNum', 'checkbox' ],
-		columns : [ {
-			header : '의뢰번호',
-			name : 'c2',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '제품코드',
-			name : 'c3',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '거래처코드',
-			name : 'c4',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '수주일자',
-			name : 'c5',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '납기일자',
-			name : 'c6',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '마감일자',
-			name : 'c7',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-		}, {
-			header : '마감여부',
-			name : 'c8',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
-			}]
-	});
 	
 	$(function() {
-
+		
+		/* 생산의뢰관리 조회 */
+		$('#searchBtn').on('click', function(){
+			var startCd = $('#startCndate').val()
+			var endCd = $('#endCndate').val()
+			var startPr = $('#startPrclose').val()
+			var endPr = $('#endPrclose').val()
+		    var gsCode = $('#leftinput1').val() 
+			var complete = $("input:radio[name='compYN']:checked").val()
+					 if($('#startCndate').val()== '' || $('#endCndate').val()== '' || 
+						$('#startPrclose').val() == '' || $('#endPrclose').val() == '' ||
+						$('#leftinput1').val() == '' || $('input:radio[name=compYN]').is('')) {
+						  swal('다시 입력하세요!', "입력되지 않은 생산의뢰정보가 있습니다!", 'warning')
+					} 
+			
+			$.ajax({
+				url: 'prCloseList',
+				method: 'POST',
+				data : {startCd, endCd, startPr, endPr, gsCode, complete},
+				success: function(result) {
+					grid.refreshLayout();
+					grid.resetData(result)
+				}
+			})
+		})
+		
+		/* 생산의뢰 삭제 버튼 */
+		$('#deleteBtn').on('click', function() {
+			delGrid = grid.getCheckedRows()
+			var prList = delGrid.map((e) => {return e.prnum})
+			$.ajax({
+				url: 'delPrList',
+				method: 'POST',
+				data : {prList},
+				success: function() {
+					grid.removeCheckedRows('')
+					swal("삭제 성공!!", "선택한 생산의뢰 내역이 삭제되었습니다.", "success");
+				}
+			})
+		})
+		
+		
+		
 		/*메이크 모달*/
 		function makeModal(e, fnc) {
 			var dialog = $(e).dialog({
 				autoOpen : false,
 				height : 742,
-				width : 700,
+				width : 900,
 				modal : true,
 				buttons : {
 					'확인' : fnc,
@@ -270,26 +236,179 @@ button {
 			return dialog;
 		}
 
-		var modal2 = makeModal("#prodNameModal", giup)
+		
+		/* 생산의뢰목록 모달 검색 이벤트 */
+		/* $('#cnsearchBtn').on('click', function() {
+			var cnnum = $('#cninput').val()
+			$.ajax({
+				url: 'cnsList',
+				method: 'POST',
+				data : {cnnum},
+				success: function(result) {
+					reqprod.resetData(result)
+					reqprod.on('click', e => {
+						var rr = e.rowKey
+						cnu = reqprod.getRow(rr)
+					})
+				}
+			})
+		}) */
+		
+		var modal1 = makeModal("#prodNameModal", giup)
+			modal1 = makeModal("#prodNameModal", giup1)
+		var modal2 = makeModal("#prodReqModal", check)
+		
+		/* 생산의뢰등록 모달 버튼 */
+		$('#insertBtn').on('click', function() {
+			$("#prodReqModal").css('display', '')
+			modal2.dialog('open')
+					reqprod.refreshLayout()
+		})
+		
+		/* 생산의뢰등록 수주기간 검색 */
+		$('#cnsearchBtn').on('click', function() {
+			var startDt = $('#startCndate1').val()
+			var endDt = $('#endCndate1').val()
+			$.ajax({
+				url:'pCndateList',
+				method: 'POST',
+				data: {startDt, endDt},
+				success: function(result) {
+					reqprod.refreshLayout();
+					reqprod.resetData(result)
+					/* reqprod.on('click', e => {
+						var rr = e.rowKey
+					}) */
+				
+				}
+			})
+		})
 
 		/* 제품정보 모달 */
 		$("#leftinput").on("click", function() {
 					$("#prodNameModal").css('display', '')
-					modal2.dialog('open')
-					gomo.refreshLayout();
+					modal1.dialog('open')
+					//전체제품 바로 띄우는 ajax 호출
+					$.ajax({
+						url:'allGoodsList',
+						method: 'POST',
+						success: function(result) {
+							jepoom.refreshLayout();
+							jepoom.resetData(result)
+							jepoom.on('click', e => {
+								var rok = e.rowKey
+								gin = jepoom.getRow(rok).giname
+								gic = jepoom.getRow(rok).gicode
+							})
+						}
+					})
 				})
-		/*확인 눌렀을떄 */
+				
+		/* 제품정보 모달 검색 이벤트 */
+		$('#gisearchBtn').on('click', function() {
+			var giname = $('#giinput').val()
+			$.ajax({
+				url: 'goodsList',
+				method: 'POST',
+				data : {giname},
+				success: function(result) {
+					jepoom.resetData(result)
+					jepoom.on('click', e => {
+						var rok = e.rowKey
+						gin1 = jepoom.getRow(rok).giname
+						gic1 = jepoom.getRow(rok).gicode
+					})
+				}
+			})
+		})
+				
+		/*제품정보 검색조회 모달 확인버튼 눌렀을떄 */
 		function giup() {
-
+			$('#leftinput').val(gin1)
+			$('#leftinput1').val(gic1)
+			modal1.dialog('close')
 		}
 
-		/* 그리드 표만들기 */
-		/* 그리드 펑션!*/
+		/*제품정보 전체조회 모달 확인버튼 눌렀을떄 */
+		function giup1() {
+			$('#leftinput').val(gin)
+			$('#leftinput1').val(gic)
+			modal1.dialog('close')
+		}
+		
+		/* 생산의뢰등록 전체조회 모달 확인버튼 눌렀을때 */
+		function check() {
+			modal2.dialog('close')
+		}
 
+		
+
+		
+		
+		
+		/* 생산의뢰조회 그리드 시작 */
+		const gridData = [];
+
+		const grid = new tui.Grid({
+		el : document.getElementById('grid'),
+		data : gridData,
+		scrollX : false,
+		rowHeaders : [ 'rowNum', 'checkbox' ],
+		columns : [ {
+			header : '의뢰번호',
+			name : 'prnum',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		},{
+			header : '수주번호',
+			name : 'cnnum',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		}, {
+			header : '제품명',
+			name : 'giname',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		}, {
+			header : '거래처명',
+			name : 'csname',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		}, {
+			header : '수주일자',
+			name : 'cndate',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		}, {
+			header : '납기일자',
+			name : 'cnperiod',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		}, {
+			header : '마감일자',
+			name : 'prclose',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+		}, {
+			header : '생산마감여부',
+			name : 'prstatus',
+			align : 'center',
+			sortingType : 'desc',
+			sortable : true
+			}]
+	});
+		
 		/*제품정보 그리드*/
 		const giupdata = [];
 
-		let gomo = new tui.Grid({
+		let jepoom = new tui.Grid({
 			el : document.getElementById('gridpro'),
 			data : giupdata,
 			scrollX : false,
@@ -297,21 +416,66 @@ button {
 			bodyHeight : 430,
 			columns : [ {
 				header : '제품코드',
+				name : 'gicode',
 				align : 'center',
 				sortingType : 'desc',
 				sortable : true
 			}, {
 				header : '제품명',
+				name : 'giname',
 				align : 'center',
 				sortingType : 'desc',
 				sortable : true
 			}, {
 				header : '제품단위',
+				name : 'giunit',
 				align : 'center',
 				sortingType : 'desc',
 				sortable : true
 			} ]
 		});
+		
+		/*생산의뢰등록 그리드*/
+		const checkdata = [];
+
+		let reqprod = new tui.Grid({
+			el : document.getElementById('gridcn'),
+			data : checkdata,
+			scrollX : false,
+			rowHeaders : [ 'rowNum', 'checkbox' ],
+			bodyHeight : 430,
+			columns : [ {
+				header : '수주번호',
+				name : 'cnnum',
+				align : 'center'
+			}, {
+				header : '제품명',
+				name : 'giname',
+				align : 'center'
+			}, {
+				header : '거래처명',
+				name : 'csname',
+				align : 'center'
+			}, {
+				header : '수주일자',
+				name : 'cndate',
+				align : 'center'
+			}, {
+				header : '납기일자',
+				name : 'cnperiod',
+				align : 'center'
+			}, {
+				header : '마감일자',
+				name : 'prclose',
+				align : 'center',
+				language: 'ko',
+			    editor: 'datePicker',
+			    width: 240
+			} ]
+		});
+		
+		
+		
 	})
 </script>
 </th:block>
