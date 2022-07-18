@@ -643,8 +643,9 @@
 									console.log(result)
 									result.moodate='2022-07-18'
 									grid.refreshLayout();
-									grid.appendRow({mostatus :'N',moaskam : getrow.moaskam,
-													monum : getrow.monum})
+									grid.appendRow({mostatus :'N',moaskam : result.moaskam,
+													monum : result.monum,moodate : result.moodate,cscode: result.cscode,micode :result.micode,
+													csname: result.csname,miname: result.miname})
 									swal('성공', '발주가 완료되었습니다.', 'success')
 									/* grid.appendRow( { id : "", city : "", ... } ) */
 								}
