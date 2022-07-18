@@ -166,28 +166,33 @@
 			
 		});
 		
-	// Insert/Update onsubmit체크분기
+	// Insert/Update
 	function check(){
-		if ($(ccodeid).val() == ''){
-			document.subform.action="ccodeinsertsmall.do"
-			document.subform.submit();
-		}
-		else{
-			document.subform.action="ccodeupdate.do"
-			document.subform.submit();
+		if($(cclass).val() == '' || $(cclassd).val() == '' || $(cexplain).val() ==''){
+			swal('코드를 입력하십시오', '각 분류와 코드명은 필수 입력 조건입니다.', 'warning');
+		} else{
+			if ($(ccodeid).val() == ''){
+				document.subform.action="ccodeinsertsmall.do"
+				document.subform.submit();
+			}
+			else{
+				document.subform.action="ccodeupdate.do"
+				document.subform.submit();
+			}
+		
 		}
 	}
 	
 	//삭제
 	function del(){
-		document.subform.action="codeDelete.do"
-		document.subform.submit();
+		if($(ccodeid).val()=='') {
+			swal('코드를 입력하십시오', '코드를 선택하여 삭제하여 주십시오.', 'warning');
+		} else{
+			document.subform.action="codeDelete.do"
+			document.subform.submit();
+		}
 	}
 
-
-	
-    
-    
     
   </script>
 </th:block>

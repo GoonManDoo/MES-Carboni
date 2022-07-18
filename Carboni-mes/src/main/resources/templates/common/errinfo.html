@@ -40,15 +40,15 @@
   <div id="menu">
     <a href="/">홈</a> > 기준정보관리 > <b>불량코드관리</b>
   </div>
-  <div id="btns" class="card-header">
-    <button type="button" class="btn btn-secondary" id="newbtn">신규</button>
-    <button type="button" class="btn btn-secondary" id="savbtn">저장</button>
-    <button type="button" class="btn btn-secondary">삭제</button>
-  </div>
-  <form action="#" id="myf">
-    <label for="eiCode">불량코드</label> <input type="text" id="eiCode">
-    <label for="eiName">불량명</label> <input type="text" id="eiCode">
-    <label for="eiNote">비고</label> <input type="text" id="eiNote">
+    <div id="btns" class="card-header">
+      <input type="button" class="btn btn-secondary" value="신규" onclick="showit()">
+      <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+      <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+    </div>
+  <form id="myf" name="myf">
+    <label for="eicodeid">불량코드</label> <input type="text" id="eicodeid" name="eicodeid" readonly>
+    <label for="einame">불량명</label> <input type="text" id="einame" name="einame">
+    <label for="einote">비고</label> <input type="text" id="einote" name="einote">
   </form>
   <div id="container">
     <div class="card mb-4">
@@ -59,84 +59,18 @@
         <table id="datatablesSimple">
           <thead>
             <tr>
-              <th><input type="checkbox"></th>
+              <th><input type="radio" name="err"></th>
               <th>불량코드</th>
               <th>불량명</th>
               <th>비고</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td>002</td>
-              <td>Rock error</td>
-              <td></td>
+            <tr th:each="e : ${list}">
+              <td><input type="radio" name="err"></td>
+              <td th:text="${e.eicodeid}"></td>
+              <td th:text="${e.einame}"></td>
+              <td th:text="${e.einote}"></td>
             </tr>
           </tbody>
         </table>
@@ -144,13 +78,42 @@
     </div>
   </div>
 </body>
+
 <script>
-  $('#newbtn').click(function () {
-    $('#myf').show();
-  })
-  $('#savbtn').click(function () {
-    $('#myf').hide();
-  })
+    function showit(){
+		$('#myf>input').val('');
+		$('#myf').show();
+    }
+    
+  function check() {
+    if ($('#einame').val() == '') {
+      swal('항목을 입력하십시오', '불량명은 필수 입력 항목입니다.', 'warning');
+    } else if ($('#eicodeid').val() == '') {
+      document.myf.action = 'errinfoinsert';
+      document.myf.submit();
+    } else {
+      document.myf.action = 'errinfoupdate';
+      document.myf.submit();
+    }
+  }
+  
+  function del() {
+    if ($('#eicodeid').val() == '') {
+      swal('항목을 입력하십시오', '코드를 선택하여 삭제하여 주십시오.', 'warning');
+    } else {
+      document.myf.action = 'errinfodelete';
+      document.myf.submit();
+    }
+  }
+  
+  $(document).on('click', 'input[name="err"]', function () {
+    $(eicodeid).val($('input[name=err]:checked').parent().parents().children().eq(1).text())
+    $(einame).val($('input[name=err]:checked').parent().parents().children().eq(2).text())
+    $(einote).val($('input[name=err]:checked').parent().parents().children().eq(3).text())
+  });
+  
+
 </script>
+
 </th:block>
 </html>

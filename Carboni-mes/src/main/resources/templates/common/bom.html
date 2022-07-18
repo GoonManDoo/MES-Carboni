@@ -36,6 +36,7 @@
   <div id="container">
 
     <h1>제품BOM정보 관리</h1>
+    
     <div id="menu">
       <a href="/">홈</a> > 기준정보관리 > <b>제품BOM정보관리</b>
     </div>
@@ -43,7 +44,9 @@
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
         <button type="button" class="btn btn-secondary" id="search">검색</button>
         <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <!-- localDB에서 INSERT 문제 발생, 클라우드 지갑DB에서는 멀쩡히 동작함 -->
         <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+        
       </div>
     <form id="myf" name="subform">
       <label for="gicode">제품코드</label> <input type="text" id="gicode" name="gicode">
@@ -187,7 +190,7 @@
     
     $('#search').click(function() {
     	if($('#gicode').val() == ''){
-    		alert('제품코드를 입력하십시오.');
+    		swal('항목을 입력하십시오', '제품코드를 입력하여 검색해 주십시오.', 'warning');
     	} else{
     		$.ajax({
     			url: 'selectBom',
@@ -217,7 +220,7 @@
     
     function check(){
     	if($('#gicode').val() == '' || $('#micode').val() == '' ){
-    		alert('제품코드와 자재코드를 입력하여 저장해 주십시오')
+    		swal('항목을 입력하십시오', '제품과 자재 코드는 필수입력 조건입니다.', 'warning');
     	} else{
     		document.subform.action='bominsert';
     		document.subform.submit();
@@ -226,7 +229,7 @@
     
     function del(){
     	if($('#gicode').val() == '' || $('#micode').val() == '' ){
-    		alert('제품코드와 자재코드를 입력하여 삭제해 주십시오')
+    		swal('항목을 입력하십시오', '제품과 자재 코드는 필수입력 조건입니다.', 'warning');
     	} else{
     		document.subform.action='bomdelete';
     		document.subform.submit();

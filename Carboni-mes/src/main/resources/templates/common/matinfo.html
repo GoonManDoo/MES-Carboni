@@ -137,19 +137,30 @@
     
     
     function check(){
-		if ($(micode).val() == ''){
-			document.matmain.action="matinfoinsert.do"
-			document.matmain.submit();
-		}
-		else{
-			document.matmain.action="matinfoupdate.do"
-			document.matmain.submit();
-		}
+    	if($(miname).val()=='' || $(mistand).val()=='' || $(miunit).val()=='' ||
+    		$(misafe).val()=='' || $(mimax).val()==''|| $(mimin).val()==''){
+    		swal('항목을 입력하십시오', '자재명, 규격, 단위, 재고는 필수입력 항목입니다.' , 'warning');
+    	}else{
+			if ($(micode).val() == ''){
+				document.matmain.action="matinfoinsert.do"
+				document.matmain.submit();
+			}
+			else{
+				document.matmain.action="matinfoupdate.do"
+				document.matmain.submit();
+			}
+    	
+    	}
 	}
 	
 	function del(){
-		document.matmain.action="matinfodelete.do"
-		document.matmain.submit();
+		if($(micode).val()==''){
+    		swal('항목을 입력하십시오', '자재코드를 입력하여 삭제하여 주십시오.' , 'warning');
+    	} else {
+			document.matmain.action="matinfodelete.do"
+			document.matmain.submit();
+    	
+    	}
 	}
     </script>
     </th:block>
