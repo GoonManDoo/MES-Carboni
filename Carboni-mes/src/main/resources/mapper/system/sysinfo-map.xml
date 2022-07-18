@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.carboni.prj.system.mapper.SysinfoMapper">
+	<select id="selectSysAll" resultType="co.carboni.prj.system.vo.SystemVO">	
+		SELECT S.SINUM, S.SINAME, S.SISAFTEM, 
+        P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR, 
+        D.PHDMKAM, D.PHDERRAM
+		FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
+		WHERE S.PICODEID = P.PICODEID OR S.SINUM = D.SINUM
+	</select>
+	
+	<select id="selectSysDetAll" resultType="co.carboni.prj.system.vo.SystemVO">
+		SELECT * FROM SYSMAN WHERE SINUM = #{sinum}
+	</select>
+	
+	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
+		INSERT INTO SYSINFO
+			VALUES(SYSTEM_SYSNUM_SEQ.NEXTVAL, #{picodeid}, #{siname}, #{sisaftem});
+	</insert>
+	<insert id="sysmanInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
+		INSERT INTO SYSMAN
+		VALUES(SYSTEM_SINUM_SEQ.CURRVAL, SYSTEM_SINUM_SEQ.CURRVAL, DEFAULT, SYSDATE, #{simaint}, SYSDATE, DEFAULT, '');
+	</insert>
+	<update id="systemUpdate" parameterType="co.carboni.prj.system.vo.SystemVO">
+		UPDATE SYSINFO
+		<set>
+		PICODEID = #{picodeid}
+		</set>
+		WHERE SINUM = #{sinum}
+	</update>
+	
+	<update id="sysmanUpdate" parameterType="co.carboni.prj.system.vo.SystemVO">
+	UPDATE SYSMAN
+			<set>
+			SMSTATUS = ${smstatus} ,
+			SMMNTEND = SYSDATE,
+			SIMAINT = #{simaint},
+			SIDIE = #{sidie}
+			</set>
+	WHERE SMNUM = #{smnum}
+	</update>
+	
+	<delete id="systemDelete">
+		DELETE  FROM SYSINFO
+		WHERE SINUM = #{sinum}
+	</delete>
+	
+	<delete id="sysmanDelete" parameterType="co.carboni.prj.system.vo.SystemVO">
+		DELETE FROM SYSMAN
+		WHERE SINUM = #{sinum}
+	</delete>
+</mapper>

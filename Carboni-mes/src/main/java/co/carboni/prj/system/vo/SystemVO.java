@@ -21,14 +21,25 @@ public class SystemVO {
 	private String sinum; //설비번호
 	private String siname;//설비명
 	
+	//공정정보
+	private String picodeid;//공정번호
+	private String piname; //공정이름
+	private String pione; //1번공정
+	private String pitwo; //2번공정
+	private String pithree; //3번공정
+	private String pifour; //4번공정
+	private String pidate; //공정 소요일수
+	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date sidate;//설비 입고일
 	private Date sidie;//설비 가동한계기간
 	private Date simaint;//설비 점검주기
 	
+	
 	//설비관리
 	private String smnum;//설비관리번호
 	private String smcons;//소모품명
+	
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date smnextdat;//설비 다음 점검일
