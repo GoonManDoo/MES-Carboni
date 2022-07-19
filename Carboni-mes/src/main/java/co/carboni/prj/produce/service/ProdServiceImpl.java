@@ -59,6 +59,7 @@ public class ProdServiceImpl implements ProdService {
 		// 생산계획에서 부족한 자재 발주요청
 		@Override
 		public void requestMat(ProdPlanVO vo) {
+			mapper.requestMat(vo);
 		}
 	
 		// 생산계획등록
@@ -72,7 +73,8 @@ public class ProdServiceImpl implements ProdService {
 		@Override
 		public void addPPlanDetail(List<ProdPlanVO> plans) {
 			for (ProdPlanVO vo : plans) {
-				mapper.addPPlanDetail(vo);
+				mapper.addPPlanDetail(vo); // 계획등록
+				mapper.updatePReqStat(vo); // 생산의뢰 상태 수정
 			}
 		}
 
