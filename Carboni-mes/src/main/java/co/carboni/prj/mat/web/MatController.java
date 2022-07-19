@@ -4,23 +4,22 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.carboni.prj.mat.mapper.MatMapper;
+import co.carboni.prj.mat.service.MatService;
 import co.carboni.prj.mat.vo.MatVO;
 
 @Controller
 public class MatController {
 
-	@Autowired
-	MatMapper mapper;
+	@Autowired(required = true)
+	MatService service;
 
 	// 발주관리
 	@RequestMapping("/matOrder.do")
-	public String matOrder(Model model) {
+	public String matOrder() {
 		return "mat/matOrder";
 	}
 
@@ -32,7 +31,7 @@ public class MatController {
 
 	// 입고관리
 	@RequestMapping("/matInsert.do")
-	public String matInsert(Model model) {
+	public String matInsert() {
 		return "mat/matInsert";
 	}
 
@@ -64,7 +63,7 @@ public class MatController {
 	@RequestMapping("reqlist")
 	@ResponseBody
 	public List<MatVO> reqlist(MatVO vo) {
-		List<MatVO> reqlist = mapper.findreq(vo);
+		List<MatVO> reqlist = service.findreq(vo);
 		return reqlist;
 	}
 
@@ -73,7 +72,7 @@ public class MatController {
 	@RequestMapping("companyList")
 	@ResponseBody
 	public List<MatVO> companyList(MatVO vo) {
-		List<MatVO> companyList = mapper.findComList(vo);
+		List<MatVO> companyList = service.findComList(vo);
 		return companyList;
 	}
 
@@ -81,7 +80,7 @@ public class MatController {
 	@RequestMapping("matlist")
 	@ResponseBody
 	public List<MatVO> matlist(MatVO vo) {
-		List<MatVO> matlist = mapper.findMat(vo);
+		List<MatVO> matlist = service.findMat(vo);
 		return matlist;
 	}
 
@@ -89,7 +88,7 @@ public class MatController {
 	@RequestMapping("insearchorder")
 	@ResponseBody
 	public List<MatVO> insearchorder(@RequestParam String startD, @RequestParam String endD) {
-		List<MatVO> insearchorder = mapper.inModalSearch(startD, endD);
+		List<MatVO> insearchorder = service.inModalSearch(startD, endD);
 		return insearchorder;
 	}
 
@@ -97,7 +96,7 @@ public class MatController {
 	@RequestMapping("findSearchCom")
 	@ResponseBody
 	public List<MatVO> findSearchCom(@RequestParam String csname) {
-		List<MatVO> findSearchCom = mapper.findSearchComList(csname);
+		List<MatVO> findSearchCom = service.findSearchComList(csname);
 		return findSearchCom;
 	}
 
@@ -105,16 +104,8 @@ public class MatController {
 	@RequestMapping("findserchmaterial")
 	@ResponseBody
 	public List<MatVO> findserchmaterial(@RequestParam String miname) {
-		List<MatVO> findserchmaterial = mapper.findSearchMat(miname);
+		List<MatVO> findserchmaterial = service.findSearchMat(miname);
 		return findserchmaterial;
-	}
-
-	// 발주관리에서 요청 내용이 메인 그리드에 표시
-	@RequestMapping("showFindReqList")
-	@ResponseBody
-	public List<MatVO> showFindReqList(MatVO vo) {
-		List<MatVO> showFindReqList = mapper.showFindReq(vo);
-		return showFindReqList;
 	}
 
 	// 발주관리의 발주일자 조회
@@ -122,7 +113,24 @@ public class MatController {
 	@ResponseBody
 	public List<MatVO> findreqdate(@RequestParam String startD, @RequestParam String endD, @RequestParam String cusCode,
 			@RequestParam String matCode) {
-		List<MatVO> findreqdate = mapper.findReqDate(startD, endD, cusCode, matCode);
+		List<MatVO> findreqdate = service.findReqDate(startD, endD, cusCode, matCode);
 		return findreqdate;
 	}
+
+	// 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력
+	@RequestMapping("findcodelist")
+	@ResponseBody
+	public List<MatVO> findcodelist(@RequestParam String cusCode, @RequestParam String matCode) {
+		List<MatVO> findcodelist = service.findCode(cusCode, matCode);
+		return findcodelist;
+	}
+
+	@RequestMapping("addrequestlist")
+	@ResponseBody
+	public MatVO addrequestlist(MatVO vo){
+		System.out.println(vo);
+			service.addRequestList(vo);
+			return vo;
+	}
+
 }

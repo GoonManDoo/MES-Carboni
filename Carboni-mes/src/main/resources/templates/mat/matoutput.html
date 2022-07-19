@@ -31,6 +31,8 @@
 				<div class="card mb-2">
 					<div class="card-header">
 						<div style="display: flex; justify-content: flex-end;">
+							<button type="button" id="researchBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">조회</button>
 							<button type="button" id="saveBtn" class="btn btn-secondary"
 								style="margin-right: 5px;">저장</button>
 							<button type="button" id="removeBtn" class="btn btn-secondary"
@@ -48,7 +50,7 @@
 										<!-- 출고일자 조회  -->
 										<tr>
 											<th><label>출고일자</label></th>
-											<td colspan="6">
+											<td colspan="3">
 												<div
 													class="tui-datepicker-input tui-datetime-input tui-has-focus">
 													<input type="text" class="form-control" id="outDt"
@@ -62,14 +64,9 @@
 										<tr>
 											<th><label>출고공정</label></th>
 											<td><input type="text" class="form-control ht"
-												maxlength="10" tabindex="2"></td>
-											<td><button type="button" class="btn btn-secondary"
-													style="margin-right: 5px; height: 28px; width: 28px;"
-													id="outBtn">🔍</button></td>
-											<td colspan="5">
+												tabindex="2" id="outBtn" placeholder="출고공정검색"></td>
 											<th><label>공정명</label></th>
-											<td><input type="text" class="form-control ht"
-												readonly></td>
+											<td><input type="text" class="form-control ht" readonly></td>
 										</tr>
 									</tbody>
 								</table>

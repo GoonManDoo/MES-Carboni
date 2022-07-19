@@ -11,21 +11,29 @@
 			<foreach collection="cnList" item="arr" open="(" separator="," close=")" >
 				#{arr}
 			</foreach>
-			
 		</delete>
 		
-		<!-- 수주일자 조회 -->
+		<!-- 수주관리 수주일자 조회 -->
 		<select id="findCndateList" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT m.cnnum, c.csname, g.giname, m.cnam, m.cnrest, m.cndate, m.cnperiod, m.cnstatus, g.giunit
 			FROM contract m, costomer c, goodsinfo g
 			WHERE (c.cscode = m.cscode AND g.gicode = m.gicode)
 			AND
-			((m.cndate>=TO_DATE(#{startDt}, 'YY/MM/DD') AND TO_DATE(#{endDt}, 'YY/MM/DD') >= m.cndate)
+			(m.cndate BETWEEN #{startDt} AND #{endDt})
 			AND
 			m.cscode = #{cusCode}
 			AND
-			m.gicode =#{goodsCode})
+			m.gicode =#{goodsCode}
 		</select>
+		
+		<!-- 생산의뢰관리 수주일자 조회 -->
+      <select id="findPcndateList" resultType="co.carboni.prj.sales.vo.SalesVO">
+         SELECT c.cnnum, g.giname, m.csname, c.cndate, c.cnperiod
+         FROM contract c, goodsinfo g, costomer m
+         WHERE (c.gicode = g.gicode and c.cscode = m.cscode)
+         AND (c.cndate BETWEEN #{startDt} AND #{endDt}) 
+         AND c.cnstatus = '생산전' 
+			</select>
 		
 		<!-- 거래처모달 전체조회 -->
 		<select id="findAllCsList" resultType="co.carboni.prj.sales.vo.SalesVO">
@@ -40,16 +48,64 @@
 			AND csgb = '제품거래'
 		</select>
 		
-		<!-- 거래처모달 전체조회 -->
+		<!-- 제품모달 전체조회 -->
 		<select id="findAllGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT gicode, giname, giunit FROM goodsinfo
 		</select>
 		
-		<!-- 거래처모달 검색조회 -->
+		<!-- 제품모달 검색조회 -->
 		<select id="findGiList" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT gicode, giname, giunit FROM goodsinfo
 			WHERE giname like '%' || #{giname} || '%'
 		</select>
+		
+	<!-- 생산의뢰관리 -->
+	
+		<!-- 생산의뢰 조회 -->
+		<select id="findPrcloseList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT p.prnum, p.cnnum, g.giname, r.csname, c.cndate, c.cnperiod, p.prclose, p.prstatus
+			FROM contract c, prodreq p, costomer r, goodsinfo g
+			WHERE (c.cnnum = p.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
+			AND
+			(c.cndate BETWEEN #{startCd} AND #{endCd})
+			AND
+			(p.prclose BETWEEN #{startPr} AND #{endPr})
+			AND
+			p.prstatus = #{complete}
+			AND
+			c.gicode = #{gsCode}
+		</select>
+		
+		<!-- 출하목록 조회 -->
+		<select id="findShipList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			SELECT s.shnum, c.cnnum, g.giname, r.csname, c.cnam, s.shdam, s.shdate, c.cnperiod, s.shstatus
+			FROM contract c, ship s, costomer r, goodsinfo g
+			WHERE (c.cnnum = s.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
+			AND
+			(c.cnperiod BETWEEN #{startCp} AND #{endCp})
+			AND
+			(s.shdate BETWEEN #{startSd} AND #{endSd})
+			AND
+			c.gicode = #{gsCode}
+		</select>
+		
+		<!-- 생산의뢰목록 삭제 -->
+		<delete id="findDelPrList">
+			DELETE prodreq
+			WHERE prnum in
+			<foreach collection="prList" item="arr" open="(" separator="," close=")">
+				#{arr}
+			</foreach>
+		</delete>
+		
+		<!-- 출하목록 삭제 -->
+		<delete id="findDelShList">
+			DELETE ship
+			WHERE shnum in
+			<foreach collection="shList" item="arr" open="(" separator="," close=")">
+				#{arr}
+			</foreach>
+		</delete>
 		
 		
 </mapper>

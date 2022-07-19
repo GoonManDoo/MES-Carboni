@@ -6,5 +6,6 @@ import lombok.Data;
 public class ErrinfoVO {
 	private String eicodeid;
 	private String einame;
+	private String einote;
 
 }

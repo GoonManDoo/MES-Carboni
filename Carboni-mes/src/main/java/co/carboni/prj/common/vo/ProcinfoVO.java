@@ -11,5 +11,6 @@ public class ProcinfoVO {
 	private String pithree;
 	private String pifour;
 	private String pidate;
+	private String sinum;
 
 }

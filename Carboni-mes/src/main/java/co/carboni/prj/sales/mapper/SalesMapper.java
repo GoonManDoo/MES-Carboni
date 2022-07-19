@@ -30,19 +30,31 @@ public interface SalesMapper {
 		//수주관리 > 제품모달 검색조회
 		public List<SalesVO> findGiList(@Param("giname") String giname);
 
+		
 
-
-	
-	
 	//생산의뢰관리
-	
+		
+		//생산의뢰관리 > 생산의뢰 조회
+		public List<SalesVO> findPrcloseList(@Param("startCd") String startCd, @Param("endCd") String endCd, @Param("startPr") String startPr, 
+											 @Param("endPr") String endPr, @Param("gsCode") String gsCode, @Param("complete") String complete);
+		//생산의뢰관리 > 생산의뢰 삭제
+		public void findDelPrList(SalesVO vo);
+		
+		//생산의뢰관리 > 수주일자 조회
+		public List<SalesVO> findPcndateList(@Param("startDt")String startDt, @Param("endDt")String endDt);
 	
 	//제품재고관리
 	
 	
 	//출하관리
-	
-	
+		//출하관리 > 출고목록 조회
+		public List<SalesVO> findShipList(@Param("startCp")String startCp, @Param("endCp")String endCp, 
+										 @Param("startSd")String startSd, @Param("endSd")String endSd, 
+										 @Param("gsCode")String gsCode);
+
+		//출하관리 > 출하목록 삭제
+		public void findDelShList(SalesVO vo);
+		
 	//배송관리
 	
 }
