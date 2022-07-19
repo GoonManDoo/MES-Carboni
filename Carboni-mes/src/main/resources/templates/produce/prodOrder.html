@@ -95,6 +95,12 @@
 											<td colspan="5">
 										</tr>
 										<tr>
+											<th>담당자</th>
+											<td><input type="text" id="planDt" class="form-control ht"
+													style="width: 500px;" maxlength="10" tabindex="2"></td>
+											<td colspan="5">
+										</tr>
+										<tr>
 											<th>비 고</th>
 											<td><input type="text" id="remark" class="form-control ht"
 													style="width: 500px;" maxlength="10" tabindex="2"></td>
@@ -276,38 +282,6 @@
 				<div id="planList"></div>
 			</div>
 			
-			<!-- 생산지시관리 - 생산라인선택 모달 -->
-			<div id="lineModal" style="padding:20px;" title="생산라인지정">
-			    <form class="container-fluid" id="searchForm" name="searchForm">
-			      <div class="search-area search-area-border" style="width: 100%;">
-			          <div style="margin-left: 20px; line-height: 60px;">
-			            <label class="fw" style="width: 80px; text-align: center;">원사설정</label>
-			            <select
-			              style="width: 150px; height: 28px; display: inline-block;">
-			              <option>700k</option>
-			              <option>800k</option>
-			              <option>1000k</option>
-			              <option>1100k</option>
-			            </select>
-			          </div>
-			          <div style="margin-left: 20px;">
-			            <label class="fw" style="width: 80px; text-align: center;">원료설정</label>
-			            <select
-			              style="width: 150px; height: 28px; display: inline-block;">
-			              <option>열경화수지</option>
-			              <option>열가소수지</option>
-			            </select>
-			          </div>
-			          <button type="button" class="ml-1 mw50 btn-sm btn-secondary" id="lineSearch" style="float:right;">검색</button>
-			      </div>
-			    </form>
-			    <div style="margin-top: 45px;">
-			    	<span class="tbold marr">생산라인번호</span>
-					<input type="text" class="form-control ht"
-						style="width: 200px; display:inline-block; height:28px;" readonly>
-			    </div>
-		    	<div id="lineList"></div>
-		  	</div>
 
 		</div>
 
@@ -345,9 +319,6 @@
 						header: '라인코드',
 						name: 'lineid',
 						align: 'center',
-						validation: {
-						required: true
-						}
 					}, {
 						header: '계획량',
 						name: 'ppadam',
@@ -385,20 +356,17 @@
 							required: true
 						}
 					}, {
-						header: '담당자',
-						name: 'pcdkeeper',
-						align: 'center',
-						validation: {
-							required: true
-						}
-					}, {
 						header: '계획상세번호',
 						name: 'ppdnum',
 						align: 'center'
+					}, {
+						header: '제품코드',
+						name: 'gicode'
 					}]
 				});
 				pnGrid.hideColumn('ppdnum');
-
+				pnGrid.hideColumn('gicode');
+				
 				/* 자재목록 */
 				const material = [];
 
@@ -422,7 +390,7 @@
 					}]
 				});
 
-				/* 공정선택 */
+				/* 공정조회 */
 				const process = [];
 
 				const prclist = new tui.Grid({
@@ -512,36 +480,7 @@
 					]
 				});
 				
-				/* 라인번호조회 그리드 */
-				const lineList = [];
-
-				const lineGrid = new tui.Grid({
-					el: document.getElementById('lineList'),
-					data: lineList,
-					rowHeaders : [ 'checkbox' ],
-					columns: [
-						{
-							header: '계획일자',
-							name: 'ppdate',							
-							align: 'center'
-						},
-						{
-							header: '계획번호',
-							name: 'ppnum',
-							align: 'center'
-						},
-						{
-							header: '계획명',
-							name: 'ppname',
-							align: 'center'
-						},
-						{
-							header: '비고',
-							name: 'ppnote',
-							align: 'center'
-						}
-					]
-				});
+				
 
 				// 그리드끝-----------------------------------
 
@@ -550,7 +489,6 @@
 				// 모달----------------------------------------
 				var modal1 = makeModal("#orderModal", orderView)
 				var modal2 = makeModal('#planModal', planAdd)
-				var modal3 = makeModal('#lineModal', addLine)
 
 				/* 생산지시조회 모달 */
 				$('#searchBtn').on('click', function () {
@@ -627,16 +565,32 @@
 				
 				// 그리드 함수 -------------------------------
 				
-				/* 계획목록 그리드에서 생산라인 선택 */
+				/*  계획목록 그리드에서 생산라인 선택 
 				pnGrid.on('dblclick', e => {
 					if(e.columnName == 'lineid') {
 						modal3.dialog('open')
+						lineGrid.refreshLayout();
+						$('#gicode').val(lineGrid.getValue(e.rowKey, 'gicode'))
 						
 					}
 				})
+				$('#lineSearch').on('click', function(){
+					var gicode = $('#gicode').val()
+					$.ajax({
+						url: 'addLine',
+						method: 'POST',
+						data: { gicode },
+						success: function(result) {
+							console.log(result)
+							$('#lineNum').val(result[0].lineid)
+							lineGrid.resetData(result);
+						}
+					})
+				})
 				function addLine() {
 					
-				}
+				} */
+				
 				// 그리드 함수 끝 -----------------------------
 				
 				

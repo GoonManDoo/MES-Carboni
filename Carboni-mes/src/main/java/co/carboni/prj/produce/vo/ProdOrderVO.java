@@ -40,21 +40,35 @@ public class ProdOrderVO {
 		public String ppnote; // 비고
 	
 	
-	// 전체계획
+	// 전체계획 + 생산지시상세
 		public List<String> planNums; // 미지시계획조회에서 가져온 계획번호 배열
 	
 		public String ppdnum; // 계획상세번호
 		public String giname; // 제품명
+		public String gicode; // 제품코드
 		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date prclose; // 마감일자
+		public String lineid; // 라인번호
 		public int ppadam; // 계획량
+		public int pcdam; // 지시량
+		public String pcddiv; // 생산구분
 		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
-		public Date pcdsdate; // 생산시작일
+		public Date pcdsdate; // 작업시작일
 		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
-		public Date pcdedate; // 생삼마감일
+		public Date pcdedate; // 작업마감일
+		public String pcdkeeper; // 현장담당자
+		
+	// 생산라인모달
+		public String picodeid; // 공정코드
+		public String piname; // 공정명
+		public String pione; // 1차공정
+		public String pitwo; // 2차공정
+		public String pithree; // 3차공정
+		public String pifour; // 4차공정
+		public int pidate; // 공정일수
 	
 	// 선택한 계획의 제품정보
 	

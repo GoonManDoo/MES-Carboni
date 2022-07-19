@@ -88,7 +88,7 @@
 		<insert id="addPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
 			INSERT INTO prodplan_d
 			VALUES
-			(#{ppdnum}, #{ppnum}, #{prnum}, #{gicode}, TO_NUMBER(#{ppdam}), TO_NUMBER(#{uplam}), #{ppddate})
+			(#{ppdnum}, #{ppnum}, #{prnum, jdbcType=VARCHAR}, #{gicode}, TO_NUMBER(#{ppdam}), TO_NUMBER(#{uplam}), #{ppddate})
 		</insert>
 		
 		<!-- 생산계획등록시 생산의뢰관리 상태변경 -->
@@ -105,12 +105,18 @@
 			WHERE ppnum = #{ppnum}
 		</update>
 		
+		<!-- 생산계획상세 삭제 -->
+		<delete id="delupPPdetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			DELETE FROM prodplan_d
+			WHERE ppdnum like #{ppnum}||'%'
+		</delete>
+		
 		<!-- 생산계획상세수정 -->
-		<update id="upPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+	<!-- 	<update id="upPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
 			UPDATE prodplan_d
 			SET ppdam = TO_NUMBER(#{ppdam}), uplam = TO_NUMBER(#{uplam}), ppddate = #{ppddate}
 			WHERE ppdnum = #{ppdnum}
-		</update>
+		</update> -->
 		
 		<!-- 생산계획삭제 -->
 		<delete id="removeProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
@@ -138,11 +144,13 @@
 		
 		<!-- 생산지시에 추가할 계획목록 -->
 		<select id="addPlan" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
-			SELECT p.ppnum, p.ppname, g.giname, r.prclose, (d.ppdam+d.uplam) as ppadam, d.ppddate as pcdsdate, d.ppdnum
-			FROM prodplan p, prodplan_d d, goodsinfo g, prodreq r
+			SELECT p.ppnum, p.ppname, g.giname, r.prclose, (d.ppdam+d.uplam) as ppadam, d.ppddate as pcdsdate, d.ppdnum, g.gicode, l.lineid
+			FROM prodplan p, prodplan_d d, goodsinfo g, prodreq r, lineinfo l
 			WHERE (p.ppnum = d.ppnum
 			AND
 			d.gicode = g.gicode
+			AND
+			g.gicode = l.gicode
 			AND
 			d.prnum = r.prnum)
 			AND
@@ -151,6 +159,7 @@
 				#{arr}
 			</foreach>
 		</select>
+		
 	
 	
 	

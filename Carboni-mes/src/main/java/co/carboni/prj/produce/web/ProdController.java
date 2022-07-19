@@ -91,7 +91,7 @@ public class ProdController {
 			return vo;
 		}
 		
-		// 생산계획관리 - 생산계획상세 등록
+		// 생산계획관리 - 생산계획상세 등록 + 수정 시 재등록
 		@RequestMapping("addPPlanDetail")
 		@ResponseBody
 		public void addPPlanDetail(@RequestBody List<ProdPlanVO> plans) {
@@ -105,13 +105,14 @@ public class ProdController {
 			service.updateProdPlan(vo);
 		}
 		
-		// 생산계획관리 - 생산계획상세 수정
-		@RequestMapping("upPPlanDetail")
-		@ResponseBody
-		public void upPPlanDetail(@RequestBody List<ProdPlanVO> plans) {
-			service.upPPlanDetail(plans);
-		}
-		
+		/*
+		 * // 생산계획관리 - 생산계획상세 수정
+		 * 
+		 * @RequestMapping("upPPlanDetail")
+		 * 
+		 * @ResponseBody public void upPPlanDetail(@RequestBody List<ProdPlanVO> plans)
+		 * { service.upPPlanDetail(plans); }
+		 */		
 		// 생산계획관리 - 생산계획 삭제
 		@RequestMapping("removeProdPlan")
 		@ResponseBody
@@ -139,6 +140,14 @@ public class ProdController {
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo) {
 			List<ProdOrderVO> orderPlan = service.addPlan(vo);
 			return orderPlan;
+		}
+		
+		// 생산지시관리 - 생산라인검색
+		@RequestMapping("addLine")
+		@ResponseBody
+		public List<ProdOrderVO> addLine(ProdOrderVO vo, @RequestParam String braidId, @RequestParam String moldId) {
+			System.out.println(service.addLine(vo, braidId, moldId));
+			return service.addLine(vo, braidId, moldId);
 		}
 	
 	

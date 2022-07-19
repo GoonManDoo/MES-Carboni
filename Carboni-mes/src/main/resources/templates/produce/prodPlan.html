@@ -339,24 +339,15 @@
 				}, {
 					header : '의뢰번호',
 					name: 'prnum',
-					align : 'center',
-					validation: {
-						required: true
-					}
+					align : 'center'
 				}, {
 					header : '마감일자',
 					name: 'prclose',
-					align : 'center',
-					validation: {
-						required: true
-					}
+					align : 'center'
 				}, {
 					header : '수주잔량',
 					name: 'cnrest',
-					align : 'center',
-					validation: {
-						required: true
-					}
+					align : 'center'
 				}, {
 					header : '기계획량',
 					name: 'ppdam',
@@ -730,8 +721,8 @@
 				function pplanInsert(result) {
 					$('#planNum').val(result.ppnum) // input hidden에 생산계획일 담기
 					var ppnum = $('#planNum').val()
-					ark = (pdGrid.getRowCount())-1 
-					for(i=0; i<ark+1; i++) {
+					ark = pdGrid.getRowCount()
+					for(i=0; i<ark; i++) {
 						pdGrid.setValue(i, 'ppnum', ppnum, false)
 						pdGrid.setValue(i, 'ppdnum', ppnum+'-'+(i+1), false)
 					}
@@ -768,9 +759,14 @@
 				promise.fail(failFnc);
 				
 				function pplanUpdate(){
+					for(i=0; i<pdGrid.getRowCount(); i++) {
+						pdGrid.setValue(i, 'ppnum', ppnum, false)
+						pdGrid.setValue(i, 'ppdnum', ppnum+'-'+(i+1), false)
+					}
 					allData = pdGrid.getData() // 제품목록에 있는 모든 정보
+					console.log(allData)
 					$.ajax({
-						url: 'upPPlanDetail',
+						url: 'addPPlanDetail',
 						method: 'POST',
 						data: JSON.stringify(allData), // 객체배열 json타입으로 변경
 						contentType:'application/json',
