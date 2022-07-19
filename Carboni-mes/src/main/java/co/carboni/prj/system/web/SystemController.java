@@ -26,10 +26,7 @@ public class SystemController {
 	//설비 자세히 보기
 	@RequestMapping("/ProdDetail.do")
 	public String ProdDetail(SystemVO vo, Model model) {
-		System.out.println(vo);
-		
 		model.addAttribute("detail", mapper.selectSysDetAll(vo));
-		
 		return "system/ProdDetail";
 	}
 	

@@ -10,7 +10,7 @@
 	<th:block layout:fragment="main">
 	<div class="container py-4" style="display: flex;flex-wrap: wrap;align-content: space-around;justify-content: space-around;">
 		
-		 <div th:each "detail:${detail}"  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
+		 <div th:each="AVD:${detail}"  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
 		                  <div style="width: 33rem; height: 300px; margin-bottom: 20px;">
 		                     <div class="card bg-white" style="width: 33rem; height: 260px;">
 		                        <div class="card-body"></div>
@@ -47,10 +47,10 @@
 		                           <h4 style="display: block; border-left: 2px solid gray;">headline</h4>
 		                        </div>
 		                        <form >
-		                          <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${detail.pione}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${detail.pitwo}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${detail.pithree}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${detail.pifour}"  disabled readonly>
+		                          <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pione}"  disabled readonly><br>
+	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pitwo}"  disabled readonly><br>
+	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pithree}"  disabled readonly><br>
+	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pifour}"  disabled readonly>
 		                        </form>
 		                     </div>
 		                  </div>
