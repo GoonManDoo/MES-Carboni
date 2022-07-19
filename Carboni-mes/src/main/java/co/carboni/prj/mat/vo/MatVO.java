@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
  * Program Name : 재고 관리 VO
@@ -15,6 +18,9 @@ import lombok.Data;
 */
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MatVO {
 	
 	// 생산에서 넘어오는 발주 
@@ -38,7 +44,6 @@ public class MatVO {
 	private String monum; //발주코드
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date moodate; //발주일자
-	private int mooam; //발주량
 	private int moaskam;//주문수량
 	private String mostatus;//발주상태
 	private int msciam;//자재량
@@ -55,8 +60,8 @@ public class MatVO {
 	private String pcdnum; //생산지시번호
 	
 	private String monote; //발주비고
-	private List<MatVO> nullArr; 
-	private String[] monumArr;
+	
+	private List<MatVO> list; 
 	
 	
 
