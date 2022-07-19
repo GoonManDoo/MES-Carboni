@@ -35,6 +35,7 @@ public interface MatService {
 	public List<MatVO> findCode(String cusCode, String matCode);
 	
 	// 발주에서 발주내용 등록할때 //수정할떄도 
-	public int addRequestList(MatVO vo);
+	public List<MatVO>  addRequestList(List<MatVO> list);
+	
 
 }

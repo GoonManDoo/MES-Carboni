@@ -56,9 +56,15 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
-	public int addRequestList(MatVO vo) {
-		map.addRequestList(vo);
-		return 1;
+	public List<MatVO> addRequestList(List<MatVO> list) {
+		List<MatVO> reqList = new ArrayList<MatVO>();
+		
+		for (MatVO vo : list) {
+			map.addRequestList(vo);
+			reqList.add((MatVO) map.selectReqList(vo).get(0));
+		}
+		System.out.println(reqList);
+		return reqList;
 	}
 
 

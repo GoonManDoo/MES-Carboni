@@ -258,7 +258,7 @@
 						data : gridData,
 						scrollX : false,
 						bodyHeight : 500,
-						rowHeaders : [ 'rowNum' ],
+						rowHeaders : [ 'checkbox' ],
 						columns : [ {
 							header : '발주일자',
 							sortingType : 'desc',
@@ -292,7 +292,10 @@
 						},  */{
 							header : '발주업체',
 							name :'csname',
-							align : 'center'
+							align : 'center',
+							validation :{
+								required : true
+							}
 						}, {
 							header : '발주요청량',
 							name :'mrreqam',
@@ -394,7 +397,7 @@
 						grid.on('dblclick',function(e){
 							erow = e.rowKey
 							//console.log(grid.getValue(e.rowKey, 'csname'))
-							if(grid.getValue(erow,'csname') == null){
+							if(e.columnName=='csname' && grid.getValue(erow,'csname') == null){
 								$("#reqcommodal").css('display', '')
 								clickmodal.dialog('open')
 							$.ajax({
@@ -407,6 +410,7 @@
 										company.on('click',e=>{
 											var rk = e.rowKey
 											cs = company.getRow(rk).csname
+											cscods = company.getRow(rk).cscode
 										})
 									}
 								})
@@ -417,6 +421,7 @@
 					//그리드안에 더블클릭 모달에서 선택후 확인 눌렀을떄
 					function dbclickfn() {
 						grid.setValue(erow,'csname',cs,false)
+						grid.setValue(erow,'cscode',cscods,false)
 						clickmodal.dialog('close')
 					}
 					/*메인그리드에서 검색시 출력*/
@@ -615,45 +620,32 @@
 							grid.resetData(gridData);
 						}
 					/*삭제눌렀을때*/
-					grid.on('click',e=>{
-							drk = e.rowKey
-						})
 					$('#removeBtn').on('click', function(){
-						grid.removeRow(drk)
+						grid.removeCheckedRows('')                                                                                                                                
 					})
 					
 					/*자체발주 등록할때*/
 					$('#saveBtn').on('click',function(){
-						if(grid.getValue(drk,'monum')==null){
-							let getrow= grid.getRow(drk)
-							val = {micode: getrow.micode,
-								   cscode: getrow.cscode,
-								   miname: getrow.miname,
-								   csname: getrow.csname,
-								   mostatus : 'N',
-								   moaskam : getrow.moaskam
-								   }
-							
-							console.log(val)
+						var datas = grid.getCheckedRows()
+						var checkNull = datas.some(e => {return e.monum != null})
+						
+						if(checkNull == false){
 							  $.ajax({
-								url:'addrequestlist',
-								method : 'POST',
-								data : val,
-								success :function(result){
-									console.log(result)
-									result.moodate='2022-07-18'
-									grid.refreshLayout();
-									grid.appendRow({mostatus :'N',moaskam : result.moaskam,
-													monum : result.monum,moodate : result.moodate,cscode: result.cscode,micode :result.micode,
-													csname: result.csname,miname: result.miname})
-									swal('성공', '발주가 완료되었습니다.', 'success')
-								}
-							})
-						}else{
-							/*수정할때*/
+									url:'addrequestlist',
+									method : 'POST',
+									data :  JSON.stringify(datas),
+									contentType:'application/json',
+									success :function(result){
+										grid.removeCheckedRows('')
+										grid.appendRows(result)
+										swal('성공', '발주가 완료되었습니다.', 'success')
+									}
+							 }) 
+						} else {
+							swal('','이미 등록된 값이 있습니다.', 'warning')
 						}
+							 
 					})
-    			
 					
 				})
 			</script>
