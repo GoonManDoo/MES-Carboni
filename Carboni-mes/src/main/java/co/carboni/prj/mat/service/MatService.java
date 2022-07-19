@@ -37,5 +37,8 @@ public interface MatService {
 	// 발주에서 발주내용 등록할때 //수정할떄도 
 	public List<MatVO>  addRequestList(List<MatVO> list);
 	
+	//발주에서 발주내용 삭제할떄
+	public void findDelreq(MatVO vo);
+	
 
 }

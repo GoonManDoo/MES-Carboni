@@ -132,5 +132,11 @@ public class MatController {
 	public List<MatVO> addrequestlist(@RequestBody List<MatVO> list) {
 		return service.addRequestList(list);
 	}
+	
+	@RequestMapping("finddelreq")
+	@ResponseBody
+	public void finddelreq(MatVO vo) {
+		service.findDelreq(vo);
+	}
 
 }

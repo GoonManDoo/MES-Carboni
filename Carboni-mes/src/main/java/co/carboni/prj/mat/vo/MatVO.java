@@ -61,7 +61,7 @@ public class MatVO {
 	
 	private String monote; //발주비고
 	
-	private List<MatVO> list; 
+	public List<String> dellist;
 	
 	
 

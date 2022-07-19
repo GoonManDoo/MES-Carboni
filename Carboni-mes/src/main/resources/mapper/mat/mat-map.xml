@@ -113,5 +113,17 @@
 		AND C.CSCODE=O.CSCODE )
 		AND O.MONUM= #{monum}
 	</select>
+	
+	<update id="updateReqStat"></update>
+	
+	<!-- 발주에서 발주내용 삭제할떄 -->
+	<delete id="findDelreq" parameterType="co.carboni.prj.mat.vo.MatVO">
+		delete from matord
+		where monum in
+		<foreach collection="dellist" item="arr" open="(" separator="," close=")" >
+		#{arr}
+		</foreach>
+	</delete>
+	
 
 </mapper>
