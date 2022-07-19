@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.carboni.prj.people.mapper.EmployeeMapper">
+
+	<select id="selectEmployee" resultType="co.carboni.prj.people.vo.EmployeeVO">
+		SELECT ECODE, ACODE, TO_CHAR(EHIREDATE, 'yyyy-MM-dd')EHIREDATE, EPOSITION, ENAME FROM EMPLOYEE
+	</select>
+	<update id="employeeupdate" parameterType="co.carboni.prj.people.vo.EmployeeVO">
+		UPDATE EMPLOYEE
+		<set>
+		ACODE = #{acode}
+		</set>
+		WHERE ECODE = #{ecode}
+	</update>
+
+</mapper>

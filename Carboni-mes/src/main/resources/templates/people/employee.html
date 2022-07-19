@@ -21,6 +21,16 @@
     h1 {
       margin: 20px 10px 10px 20px;
     }
+  #myf {
+    margin: 10px;
+    clear: both;
+    width: 550px;
+  }
+
+  #myf>label {
+    width: 60px;
+    font-size: 80%;
+  }
     </style>
     <body>
     
@@ -29,37 +39,71 @@
         <a href="#">홈</a> > 사원 > <b>사원관리</b>
       </div>
       <div id="container">
-    
+      <div id="btns" class="card-header">
+      <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+      <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+      </div>
+  		<form id="myf" name="myf">
+    		<label for="ecode">사원코드</label> <input type="text" id="ecode" name="ecode" readonly>
+    		<label for="acode">부여권한</label>
+    		<select name="acode" id="acode" form="myf">
+    			<option value=""></option>
+    			<option value="a">관리자</option>
+    			<option value="u">사용자</option>
+			</select>
+  		</form>
     
         <div class="card mb-4">
           <div class="card-body">
             <table id="datatablesSimple">
               <thead>
                 <tr>
-                  <th><input type="checkbox"></th>
+                  <th><input type="radio" name="emp"></th>
                   <th>사원코드</th>
-                  <th>권한코드</th>
                   <th>이름</th>
                   <th>입사일</th>
                   <th>직책</th>
+                  <th>권한코드</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>emp-001</td>
-                  <td>a</td>
-                  <td>Steven King</td>
-                  <td>1990-02-11</td>
-                  <td>CEO</td>
+                <tr th:each="e : ${employee}">
+                  <td><input type="radio" name="emp"></td>
+                  <td th:text="${e.ecode}"></td>
+                  <td th:text="${e.ename}"></td>
+                  <td th:text="${e.ehiredate}"></td>
+                  <td th:text="${e.eposition}"></td>
+                  <td th:text="${e.acode}"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-    
       </div>
-    
     </body>
+    
+    <script>
+    
+  $(document).on('click', 'input[name="emp"]', function () {
+    $(ecode).val($('input[name=emp]:checked').parent().parents().children().eq(1).text())
+    $(acode).val($('input[name=emp]:checked').parent().parents().children().eq(5).text()).prop("selected",true);
+  });
+
+  function check() {
+    if ($('#ecode').val() == '') {
+      swal('항목을 입력하십시오', '사원코드는 필수 입력 항목입니다.', 'warning');
+    } else {
+      document.myf.action = 'employeeupdate';
+      document.myf.submit();
+    }
+  }
+  
+  function del() {
+  	swal('준비중입니다', '현재 사원을 삭제할 수 없습니다', 'info');
+  }
+  
+    
+    </script>
+    
     </th:block>
     </html>
