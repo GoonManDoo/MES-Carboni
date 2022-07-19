@@ -39,6 +39,8 @@ public interface SalesService {
 		//생산의뢰관리 > 수주일자조회
 		public List<SalesVO> findPcndateList(String startDt, String endDt);
 
+		//생산의뢰관리 > 생산의뢰등록
+		public void prodReqInsert(List<SalesVO> allreq);
 		
 	//제품재고관리
 	
@@ -50,6 +52,24 @@ public interface SalesService {
 		
 		//출하관리 > 출하목록 삭제
 		public void findDelShList(SalesVO vo);
+		
+	//제품재고관리
+		
+		//제품재고관리 > 제품재고 조회
+		public List<SalesVO> findStkList(String gssCode);
+		
+		//제품재고관리 > 제품재고 삭제
+		public void findDelGsmList(SalesVO vo);
+		
+		//제품재고관리 > 제품재고등록 제품검색조회
+		public List<SalesVO> findStkProdList(String addStk);
+		
+		//제품재고관리 > 제품재고등록 제품전체조회
+		public List<SalesVO> findAllStkProdList(SalesVO vo);
+		
+		//제품재고관리 > 제품재고등록
+		public void goodsStkInsert(List<SalesVO> allstk);
+		
 	
 	
 	//배송관리

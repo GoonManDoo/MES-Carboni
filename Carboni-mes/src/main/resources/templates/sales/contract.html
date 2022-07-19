@@ -3,7 +3,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <style>
 .btn-secondary {
 	margin-left: 20px;
@@ -192,6 +192,7 @@ span {
 			$('#removeBtn').on('click', function() {
 				delGrid = grid.getCheckedRows()
 				var cnList = delGrid.map((e) => {return e.cnnum})
+				console.log(cnList)
 				$.ajax({
 					url: 'delCnList',
 					method: 'POST',
