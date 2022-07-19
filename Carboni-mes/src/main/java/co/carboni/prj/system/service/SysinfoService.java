@@ -10,7 +10,7 @@ public interface SysinfoService {
 	List<SystemVO> selectSysAll();
 	
 	//설비 상세보기 관련 1쿼리 1값
-	List<SystemVO> selectSysDetAll();
+	List<SystemVO> selectSysDetAll(SystemVO vo);
 	
 	
 	//설비 정보 등록

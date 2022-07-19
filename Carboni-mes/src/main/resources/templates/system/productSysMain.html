@@ -1,51 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-   layout:decorate="~{layouts/layout}">
-<link rel="stylesheet"
-   href="https://uicdn.toast.com/toast-ui.select-box/latest/toastui-select-box.css">
-<script
-   src="https://uicdn.toast.com/toast-ui.select-box/latest/toastui-select-box.js"></script>
-<link rel="stylesheet"
-   href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
-<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
-<link rel="canonical"
-   href="https://getbootstrap.com/docs/5.2/examples/jumbotron/">
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet"
-   href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet"
-   href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
-
-
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
+<link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/jumbotron/">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
+<style>
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+  </style>
 <body>
-
    <th:block layout:fragment="main">
-
-  
-      </head>
-      <body>
          <div class="container py-4" style="display: flex; flex-wrap: wrap; max-width:1270px">
-			<tr th:each="div : ${divalign}">
-	            <td>
+		<!-- ================================================================================================================================== -->
+		
+		<th:block th:each=" sysvo :${divalign}">
 				<div class="col-md-6" id="frame1">
 	               <!-- 설비 -->
 	               <div class="h-100 p-3 bg-white border rounded-3 position-relative"
 	                  style="display: flex; flex-wrap: wrap; justify-content: space-evenly; width: 620px;">
 	                  <div
 	                     style="width: 318px; display: block; height: 60px; margin-left: -9px; position: absolute; top: 22px; left: 40px;">
-	                     <h2 style="display: block; border-left: 2px solid gray;"><tr th:text="${div.siname}"/></h2>
+	                     <h5 style="display: block; border-left: 2px solid gray;" th:text="${sysvo.siname}"></h5>
 	                     <!--headline  -->
 	                  </div>
 	                  <div class="card bg-white" style="width: 18rem; margin-top: 68px;">
 	                     <div class="card-body">
 	                        <form action="#" id="procInSys">
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${div.pione}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${div.pitwo}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${div.pithree}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${div.pifour}"  disabled readonly>
+	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${sysvo.pione}"  disabled readonly><br>
+	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${sysvo.pitwo}"  disabled readonly><br>
+	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${sysvo.pithree}"  disabled readonly><br>
+	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${sysvo.pifour}"  disabled readonly>
 	                        </form>
 	                        
 	                     </div>
@@ -67,14 +59,12 @@
 	                        <form></form>
 	                     </div>
 	                  </div>
-	                  <button type="button" style="margin-bottom: -8px; margin-top: 10px; margin-left: 426px; border: none; background-color: white; font-size: x-large;">
-	                  <th:href="/"> 자세히보기 > </button>
+	                  <a href="ProdDetail.do?systemNum=${sysvo.sinum}"
+	                  style="margin-bottom: -8px; margin-top: 10px; margin-left: 426px; border: none; background-color: white; font-size: x-large;" th:href="@{/ProdDetail.do(sinum=${sysvo.sinum})}" >자세히보기</a>
 	               </div>     
 	            </div>
-	            </td>
-			</tr>
-            
-			<!-- ================================================================================================================================== -->
+			</th:block>
+		
             <!-- ================================================================================================================================== -->
 
             <div id="NewProdSys"style="width: 100%; margin-top: 35px; display: flex; justify-content: center;">
@@ -95,61 +85,56 @@
                   <div class="modal-content">
                      <div class="modal-header" style="border: none;"></div>
                      <div class="modal-body">
-                        <form>
-                           <input class="form-control bg-white" style="text-align: center;" type="text"value="${}" aria-label="자동입력" disabled readonly><br>
-                           <input class="form-control"type="text" placeholder="설비 이름을 입력해주세요"aria-label="default input example" style="text-align: center;"><br>
-                           <div class="tui-datepicker-input tui-datetime-input tui-has-focus" style="width: 466px;height: 40px; border-radius: 5px; border-color: #cdcdcd;">
-                                    <input type="text" class="form-control" id="planDt"aria-label="Date-Time" tabindex="1" style="text-align: center; font-size: unset;"> 
-                                    <span class="tui-ico-date"></span>
-                           </div>
-                           <div id="wrapper" style="margin-top: -1px;"></div>
-                           <div style="margin: 20px; line-height: 60px;">
-                           <select style="width: 466px;height: 40px;border-radius: 5px;border-color: #cdcdcd;margin-left: -20px;text-align: center;">
-                              <option>사원1</option>
-                              <option>사원2</option>
-                              <option>사원3</option>
-                           </select>
-                        </div>
+                        <form action="systemInsert">
+                          <input class="form-control"type="text" placeholder="설비 이름을 입력해주세요" style="text-align: center;" id="siname" name="siname"><br>
+                          <input class="form-control"type="text" placeholder="초기 가동시 사용할 공정선택"style="text-align: center;" id="picodeid" name="picodeid"><br>                
+                          <input class="form-control"type="text" placeholder="점검 주기를 입력해주세요 ex: 30"style="text-align: center;" id="simaint" name="simaint"><br>
+                          <input class="form-control"type="text" placeholder="적정 동작 온도를 입력해주세요"style="text-align: center;"id="sisaftem" name="sisaftem"><br>
+                          <input class="form-control btn btn-primary" type="submit" value="저장" style="text-align: center;"><br>
                         </form>
                      </div>
                      <div class="modal-footer"
                         style="display: flex; justify-content: center; border: none;">
                         <button type="button" class="btn btn-secondary"
                            data-bs-dismiss="modal">Close</button>
-                        <button type="button" id="acceptMod" class="btn btn-primary">Save
-                           changes</button>
                      </div>
                   </div>
                </div>
             </div>
 
             <!-- ================================================================================================================================== -->
-
- 
+			<!--modal in modal-->
+			
+			
+		
+ 			<!-- ================================================================================================================================== -->
           
 
          </div>
 
-         <script>
-         
-         const datepicker1 = new tui.DatePicker('#wrapper', {
-            date : new Date(),
-            input : {
-               element : '#planDt',
-               format : 'yyyy-MM-dd'
-            },
-            language : 'ko'
-
-         });
-         
-         
-
-
-
-
-
-
-</script>
+     <script type="text/javascript">         
+     
+	
+		$("#newInsertSystem").on("click", function() {
+						$("#searchmodal").css('display', '')
+						log.dialog('open')
+						$.ajax({
+							url : 'companyList',
+							method : 'POST',
+							dataType : 'json',
+							success : function(result) {
+								gomo.refreshLayout();
+								gomo.resetData(result)
+								gomo.on('click',e=>{
+									var rk = e.rowKey
+									cs = gomo.getRow(rk).csname
+									csco = gomo.getRow(rk).cscode
+								})
+							}
+						})
+					})
+	</script>
+	
    </th:block>
 </body>
 
