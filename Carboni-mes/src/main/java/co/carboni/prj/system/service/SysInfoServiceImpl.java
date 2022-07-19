@@ -23,8 +23,8 @@ public class SysInfoServiceImpl implements SysinfoService{
 	}
 	
 	@Override
-	public List<SystemVO> selectSysDetAll() {
-		return map.selectSysDetAll();
+	public List<SystemVO> selectSysDetAll(SystemVO vo) {
+		return map.selectSysDetAll(vo);
 	}
 	
 	

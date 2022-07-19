@@ -7,7 +7,7 @@ import co.carboni.prj.system.vo.SystemVO;
 public interface SysinfoMapper {
 	public List<SystemVO> selectSysAll();
 	
-	List<SystemVO> selectSysDetAll();
+	public List<SystemVO> selectSysDetAll(SystemVO vo);
 	
 	
 	//설비 정보 등록
