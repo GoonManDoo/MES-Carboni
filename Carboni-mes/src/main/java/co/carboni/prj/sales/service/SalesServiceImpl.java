@@ -107,14 +107,14 @@ public class SalesServiceImpl implements SalesService {
 				return mapper.findAllStkProdList(vo);
 			}
 			
-			//제품재고관리 > 제품재고등록
+			//제품재고관리 > 제품재고수정
 			@Override
-			public void goodsStkInsert(List<SalesVO> allstk) {
+			public void goodsStkUpdate(List<SalesVO> allstk) {
 				for (SalesVO vo : allstk) {
-					mapper.goodsStkInsert(vo);
 					mapper.updateStkStat(vo);
 				}
 			}
+			//mapper.goodsStkInsert(vo);
 			
 		//출하관리
 			

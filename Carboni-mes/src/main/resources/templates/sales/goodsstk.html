@@ -80,8 +80,9 @@ span {
 		 
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-				<button id="searchBtn" class="btn btn-secondary">조회</button>
 				<button id="insertBtn" class="btn btn-secondary">등록</button>
+				<button id="searchBtn" class="btn btn-secondary">조회</button>
+				<button id="updateBtn" class="btn btn-secondary">수정</button>
 				<button id="deleteBtn" class="btn btn-secondary">삭제</button>
 			</div>
 		</div>
@@ -126,7 +127,7 @@ span {
 			</div>
 			</div>
 			
-		<!-- 제품재고등록 모달 그리드 -->
+		<!-- 제품재고수정 모달 그리드 -->
 		<div class="container-fluid px-4">
 			<div class="card mb-4">
 				<div class="card-header" style="text-align: center;">
@@ -156,7 +157,7 @@ span {
 
 	$(function() {
 		
-		/* 제품재고 조회 */
+		/* 제품재고 조회 ok -> 수정되도록 editer */ 
 		$('#searchBtn').on('click', function() {
 			var gssCode = $('#leftinput1').val()
 				if($('#leftinput1').val() == '') {
@@ -173,7 +174,7 @@ span {
 			})
 		})
 		
-		/* 제품재고 삭제 */
+		/* 제품재고 삭제 ok */
 		$('#deleteBtn').on('click', function() {
 			delGrid = grid.getCheckedRows()
 			var gsmList = delGrid.map((e) => {return e.gsmnum})
@@ -184,6 +185,22 @@ span {
 				success: function() {
 					grid.removeCheckedRows('')
 					swal("삭제 성공!!", "선택한 제품재고 내역이 삭제되었습니다.", "success");
+				}
+			})
+		})
+		
+		/* 제품재고수정 */
+		$('#updateBtn').on('click', function(){
+			const allstk = grid.getCheckedRows();
+			$.ajax({
+				url : 'goodsStkUpdate',
+				method: 'POST',
+				data: JSON.stringify(allstk),
+				contentType: 'application/json',
+				success: function() {
+					swal("수정 성공!!", "선택한 제품재고 내역이 수정되었습니다.", "success");
+				
+					/* 07-19일 삭제 성공 경고창 띄우기, 등록창 그리드 지우고 폼으로 새로 만들기 */
 				}
 			})
 		})
@@ -211,6 +228,7 @@ span {
 			modal1 = makeModal("#prodNameModal", giup1)
 		var modal2 = makeModal("#goodsStkModal", check)
 			
+		//---------------------------------------------
 		/* 제품재고등록 모달 버튼 */
 		$('#insertBtn').on('click', function() {
 			$("#goodsStkModal").css('display', '')
@@ -256,9 +274,10 @@ span {
 			})
 			modal2.dialog('close')
 		}
+		//---------------------------------------------------
 		
 
-		/* 제품정보 모달 */
+		/* 제품정보 모달 -> 메인페이지 조회용 */
 		$("#leftinput").on("click", function() {
 					$("#prodNameModal").css('display', '')
 					modal1.dialog('open')
@@ -277,7 +296,6 @@ span {
 						}
 					})
 				})
-				
 		/* 제품정보 모달 검색 이벤트 */
 		$('#gisearchBtn').on('click', function() {
 			var giname = $('#giinput').val()
@@ -295,16 +313,12 @@ span {
 				}
 			})
 		})
-				
-		
-		
 		/*제품정보 검색조회 모달 확인버튼 눌렀을떄 */
 		function giup() {
 			$('#leftinput').val(gin1)
 			$('#leftinput1').val(gic1)
 			modal1.dialog('close')
 		}
-
 		/*제품정보 전체조회 모달 확인버튼 눌렀을떄 */
 		function giup1() {
 			$('#leftinput').val(gin)
@@ -313,6 +327,7 @@ span {
 		}
 
 		
+		// 그리드 -----------------------------------------------
 
 		/* 메인화면 그리드 */
 		const gridData = [];
@@ -341,7 +356,8 @@ span {
 			}, {
 				header : '제품재고량',
 				name : 'gsam',
-				align : 'center'
+				align : 'center',
+				editor: 'text',
 			}, {
 				header : '단위',
 				name : 'giunit',

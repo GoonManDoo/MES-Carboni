@@ -74,8 +74,8 @@ public interface SalesMapper {
 			public List<SalesVO> findAllStkProdList(SalesVO vo);
 			
 			//제품재고관리 > 제품재고등록
-			public void goodsStkInsert(SalesVO vo); //제품재고등록
 			public void updateStkStat(SalesVO vo);  //제품재고변경
+				//public void goodsStkInsert(SalesVO vo); //제품재고등록
 
 
 		

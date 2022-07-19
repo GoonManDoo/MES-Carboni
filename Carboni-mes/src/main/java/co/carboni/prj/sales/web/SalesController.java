@@ -115,11 +115,11 @@ public class SalesController {
 			service.prodReqInsert(allreq);
 		}
 		
-		//제품재고관리 > 제품재고등록
-		@RequestMapping("goodsStkInsert")
+		//제품재고관리 > 제품재고수정
+		@RequestMapping("goodsStkUpdate")
 		@ResponseBody
-		public void goodsStkInsert(@RequestBody List<SalesVO> allstk) {
-			service.goodsStkInsert(allstk);
+		public void goodsStkUpdate(@RequestBody List<SalesVO> allstk) {
+			service.goodsStkUpdate(allstk);
 		}
 				
 				

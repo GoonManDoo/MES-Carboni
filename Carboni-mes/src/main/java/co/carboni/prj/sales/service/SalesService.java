@@ -67,8 +67,8 @@ public interface SalesService {
 		//제품재고관리 > 제품재고등록 제품전체조회
 		public List<SalesVO> findAllStkProdList(SalesVO vo);
 		
-		//제품재고관리 > 제품재고등록
-		public void goodsStkInsert(List<SalesVO> allstk);
+		//제품재고관리 > 제품재고수정
+		public void goodsStkUpdate(List<SalesVO> allstk);
 		
 	
 	
