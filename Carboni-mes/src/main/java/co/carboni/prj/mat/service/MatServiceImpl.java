@@ -67,6 +67,11 @@ public class MatServiceImpl implements MatService {
 		return reqList;
 	}
 
+	@Override
+	public void findDelreq(MatVO vo) {
+		map.findDelreq(vo);
+	}
+
 
 
 }

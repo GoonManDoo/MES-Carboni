@@ -35,7 +35,11 @@ public interface MatMapper {
 	public List<MatVO> findCode(@Param("cusCode") String cusCode, @Param("matCode") String matCode);
 
 	// 발주에서 발주내용 등록할때 //수정할떄도
-	public int addRequestList(MatVO vo);
-	public List<MatVO> selectReqList(MatVO vo);
+	public int addRequestList(MatVO vo); //인서트
+	public List<MatVO> selectReqList(MatVO vo); //인서트값 다시불러옴
+	public void updateReqStat(MatVO vo); //요청사항 상태변경
+	
+	//발주에서 발주내용 삭제할떄
+	public void findDelreq(MatVO vo);
 
 }
