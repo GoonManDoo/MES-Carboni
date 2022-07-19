@@ -70,14 +70,19 @@
 	
 	
 		<!-- 제품재고 등록 -->
-		<insert id="goodsStkInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" useGeneratedKeys="true" keyColumn="gsmnum" keyProperty="gsmnum">
+		<!-- <insert id="goodsStkInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" useGeneratedKeys="true" keyColumn="gsmnum" keyProperty="gsmnum">
 			INSERT INTO goodsstk
-			VALUES (#{gicode}, #{gsam}, ('PR-'||TO_CHAR(goodsstk_GSMNUM_seq.nextval)))
-		</insert>
+			VALUES (#{gicode}, #{gsam}, ('GSM-'||TO_CHAR(goodsstk_GSMNUM_seq.nextval)))
+			<selectKey resultType="string" keyProperty="gsmnum" order="AFTER">
+				SELECT 'GSM-'||max(TO_NUMBER(SUBSTR(gsmnum, 5))) gsmnum FROM goodsstk
+			</selectKey>
+		</insert> -->
 		
-		<!-- 제품재고등록 -> 수정(재고수량 변경) -->
+		<!-- 제품재고등록 -> 수정(재고 수량 변경) -->
 		<update id="updateStkStat" parameterType="co.carboni.prj.sales.vo.SalesVO">
-		
+			UPDATE goodsstk
+			SET gsam = #{gsam}
+			WHERE gsmnum = #{gsmnum}
 		</update>
 		
 		<!-- 생산의뢰 조회 -->
