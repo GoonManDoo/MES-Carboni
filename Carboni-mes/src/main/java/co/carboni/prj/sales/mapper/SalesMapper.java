@@ -43,7 +43,11 @@ public interface SalesMapper {
 		//생산의뢰관리 > 수주일자 조회
 		public List<SalesVO> findPcndateList(@Param("startDt")String startDt, @Param("endDt")String endDt);
 	
-	//제품재고관리
+		//생산의뢰관리 > 생산의뢰등록
+		public void prodReqInsert(SalesVO vo); //생산의뢰등록
+		public void updateCnStat(SalesVO vo);  //수주상태변경 cnstatus
+	
+		//제품재고관리
 	
 	
 	//출하관리
@@ -54,6 +58,26 @@ public interface SalesMapper {
 
 		//출하관리 > 출하목록 삭제
 		public void findDelShList(SalesVO vo);
+		
+	//제품재고관리
+		
+			//제품재고관리 > 제품재고 조회
+			public List<SalesVO> findStkList(String gsCode);
+			
+			//제품재고관리 > 제품재고 삭제
+			public void findDelGsmList(SalesVO vo);
+			
+			//제품재고관리 > 제품재고등록 제품검색조회
+			public List<SalesVO> findStkProdList(@Param("addStk") String addStk);
+			
+			//제품재고관리 > 제품재고등록 제품전체조회
+			public List<SalesVO> findAllStkProdList(SalesVO vo);
+			
+			//제품재고관리 > 제품재고등록
+			public void goodsStkInsert(SalesVO vo); //제품재고등록
+			public void updateStkStat(SalesVO vo);  //제품재고변경
+
+
 		
 	//배송관리
 	

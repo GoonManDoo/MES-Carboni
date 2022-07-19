@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,7 @@ public class SalesController {
 			List<SalesVO> cndateList = service.findCndateList(startDt, endDt, cusCode, goodsCode);
 			return cndateList;
 		}
+		
 		
 		//수주관리 > 수주목록 삭제
 		@RequestMapping("delCnList")
@@ -91,6 +93,83 @@ public class SalesController {
 			return prCloseList;
 		}
 		
+		//생산의뢰관리 > 수주일자 조회
+		@RequestMapping("pCndateList")
+		@ResponseBody
+		public List<SalesVO> pCndateList(@RequestParam String startDt, @RequestParam String endDt) {
+			List<SalesVO> pCndateList = service.findPcndateList(startDt, endDt);
+			return pCndateList;
+		}
+		
+		//생산의뢰관리 > 생산의뢰목록 삭제
+		@RequestMapping("delPrList")
+		@ResponseBody
+		public void delPrList(SalesVO vo) {
+			service.findDelPrList(vo);
+		}
+		
+		//생산의뢰관리 > 생산의뢰등록
+		@RequestMapping("prodReqInsert")
+		@ResponseBody
+		public void prodReqInsert(@RequestBody List<SalesVO> allreq) {
+			service.prodReqInsert(allreq);
+		}
+		
+		//제품재고관리 > 제품재고등록
+		@RequestMapping("goodsStkInsert")
+		@ResponseBody
+		public void goodsStkInsert(@RequestBody List<SalesVO> allstk) {
+			service.goodsStkInsert(allstk);
+		}
+				
+				
+
+	// 제품재고관리
+	@RequestMapping("/goodsstk.do")
+	public String goodsstk() {
+		return "sales/goodsstk";
+	}
+	
+		//제품재고관리 > 제품재고등록 제품검색조회
+		@RequestMapping("stkProdList")
+		@ResponseBody
+		public List<SalesVO> stkProdList(@RequestParam("addStk") String addStk) {
+			List<SalesVO> stkProdList = service.findStkProdList(addStk);
+			System.out.println(stkProdList);
+			return stkProdList;
+		}
+		
+		//제품재고관리 > 제품재고등록 전체검색조회
+		@RequestMapping("allStkProdList")
+		@ResponseBody
+		public List<SalesVO> allStkProdList(SalesVO vo) {
+			List<SalesVO> allStkProdList = service.findAllStkProdList(vo);
+			return allStkProdList;
+			
+		}
+		
+		//제품재고관리 > 제품재고 조회
+		@RequestMapping("stkList")
+		@ResponseBody
+		public List<SalesVO> stkList(@RequestParam String gssCode) {
+			List<SalesVO> stkList = service.findStkList(gssCode);
+			return stkList;
+		}
+		
+		//제품재고관리 > 제품재고 삭제
+		@RequestMapping("delGsmList")
+		@ResponseBody
+		public void delGsmList(SalesVO vo) {
+			service.findDelGsmList(vo);
+		}
+				
+
+	// 출하관리
+	@RequestMapping("/shipping.do")
+	public String shipping() {
+		return "sales/shipping";
+	}
+	
 		//출하관리 > 출고일자 조회
 		@RequestMapping("shipList")
 		@ResponseBody
@@ -107,35 +186,6 @@ public class SalesController {
 		public void delShList(SalesVO vo) {
 			service.findDelShList(vo);
 		}
-		
-		//생산의뢰관리 > 수주일자 조회
-		@RequestMapping("pCndateList")
-		@ResponseBody
-		public List<SalesVO> pCndateList(@RequestParam String startDt, @RequestParam String endDt) {
-			List<SalesVO> pCndateList = service.findPcndateList(startDt, endDt);
-			return pCndateList;
-		}
-		
-		//생산의뢰관리 > 생산의뢰목록 삭제
-		@RequestMapping("delPrList")
-		@ResponseBody
-		public void delPrList(SalesVO vo) {
-			service.findDelPrList(vo);
-		}
-				
-				
-
-	// 제품재고관리
-	@RequestMapping("/goodsstk.do")
-	public String goodsstk() {
-		return "sales/goodsstk";
-	}
-
-	// 출하관리
-	@RequestMapping("/shipping.do")
-	public String shipping() {
-		return "sales/shipping";
-	}
 
 	// 배송관리
 	@RequestMapping("/deliver.do")

@@ -167,8 +167,8 @@ margin-right : -500px;
 			<div id="gridcn"></div>
 		</div>
 	</div>
-	
 	</div>
+	
 	</div>
 
 <script>
@@ -227,32 +227,26 @@ margin-right : -500px;
 				buttons : {
 					'확인' : fnc,
 					'취소' : function() {
+						jepoom.resetData(giupdata);
+						reqprod.resetData(checkdata);
+						$('#startCndate1').val(new Date());
+						$('#endCndate1').val(new Date());
 						$(this).dialog('close')
 					}
 				}
 			});
 			$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-			$('.ui-dialog-titlebar-close').html('X').css('border','none')
+			$('.ui-dialog-titlebar-close').html('X').css('border','none').on('click', function() {
+				jepoom.resetData(giupdata);
+				reqprod.resetData(checkdata);
+				$('#startCndate1').val(new Date());
+				$('#endCndate1').val(new Date());
+				
+			})
+			
 			return dialog;
 		}
 
-		
-		/* 생산의뢰목록 모달 검색 이벤트 */
-		/* $('#cnsearchBtn').on('click', function() {
-			var cnnum = $('#cninput').val()
-			$.ajax({
-				url: 'cnsList',
-				method: 'POST',
-				data : {cnnum},
-				success: function(result) {
-					reqprod.resetData(result)
-					reqprod.on('click', e => {
-						var rr = e.rowKey
-						cnu = reqprod.getRow(rr)
-					})
-				}
-			})
-		}) */
 		
 		var modal1 = makeModal("#prodNameModal", giup)
 			modal1 = makeModal("#prodNameModal", giup1)
@@ -262,7 +256,8 @@ margin-right : -500px;
 		$('#insertBtn').on('click', function() {
 			$("#prodReqModal").css('display', '')
 			modal2.dialog('open')
-					reqprod.refreshLayout()
+			reqprod.refreshLayout()
+			
 		})
 		
 		/* 생산의뢰등록 수주기간 검색 */
@@ -276,13 +271,25 @@ margin-right : -500px;
 				success: function(result) {
 					reqprod.refreshLayout();
 					reqprod.resetData(result)
-					/* reqprod.on('click', e => {
-						var rr = e.rowKey
-					}) */
-				
 				}
 			})
 		})
+		
+		/* 생산의뢰등록 확인 눌렀을때 */
+		function check() {
+			const allreq = reqprod.getCheckedRows();
+			console.log(allreq)
+			$.ajax ({
+				url : 'prodReqInsert',
+				method: 'POST',
+				data: JSON.stringify(allreq),
+				contentType:'application/json',
+				success: function() {
+				}
+				
+			}) 
+			modal2.dialog('close')
+		}
 
 		/* 제품정보 모달 */
 		$("#leftinput").on("click", function() {
@@ -336,11 +343,6 @@ margin-right : -500px;
 			modal1.dialog('close')
 		}
 		
-		/* 생산의뢰등록 전체조회 모달 확인버튼 눌렀을때 */
-		function check() {
-			modal2.dialog('close')
-		}
-
 		
 
 		

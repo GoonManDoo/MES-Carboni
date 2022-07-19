@@ -19,7 +19,7 @@ public class SalesServiceImpl implements SalesService {
 		//수주관리 > 수주목록 삭제
 		@Override
 		public void findDelCnList(SalesVO vo) {
-			
+			mapper.findDelCnList(vo);
 		}
 		
 		//수주관리 > 수주일자조회
@@ -62,6 +62,7 @@ public class SalesServiceImpl implements SalesService {
 			
 			//생산의뢰관리 > 생산의뢰 삭제
 			public void findDelPrList(SalesVO vo) {
+				mapper.findDelPrList(vo);
 			}
 			
 			//생산의뢰관리 > 수주일자조회
@@ -69,13 +70,55 @@ public class SalesServiceImpl implements SalesService {
 			public List<SalesVO> findPcndateList(String startDt, String endDt) {
 				return mapper.findPcndateList(startDt, endDt);
 			}
+			
+			//생산의뢰관리 > 생산의뢰등록
+			@Override
+			public void prodReqInsert(List<SalesVO> allreq) {
+				for (SalesVO vo : allreq) {
+					mapper.prodReqInsert(vo);
+					mapper.updateCnStat(vo);
+					
+				}
+			}
 		
 		//제품재고관리
 		
+			//제품재고관리 > 제품재고 조회
+			@Override
+			public List<SalesVO> findStkList(String gssCode) {
+				return mapper.findStkList(gssCode);
+			}
+			
+			//제품재고관리 > 제품재고 삭제
+			@Override
+			public void findDelGsmList(SalesVO vo) {
+				mapper.findDelGsmList(vo);
+			}
 		
+			//제품재고관리 > 제품재고등록 제품검색조회
+			@Override
+			public List<SalesVO> findStkProdList(String addStk) {
+				return mapper.findStkProdList(addStk);
+			}
+		
+			//제품재고관리 > 제품재고등록 제품전체조회
+			@Override
+			public List<SalesVO> findAllStkProdList(SalesVO vo) {
+				return mapper.findAllStkProdList(vo);
+			}
+			
+			//제품재고관리 > 제품재고등록
+			@Override
+			public void goodsStkInsert(List<SalesVO> allstk) {
+				for (SalesVO vo : allstk) {
+					mapper.goodsStkInsert(vo);
+					mapper.updateStkStat(vo);
+				}
+			}
+			
 		//출하관리
 			
-			//생산의뢰관리 > 생산의뢰 조회
+			//출하관리 > 생산의뢰 조회
 			@Override
 			public List<SalesVO> findShipList(String startCp, String endCp, String startSd, String endSd, String gsCode){
 				return mapper.findShipList(startCp, endCp, startSd, endSd, gsCode);
@@ -83,7 +126,14 @@ public class SalesServiceImpl implements SalesService {
 			
 			//출하관리 > 출하목록 삭제
 			public void findDelShList(SalesVO vo) {
+				mapper.findDelShList(vo);
 			}
+			
+
+			
+			
+		
+
 		
 		//배송관리
 }

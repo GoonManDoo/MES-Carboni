@@ -3,6 +3,8 @@ package co.carboni.prj.sales.vo;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
@@ -29,13 +31,16 @@ public class SalesVO {
 	public String cstel;    //거래처전화번호
 	public String cnstatus; //출하진행상태
 	
-	public List<String> cnList; //삭제할 수주번호 목록
-	public List<String> prList; //삭제할 생산의뢰번호 목록
+	public List<String> cnList;  //삭제할 수주번호 목록
+	public List<String> prList;  //삭제할 생산의뢰번호 목록
+	public List<String> shList;  //삭제할 출하번호목록
+	public List<String> gsmList; //삭제할 제품재고목록
 	
 	
 	//생산의뢰관리
 	public String prnum;    //의뢰번호
 	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	public Date prclose;    //마감일자
 	public String prstatus; //마감여부
 	
@@ -54,7 +59,8 @@ public class SalesVO {
 	public String dcode;    //거래처코드(배송용)
 	
 	//제품재고관리
-	public String gsstkman; //제품재고관리번호
+	public String gsmnum; 	//제품재고관리번호
 	public int gsam;        //제품재고량
+	public int gisafe; 		//제품안전재고
 	
 }
