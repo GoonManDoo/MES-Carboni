@@ -611,7 +611,7 @@
 					success: function(result) {
 						matGrid.resetOriginData()
 						matGrid.resetData(result)
-						mrk = matGrid.getRowCount() // 로우키라고 생각
+						mrk = matGrid.getRowCount()
 						// 그리드에 값 넣어주기
 						for(i=0; i<mrk; i++) {
 							// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
@@ -620,7 +620,7 @@
 								matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
 								matGrid.addCellClassName(i, 'lamount', 'matDanger')
 								matGrid.on('dblclick', el => {
-									if(matGrid.getValue(el.rowKey, 'lamount') !== null) {
+									if(el.columnName == 'lamount' && matGrid.getValue(el.rowKey, 'lamount') !== null) {
 										mc = matGrid.getRow(el.rowKey).micode
 										oa = matGrid.getRow(el.rowKey).lamount
 										$('#matCode').val(mc)

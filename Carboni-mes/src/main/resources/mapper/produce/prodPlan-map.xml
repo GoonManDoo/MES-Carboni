@@ -79,9 +79,10 @@
 			INSERT INTO prodplan
 			VALUES (('PP-'||PRODPLAN_PPNUM_SEQ.nextval), #{ppdate}, #{ppname}, '미지시', #{ppnote})
 			<selectKey resultType="string" keyProperty="ppnum" order="AFTER">
-				select 'PP-'||max(TO_NUMBER(SUBSTR(ppnum, 4))) as ppnum from prodplan
+				SELECT 'PP-'||max(TO_NUMBER(SUBSTR(ppnum, 4))) AS ppnum FROM prodplan
 			</selectKey>
 		</insert>
+		
 		
 		<!-- 생산계획상세등록 -->
 		<insert id="addPPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
@@ -89,6 +90,13 @@
 			VALUES
 			(#{ppdnum}, #{ppnum}, #{prnum}, #{gicode}, TO_NUMBER(#{ppdam}), TO_NUMBER(#{uplam}), #{ppddate})
 		</insert>
+		
+		<!-- 생산계획등록시 생산의뢰관리 상태변경 -->
+		<update id="updatePReqStat" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
+			UPDATE prodreq
+			SET PRSTATUS = 'Y'
+			WHERE prnum = #{prnum}
+		</update>
 		
 		<!-- 생산계획수정 -->
 		<update id="updateProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">

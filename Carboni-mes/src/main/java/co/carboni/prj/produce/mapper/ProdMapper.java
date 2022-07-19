@@ -33,7 +33,8 @@ public interface ProdMapper {
 		public void requestMat(ProdPlanVO vo);
 	
 		// 생산계획등록
-		public int addProdPlan(ProdPlanVO vo);
+		public int addProdPlan(ProdPlanVO vo); // 계획등록
+		public void updatePReqStat(ProdPlanVO vo); // 생산의뢰 상태 수정
 		
 		// 생산계획상세등록 + 수정 시 재등록
 		public void addPPlanDetail(ProdPlanVO vo);
@@ -56,6 +57,8 @@ public interface ProdMapper {
 		
 		// 생산지시에 추가할 계획목록
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo);
+
+		
 
 		
 
