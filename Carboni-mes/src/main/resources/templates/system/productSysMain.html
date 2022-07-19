@@ -28,7 +28,7 @@
       </head>
       <body>
          <div class="container py-4" style="display: flex; flex-wrap: wrap; max-width:1270px">
-			<tr th:each=" div : ${divalign}">
+			<tr th:each="div : ${divalign}">
 	            <td>
 				<div class="col-md-6" id="frame1">
 	               <!-- 설비 -->
@@ -36,7 +36,7 @@
 	                  style="display: flex; flex-wrap: wrap; justify-content: space-evenly; width: 620px;">
 	                  <div
 	                     style="width: 318px; display: block; height: 60px; margin-left: -9px; position: absolute; top: 22px; left: 40px;">
-	                     <h2 style="display: block; border-left: 2px solid gray;"><th:text="${div.siname}"/></h2>
+	                     <h2 style="display: block; border-left: 2px solid gray;"><tr th:text="${div.siname}"/></h2>
 	                     <!--headline  -->
 	                  </div>
 	                  <div class="card bg-white" style="width: 18rem; margin-top: 68px;">
