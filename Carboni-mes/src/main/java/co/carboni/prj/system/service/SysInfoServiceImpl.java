@@ -24,6 +24,7 @@ public class SysInfoServiceImpl implements SysinfoService{
 	
 	@Override
 	public List<SystemVO> selectSysDetAll(SystemVO vo) {
+		System.out.println(vo);
 		return map.selectSysDetAll(vo);
 	}
 	

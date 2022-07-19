@@ -10,12 +10,12 @@
 	</select>
 
 	<select id="selectSysDetAll" resultType="co.carboni.prj.system.vo.SystemVO">
-		SELECT * FROM (	SELECT S.SINUM, S.SINAME, S.SISAFTEM, 
-		        P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR, 
-		        D.PHDMKAM, D.PHDERRAM
-				FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
-				WHERE S.PICODEID = P.PICODEID OR S.SINUM = D.SINUM)
-		WHERE SINUM = #{sinum}
+		SELECT S.SINUM, S.SINAME, S.SISAFTEM, 
+        P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR, 
+        D.PHDMKAM, D.PHDERRAM
+		FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
+		WHERE (S.PICODEID = P.PICODEID OR S.SINUM = D.SINUM)
+        and s.sinum = ${sinum}
 	</select>
 	
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
