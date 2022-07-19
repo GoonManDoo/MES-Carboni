@@ -69,12 +69,14 @@ public class ProdServiceImpl implements ProdService {
 			return 1;
 		}
 		
-		// 생산계획상세등록
+		// 생산계획상세등록 + 수정 시 재등록
 		@Override
 		public void addPPlanDetail(List<ProdPlanVO> plans) {
 			for (ProdPlanVO vo : plans) {
 				mapper.addPPlanDetail(vo); // 계획등록
+				if(vo.getPrnum() != null) {
 				mapper.updatePReqStat(vo); // 생산의뢰 상태 수정
+				}
 			}
 		}
 
@@ -82,15 +84,15 @@ public class ProdServiceImpl implements ProdService {
 		@Override
 		public void updateProdPlan(ProdPlanVO vo) {
 			mapper.updateProdPlan(vo);
+			mapper.delupPPdetail(vo); // 수정을 위한 삭제
 		}
 		
-		// 생산계획상세수정
-		@Override
-		public void upPPlanDetail(List<ProdPlanVO> plans) {
-			for (ProdPlanVO vo : plans) {
-				mapper.upPPlanDetail(vo);
-			}
-		}
+		/*
+		 * // 생산계획상세수정
+		 * 
+		 * @Override public void upPPlanDetail(List<ProdPlanVO> plans) { for (ProdPlanVO
+		 * vo : plans) { mapper.upPPlanDetail(vo); } }
+		 */
 		
 		// 생산계획삭제
 		@Override
@@ -112,6 +114,12 @@ public class ProdServiceImpl implements ProdService {
 		@Override
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo) {
 			return mapper.addPlan(vo);
+		}
+
+		// 생산라인검색
+		@Override
+		public List<ProdOrderVO> addLine(ProdOrderVO vo, String braidId, String moldId) {
+			return mapper.addLine(vo, braidId, moldId);
 		}
 
 		

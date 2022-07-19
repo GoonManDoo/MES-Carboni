@@ -33,14 +33,11 @@ public interface ProdService {
 		// 생산계획등록
 		public int addProdPlan(ProdPlanVO vo);
 			
-		// 생산계획상세등록
+		// 생산계획상세등록 + 수정 시 재등록
 		public void addPPlanDetail(List<ProdPlanVO> plans);
 
 		// 생산계획수정
 		public void updateProdPlan(ProdPlanVO vo);
-		
-		// 생산계획상세수정
-		public void upPPlanDetail(List<ProdPlanVO> plans);
 		
 		// 생산계획삭제
 		public void removeProdPlan(ProdPlanVO vo);
@@ -54,6 +51,9 @@ public interface ProdService {
 		
 		// 생산지시에 계획 추가
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo);
+		
+		// 생산라인검색
+		public List<ProdOrderVO> addLine(ProdOrderVO vo, String braidId, String moldId);
 
 		
 
