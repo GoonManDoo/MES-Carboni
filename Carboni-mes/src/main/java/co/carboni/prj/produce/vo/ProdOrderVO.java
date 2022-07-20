@@ -60,8 +60,20 @@ public class ProdOrderVO {
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date pcdedate; // 작업마감일
 		public String pcdkeeper; // 현장담당자
+	
 		
-	// 생산라인모달
+	// 제품정보, 자재정보
+		public String micode; // 자재코드
+		public String miname; // 자재명
+		public int bam; // 소요량(사용량)
+		public int msciam; // 재고량
+		
+	// 부족한 자재 요청
+		// 자재코드
+		public int orderAmount; // 발주요청량
+		
+		
+	// 생산공정
 		public String picodeid; // 공정코드
 		public String piname; // 공정명
 		public String pione; // 1차공정
@@ -69,14 +81,17 @@ public class ProdOrderVO {
 		public String pithree; // 3차공정
 		public String pifour; // 4차공정
 		public int pidate; // 공정일수
+		
+		
+	// 현장담당자(사원)
+		public String ecode; // 사원코드
+		public String ename; // 사원명
+		public String eposition; // 직책
 	
 	// 선택한 계획의 제품정보
 	
 	
 	// 해당 제품의 자재정보
-	
-	
-	// 부족한 자재 요청
 	
 	
 	// 해당제품의 공정

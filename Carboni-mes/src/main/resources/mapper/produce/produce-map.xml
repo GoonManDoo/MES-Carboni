@@ -23,7 +23,7 @@
 		
 		<!-- 생산계획상세로드 -->
 		<select id="prodPlanDetail" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-			SELECT p.ppdnum, p.gicode, g.giname, g.giunit, p.prnum, r.prclose, c.cnrest, p.ppdam, p.uplam, p.ppddate
+			SELECT p.ppdnum, p.gicode, g.giname, (g.giunit||(select cexplain from common where ccodeid = '17')) as giunit, p.prnum, r.prclose, c.cnrest, p.ppdam, p.uplam, p.ppddate
 			FROM prodplan_d p, goodsinfo g, prodreq r, contract c
 			WHERE
 			p.gicode = g.gicode
@@ -47,7 +47,7 @@
 		
 		<!-- 미생산주문에 들어있는 제품 목록 -->
 		<select id="planProduct" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-			SELECT z.gicode, z.giname, z.giunit, x.prnum, x.prclose, y.cnrest
+			SELECT z.gicode, z.giname, (z.giunit||(select cexplain from common where ccodeid = '17')) as giunit, x.prnum, x.prclose, y.cnrest
 			FROM prodreq x, contract y, goodsinfo z
 			WHERE y.cnnum = x.cnnum
 			AND y.gicode = z.gicode
@@ -71,7 +71,7 @@
 		<!-- 자재발주요청 -->
 		<insert id="requestMat">
 			INSERT INTO matreq
-			VALUES ('MR-'||TO_CHAR(matreq_REQNUM_seq.nextval), #{micode}, #{orderAmount}, 'N')
+			VALUES ('MR-'||TO_CHAR(matreq_REQNUM_seq.nextval), #{micode}, #{orderAmount}, '발주전')
 		</insert>
 		
 		<!-- 생산계획등록 -->
@@ -131,6 +131,8 @@
 		</delete>
 		
 	
+	
+	
 	<!-- 생산지시관리 -->
 	
 		<!-- 미지시계획조회 -->
@@ -158,6 +160,27 @@
 			<foreach collection="planNums" item="arr" open="(" separator="," close=")">
 				#{arr}
 			</foreach>
+		</select>
+		
+		<!-- 계획목록 제품 클릭시 제품, 자재정보 조회 -->
+		<select id="goodsInfo" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT g.giname, m.micode, m.miname, b.bam, k.msciam
+			FROM goodsinfo g, bom b, matinfo m, matstk k
+			WHERE (g.gicode = b.gicode AND b.micode = m.micode AND m.micode = k.micode)
+			AND g.gicode = #{gic}
+		</select>
+		
+		<!-- 생산계획에 등록한 라인번호에 해당하는 공정정보 -->
+		<select id="procInfo" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT * FROM procinfo
+			WHERE picodeid in (SELECT picodeid FROM lineinfo WHERE gicode = #{gic})
+		</select>
+		
+		<!-- 생산현장 담당자 등록을 위한 사원조회 -->
+		<select id="empList" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT ecode, ename, eposition
+			FROM employee
+			WHERE eposition = #{posit}
 		</select>
 		
 	

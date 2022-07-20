@@ -116,11 +116,40 @@ public class ProdServiceImpl implements ProdService {
 			return mapper.addPlan(vo);
 		}
 
-		// 생산라인검색
+		// 생산계획그리드 클릭시 제품, 자재정보 조회
 		@Override
-		public List<ProdOrderVO> addLine(ProdOrderVO vo, String braidId, String moldId) {
-			return mapper.addLine(vo, braidId, moldId);
+		public List<ProdOrderVO> goodsInfo(String gic) {
+			return mapper.goodsInfo(gic);
 		}
+		
+		// 생산계획에 등록한 라인번호에 해당하는 공정정보
+		@Override
+		public List<ProdOrderVO> procInfo(String gic) {
+			return mapper.procInfo(gic);
+		}
+
+		// 생산현장 담당자 등록을 위한 사원 조회
+		@Override
+		public List<ProdOrderVO> empList(String posit) {
+			return mapper.empList(posit);
+		}
+
+		// 생산지시등록
+		@Override
+		public int addProdOrder(ProdOrderVO vo) {
+			mapper.addProdOrder(vo);
+			return 1;
+		}
+		
+		// 생산지시상세등록 + 재등록
+		@Override
+		public void addPOrderDetail(List<ProdOrderVO> orders) {
+			for (ProdOrderVO vo : orders) {
+				mapper.addPOrderDetail(vo); // 계획등록
+				mapper.updatePPlanStat(vo); // 생산의뢰 상태 수정
+			}
+		}
+
 
 		
 

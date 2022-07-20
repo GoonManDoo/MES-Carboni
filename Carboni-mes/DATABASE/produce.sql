@@ -54,11 +54,11 @@ insert into lineinfo
 values ('LIN-CBN-'||lineinfo_LINEID_seq.currval, 3, 'PAC-1', '1');
 
 insert into lineinfo
-values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 1, 'BRA-2', '1');
+values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 1, 'BRA-2', '2');
 insert into lineinfo
-values ('LIN-CBN-'||lineinfo_LINEID_seq.currval, 2, 'MOL-2', '1');
+values ('LIN-CBN-'||lineinfo_LINEID_seq.currval, 2, 'MOL-2', '2');
 insert into lineinfo
-values ('LIN-CBN-'||lineinfo_LINEID_seq.currval, 3, 'PAC-1', '1');
+values ('LIN-CBN-'||lineinfo_LINEID_seq.currval, 3, 'PAC-1', '2');
 
 -- or
 

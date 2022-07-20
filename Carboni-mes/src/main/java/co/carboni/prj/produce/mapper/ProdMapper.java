@@ -34,10 +34,10 @@ public interface ProdMapper {
 	
 		// 생산계획등록
 		public int addProdPlan(ProdPlanVO vo); // 계획등록
-		public void updatePReqStat(ProdPlanVO vo); // 생산의뢰 상태 수정
 		
 		// 생산계획상세등록 + 수정 시 재등록
 		public void addPPlanDetail(ProdPlanVO vo);
+		public void updatePReqStat(ProdPlanVO vo); // 생산의뢰 상태 수정
 	
 		// 생산계획수정
 		public void updateProdPlan(ProdPlanVO vo);
@@ -56,9 +56,22 @@ public interface ProdMapper {
 		
 		// 생산지시에 추가할 계획목록
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo);
+		
+		// 생산계획목록 제품 클릭시 제품, 자재정보 출력
+		public List<ProdOrderVO> goodsInfo(@Param("gic") String gic);
 
-		// 생산라인검색
-		public List<ProdOrderVO> addLine(ProdOrderVO vo, @Param("braidId") String braidId, @Param("moldId") String moldId);
+		// 생산계획에 등록한 라인번호에 해당하는 공정번호
+		public List<ProdOrderVO> procInfo(@Param("gic") String gic);
+
+		// 생산현장 담당자 등록을 위한 사원 조회
+		public List<ProdOrderVO> empList(@Param("posit") String posit);
+		
+		// 생산지시등록
+		public void addProdOrder(ProdOrderVO vo);
+		
+		// 생산지시상세등록
+		public void addPOrderDetail(ProdOrderVO vo);
+		public void updatePPlanStat(ProdOrderVO vo);
 
 		
 

@@ -33,7 +33,7 @@
 }
 /* 그리드용 css */
 .tui-grid-cell.matDanger {
-	background-color: #ffcaca;
+	background-color: #ffe5e5;
 }
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;	
@@ -451,7 +451,6 @@
 			
 			/* 생산계획조회 모달 */
 			$('#searchBtn').on('click', function(){
-				$('#planModal').css('display', '')
 				modal1.dialog('open')
 				planGrid.refreshLayout();
 				$('#planBtn').on('click', function(){
@@ -517,7 +516,6 @@
 			
 			/* 미생산의뢰 모달 */
 			$('#unprodBtn').on('click', function(){
-				$('#requestModal').css('display', '')
 				modal2.dialog('open')
 				rqGrid.refreshLayout();
 				var startDt = $('#requestDtS').val()
@@ -588,7 +586,7 @@
 		
 			
 			// 자재정보 출력을 위한 제품목록 그리드 클릭이벤트
-			pdGrid.on('click', e => {
+			pdGrid.on('dblclick', e => {
 				var rk = e.rowKey;
 				prn = pdGrid.getRow(rk).prnum
 				for(i=0; i<pdGrid.getRowCount(); i++) {
@@ -600,7 +598,6 @@
 					method: 'POST',
 					data : { prn },
 					success: function(result) {
-						matGrid.resetOriginData()
 						matGrid.resetData(result)
 						mrk = matGrid.getRowCount()
 						// 그리드에 값 넣어주기
@@ -616,7 +613,6 @@
 										oa = matGrid.getRow(el.rowKey).lamount
 										$('#matCode').val(mc)
 										$('#orderAmount').val(oa)
-										$('#matorderModal').css('display', '')
 										modal3.dialog('open')
 									}
 								})
