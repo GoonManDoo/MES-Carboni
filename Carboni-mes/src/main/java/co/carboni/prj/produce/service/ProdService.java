@@ -52,8 +52,20 @@ public interface ProdService {
 		// 생산지시에 계획 추가
 		public List<ProdOrderVO> addPlan(ProdOrderVO vo);
 		
-		// 생산라인검색
-		public List<ProdOrderVO> addLine(ProdOrderVO vo, String braidId, String moldId);
+		// 생산계획에서 선택한 제품의 제품, 자재정보
+		public List<ProdOrderVO> goodsInfo(String gic);
+
+		// 생산계획에 등록한 라인번호에 해당하는 공정번호
+		public List<ProdOrderVO> procInfo(String gic);
+
+		// 생산현장담당자 등록을 위한 사원 조회
+		public List<ProdOrderVO> empList(String posit);
+
+		// 생산지시등록
+		public int addProdOrder(ProdOrderVO vo);
+		
+		// 생산지시상세등록 + 수정 시 재등록
+		public void addPOrderDetail(List<ProdOrderVO> orders);
 
 		
 

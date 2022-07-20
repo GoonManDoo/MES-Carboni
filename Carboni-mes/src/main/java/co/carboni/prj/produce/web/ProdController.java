@@ -142,13 +142,42 @@ public class ProdController {
 			return orderPlan;
 		}
 		
-		// 생산지시관리 - 생산라인검색
-		@RequestMapping("addLine")
+		// 생산지시관리 - 생산계획목록의 제품, 자재정보
+		@RequestMapping("goodsInfo")
 		@ResponseBody
-		public List<ProdOrderVO> addLine(ProdOrderVO vo, @RequestParam String braidId, @RequestParam String moldId) {
-			System.out.println(service.addLine(vo, braidId, moldId));
-			return service.addLine(vo, braidId, moldId);
+		public List<ProdOrderVO> goodsInfo(@RequestParam String gic) {
+			return service.goodsInfo(gic);
 		}
+		
+		// 생산지시관리 - 해당 생산라인의 생산공정
+		@RequestMapping("procInfo")
+		@ResponseBody
+		public List<ProdOrderVO> procInfo(@RequestParam String gic) {
+			return service.procInfo(gic);
+		}
+		
+		// 생산지시관리 - 현장담당자 등록을 위한 사원 조회
+		@RequestMapping("empList")
+		@ResponseBody
+		public List<ProdOrderVO> empList(@RequestParam String posit) {
+			return service.empList(posit);
+		}
+		
+		// 생산지시관리 - 생산지시등록
+		@RequestMapping("addProdOrder")
+		@ResponseBody
+		public ProdOrderVO addProdOrder(ProdOrderVO vo) {
+			service.addProdOrder(vo);
+			return vo;
+		}
+		
+		// 생산지시관리 - 생산지시상세등록 + 수정시 재등록
+		@RequestMapping("addPOrderDetail")
+		@ResponseBody
+		public void addPOrderDetail(@RequestBody List<ProdOrderVO> orders) {
+			service.addPOrderDetail(orders);
+		}
+		
 	
 	
 	// 생산지시조회

@@ -33,9 +33,9 @@
 			text-align: center;
 		}
 
-		#modal {
+		/*#modal {
 			display: none;
-		}
+		}*/
 
 		.cb {
 			text-align: center;
@@ -45,6 +45,13 @@
 		.fw {
 			font-weight: 700;
 			margin-right: 10px;
+		}
+		/* 그리드용 css */
+		.tui-grid-cell.matDanger {
+			background-color: #ffe5e5;
+		}
+		.tui-grid-cell.rowSelect {
+			background-color: #ffffff;	
 		}
 	</style>
 </head>
@@ -70,7 +77,8 @@
 			<div class="card mb-2">
 				<div class="card-body">
 					<!-- 입력폼 -->
-					<form autocomplete="off" id="dataForm">
+					<form autocomplete="off" id="orderForm">
+						<input type="hidden" id="orderNum" name="orderNum">
 						<div class="container-fluid"
 							style="display: flex; flex-flow: row wrap; justify-content: space-between;">
 							<!-- 계획일자, 생산계획명, 특이사항 -->
@@ -82,7 +90,7 @@
 											<td colspan="6">
 												<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
 													<input type="text" class="form-control" id="orderDt"
-														aria-label="Date-Time" tabindex="1"> <span
+														aria-label="Date-Time"> <span
 														class="tui-ico-date"></span>
 												</div>
 												<div id="wrapper" style="margin-top: -1px;"></div>
@@ -90,25 +98,28 @@
 										</tr>
 										<tr>
 											<th>생산지시명</th>
-											<td><input type="text" id="planDt" class="form-control ht"
-													style="width: 500px;" maxlength="10" tabindex="2"></td>
+											<td><input type="text" id="orderName" class="form-control ht"
+													style="width: 500px;" maxlength="10"></td>
 											<td colspan="5">
 										</tr>
 										<tr>
 											<th>담당자</th>
-											<td><input type="text" id="planDt" class="form-control ht"
-													style="width: 500px;" maxlength="10" tabindex="2"></td>
+											<td><input type="text" id="employee" class="form-control ht"
+													style="width: 500px;" maxlength="10" readonly>
+												<input type="hidden" id="empId">		
+											</td>
 											<td colspan="5">
 										</tr>
 										<tr>
 											<th>비 고</th>
-											<td><input type="text" id="remark" class="form-control ht"
-													style="width: 500px;" maxlength="10" tabindex="2"></td>
+											<td><input type="text" id="orderRemark" class="form-control ht"
+													style="width: 500px;" maxlength="10"></td>
 											<td colspan="3">
 										</tr>
 									</tbody>
 								</table>
 							</div>
+							</form>
 
 							<!-- 미지시계획조회 -->
 							<div class="item col-5 border" style="width: 600px; height: 100px; margin: 10px;">
@@ -147,7 +158,7 @@
 								</div>
 							</div>
 						</div>
-					</form>
+					
 					<!-- 입력폼 끝  -->
 				</div>
 			</div>
@@ -175,52 +186,26 @@
 		<div class="container-fluid px-4">
 			<div class="card mb-2">
 				<div class="card-body">
-					<!-- 선택한 제품 정보 -->
-					<div class="container-fluid"
-						style="display:flex; flex-flow: row wrap; justify-content: space-evenly; margin-bottom:15px;">
-						<div class="item">
-							<span class="tbold marr">제품코드</span>
-							<input type="text" class="form-control ht"
-								style="width: 200px; display:inline-block; height:28px;" readonly>
-						</div>
-						<div class="item">
-							<span class="tbold marr">제품명</span>
-							<input type="text" class="form-control ht"
-								style="width: 200px; display:inline-block; height:28px;" readonly>
-						</div>
-						<div class="item">
-							<span class="tbold marr">고객사</span>
-							<input type="text" class="form-control ht"
-								style="width: 200px; display:inline-block; height:28px;" readonly>
-						</div>
-						<div class="item">
-							<span class="tbold marr">지시량</span>
-							<input type="text" class="form-control ht"
-								style="width: 200px; display:inline-block; height:28px;" readonly>
-						</div>
-					</div>
-
 					<!-- 자재, 공정 -->
 					<div class="container-fluid mt-1"
 						style="overflow:auto; flex-flow: row wrap; display: flex; justify-content: space-between;">
 						<!-- 제품자재 -->
 						<div class="item" style="min-width:49%;">
-							<div class="container" style="display:flex; float:left; justify-content: space-between;">
-								<div class="item-fluid">
-									<span class="tbold marr mg5">자재코드</span>
-									<input type="text" class="form-control ht mg5"
-										style="width: 150px; display:inline-block;">
+							<!-- 선택한 제품 정보 -->
+							<div class="container-fluid"
+						style="display:flex; flex-flow: row wrap; justify-content: space-evenly; margin-bottom:20px;">
+								<div class="item">
+									<span class="tbold marr">제품코드</span>
+									<input type="text" id="goodsCode" class="form-control ht"
+										style="width: 200px; display:inline-block; height:28px;" readonly>
 								</div>
-								<div class="item-fluid">
-									<span class="tbold marr mg5">자재명</span>
-									<input type="text" class="form-control ht mg5"
-										style="width: 150px; display:inline-block;">
-								</div>
-								<div class="item btn-group">
-									<button type="button" class="btn btn-secondary">검색</button>
+								<div class="item">
+									<span class="tbold marr">제품명</span>
+									<input type="text" id="goodsName" class="form-control ht"
+										style="width: 200px; display:inline-block; height:28px;" readonly>
 								</div>
 							</div>
-							<div class="mg5" style="margin-top:50px;">
+							<div class="mg5">
 								<div id="matlist"></div>
 							</div>
 						</div>
@@ -282,6 +267,43 @@
 				<div id="planList"></div>
 			</div>
 			
+			<!-- 자재발주요청 모달 -->
+			<div id="matorderModal" style="padding:20px;" title="자재발주요청">
+				<div class="item col-6">
+				    <table class="table table-bbs table-write">
+				        <tbody>
+				            <tr>
+				                <th>자재코드</th>
+				                <td><input type="text" id="matCode" class="form-control ht"
+				                        style="width: 200px;" readonly></td>
+				            </tr>
+				            <tr>
+				                <th>발주요청량</th>
+				                <td><input type="number" id="orderAmount" class="form-control ht"
+				                        style="width: 200px;"></td>
+				            </tr>
+				        </tbody>
+				    </table>
+				</div>
+			</div>
+			
+			<!-- 현장담당자 등록 모달 -->
+			<div id="goodsStkModal" style="padding: 20px;" title="담당자등록조회">
+				<form class="container-fluid" id="searchForm" name="searchForm">
+					<div style="text-align:center;">
+						<label class="fw">직책</label>
+						<select id="planStatus" style="width:100px; height:28px; display: inline-block;">
+							<option value="CEO">사장</option>
+							<option value="MD">사원</option>
+						</select>
+						<button type="button" id="empSearch" class="btn btn-secondary"
+							style="margin-left: 10px;">검색</button>
+						<!-- 사원목록 그리드 -->
+						<div id="empGrid" style="margin-top: 20px;"></div>
+					</div>
+				</form>
+			</div>
+			
 
 		</div>
 
@@ -289,6 +311,18 @@
 		<script type="text/javascript">
 
 			$(function () {
+				
+				// 공통 ajax 함수 -------------------------------
+				function makeAjaxCall(url, data, callback, error) {
+					$.ajax({
+						url: url,
+						method: 'POST',
+						data: data,
+						success: callback,
+						error: error
+					})
+				}
+				// --------------------------------------------
 				
 				// 그리드 ---------------------------------------
 				/* 계획목록 */
@@ -362,10 +396,18 @@
 					}, {
 						header: '제품코드',
 						name: 'gicode'
+					}, {
+						header: '지시번호',
+						name: 'pcnum'
+					}, {
+						header: '지시상세번호',
+						name: 'pcdnum'
 					}]
 				});
 				pnGrid.hideColumn('ppdnum');
 				pnGrid.hideColumn('gicode');
+				pnGrid.hideColumn('pcnum');
+				pnGrid.hideColumn('pcdnum');
 				
 				/* 자재목록 */
 				const material = [];
@@ -374,21 +416,30 @@
 					el: document.getElementById('matlist'),
 					data: material,
 					scrollX: false,
-					rowHeaders: ['checkbox', 'rowNum'],
+					rowHeaders: ['rowNum'],
 					columns: [{
 						header: '자재코드',
+						name: 'micode',
 						align: 'center'
 					}, {
 						header: '자재명',
+						name: 'miname',
 						align: 'center'
 					}, {
 						header: '소요량',
+						name: 'bam',
+						align: 'center'
+					},{
+						header: '필요량',
+						name: 'pamount',
 						align: 'center'
 					}, {
 						header: '재고량',
+						name: 'msciam',
 						align: 'center'
 					}]
 				});
+				matlist.hideColumn('bam');
 
 				/* 공정조회 */
 				const process = [];
@@ -398,27 +449,30 @@
 					data: process,
 					bodyHeight: 200,
 					scrollX: false,
-					rowHeaders: ['checkbox'],
+					rowHeaders: ['rowNum'],
 					columns: [{
-						header: '순번',
-						align: 'center'
-					}, {
 						header: '공정코드',
+						name: 'picodeid',
 						align: 'center'
 					}, {
+						header: '공정명',
+						name: 'piname',
+						align: 'center'
+					},{
 						header: '1차공정',
+						name: 'pione',
 						align: 'center'
 					}, {
 						header: '2차공정',
+						name: 'pitwo',
 						align: 'center'
 					}, {
 						header: '3차공정',
+						name: 'pithree',
 						align: 'center'
 					}, {
 						header: '4차공정',
-						align: 'center'
-					}, {
-						header: '비고',
+						name: 'pifour',
 						align: 'center'
 					}]
 				});
@@ -480,6 +534,31 @@
 					]
 				});
 				
+				/* 사원목록 그리드 */
+				const empList = [];
+				
+				const empGrid = new tui.Grid({
+					el: document.getElementById('empGrid'),
+					data: planList,
+					columns: [
+						{
+							header: '사원코드',
+							name: 'ecode',							
+							align: 'center'
+						},
+						{
+							header: '사원명',
+							name: 'ename',
+							align: 'center'
+						},
+						{
+							header: '직책',
+							name: 'eposition',
+							align: 'center'
+						}
+					]
+				})
+				
 				
 
 				// 그리드끝-----------------------------------
@@ -489,50 +568,73 @@
 				// 모달----------------------------------------
 				var modal1 = makeModal("#orderModal", orderView)
 				var modal2 = makeModal('#planModal', planAdd)
+				var modal3 = makeModal('#matorderModal', requestMat)
+				var modal4 = makeModal('#goodsStkModal', addManager)
 
 				/* 생산지시조회 모달 */
 				$('#searchBtn').on('click', function () {
-					$('#orderModal').css('display', '')
-					modal1.dialog('open')
 					orderGrid.refreshLayout();
+					modal1.dialog('open')
 				})
 				function orderView() {
-
+					
 				}
 
 
 				/* 미지시계획 모달 */
 				$('#unorderBtn').on('click', function () {
-					$('#planModal').css('display', '')
 					modal2.dialog('open')
 					planGrid.refreshLayout();
 					var startDt = $('#planDtS').val()
 					var endDt = $('#planDtE').val()
-					$.ajax({
-						url: 'unorderList',
-						method: 'POST',
-						data : { startDt, endDt },
-						success: function(result){
-							planGrid.resetData(result);
-						}
-					})
+					var loadPlanFnc = function(result) {
+						planGrid.resetData(result);
+					} //1)
+					makeAjaxCall('unorderList', {startDt, endDt}, loadPlanFnc) // 1)콜백함수를 밖에서 지정
 				})
 				/* 미생산계획조회 후 생산계획 지시에 등록 */
 				function planAdd() {
 					const count = planGrid.getCheckedRows();
 					const planNums = count.map((e)=>{return e.ppnum})
-					$.ajax({
-						url: 'addPlan',
-						data: { planNums },
-						success: function(rs){
-							pnGrid.refreshLayout();
-							matlist.resetData(material);
-							prclist.resetData(process);
-							pnGrid.resetData(rs)
+					makeAjaxCall('addPlan', {planNums}, function(rs) { // 2) success에 사용했던것처럼 바로 실행
+						pnGrid.refreshLayout();
+						matlist.resetData(material);
+						prclist.resetData(process);
+						pnGrid.resetData(rs)
+						for(i=0; i<pnGrid.getRowCount(); i++) {
+							pnGrid.setValue(i, 'pcdam', pnGrid.getValue(i, 'ppadam'), false)
 						}
-					})
+					}) // makeAjaxCall
 					modal2.dialog('close')
 				}
+				
+				/* 담당자등록 모달 */
+				$('#employee').on('dblclick', function(){
+					modal4.dialog('open')
+					empGrid.refreshLayout();
+				})
+				$('#empSearch').on('click', function(){
+					var posit = $('#planStatus option:selected').val()
+					makeAjaxCall('empList', {posit}, function(result){
+						empGrid.resetData(result)
+						empGrid.on('click', e => {
+							for(i=0; i<pnGrid.getRowCount(); i++) {
+								empGrid.removeRowClassName(i, 'rowSelect')
+							}
+							empGrid.addRowClassName(e, 'rowSelect')
+							empName = empGrid.getValue(e.rowKey, 'ename')
+							empId = empGrid.getValue(e.rowKey, 'ecode')
+						})
+					})
+				})
+				function addManager() {
+					$('#employee').val(empName)
+					$('#empId').val(empId)
+					empGrid.resetData(empList)
+					modal4.dialog('close')
+				}
+				
+				
 
 				/* 모달틀 */
 				function makeModal(e, fnc) {
@@ -546,6 +648,7 @@
 							"취소": function () {
 								orderGrid.resetData(orderList);
 								planGrid.resetData(planList);
+								empGrid.resetData(empList);
 								picker.setStartDate(new Date());
 								picker.setEndDate(new Date());
 								$(this).dialog('close')
@@ -556,6 +659,7 @@
 					$('.ui-dialog-titlebar-close').html('X').css('border', 'none').on('click', function(){
 						orderGrid.resetData(orderList);
 						planGrid.resetData(planList);
+						empGrid.resetData(empList);
 						picker.setStartDate(new Date());
 						picker.setEndDate(new Date());
 					})
@@ -565,31 +669,60 @@
 				
 				// 그리드 함수 -------------------------------
 				
-				/*  계획목록 그리드에서 생산라인 선택 
+				// 선택한 제품정보와 자재정보 확인을 위한 계획목록 그리드 클릭이벤트
 				pnGrid.on('dblclick', e => {
-					if(e.columnName == 'lineid') {
-						modal3.dialog('open')
-						lineGrid.refreshLayout();
-						$('#gicode').val(lineGrid.getValue(e.rowKey, 'gicode'))
-						
+					var rk = e.rowKey;
+					// 행 색바뀌는 addclass
+					for(i=0; i<pnGrid.getRowCount(); i++) {
+					pnGrid.removeRowClassName(i, 'rowSelect')
 					}
-				})
-				$('#lineSearch').on('click', function(){
-					var gicode = $('#gicode').val()
-					$.ajax({
-						url: 'addLine',
-						method: 'POST',
-						data: { gicode },
-						success: function(result) {
-							console.log(result)
-							$('#lineNum').val(result[0].lineid)
-							lineGrid.resetData(result);
+					pnGrid.addRowClassName(rk, 'rowSelect')
+					gic = pnGrid.getRow(rk).gicode
+					$('#goodsCode').val(gic)
+					/* 자재정보조회 콜백 */
+					var addMatFnc = function(result) {
+						$('#goodsName').val(result[0].giname)
+						matlist.resetData(result)
+						for(i=0; i<matlist.getRowCount(); i++) {
+							matlist.setValue(i, 'pamount', (pnGrid.getValue(rk, 'ppadam')*matlist.getValue(i, 'bam')), false)
+							if(matlist.getValue(i, 'pamount')-matlist.getValue(i, 'msciam') > 0) {
+								matlist.addCellClassName(i, 'msciam', 'matDanger')
+								matlist.on('dblclick', el => {
+								if(el.columnName == 'msciam') {
+										mc = matlist.getValue(el.rowKey, 'micode')
+										oa = matlist.getValue(el.rowKey, 'pamount')-matlist.getValue(el.rowKey, 'msciam')
+										$('#matCode').val(mc)
+										$('#orderAmount').val(oa)
+										modal3.dialog('open')
+									}
+								})
+							}
 						}
-					})
-				})
-				function addLine() {
+						makeAjaxCall('procInfo', {gic}, addProcFnc)
+					}
+					/* 공정정보조회 콜백 */
+					var addProcFnc = function(result) {
+						prclist.resetData(result)
+					}
+					makeAjaxCall('goodsInfo', {gic}, addMatFnc)
 					
-				} */
+				})
+				
+				
+				
+				// 부족한 자재 발주요청
+				function requestMat(){
+					var micode = $('#matCode').val()
+					var orderAmount = $('#orderAmount').val()
+					makeAjaxCall('requestMat', {micode, orderAmount}, function(){
+						modal3.dialog('close')
+							swal('성공', '발주요청이 완료되었습니다.', 'success')
+					}, function(){
+						swal('실패', '발주요청을 실패했습니다.', 'error')
+					})
+					
+				}
+					
 				
 				// 그리드 함수 끝 -----------------------------
 				
@@ -613,6 +746,64 @@
 					matlist.resetData(material);
 					prclist.resetData(process);
 				}
+				
+				/* 생산지시 등록 */
+				$('#saveBtn').on('click', function(){
+					if($('#orderNum').val() == '') { // 등록
+						if($('#orderName').val() != '' || $('#employee').val() != '') {
+							if($('td').hasClass('tui-grid-cell-invalid') == false) {
+								addProdOrder();
+							} else {
+								swal('입력되지 않은 값이 있습니다.', '', 'warning')
+							}
+						} else {
+							swal('입력되지 않은 값이 있습니다.', '', 'warning')
+						}
+					} else { // 수정
+						if($('#orderName').val() != '' || $('#employee').val() != '') {
+							if($('td').hasClass('tui-grid-cell-invalid') == false) {
+								updateProdOrder();
+							} else {
+								swal('입력되지 않은 값이 있습니다.', '', 'warning')
+							}
+						} else {
+							swal('입력되지 않은 값이 있습니다.', '', 'warning')
+						}
+					}
+				})
+				
+				/* 생산지시 등록 함수 */
+				function addProdOrder() {
+					// 등록
+					var orderDt = $('#orderDt').val()
+					var orderName = $('#orderName').val()
+					var employee = $('#employee').val()
+					var orderRemark = $('#orderRemark').val()
+					var addOrderAjax = function(result) {
+						$('#orderNum').val(result.pcnum)
+						var pcnum = $('#orderNum').val()
+						for(i=0; i<pnGrid.getRowCount(); i++) {
+							pnGrid.setValue(i, 'pcnum', pcnum, false)
+							pnGrid.setValue(i, 'pcdnum', pcnum+'-'+(i+1), false)
+						}
+						allData = pnGrid.getData()
+						$.ajax({
+							url: 'addPOrderDetail',
+							method: 'POST',
+							data: JSON.stringify(allData), // 객체배열 json타입으로 변경
+							contentType:'application/json',
+							success: function(){
+								swal('성공', '생산지시 등록이 완료되었습니다.', 'success')
+							}
+						})
+					}
+					makeAjaxCall('addProdOrder', {orderDt, orderName, employee, orderRemark}, addOrderAjax, function(){
+						swal('실패', '생산지시 등록에 실패했습니다.', 'error')
+					})
+				}
+				
+				/* 생산지시 수정 함수 */
+				
 
 				// 버튼 끝 ----------------------------------
 				
