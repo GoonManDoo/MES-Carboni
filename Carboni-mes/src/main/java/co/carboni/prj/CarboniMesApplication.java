@@ -17,7 +17,16 @@ public class CarboniMesApplication {
 	
 	@RequestMapping("/")
 	public String home() {
+		return "home/home";
+	}
+	
+	@RequestMapping("/login.do")
+	public String login() {
 		return "home/login";
+	}
+	@RequestMapping("/loginfail.do")
+	public String loginfail() {
+		return "home/asset_denied";
 	}
 
 }
