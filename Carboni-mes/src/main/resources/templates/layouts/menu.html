@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" >
 
 <th:block th:fragment="mn">
 	<div id="layoutSidenav_nav">
@@ -105,7 +105,7 @@
 			</div>
 			<div class="sb-sidenav-footer">
 				<div class="small">Logged in as:</div>
-				Admin
+				<div sec:authentication="name"></div>
 			</div>
 		</nav>
 	</div>

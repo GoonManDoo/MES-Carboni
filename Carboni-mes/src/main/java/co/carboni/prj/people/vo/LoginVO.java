@@ -1,4 +1,4 @@
-package co.carboni.prj.login.vo;
+package co.carboni.prj.people.vo;
 
 import lombok.Data;
 
@@ -7,8 +7,8 @@ public class LoginVO {
 	
 	private String lcode;
 	private String ecode;
-	private String id;
-	private String pw;
-	
+	private String lid;
+	private String lpw;
+	private String acode;
 
 }
