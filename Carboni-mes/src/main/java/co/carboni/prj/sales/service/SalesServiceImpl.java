@@ -96,10 +96,9 @@ public class SalesServiceImpl implements SalesService {
 			}
 		
 			//제품재고관리 > 제품재고등록 제품검색조회
-			@Override
-			public List<SalesVO> findStkProdList(String addStk) {
-				return mapper.findStkProdList(addStk);
-			}
+		    @Override public List<SalesVO> findStkProdList(String addStk) { 
+		    	return mapper.findStkProdList(addStk); }
+			 
 		
 			//제품재고관리 > 제품재고등록 제품전체조회
 			@Override
@@ -114,7 +113,12 @@ public class SalesServiceImpl implements SalesService {
 					mapper.updateStkStat(vo);
 				}
 			}
-			//mapper.goodsStkInsert(vo);
+			
+			//제품재고관리 > 제품재고등록
+			@Override
+			public void goodsStkInsert(String gsamin, String jepoomcoin) {
+				mapper.goodsStkInsert(gsamin, jepoomcoin);
+			}
 			
 		//출하관리
 			
@@ -128,6 +132,14 @@ public class SalesServiceImpl implements SalesService {
 			public void findDelShList(SalesVO vo) {
 				mapper.findDelShList(vo);
 			}
+
+			@Override
+			public List<SalesVO> findNoProdList(String startCpd, String endCpd) {
+				return mapper.findNoProdList(startCpd, endCpd);
+			}
+
+
+			
 			
 
 			

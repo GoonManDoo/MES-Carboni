@@ -34,7 +34,7 @@ span {
 	text-align: center;
 }
 
-#leftinput, #rightinput {
+#leftinput, #norestBtn {
 	margin-right: 18px;
 }
 
@@ -84,8 +84,8 @@ span {
 			<!-- 메인화면 버튼 -->
 			<div class="card-header" id="btn">
 				<div style="display: flex; justify-content: flex-end;">
-					<button class="btn btn-secondary">진행상태변경</button>
-					<button class="btn btn-secondary" id="rightinput">미출고건조회</button>
+					<button id="statusBtn" class="btn btn-secondary">진행상태변경</button>
+					<button id="norestBtn" class="btn btn-secondary" >미출고건조회</button>
 					<button id="searchBtn" class="btn btn-secondary">조회</button>
 					<button id="insertBtn" class="btn btn-secondary">등록</button>
 					<button id="deleteBtn" class="btn btn-secondary">삭제</button>
@@ -123,9 +123,9 @@ span {
 			<div id="shippingModal" style="padding: 20px;" title="미출고조회">
 				<div class="container">
 					<div class="title">
-						<span> 납기일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~ 
-									<input type="date" name="endCNDATE" id="endCNDATE" class="input" />
-							<button class="btn btn-secondary">조회</button> <br>
+						<span> 납기일자<input type="date" name="startCndate" id="startCndate" class="input" />~ 
+									<input type="date" name="endCndate" id="endCndate" class="input" />
+							<button id="periodBtn" class="btn btn-secondary">조회</button> <br>
 					</div>
 				</div>
 				<div class="container-fluid px-4">
@@ -164,6 +164,8 @@ span {
 
 			$(function() {
 				
+				
+				
 				/* 출고관리 출고조회 */
 				$('#searchBtn').on('click', function() {
 				var startCp = $('#startCnperiod').val()
@@ -184,6 +186,12 @@ span {
 					success: function(result) {
 						grid.refreshLayout();
 						grid.resetData(result)
+						/* 총출하수량 계산 */
+						/* asa = grid.getRowCount()
+						for(i=0; i<asa; i++) {
+							grid.setValue(i, 'allshdam', grid.getRow(i).)
+						} */
+						
 					}
 				})
 			})
@@ -208,7 +216,7 @@ span {
 					var dialog = $(e).dialog({
 						autoOpen : false,
 						height : 742,
-						width : 700,
+						width : 900,
 						modal : true,
 						buttons : {
 							'확인' : fnc,
@@ -226,13 +234,28 @@ span {
 				var modal2 = makeModal("#prodNameModal", giup)
 					modal2 = makeModal("#prodNameModal", giup1)
 
-				/*미출고모달*/
-				$("#rightinput").on("click", function() {
+				/* 미출고건조회 모달 */
+				$("#norestBtn").on("click", function() {
 					$("#shippingModal").css('display', '')
 					modal1.dialog('open')
-					barmo.refreshLayout();
-
+					mechool.refreshLayout();
 				})
+				
+				/* 미출고건조회 납기일자 검색 */
+				$('#periodBtn').on('click', function() {
+					var startCpd = $('#startCndate').val()
+					var endCpd = $('#endCndate').val()
+					$.ajax({
+						url : 'noProdList',
+						method : 'POST',
+						data: {startCpd, endCpd},
+						success: function(result) {
+							mechool.resetData(result)
+							
+						}
+					})
+				})
+				
 				/*확인버튼 눌렀을떄 */
 				function check() {
 
@@ -317,16 +340,9 @@ span {
 					header : '제품명',
 					name : 'giname',
 					align : 'center'
-				}, {
-					header : '수주수량',
-					name : 'cnam',
-					align : 'center'
-				}, {
-					header : '총출하수량',
-					align : 'center'
-				}, {
-					header : '금번출하수량',
-					name : 'shdam',
+				},  {
+					header : '출하수량',
+					name : 'sham',
 					align : 'center'
 				}, {
 					header : '출고일자',
@@ -346,57 +362,36 @@ span {
 				/*미출고 모달 그리드*/
 				const totaldata = [];
 
-				let barmo = new tui.Grid({
+				let mechool = new tui.Grid({
 					el : document.getElementById('gridcomp'),
 					data : totaldata,
 					scrollX : false,
-					rowHeaders : [ 'rowNum', 'checkbox' ],
+					rowHeaders : [ 'rowNum'],
 					bodyHeight : 430,
 					columns : [ {
 						header : '수주번호',
 						name : 'cnnum',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '제품코드',
-						name : 'gicode',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
+						align : 'center'
 					}, {
 						header : '제품명',
 						name : 'giname',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
+						align : 'center'
+					}, {
+						header : '거래처명',
+						name : 'csname',
+						align : 'center'
 					}, {
 						header : '납기일자',
 						name : 'cnperiod',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
+						align : 'center'
 					}, {
 						header : '수주수량',
 						name : 'cnam',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
+						align : 'center'
 					}, {
-						header : '총출하수량',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '미출하수량',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '출하량',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
+						header : '수주잔량',
+						name : 'cnrest',
+						align : 'center'
 					} ]
 				});
 
