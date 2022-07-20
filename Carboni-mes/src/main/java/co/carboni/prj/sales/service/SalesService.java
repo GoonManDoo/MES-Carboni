@@ -50,6 +50,9 @@ public interface SalesService {
 		//출하관리 > 출고목록 조회
 		public List<SalesVO> findShipList(String startCp, String endCp, String startSd, String endSd, String gsCode);
 		
+		//출하관리 > 미출고건 납기일자 조회
+		public List<SalesVO> findNoProdList(String startCpd, String endCpd);
+		
 		//출하관리 > 출하목록 삭제
 		public void findDelShList(SalesVO vo);
 		
@@ -69,6 +72,12 @@ public interface SalesService {
 		
 		//제품재고관리 > 제품재고수정
 		public void goodsStkUpdate(List<SalesVO> allstk);
+		
+		//제품재고관리 > 제품재고등록
+		public void goodsStkInsert(String gsamin, String jepoomcoin);
+		
+		
+		
 		
 	
 	

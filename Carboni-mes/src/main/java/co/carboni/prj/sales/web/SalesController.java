@@ -101,6 +101,14 @@ public class SalesController {
 			return pCndateList;
 		}
 		
+		//출하관리 > 미출고건 납기일자 조회
+		@RequestMapping("noProdList")
+		@ResponseBody
+		public List<SalesVO> noProdList(@RequestParam("startCpd") String startCpd, @RequestParam("endCpd") String endCpd) {
+			List<SalesVO> noProdList = service.findNoProdList(startCpd, endCpd);
+			return noProdList;
+		}
+		
 		//생산의뢰관리 > 생산의뢰목록 삭제
 		@RequestMapping("delPrList")
 		@ResponseBody
@@ -121,6 +129,14 @@ public class SalesController {
 		public void goodsStkUpdate(@RequestBody List<SalesVO> allstk) {
 			service.goodsStkUpdate(allstk);
 		}
+		
+		//제품재고관리 > 제품재고등록
+		@RequestMapping("goodsStkInsert")
+		@ResponseBody
+		public void goodsStkInsert(@RequestParam("gsamin") String gsamin, @RequestParam("jepoomcoin") String jepoomcoin) {
+			service.goodsStkInsert(gsamin, jepoomcoin);
+		}
+		
 				
 				
 
@@ -131,13 +147,13 @@ public class SalesController {
 	}
 	
 		//제품재고관리 > 제품재고등록 제품검색조회
-		@RequestMapping("stkProdList")
-		@ResponseBody
-		public List<SalesVO> stkProdList(@RequestParam("addStk") String addStk) {
-			List<SalesVO> stkProdList = service.findStkProdList(addStk);
-			System.out.println(stkProdList);
-			return stkProdList;
-		}
+		
+		  @RequestMapping("stkProdList")
+		  
+		  @ResponseBody public List<SalesVO> stkProdList(@RequestParam("addStk") String
+		  addStk) { List<SalesVO> stkProdList = service.findStkProdList(addStk);
+		  System.out.println(stkProdList); return stkProdList; }
+		 
 		
 		//제품재고관리 > 제품재고등록 전체검색조회
 		@RequestMapping("allStkProdList")

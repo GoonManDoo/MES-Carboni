@@ -59,7 +59,10 @@ public interface SalesMapper {
 		//출하관리 > 출하목록 삭제
 		public void findDelShList(SalesVO vo);
 		
-	//제품재고관리
+		//출하관리 > 미출고건 납기일자 조회
+		public List<SalesVO> findNoProdList(String startCpd, String endCpd);
+	
+		//제품재고관리
 		
 			//제품재고관리 > 제품재고 조회
 			public List<SalesVO> findStkList(String gsCode);
@@ -73,9 +76,12 @@ public interface SalesMapper {
 			//제품재고관리 > 제품재고등록 제품전체조회
 			public List<SalesVO> findAllStkProdList(SalesVO vo);
 			
+			//제품재고관리 > 제품재고수정
+			public void updateStkStat(SalesVO vo);  
+			
 			//제품재고관리 > 제품재고등록
-			public void updateStkStat(SalesVO vo);  //제품재고변경
-				//public void goodsStkInsert(SalesVO vo); //제품재고등록
+			public void goodsStkInsert(@Param("gsamin") String gsamin, @Param("jepoomcoin") String jepoomcoin);
+
 
 
 		

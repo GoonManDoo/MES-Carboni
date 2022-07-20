@@ -122,8 +122,9 @@ span {
 		<div id="goodsStkModal" style="padding: 20px;" title="제품재고등록">
 				<div class="container">
 					<div class="title">
+					<input type="hidden" id="jehiin">
 				제품명<input id="stkmoinput" type="text" class="input" placeholder="제품명"> 
-				<button id="gisearchBtn1" class="btn btn-secondary">조회</button><br>
+				<button id="gisearchBtn1" class="btn btn-secondary">검색</button><br>
 			</div>
 			</div>
 			
@@ -134,6 +135,15 @@ span {
 					<i class="fas fa-table me-1"></i> 제품정보
 				</div>
 				<div id="gridstk"></div>
+				
+				<table class="table table-bbs table-write">
+				<tbody>
+				<tr>
+					<th style="text-align: center; width: 200px;">제품재고량</th>
+					<td style="width: 200px;"><input type="text" id="giami" class="input" placeholder="제품재고량 입력"style="width: 200px; text-align: center;"></td>
+				</tr>
+				</tbody>
+				</table>
 			</div>
 		</div>
 		</div>
@@ -157,6 +167,98 @@ span {
 
 	$(function() {
 		
+		
+		// 그리드 -----------------------------------------------
+
+		/* 메인화면 그리드 */
+		const gridData = [];
+
+		const grid = new tui.Grid({
+			el : document.getElementById('grid'),
+			data : gridData,
+			scrollX : false,
+			rowHeaders : [ 'rowNum', 'checkbox' ],
+			columns : [ {
+				header : '제품재고관리번호',
+				name : 'gsmnum',
+				align : 'center'
+			},{
+				header : '제품명',
+				name : 'giname',
+				align : 'center'
+			}, {
+				header : '제품코드',
+				name : 'gicode',
+				align : 'center'
+			}, {
+				header : '안전재고',
+				name : 'gisafe',
+				align : 'center'
+			}, {
+				header : '제품재고량',
+				name : 'gsam',
+				align : 'center',
+				editor: 'text',
+			}, {
+				header : '단위',
+				name : 'giunit',
+				align : 'center'
+			} ]
+		});
+		
+		/*제품재고 등록 그리드*/
+		const stkdata = [];
+
+		let jepoomstk = new tui.Grid({
+			el : document.getElementById('gridstk'),
+			data : stkdata,
+			scrollX : false,
+			rowHeaders : [ 'rowNum', 'checkbox' ],
+			bodyHeight : 200,
+			columns : [ {
+				header : '제품명',
+				name : 'giname',
+				align : 'center'
+			}, {
+				header : '제품코드',
+				name : 'gicode',
+				align : 'center'
+			} ]
+		});
+		
+		/*제품정보 그리드*/
+		const giupdata = [];
+
+		let jepoom = new tui.Grid({
+			el : document.getElementById('gridpro'),
+			data : giupdata,
+			scrollX : false,
+			rowHeaders : [ 'rowNum', 'checkbox' ],
+			bodyHeight : 430,
+			columns : [ {
+				header : '제품코드',
+				name : 'gicode',
+				align : 'center',
+				sortingType : 'desc',
+				sortable : true
+			}, {
+				header : '제품명',
+				name : 'giname',
+				align : 'center',
+				sortingType : 'desc',
+				sortable : true
+			}, {
+				header : '제품단위',
+				name : 'giunit',
+				align : 'center',
+				sortingType : 'desc',
+				sortable : true
+			} ]
+		});
+		
+	
+			
+			
 		/* 제품재고 조회 ok -> 수정되도록 editer */ 
 		$('#searchBtn').on('click', function() {
 			var gssCode = $('#leftinput1').val()
@@ -247,6 +349,7 @@ span {
 			
 		})
 		
+		
 		/* 제품재고등록 제품 검색 */
 		$('#gisearchBtn1').on('click', function() {
 			var addStk = $('#stkmoinput').val()
@@ -258,18 +361,30 @@ span {
 					jepoomstk.resetData(result)
 				}
 			})
+			
 		})
+		
+		jepoomstk.on('click', e => {
+				var jrk = e.rowKey
+				var jval = jepoomstk.getValue(jrk, 'giname')
+				var cval = jepoomstk.getValue(jrk, 'gicode')
+				gin = jepoomstk.getRow(jrk).giname
+				$('#stkmoinput').val(jval)
+				$('#jehiin').val(cval)
+			})
+		
 		
 		/* 제품재고등록 모달 확인버튼 눌렀을때 */
 		function check() {
-			const allstk = jepoomstk.getCheckedRows();
+			const gsamin = $('#giami').val()
+			const jepoomcoin = $('#jehiin').val()
 			$.ajax({
 				url : 'goodsStkInsert',
 				method: 'POST',
-				data: JSON.stringify(allstk),
-				contentType: 'application/json',
-				success: function() {
-					
+				data: {gsamin, jepoomcoin},
+				success: function(result) {
+					jepoomstk.refreshLayout();
+					jepoomstk.resetData(result)
 				}
 			})
 			modal2.dialog('close')
@@ -327,108 +442,9 @@ span {
 		}
 
 		
-		// 그리드 -----------------------------------------------
-
-		/* 메인화면 그리드 */
-		const gridData = [];
-
-		const grid = new tui.Grid({
-			el : document.getElementById('grid'),
-			data : gridData,
-			scrollX : false,
-			rowHeaders : [ 'rowNum', 'checkbox' ],
-			columns : [ {
-				header : '제품재고관리번호',
-				name : 'gsmnum',
-				align : 'center'
-			},{
-				header : '제품명',
-				name : 'giname',
-				align : 'center'
-			}, {
-				header : '제품코드',
-				name : 'gicode',
-				align : 'center'
-			}, {
-				header : '안전재고',
-				name : 'gisafe',
-				align : 'center'
-			}, {
-				header : '제품재고량',
-				name : 'gsam',
-				align : 'center',
-				editor: 'text',
-			}, {
-				header : '단위',
-				name : 'giunit',
-				align : 'center'
-			} ]
-		});
 		
-		/*제품재고 등록 그리드*/
-		const stkdata = [];
-
-		let jepoomstk = new tui.Grid({
-			el : document.getElementById('gridstk'),
-			data : stkdata,
-			scrollX : false,
-			rowHeaders : [ 'rowNum', 'checkbox' ],
-			bodyHeight : 430,
-			columns : [ {
-				header : '제품명',
-				name : 'giname',
-				align : 'center'
-			}, {
-				header : '제품코드',
-				name : 'gicode',
-				align : 'center'
-			}, {
-				header : '안전재고',
-				name : 'gisafe',
-				align : 'center'
-			}, {
-				header : '제품재고량',
-				name : 'gsam',
-				align : 'center',
-				editor: 'text',
-			}, {
-				header : '단위',
-				name : 'giunit',
-				align : 'center'
-			} ]
-		});
 		
-		/*제품정보 그리드*/
-		const giupdata = [];
-
-		let jepoom = new tui.Grid({
-			el : document.getElementById('gridpro'),
-			data : giupdata,
-			scrollX : false,
-			rowHeaders : [ 'rowNum', 'checkbox' ],
-			bodyHeight : 430,
-			columns : [ {
-				header : '제품코드',
-				name : 'gicode',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
-			}, {
-				header : '제품명',
-				name : 'giname',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
-			}, {
-				header : '제품단위',
-				name : 'giunit',
-				align : 'center',
-				sortingType : 'desc',
-				sortable : true
-			} ]
-		});
 	})
-	
 	
 	
 	</script>
