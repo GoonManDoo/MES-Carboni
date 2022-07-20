@@ -59,11 +59,20 @@ public class MatServiceImpl implements MatService {
 	public List<MatVO> addRequestList(List<MatVO> list) {
 		List<MatVO> reqList = new ArrayList<MatVO>();
 		
+		System.out.println(list.size());
 		for (MatVO vo : list) {
 			map.addRequestList(vo);
-			reqList.add((MatVO) map.selectReqList(vo).get(0));
+			if(map.selectReqList(vo).get(0).getReqnum() !=null) {
+				map.updateReqStat(vo);
+				reqList.add((MatVO) map.selectReqList(vo).get(0));
+			}else if(map.selectReqList(vo).get(0).getReqnum() ==null){
+				reqList.add((MatVO) map.selectReqList(vo).get(0));
+			}
+
+			System.out.println("====> " + vo);
+			System.out.println("----> " + map.selectReqList(vo));
 		}
-		System.out.println(reqList);
+//		System.out.println(reqList);
 		return reqList;
 	}
 

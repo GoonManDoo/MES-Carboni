@@ -126,12 +126,13 @@ public class MatController {
 		List<MatVO> findcodelist = service.findCode(cusCode, matCode);
 		return findcodelist;
 	}
-
+	//자체 발주 및 요청 발주
 	@RequestMapping(method = RequestMethod.POST, path = "addrequestlist")
 	@ResponseBody
 	public List<MatVO> addrequestlist(@RequestBody List<MatVO> list) {
 		return service.addRequestList(list);
 	}
+	
 	
 	@RequestMapping("finddelreq")
 	@ResponseBody
