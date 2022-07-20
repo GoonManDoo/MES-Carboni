@@ -128,7 +128,7 @@
 										style="margin-right: 5px;" id="listBtn">조회</button>
 									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="addBtn">추가</button>
-										<button type="button" class="btn btn-secondary"
+									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="modiBtn">수정</button>
 									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="removeBtn">삭제</button>
@@ -168,13 +168,14 @@
 				<!-- 요청 정보 넘어왔을떄 기업 선택 모달 -->
 				<div id="reqcommodal" title="발주업체 선택" style="padding: 20px;">
 					<div class="title">
-						<span>거래처명</span> <input type="text" class="input" id="reqmiSearchName">
+						<span>거래처명</span> <input type="text" class="input"
+							id="reqmiSearchName">
 						<button class="btn btn-secondary" id="reqmiSearchBtn">검색</button>
 					</div>
 					<div id="companygrid"></div>
 				</div>
-				
-		<!-- 		<div id="reqlistmodal" title="자체발주" style="padding: 20px;">
+
+				<!-- 		<div id="reqlistmodal" title="자체발주" style="padding: 20px;">
 				<div class="title">
 				<form autocomplete="off" >
 					<span>거래처코드</span> <input type="text" class="input" id="">
@@ -213,6 +214,17 @@
 						return dialog;
 					}
 					/*메이크모달 끝*/
+					/*=================공통 ajax 함수=================================*/
+					    function makeAjaxCall(url, data, callback, error) {
+					               $.ajax({
+					                  url: url,
+					                  method: 'POST',
+					                  data: data,
+					                  success: callback,
+					                  error: error
+					               })
+					            }
+					/*===================================================*/
 					
 					/* 입고일자 데이터 피커  */
 					var today = new Date();
@@ -362,15 +374,30 @@
 							name : 'miname',
 							align : 'center',
 						}, {
+							header : '기업명',
+							name : 'csname',
+							align : 'center',
+						}, {
+							header : '기업코드',
+							name : 'cscode',
+							align : 'center',
+						}, {
 							header : '발주요청량',
 							name : 'mrreqam',
 							align : 'center',
+						},{
+							header : '주문수량',
+							name   :'moaskam',
+							editor :'text',
+							align  : 'center'
 						}, {
 							header : '처리상태',
 							name : 'mrstatus',
 							align : 'center',
 						} ]
 					});
+					reqG.hideColumn('micode')
+					reqG.hideColumn('cscode')
 					var dia = makeModal("#reqmodal", check)
 
 					/*생산에서 넘어오는 정보를 가지고있는 모달*/
@@ -385,33 +412,17 @@
 								reqG.refreshLayout();
 								reqG.resetData(result)
 								erow = result.rowKey
-								/*if(reqG.getValue(erow,'mrstatus')=='Y'){
-									요구사항을 발주 완료하여 처리상태가 Y가 되면 
-									안보이게 함
-								}*/
-								
+							
 							}
 						})
 					})
-
-					/*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 */
-					function check() {
-						reqlist=reqG.getCheckedRows();
-							grid.appendRows(reqlist)
-							/*발주 요청량이 존재할떄 주문수량도 같이 입력됨*/
-							prk = (grid.getRowCount())-1
-								for(i=0; i<prk+1; i++) {
-									grid.setValue(i, 'moaskam', grid.getRow(i).mrreqam, false)
-								}
-						dia.dialog('close') 
-					}
 					
-					//메인그리드에서 업체를 더블클릭했을떄 
+					//생산요청에서 업체를 더블클릭했을떄 
 					var clickmodal = makeModal("#reqcommodal",dbclickfn)
-						grid.on('dblclick',function(e){
+						reqG.on('dblclick',function(e){
 							erow = e.rowKey
 							//console.log(grid.getValue(e.rowKey, 'csname'))
-							if(e.columnName=='csname' && grid.getValue(erow,'csname') == null){
+							if(e.columnName=='csname' && reqG.getValue(erow,'csname') == null){
 								$("#reqcommodal").css('display', '')
 								clickmodal.dialog('open')
 							$.ajax({
@@ -430,14 +441,52 @@
 								})
 								
 							}
-						})
+						}) 
 					
 					//그리드안에 더블클릭 모달에서 선택후 확인 눌렀을떄
 					function dbclickfn() {
-						grid.setValue(erow,'csname',cs,false)
-						grid.setValue(erow,'cscode',cscods,false)
+						reqG.setValue(erow,'csname',cs,false)
+						reqG.setValue(erow,'cscode',cscods,false)
 						clickmodal.dialog('close')
 					}
+
+					/*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 */
+					function check() {
+						var reqlists=reqG.getCheckedRows()
+						console.log(reqlists)
+						var reqcheckcode = reqlists.some(e => {return e.cscode != null})
+						/* cscode 가 null이 아닐떄 true  */
+						console.log(reqcheckcode)
+						var reqcheckam = reqlists.some(e => {return e.moaskam != null})
+						console.log(reqcheckcode)
+						/* 주문수량이 null이 아닐떄 true */
+						console.log(reqlists.length)
+						if(reqcheckcode == true && reqcheckam==true){
+							console.log(reqlists)
+							swal('','입력하지않은 값이 있습니다', 'warning')
+							 
+						}else{
+							$.ajax({
+								url:'addrequestlist',
+								method : 'POST',
+								data :  JSON.stringify(reqlists),
+								contentType:'application/json',
+								success :function(result){
+									swal('성공', '발주가 완료되었습니다.', 'success')
+								}
+						 })
+						}
+							/* grid.appendRows(reqlist) */
+							/*발주 요청량이 존재할떄 주문수량도 같이 입력됨*/
+						/* 	prk = (grid.getRowCount())-1
+								for(i=0; i<prk+1; i++) {
+									grid.setValue(i, 'moaskam', grid.getRow(i).mrreqam, false)
+								} */
+						dia.dialog('close') 
+					}
+					
+					
+					
 					/*메인그리드에서 검색시 출력*/
 					const conpany =[];
 					const company =  new tui.Grid({
@@ -622,7 +671,7 @@
 						cdmo.dialog('close')
 					}
 					/*자재코드 검색 모달 끝!*/
-					
+					//----------------------------------------------------
 					/*저장안한 행삭제*/
 					$('#resetBtn').on('click', function(){
 						fnFormClear();
@@ -633,6 +682,7 @@
 							picker.setEndDate(new Date());
 							grid.resetData(gridData);
 						}
+					//-----------------------------------------------------
 					/*삭제눌렀을때*/
 					$('#removeBtn').on('click', function(){
 						delgrid =grid.getCheckedRows()
@@ -649,15 +699,17 @@
 							}
 						})
 					})
+					//---------------------------------------------------
 					
 					/*자체발주 등록할때*/
 					$('#saveBtn').on('click',function(){
-						var datas = grid.getCheckedRows()
+						var datas =grid.getCheckedRows()
 						var checkNull = datas.some(e => {return e.monum != null})
-						
 						if(checkNull == false){
-							
-							  $.ajax({
+							if(datas.length==0){
+								return;
+							}
+							 $.ajax({
 									url:'addrequestlist',
 									method : 'POST',
 									data :  JSON.stringify(datas),
@@ -668,13 +720,43 @@
 										swal('성공', '발주가 완료되었습니다.', 'success')
 									}
 							 })
-							 
-						} else {
+						}else{
 							swal('','이미 등록된 값이 있습니다.', 'warning')
 						}
-							 
+						
+					/* 	var datas = grid.getCheckedRows()
+						var checkNull = datas.some(e => {return e.monum != null})
+						var getrows =grid.getCheckedRows()
+						var getcheckrow = getrows.some(e =>{return e.reqnum !=null})
+						console.log(getrows);
+						
+						if(checkNull ==false){
+							for(i=0; i<getrows.length; i++){
+								if(grid.getValue(i,'cscode') == null){
+									swal('','발주업체를 선택하십시오', 'warning')
+									return ;
+								}else{
+									
+								}
+							}
+							// 등록 아작스 호출
+							 $.ajax({
+									url:'addrequestlist',
+									method : 'POST',
+									data :  JSON.stringify(datas),
+									contentType:'application/json',
+									success :function(result){
+										grid.removeCheckedRows('')
+										grid.appendRows(result)
+										swal('성공', '발주가 완료되었습니다.', 'success')
+									}
+							 })
+							
+						}else {
+							swal('','이미 등록된 값이 있습니다.', 'warning')
+						} */
+								
 					})
-					
 				})
 			</script>
 		</div>

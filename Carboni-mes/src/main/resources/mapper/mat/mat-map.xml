@@ -9,7 +9,7 @@
 		JOIN
 		MATINFO D
 		ON E.MICODE=D.MICODE
-		WHERE E.MRSTATUS ='N'
+		WHERE E.MRSTATUS ='발주전'
 	</select>
 	<!-- 발주 메인에서 기업 검색 모달안의 내용 전체조회 -->
 	<!-- 입고에서 기업 검색 모달안의 내용 조회 -->
@@ -107,14 +107,23 @@
 
 	<select id="selectReqList" resultType="co.carboni.prj.mat.vo.MatVO">
 		SELECT O.MOODATE,O.MONUM,O.MOASKAM,O.MOSTATUS,O.MONOTE,
-		C.CSNAME,M.MINAME,o.reqnum,o.mrreqam
+		C.CSNAME,M.MINAME,o.reqnum ,o.mrreqam,o.cscode
 		FROM MATORD O ,COSTOMER C, MATINFO M
 		WHERE (O.MICODE = M.MICODE
 		AND C.CSCODE=O.CSCODE )
+		
 		AND O.MONUM= #{monum}
 	</select>
 	
-	<update id="updateReqStat"></update>
+	<!-- 생산에서 요청한 내용이 발주 완료 되었을때 상태 변경 -->
+	<update id="updateReqStat" parameterType="co.carboni.prj.mat.vo.MatVO">
+		update matreq
+		<set>
+		mrstatus = '발주완료'
+		</set>
+		where reqnum =#{reqnum}
+	
+	</update>
 	
 	<!-- 발주에서 발주내용 삭제할떄 -->
 	<delete id="findDelreq" parameterType="co.carboni.prj.mat.vo.MatVO">
@@ -124,6 +133,8 @@
 		#{arr}
 		</foreach>
 	</delete>
+	
+
 	
 
 </mapper>
