@@ -12,6 +12,8 @@ public interface SysinfoService {
 	//설비 상세보기 관련 1쿼리 1값
 	List<SystemVO> selectSysDetAll(SystemVO vo);
 	
+	//공정정보 조회
+	List<SystemVO> selectPicoid();
 	
 	//설비 정보 등록
 	int systemInsert(SystemVO vo);
@@ -30,4 +32,6 @@ public interface SysinfoService {
 	
 	//설비 관리 수정
 	int sysmanUpdate(SystemVO vo);
+	
+	
 }

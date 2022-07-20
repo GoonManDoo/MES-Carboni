@@ -28,6 +28,11 @@ public class SysInfoServiceImpl implements SysinfoService{
 		return map.selectSysDetAll(vo);
 	}
 	
+	@Override
+	public List<SystemVO> selectPicoid() {
+		return map.selectPicoid();
+	}
+	
 	
 	@Override
 	public int systemInsert(SystemVO vo) {
@@ -61,5 +66,9 @@ public class SysInfoServiceImpl implements SysinfoService{
 	public int sysmanUpdate(SystemVO vo) {
 		return map.sysmanUpdate(vo);
 	}
+
+
+
+	
 
 }
