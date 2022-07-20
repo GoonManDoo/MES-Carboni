@@ -9,7 +9,8 @@ public interface SysinfoMapper {
 	
 	public List<SystemVO> selectSysDetAll(SystemVO vo);
 	
-	
+	//공정 조회
+	public List<SystemVO> selectPicoid();
 	//설비 정보 등록
 		int systemInsert(SystemVO vo);
 		
@@ -27,4 +28,6 @@ public interface SysinfoMapper {
 		
 		//설비 관리 수정
 		int sysmanUpdate(SystemVO vo);
+		
+		
 }

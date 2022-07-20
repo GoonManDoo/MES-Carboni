@@ -7,6 +7,8 @@
         D.PHDMKAM, D.PHDERRAM
 		FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
 		WHERE S.PICODEID = P.PICODEID OR S.SINUM = D.SINUM
+		ORDER BY SINUM
+		
 	</select>
 
 	<select id="selectSysDetAll" resultType="co.carboni.prj.system.vo.SystemVO">
@@ -15,7 +17,11 @@
         D.PHDMKAM, D.PHDERRAM
 		FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
 		WHERE (S.PICODEID = P.PICODEID OR S.SINUM = D.SINUM)
-        and s.sinum = ${sinum}
+        AND S.SINUM = ${sinum}
+	</select>
+	
+	<select id="selectPicoid" resultType="co.carboni.prj.system.vo.SystemVO">
+		SELECT PICODEID, PINAME FROM PROCINFO
 	</select>
 	
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">

@@ -30,19 +30,21 @@ public class SystemController {
 		return "system/ProdDetail";
 	}
 	
-	@RequestMapping("/test")
-	public  String test(Model model) {
-		model.addAttribute("test", mapper.selectSysAll());
-		return "system/test";
-	}
+//	@RequestMapping("/test")
+//	public  String test(Model model) {
+//		model.addAttribute("test", mapper.selectSysAll());
+//		return "system/test";
+//	}
+	
 	
 	
 	@RequestMapping("/productSysMain")
-		public String productSysMain(Model model) {
-		model.addAttribute("divalign", mapper.selectSysAll());
+		public String productSysMain(Model m1, Model m2) {
+		m1.addAttribute("divalign", mapper.selectSysAll());
+		m2.addAttribute("Pid", mapper.selectPicoid());
 		return "system/productSysMain";
 	}
-	
+
 	@RequestMapping("/systemInsert")
 	public String systemInsert(SystemVO vo) {
 		mapper.systemInsert(vo);
