@@ -87,6 +87,22 @@ begin
 end;
 /
 
+-- 생산계획+상세 삭제 / 생산의뢰 업데이트 프로시저
+CREATE PROCEDURE update_preqstatus
+    (p_ppnum prodplan.ppnum%TYPE)
+IS
+v_prnum prodreq.prnum%TYPE;
+BEGIN
+    select prnum into v_prnum from prodplan_d where ppdnum like p_ppnum||'%';
+    
+    update prodreq set prstatus = 'N' where prnum = v_prnum;
+
+    delete from prodplan where ppnum = p_ppnum;
+    
+    delete from prodplan_d where ppdnum like p_ppnum||'%';
+END;
+/
+
 
 
    

@@ -142,15 +142,7 @@
 	</div>
 
 	<!-- 전체 표 -->
-	<div class="container-fluid px-4 mb-2">
-		<div style="display: flex; justify-content: flex-end;">
-			<button type="button" id="addBtn" class="btn btn-secondary"
-				style="margin-right: 5px;">추가</button>
-			<button type="button" id="deleteBtn" class="btn btn-secondary"
-				style="margin-right: 5px;">삭제</button>
-		</div>
-	</div>
-	<div class="container-fluid px-4">
+	<div class="container-fluid px-4 mt-4">
 		<div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-table me-1"></i> 생산제품목록
@@ -263,6 +255,18 @@
 		
 		$(function(){
 			
+			// 공통 ajax 함수 -------------------------------
+			function makeAjaxCall(url, data, callback, error) {
+				$.ajax({
+					url: url,
+					method: 'POST',
+					data: data,
+					success: callback,
+					error: error
+				})
+			}
+			// --------------------------------------------
+			
 			// 그리드---------------------------------------------
 
 			/* 필요자재 */
@@ -311,7 +315,6 @@
 				el : document.getElementById('total'),
 				data : totalPd,
 				scrollX : false,
-				rowHeaders : [ 'rowNum', 'checkbox' ],
 				columns : [ {
 					header: '제품코드',
 					name: 'gicode',
@@ -386,7 +389,6 @@
 			const rqGrid = new tui.Grid({
 			      el: document.getElementById('requestList'),
 			      data: orderList,
-			      rowHeaders : [ 'checkbox' ],
 			      columns: [
 			        {
 			          header: '의뢰번호',
@@ -520,33 +522,25 @@
 				rqGrid.refreshLayout();
 				var startDt = $('#requestDtS').val()
 				var endDt = $('#requestDtE').val()
-				$.ajax({
-					url: 'unprodList',
-					method: 'POST',
-					data : { startDt, endDt },
-					success: function(result) {
-						rqGrid.resetData(result);
-					}
+				makeAjaxCall('unprodList', { startDt, endDt }, function(result){
+					rqGrid.resetData(result);
+					rqGrid.on('click', e => {
+						for(i=0; i<rqGrid.getRowCount(); i++) {
+							rqGrid.removeRowClassName(i, 'rowSelect')
+						}
+						rqGrid.addRowClassName(e.rowKey, 'rowSelect')
+						rqNum = rqGrid.getValue(e.rowKey, 'prnum')
+					})
 				})
 			})
 			/* 미생산의뢰조회 후 생산할 제품 계획에 등록 */
 			function requestAdd() {
-				const count = rqGrid.getCheckedRows();
-				const rqNum = count.map((e)=>{return e.prnum})
-				$.ajax({
-					url: 'planProduct',
-					method: 'POST',
-					data: { rqNum },
-					dataType: 'json',
-					success: function(rs) {
-						pdGrid.refreshLayout();
-						matGrid.resetData(selectMat); // 계획 추가하면 자재그리드 reset
-						pdGrid.resetData(rs)
-						prk = pdGrid.getRowCount()
-						for(i=0; i<prk; i++) {
-							pdGrid.setValue(i, 'ppdam', pdGrid.getRow(i).cnrest, false)
-						}
-					}
+				makeAjaxCall('planProduct', {rqNum}, function(rs){
+					pdGrid.refreshLayout();
+					matGrid.resetData(selectMat); // 계획 추가하면 자재그리드 reset
+					pdGrid.resetData(rs)
+					prk = pdGrid.getRowCount()
+					pdGrid.setValue(0, 'ppdam', pdGrid.getRow(0).cnrest, false)
 				})
 				modal2.dialog('close')
 			}
@@ -593,30 +587,25 @@
 					pdGrid.removeRowClassName(i, 'rowSelect')
 				}
 				pdGrid.addRowClassName(rk, 'rowSelect')
-				$.ajax({
-					url: 'matCheck',
-					method: 'POST',
-					data : { prn },
-					success: function(result) {
-						matGrid.resetData(result)
-						mrk = matGrid.getRowCount()
-						// 그리드에 값 넣어주기
-						for(i=0; i<mrk; i++) {
-							// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
-							matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
-							if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
-								matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
-								matGrid.addCellClassName(i, 'lamount', 'matDanger')
-								matGrid.on('dblclick', el => {
-									if(el.columnName == 'lamount' && matGrid.getValue(el.rowKey, 'lamount') !== null) {
-										mc = matGrid.getRow(el.rowKey).micode
-										oa = matGrid.getRow(el.rowKey).lamount
-										$('#matCode').val(mc)
-										$('#orderAmount').val(oa)
-										modal3.dialog('open')
-									}
-								})
-							}
+				makeAjaxCall('matCheck', { prn }, function(result){
+					matGrid.resetData(result)
+					mrk = matGrid.getRowCount()
+					// 그리드에 값 넣어주기
+					for(i=0; i<mrk; i++) {
+						// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
+						matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
+						if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
+							matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
+							matGrid.addCellClassName(i, 'lamount', 'matDanger')
+							matGrid.on('dblclick', el => {
+								if(el.columnName == 'lamount' && matGrid.getValue(el.rowKey, 'lamount') !== null) {
+									mc = matGrid.getRow(el.rowKey).micode
+									oa = matGrid.getRow(el.rowKey).lamount
+									$('#matCode').val(mc)
+									$('#orderAmount').val(oa)
+									modal3.dialog('open')
+								}
+							})
 						}
 					}
 				})
@@ -627,27 +616,12 @@
 			function requestMat(){
 				var micode = $('#matCode').val()
 				var orderAmount = $('#orderAmount').val()
-				$.ajax({
-					url: 'requestMat',
-					method: 'POST',
-					data: { micode, orderAmount },
-					success: function() {
-						modal3.dialog('close')
-						swal('성공', '발주요청이 완료되었습니다.', 'success')
-					}
+				makeAjaxCall('requestMat', { micode, orderAmount }, function(){
+					modal3.dialog('close')
+					swal('성공', '발주요청이 완료되었습니다.', 'success')
 				})
 			}
 			
-			// 제품그리드 행추가
-			$('#addBtn').on('click', function(){
-				pdGrid.appendRow()
-			})
-			
-			// 제품그리드 행삭제
-			$('#deleteBtn').on('click', function(){
-				pdGrid.removeCheckedRows('')
-			})
-		
 		// 그리드 함수 끝 -----------------------------------
 		
 		// 버튼 함수---------------------------------------------
@@ -673,7 +647,7 @@
 		/* 생산계획 등록 */
 		$('#saveBtn').on('click', function(){
 			if($('#planNum').val() == '') { // input hidden에 담아놓은 생산계획번호가 없을 때만 등록
-				if($('#planName').val() != '' && pdGrid.getData().length != 0) {
+				if($('#planName').val() != '') {
 					if($('td').hasClass('tui-grid-cell-invalid') == false) { // 제품테이블 그리드중에 입력안된값이 있으면 등록 못하도록
 						// 등록
 						addProdPlan();

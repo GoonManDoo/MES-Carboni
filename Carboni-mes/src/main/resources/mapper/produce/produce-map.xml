@@ -118,20 +118,11 @@
 			WHERE ppdnum = #{ppdnum}
 		</update> -->
 		
-		<!-- 생산계획삭제 -->
-		<delete id="removeProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
-			DELETE FROM prodplan
-			WHERE ppnum = #{ppnum}
-		</delete>
+		<!-- 생산계획, 계획상세 삭제 + 생산의뢰 상태변경 -->
+		<update id="removeProdPlan" parameterType="co.carboni.prj.produce.vo.ProdPlanVO" statementType="CALLABLE">
+			<![CDATA[{call update_preqstatus(#{ppnum})}]]>
+		</update>
 		
-		<!-- 생산계획상세 삭제 -->
-		<delete id="removePPlanDetail" parameterType="co.carboni.prj.produce.vo.ProdPlanVO">
-			DELETE FROM prodplan_d
-			WHERE ppdnum like #{ppnum}||'%'
-		</delete>
-		
-	
-	
 	
 	<!-- 생산지시관리 -->
 	
@@ -199,6 +190,7 @@
 			<![CDATA[{call add_proccomm_d(#{pcnum}, #{pcdnum}, #{lineid}, #{ppdnum}, #{gicode}, #{pcdam}, #{pcdsdate})}]]>
 		</update>
 		
+		
 		<!-- 재생산이 필요한 제품불량내역 -->
 		<select id="reprodList" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
 			SELECT e.genum, e.gedate, p.phnum, e.gicode, g.giname, c.cexplaind, e.gedetail, e.gegdam
@@ -207,6 +199,18 @@
 			AND e.gestatus = 'N'
 		</select>
 	
+		<!-- 생산지시수정 -->
+		<select id="updateOrder" parameterType="co.carboni.prj.produce.vo.ProdOrderVO">
+			update into prodcomm
+			set pcname = #{pcname}, pcnote = #{pcnote}, pcdkeeper = #{pcdkeeper}
+			where pcnum = #{pcnum}
+		</select>
+		
+		<!-- 생산지시상세수정 -->
+		
+		<!-- 생산지시삭제 -->
+		
+		<!-- 생산지시조회 -->
 	
 	
 </mapper>

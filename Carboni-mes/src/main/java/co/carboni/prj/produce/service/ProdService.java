@@ -69,6 +69,10 @@ public interface ProdService {
 
 		// 재생산이 필요한 제품불량내역
 		public List<ProdOrderVO> reprodList(ProdOrderVO vo);
+		
+		// 생산지시수정
+		public void updateOrder(ProdOrderVO vo);
+		
 
 		
 

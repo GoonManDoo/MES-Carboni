@@ -98,7 +98,7 @@ public class ProdServiceImpl implements ProdService {
 		@Override
 		public void removeProdPlan(ProdPlanVO vo) {
 			mapper.removeProdPlan(vo);
-			mapper.removePPlanDetail(vo);
+			//mapper.removePPlanDetail(vo);
 		}
 
 		
@@ -154,6 +154,13 @@ public class ProdServiceImpl implements ProdService {
 		public List<ProdOrderVO> reprodList(ProdOrderVO vo) {
 			return mapper.reprodList(vo);
 		}
+		
+		// 생산지시수정
+		@Override
+		public void updateOrder(ProdOrderVO vo) {
+			mapper.updateOrder(vo);
+		}
+		
 
 
 		
