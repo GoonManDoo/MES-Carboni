@@ -4,7 +4,55 @@
     <meta charset="UTF-8">
     <title>access denied</title>
 </head>
+<style>
+#textboxes input{
+	display: block;
+}
+#container{
+    margin-top: -86px;
+    margin-left: -196px;
+    width: 2360px;
+    height: 1080px;
+    overflow: hidden;
+    position: fixed;
+    background-repeat: no-repeat;
+    background: url(/assets/img/tqt8.svg);
+}
+#BackToLogin{
+   background-color: #ffffff00;
+    margin-left: 1104px;
+    margin-top: 59px;
+    width: 120px;
+    height: 50px;
+    border: 6px solid rgba(239, 239, 239);
+    color: #FFFFFF;
+    font-family: 'Inter';
+    text-decoration-line: none;
+    font-weight: 500;
+    font-size: 25px;
+    border-radius: 29px;
+}
+#BackToLogin:hover{
+    background-color: rgb(140, 192, 127);
+    transition: 0.5s;
+    cursor: pointer;
+}
+.wrong{
+	margin-top: 570px;
+    margin-left: 942px;
+    color: white;
+    font-size: 27px;
+    font-weight: 500;
+}
+
+</style>
 <body>
-<h2>!!!아이디 또는 비밀번호가 틀렸습니다!!!</h2>
+	<th:block layout:fragment="main">
+		<div id="container">
+			<h2 class="wrong">!!!아이디 또는 비밀번호가 틀렸습니다!!!</h2>
+			
+			<button type="submit" id="BackToLogin"><a th:href="@{login.do}" style="font-size: 19px; font-weight: bold; text-decoration: none; color: white;">돌아가기</button>
+		</div>
+	</th:block>
 </body>
 </html>
