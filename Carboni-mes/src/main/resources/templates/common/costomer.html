@@ -54,9 +54,6 @@
     </form>
 
     <div class="card mb-4">
-      <div class="card-header">
-        <i class="fas fa-table me-1"></i> 코드상세
-      </div>
       <div class="card-body">
         <table id="datatablesSimple">
           <thead>
@@ -90,22 +87,24 @@
 </body>
 <script>
 
-	//새자료
-	
+	// 새자료
 	$('#newthat').click(function () {
       $('#myf>input').val('');
     })
     
+    // radio입력
     $(document).on('click', 'input[name=cost]', function(){
-			$(cscode).val($('input[name=cost]:checked').parent().next().text())
-			$(csname).val($('input[name=cost]:checked').parent().next().next().text())
-			$(csnum).val($('input[name=cost]:checked').parent().next().next().next().text())
-			$(cstel).val($('input[name=cost]:checked').parent().next().next().next().next().text())
-			$(csgb).val($('input[name=cost]:checked').parent().next().next().next().next().next().text())
-			$(csnote).val($('input[name=cost]:checked').parent().next().next().next().next().next().next().text())
+			$(cscode).val($('input[name=cost]:checked').parent().parents().children().eq(1).text())
+			$(csname).val($('input[name=cost]:checked').parent().parents().children().eq(2).text())
+			$(csnum).val($('input[name=cost]:checked').parent().parents().children().eq(3).text())
+			$(cstel).val($('input[name=cost]:checked').parent().parents().children().eq(4).text())
+			$(csgb).val($('input[name=cost]:checked').parent().parents().children().eq(5).text())
+			$(csnote).val($('input[name=cost]:checked').parent().parents().children().eq(6).text())
 			
 		});
-		
+	
+	
+	// 입력수정
     function check(){
     	if($(csname).val()=='' || $(csnum).val()=='' || $(cstel).val()=='' || $(csgb).val() ==''){
     		swal('항목을 입력하십시오', '거래처명, 사업자등록번호, 전화번호, 거래처구분은 필수입력 항목입니다.', 'warning');
@@ -120,6 +119,8 @@
 			}
     	}
 	}
+	
+	// 삭제
 	function del(){
 		if($(cscode).val()=='') {
 			swal('코드를 입력하십시오', '코드를 선택하여 삭제하여 주십시오.', 'warning');

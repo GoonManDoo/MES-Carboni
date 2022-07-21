@@ -127,13 +127,13 @@
       }]
     });
     
-    //새자료
+    // 새자료
     $('#newthat').click(function () {
       $('#myf>input').val('');
     })
     
     
-    //대분류로 소분류 조회
+    // 대분류로 소분류 조회
     grid.on('click', (ev) => {
   		var ccode = ev.nativeEvent.target.innerText
     	if(ev.columnName == 'ccodeid'){
@@ -159,14 +159,14 @@
     	}
 	});
 	
-	//소분류 라디오로 정보입력
+	// 소분류 라디오로 정보입력
 		$(document).on('click', 'input[name="list"]', function(){
-			$(ccodeid).val($('input[name=list]:checked').parent().next().text())
-			$(cclass).val($('input[name=list]:checked').parent().next().next().text())
-			$(cclassd).val($('input[name=list]:checked').parent().next().next().next().text())
-			$(cexplain).val($('input[name=list]:checked').parent().next().next().next().next().text())
-			$(cexplaind).val($('input[name=list]:checked').parent().next().next().next().next().next().text())
-			$(cnote).val($('input[name=list]:checked').parent().next().next().next().next().next().next().text())
+			$(ccodeid).val($('input[name=list]:checked').parent().parents().children().eq(1).text())
+			$(cclass).val($('input[name=list]:checked').parent().parents().children().eq(2).text())
+			$(cclassd).val($('input[name=list]:checked').parent().parents().children().eq(3).text())
+			$(cexplain).val($('input[name=list]:checked').parent().parents().children().eq(4).text())
+			$(cexplaind).val($('input[name=list]:checked').parent().parents().children().eq(5).text())
+			$(cnote).val($('input[name=list]:checked').parent().parents().children().eq(6).text())
 			
 		});
 		
@@ -187,7 +187,7 @@
 		}
 	}
 	
-	//삭제
+	// 삭제
 	function del(){
 		if($(ccodeid).val()=='') {
 			swal('코드를 입력하십시오', '코드를 선택하여 삭제하여 주십시오.', 'warning');
@@ -196,8 +196,7 @@
 			document.subform.submit();
 		}
 	}
-
-    
+	
   </script>
 </th:block>
 

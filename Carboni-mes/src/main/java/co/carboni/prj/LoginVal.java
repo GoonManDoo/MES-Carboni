@@ -35,7 +35,9 @@ public class LoginVal implements UserDetailsService {
         String acode = user.getAcode();
         
 		return User.builder()
-				.username(lid).password(lpw).roles(acode)
+				.username(lid)
+				.password(lpw)
+				.roles(acode)
 				.build();
 	}
 

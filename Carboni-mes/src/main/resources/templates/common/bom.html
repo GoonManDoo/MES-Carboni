@@ -46,7 +46,6 @@
         <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
         <!-- localDB에서 INSERT 문제 발생, 클라우드 지갑DB에서는 멀쩡히 동작함 -->
         <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
-        
       </div>
     <form id="myf" name="subform">
       <label for="gicode">제품코드</label> <input type="text" id="gicode" name="gicode">
@@ -83,6 +82,7 @@
 </body>
 <script>
 
+		// 제품호출
 		$('#gicode').on('click', function(){
 			 $("#dialog1").dialog("open")
 			 $.ajax({
@@ -98,6 +98,7 @@
 			 })
 		})
 		
+		//제품모달
 		$("#dialog1").dialog({
 			autoOpen: false,
 			modal: true,
@@ -112,7 +113,8 @@
 					}
 				]
 			});
-			
+
+	// 제품모달 안 그리드
     var goodsgrid = new tui.Grid({
       el: document.getElementById('dialog1'),
       scrollX: false,
@@ -132,12 +134,7 @@
     });
     
     
-    
-    
-			
-			
-			
-			
+    	// 자재호출
 		$('#micode').on('click', function(){
 			 $("#dialog2").dialog("open")
 			 $.ajax({
@@ -152,6 +149,8 @@
 			 	}
 			 })
 		})
+		
+		// 자재모달
 		$("#dialog2").dialog({
 			autoOpen: false,
 			modal: true,
@@ -166,6 +165,8 @@
 					}
 				]
 			});
+			
+	// 자재그리드
     var grid = new tui.Grid({
       el: document.getElementById('dialog2'),
       scrollX: false,
@@ -183,11 +184,13 @@
         width: 200,
       }]
     });
-
+	
+	// 새자료
     $('#newthat').click(function () {
       $('#myf>input').val('');
     })
     
+    // 제품코드로 BOM검색
     $('#search').click(function() {
     	if($('#gicode').val() == ''){
     		swal('항목을 입력하십시오', '제품코드를 입력하여 검색해 주십시오.', 'warning');
@@ -207,17 +210,18 @@
     					mktr.append($('<td>').html(ele.BAM))
     					mktr.append($('<td>').html(ele.BNOTE))
     					mktr.appendTo($('#tbody'))
-          })
-        }
-      })
-    		
-    	}
-    })
+					})
+				}
+			})
+		}
+	})
     
+    // 새자료
     $('#newthat').click(function () {
       $('#myf>input').val('');
     })
     
+    // 입력수정
     function check(){
     	if($('#gicode').val() == '' || $('#micode').val() == '' ){
     		swal('항목을 입력하십시오', '제품과 자재 코드는 필수입력 조건입니다.', 'warning');
@@ -227,6 +231,7 @@
     	}
     }
     
+    // 삭제
     function del(){
     	if($('#gicode').val() == '' || $('#micode').val() == '' ){
     		swal('항목을 입력하십시오', '제품과 자재 코드는 필수입력 조건입니다.', 'warning');
@@ -236,16 +241,14 @@
     	}
     }
     
+    // radio입력
     $(document).on('click', 'input[name="list"]', function(){
-        
 		$('#gicode').val($('input[name=list]:checked').parent().parents().children().eq(1).text())
 		$('#micode').val($('input[name=list]:checked').parent().parents().children().eq(2).text())
 		$('#bam').val($('input[name=list]:checked').parent().parents().children().eq(4).text())
 		$('#bnote').val($('input[name=list]:checked').parent().parents().children().eq(5).text())
 	});
-    
-		
-		
+	
 </script>
 </th:block>
 
