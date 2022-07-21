@@ -81,6 +81,14 @@ public class SalesServiceImpl implements SalesService {
 				}
 			}
 		
+			//출하관리 > 출하등록
+			@Override
+			public void shipInsert(List<SalesVO> allship) {
+				for (SalesVO vo: allship) {
+					mapper.shipInsert(vo);
+				}
+			}
+			
 		//제품재고관리
 		
 			//제품재고관리 > 제품재고 조회
@@ -132,11 +140,19 @@ public class SalesServiceImpl implements SalesService {
 			public void findDelShList(SalesVO vo) {
 				mapper.findDelShList(vo);
 			}
-
+			
+			//출하관리 > 미출고건 납기일자 조회
 			@Override
 			public List<SalesVO> findNoProdList(String startCpd, String endCpd) {
 				return mapper.findNoProdList(startCpd, endCpd);
 			}
+			
+			//출하관리 > 출하등록 수주일자 조회
+			@Override
+			public List<SalesVO> findScndateList(String startScd, String endScd) {
+				return mapper.findScndateList(startScd, endScd);
+			}
+
 
 
 			

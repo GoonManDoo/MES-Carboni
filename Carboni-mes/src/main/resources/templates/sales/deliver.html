@@ -25,7 +25,8 @@ span {
 
 .input {
 	height: 23px;
-	margin-left: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
 	display: inline-block;
 	padding: 0 10px;
 	vertical-align: middle;
@@ -38,6 +39,7 @@ span {
 
 #leftinput {
 	width: 42%;
+	margin-right: 18px;
 }
 
 #startCNDATE {
@@ -56,41 +58,84 @@ span {
 	font-size: medium;
 	font-weight: normal;
    }
+     #modal {
+	display: none;
+}
+.title {
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
 <th:block layout:fragment="main">
 	<div class="container-fluid px-4">
 		 <h2 class="mt-4">배송 관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>배송관리</div></h2>
+		
+		<!-- 메인화면 버튼 -->
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-				<button class="btn btn-secondary">조회</button>
-				<button class="btn btn-secondary">등록</button>
-				<button class="btn btn-secondary">삭제</button>
+				<button id="searchBtn" class="btn btn-secondary">조회</button>
+				<button id="insertBtn" class="btn btn-secondary">등록</button>
+				<button id="deleteBtn" class="btn btn-secondary">삭제</button>
 			</div>
 		</div>
+		
+		<!-- 메인화면 검색 -->
 		<div class="card mb-4" id="pageing">
 			<div class="card-body">
-				 <span> 출하일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~
+				 <span> 출고일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~
 		                     <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br>
-                        배송번호<input type="text" id="leftinput" class="input" placeholder="배송번호"><br>
+                        업체검색<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly"><br>
                      </span> 
 			</div>
 		</div>
 	</div>
 	<div id="search" title="배송정보" style="text-align: center;">       </div>
 	
-<div class="container-fluid px-4">
-	<div class="card mb-4">
-		<div class="card-header">
-			<i class="fas fa-table me-1"></i> 배송정보
-		</div>
-		<div id="grid"></div>
+	<!-- 모달 -->
+	<div id="modal"> 
+	
+	<!-- 수주번호 검색 모달 -->
+	<div id="deliverModal" style="padding: 20px;" title="거래처 검색">
+				<div class="container">
+					<div class="title">
+						<span>  업체검색<input type="text" id="leftinput" class="input" placeholder="거래처 검색" readonly="readonly">
+							<button id="ShdateBtn" class="btn btn-secondary">조회</button> <br>
+					</div>
+				</div>
+				
+				<!-- 수주번호 검색 모달 그리드 -->
+				<div class="container-fluid px-4">
+					<div class="card mb-4">
+						<div class="card-header" style="text-align: center;">
+							<i class="fas fa-table me-1"></i> 거래처 조회
+						</div>
+						<div id="delivergrid"></div>
+					</div>
+				</div>
+			</div>
+	
 	</div>
-</div>
+	
+	<!-- 메인화면 그리드 -->
+	<div class="container-fluid px-4">
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table me-1"></i> 배송정보
+			</div>
+			<div id="grid"></div>
+		</div>
+	</div>
 
+<script>
 
-<script type="text/javascript">
+	$(function() {
+		
+	
+
+	/* 메인화면 그리드 */
 	const gridData = [];
 
 	const grid = new tui.Grid({
@@ -100,44 +145,100 @@ span {
 		rowHeaders : [ 'rowNum', 'checkbox' ],
 		columns : [ {
 			header : '배송번호',
-			name : 'c2',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
+			name : 'dnum',
+			align : 'center'
 		}, {
-			header : '제품코드',
-			name : 'c3',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
+			header : '수주번호',
+			name : 'cnnum',
+			align : 'center'
 		}, {
 			header : '제품명',
-			name : 'c4',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
+			name : 'giname',
+			align : 'center'
 		}, {
-			header : '출하수량',
-			name : 'c5',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
+			header : '거래처명',
+			name : 'gsname',
+			align : 'center'
 		}, {
-			header : '거래처코드',
-			name : 'c6',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
+			header : '출고수량',
+			name : 'sham',
+			align : 'center'
 		}, {
 			header : '출고일자',
-			name : 'c7',
-			align : 'center',
-			sortingType : 'desc',
-			sortable : true
+			name : 'shdate',
+			align : 'center'
 		} ]
 	});
 	
+	/* 수주번호 검색 그리드 */
+	const deliverData = [];
+
+	const delivergrid = new tui.Grid({
+		el : document.getElementById('delivergrid'),
+		data : deliverData,
+		scrollX : false,
+		rowHeaders : [ 'rowNum', 'checkbox' ],
+		bodyHeight : 430,
+		columns : [ {
+			header : '수주번호',
+			name : 'cnnum',
+			align : 'center'
+		}, {
+			header : '거래처명',
+			name : 'csname',
+			align : 'center'
+		}, {
+			header : '거래처코드',
+			name : 'cscode',
+			align : 'center'
+		}, {
+			header : '사업자번호',
+			name : 'csnum',
+			align : 'center'
+		}, {
+			header : '전화번호',
+			name : 'cstel',
+			align : 'center'
+		} ]
+	});
 	
+	/*메이크 모달*/
+	function makeModal(e, fnc) {
+		var dialog = $(e).dialog({
+			autoOpen : false,
+			height : 742,
+			width : 700,
+			modal : true,
+			buttons : {
+				'확인' : fnc,
+				'취소' : function() {
+				
+					$(this).dialog('close')
+				}
+			}
+		});
+		$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+		$('.ui-dialog-titlebar-close').html('X').css('border','none').on('click', function() {
+		})
+		return dialog;
+	}
+	var modal1 = makeModal("#deliverModal", giup)
+	
+	/* 수주번호검색 모달 버튼 */
+	$('#leftinput').on('click', function() {
+		$('#deliverModal').css('display', '')
+		modal1.dialog('open')
+		delivergrid.refreshLayout()
+	})
+	
+	/* 수주번호검색 모달 확인 버튼 눌렀을때  */
+	function giup() {
+		
+	}
+	
+	
+	
+	})
 </script>
 </th:block>
 </body>
