@@ -285,6 +285,7 @@ margin-right : -500px;
 				data: JSON.stringify(allreq),
 				contentType:'application/json',
 				success: function() {
+					swal("등록 성공!", "생산의뢰등록이 완료되었습니다.", "success");
 				}
 				
 			}) 
@@ -399,7 +400,7 @@ margin-right : -500px;
 			sortingType : 'desc',
 			sortable : true
 		}, {
-			header : '생산마감여부',
+			header : '생산의뢰여부',
 			name : 'prstatus',
 			align : 'center',
 			sortingType : 'desc',
@@ -470,7 +471,6 @@ margin-right : -500px;
 				header : '마감일자',
 				name : 'prclose',
 				align : 'center',
-				language: 'ko',
 			    editor: 'datePicker',
 			    width: 240
 			} ]

@@ -42,7 +42,9 @@ public interface SalesService {
 		//생산의뢰관리 > 생산의뢰등록
 		public void prodReqInsert(List<SalesVO> allreq);
 		
-	//제품재고관리
+		//출하관리 > 출하등록
+		public void shipInsert(List<SalesVO> allship);
+	
 	
 	
 	//출하관리
@@ -56,6 +58,9 @@ public interface SalesService {
 		//출하관리 > 출하목록 삭제
 		public void findDelShList(SalesVO vo);
 		
+		//출하관리 > 출하등록 수주일자 조회
+		public List<SalesVO> findScndateList(String startScd, String endScd);
+	
 	//제품재고관리
 		
 		//제품재고관리 > 제품재고 조회
@@ -75,6 +80,7 @@ public interface SalesService {
 		
 		//제품재고관리 > 제품재고등록
 		public void goodsStkInsert(String gsamin, String jepoomcoin);
+
 		
 		
 		

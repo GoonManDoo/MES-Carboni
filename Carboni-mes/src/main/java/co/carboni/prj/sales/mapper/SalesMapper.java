@@ -47,7 +47,9 @@ public interface SalesMapper {
 		public void prodReqInsert(SalesVO vo); //생산의뢰등록
 		public void updateCnStat(SalesVO vo);  //수주상태변경 cnstatus
 	
-		//제품재고관리
+		//출하관리 > 출하등록
+		public void shipInsert(SalesVO vo);
+		
 	
 	
 	//출하관리
@@ -62,25 +64,29 @@ public interface SalesMapper {
 		//출하관리 > 미출고건 납기일자 조회
 		public List<SalesVO> findNoProdList(String startCpd, String endCpd);
 	
-		//제품재고관리
+		//출하관리 > 출하등록 수주일자 조회
+		public List<SalesVO> findScndateList(@Param("startScd") String startScd, @Param("endScd") String endScd);
+	
+	//제품재고관리
 		
-			//제품재고관리 > 제품재고 조회
-			public List<SalesVO> findStkList(String gsCode);
-			
-			//제품재고관리 > 제품재고 삭제
-			public void findDelGsmList(SalesVO vo);
-			
-			//제품재고관리 > 제품재고등록 제품검색조회
-			public List<SalesVO> findStkProdList(@Param("addStk") String addStk);
-			
-			//제품재고관리 > 제품재고등록 제품전체조회
-			public List<SalesVO> findAllStkProdList(SalesVO vo);
-			
-			//제품재고관리 > 제품재고수정
-			public void updateStkStat(SalesVO vo);  
-			
-			//제품재고관리 > 제품재고등록
-			public void goodsStkInsert(@Param("gsamin") String gsamin, @Param("jepoomcoin") String jepoomcoin);
+		//제품재고관리 > 제품재고 조회
+		public List<SalesVO> findStkList(String gsCode);
+		
+		//제품재고관리 > 제품재고 삭제
+		public void findDelGsmList(SalesVO vo);
+		
+		//제품재고관리 > 제품재고등록 제품검색조회
+		public List<SalesVO> findStkProdList(@Param("addStk") String addStk);
+		
+		//제품재고관리 > 제품재고등록 제품전체조회
+		public List<SalesVO> findAllStkProdList(SalesVO vo);
+		
+		//제품재고관리 > 제품재고수정
+		public void updateStkStat(SalesVO vo);  
+		
+		//제품재고관리 > 제품재고등록
+		public void goodsStkInsert(@Param("gsamin") String gsamin, @Param("jepoomcoin") String jepoomcoin);
+
 
 
 

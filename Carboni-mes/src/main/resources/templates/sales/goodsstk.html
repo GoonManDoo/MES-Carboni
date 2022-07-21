@@ -383,6 +383,7 @@ span {
 				method: 'POST',
 				data: {gsamin, jepoomcoin},
 				success: function(result) {
+					swal("등록 성공!!", "제품재고가 등록되었습니다.", "success");
 					jepoomstk.refreshLayout();
 					jepoomstk.resetData(result)
 				}
