@@ -70,8 +70,10 @@ public interface ProdMapper {
 		public void addProdOrder(ProdOrderVO vo);
 		
 		// 생산지시상세등록
-		public void addPOrderDetail(ProdOrderVO vo);
-		public void updatePPlanStat(ProdOrderVO vo);
+		public void addPOrderDetail(ProdOrderVO vo); // 지시상세등록(라인번호로 소요일수 검색, 지시상세등록, 해당 계획번호 찾아와서 상태 업데이트)
+		
+		// 재생산이 필요한 제품불량내역
+		public List<ProdOrderVO> reprodList(ProdOrderVO vo);
 
 		
 

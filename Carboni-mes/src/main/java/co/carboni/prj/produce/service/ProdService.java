@@ -67,6 +67,9 @@ public interface ProdService {
 		// 생산지시상세등록 + 수정 시 재등록
 		public void addPOrderDetail(List<ProdOrderVO> orders);
 
+		// 재생산이 필요한 제품불량내역
+		public List<ProdOrderVO> reprodList(ProdOrderVO vo);
+
 		
 
 		

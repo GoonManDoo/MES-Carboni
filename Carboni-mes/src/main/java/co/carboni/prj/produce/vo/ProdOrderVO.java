@@ -20,10 +20,18 @@ public class ProdOrderVO {
 	
 	
 	// 생산지시등록
+		public String pcnum; // 생산지시번호
+		@DateTimeFormat(pattern="yyyy-MM-dd")
+		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+		public Date pcdate; // 지시일자
+		public String pcname; // 생산지시명
+		public String pcnote; // 생산지시비고
+		public String pcdkeeper; // 생산관리자
+		public String pcstatus; // 생산지시상태
 	
 	
 	// 생산지시상세등록
-	
+		public String pcdnum; // 생산지시상세번호
 	
 	// 생산지시수정
 	
@@ -59,7 +67,6 @@ public class ProdOrderVO {
 		@DateTimeFormat(pattern="yyyy-MM-dd")
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date pcdedate; // 작업마감일
-		public String pcdkeeper; // 현장담당자
 	
 		
 	// 제품정보, 자재정보
@@ -88,6 +95,18 @@ public class ProdOrderVO {
 		public String ename; // 사원명
 		public String eposition; // 직책
 	
+	// 재생산이 필요한 불량내역
+		public String genum; // 불량내역번호
+		public Date gedate; // 불량일자
+		public String phnum; // 작업번호
+		// 제품코드
+		public String phdnum; // 작업상세번호
+		public String ccodeid; // 공통코드id
+		public String cexplaind; // 공통상세분류
+		public String gedetail; // 불량내역
+		public int gegdan; // 불량량
+		public String gestatus; // 재생산상태
+		
 	// 선택한 계획의 제품정보
 	
 	

@@ -178,6 +178,13 @@ public class ProdController {
 			service.addPOrderDetail(orders);
 		}
 		
+		// 생산지시관리 - 재생산내역모달 조회
+		@RequestMapping("errorList")
+		@ResponseBody
+		public List<ProdOrderVO> reprodList(ProdOrderVO vo) {
+			return service.reprodList(vo);
+		}
+		
 	
 	
 	// 생산지시조회

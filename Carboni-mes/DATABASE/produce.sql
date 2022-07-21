@@ -60,23 +60,33 @@ values ('LIN-CBN-'||lineinfo_LINEID_seq.currval, 2, 'MOL-2', '2');
 insert into lineinfo
 values ('LIN-CBN-'||lineinfo_LINEID_seq.currval, 3, 'PAC-1', '2');
 
--- or
 
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-1', 'MOL-1', 'PAC-1', '1');
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-2', 'MOL-1', 'PAC-1', '1');
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-3', 'MOL-1', 'PAC-1', '1');
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-4', 'MOL-1', 'PAC-1', '1');
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-1', 'MOL-2', 'PAC-1', '1');
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-2', 'MOL-2', 'PAC-1', '1');
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-3', 'MOL-2', 'PAC-1', '1');
---insert into lineinfo
---values ('LIN-CBN-'||lineinfo_LINEID_seq.nextval, 'BRA-4', 'MOL-2', 'PAC-1', '1');
+-- 생산지시상세등록+생산계획 상태 업데이트 프로시저
+CREATE PROCEDURE add_proccomm_d
+    (p_pcnum IN prodcomm.pcnum%TYPE,
+    p_pcdnum IN proccomm_d.pcdnum%TYPE,
+    p_lineid IN proccomm_d.lineid%TYPE,
+    p_ppdnum IN prodplan_d.ppdnum%TYPE,
+    p_gicode IN proccomm_d.gicode%TYPE,
+    p_pcdam IN proccomm_d.pcdam%TYPE,
+    p_pcdsdate IN proccomm_d.pcdsdate%TYPE)
+IS
+    v_pidtsum procinfo.pidate%TYPE;
+begin
+    select sum(pidate)
+    into v_pidtsum
+    from procinfo
+    where picodeid in (select picodeid from lineinfo where gicode = p_gicode);
+
+    insert into proccomm_d
+    values (p_pcdnum, p_pcnum, p_lineid, p_ppdnum, p_gicode, p_pcdam, '정상', p_pcdsdate, p_pcdsdate+v_pidtsum);
+    
+    update prodplan
+    set ppstatus = '지시진행'
+    where ppnum = SUBSTR(p_ppdnum, 1, 4);
+end;
+/
+
+
 
    

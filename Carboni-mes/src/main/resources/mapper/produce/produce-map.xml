@@ -35,7 +35,7 @@
 			p.ppdnum LIKE #{findDNum}||'%'
 		</select>
 		
-		<!-- 미생산주문조회 -->
+		<!-- 미생산의뢰조회 -->
 		<select id="findUnprod" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
 			SELECT x.prnum, y.cndate, z.csname, x.prclose
 			FROM prodreq x, contract y, costomer z
@@ -156,6 +156,8 @@
 			AND
 			d.prnum = r.prnum)
 			AND
+			rownum = 1
+			AND
 			p.ppnum IN
 			<foreach collection="planNums" item="arr" open="(" separator="," close=")">
 				#{arr}
@@ -183,7 +185,27 @@
 			WHERE eposition = #{posit}
 		</select>
 		
-	
+		<!-- 생산지시등록 -->
+		<insert id="addProdOrder" parameterType="co.carboni.prj.produce.vo.ProdOrderVO" useGeneratedKeys="true" keyColumn="pcnum" keyProperty="pcnum">
+			INSERT INTO prodcomm
+			VALUES (('PC-'||PRODCOMM_PCNUM_SEQ.nextval), #{pcdate}, #{pcname}, '미공정', #{pcnote}, #{pcdkeeper})
+			<selectKey resultType="string" keyProperty="pcnum" order="AFTER">
+				SELECT 'PC-'||max(TO_NUMBER(SUBSTR(pcnum, 4))) AS pcnum FROM prodcomm
+			</selectKey>
+		</insert>
+		
+		<!-- 생산지시상세등록 -->
+		<update id="addPOrderDetail" parameterType="co.carboni.prj.produce.vo.ProdOrderVO" statementType="CALLABLE">
+			<![CDATA[{call add_proccomm_d(#{pcnum}, #{pcdnum}, #{lineid}, #{ppdnum}, #{gicode}, #{pcdam}, #{pcdsdate})}]]>
+		</update>
+		
+		<!-- 재생산이 필요한 제품불량내역 -->
+		<select id="reprodList" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT e.genum, e.gedate, p.phnum, e.gicode, g.giname, c.cexplaind, e.gedetail, e.gegdam
+			FROM goods_err e, prochead_d p, common c, goodsinfo g
+			WHERE (e.phdnum = p.phdnum and e.ccodeid = c.ccodeid and e.gicode = g.gicode)
+			AND e.gestatus = 'N'
+		</select>
 	
 	
 	
