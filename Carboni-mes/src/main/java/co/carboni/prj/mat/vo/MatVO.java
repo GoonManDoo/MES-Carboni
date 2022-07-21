@@ -3,6 +3,8 @@ package co.carboni.prj.mat.vo;
 import java.sql.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -42,7 +44,8 @@ public class MatVO {
 	
 	//발주일자로 검색 시 조회
 	private String monum; //발주코드
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date moodate; //발주일자
 	private int moaskam;//주문수량
 	private String mostatus;//발주상태
@@ -53,16 +56,21 @@ public class MatVO {
 	private int mscoam; //이월량
 	private int msinam; //입고량
 	private int msoutam; //출고량
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date msoutdate; //출고일자
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date msindate; //입고일자
 	private String pcdnum; //생산지시번호
 	
 	private String monote; //발주비고
+	private String msnum; //입출고 번호 (앞에 붙는 문제에따라 다름)
 	
 	public List<String> dellist;
 	
+	//입고관리에서 삭제할떄
+	public List<String> dellists;
 	
 
 

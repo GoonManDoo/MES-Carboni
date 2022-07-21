@@ -41,5 +41,13 @@ public interface MatMapper {
 	
 	//발주에서 발주내용 삭제할떄
 	public void findDelreq(MatVO vo);
+	
+	//---------------------------------------------
+
+	
+	//입고관리에서 자재 입고 처리하면서 발주상태 업데이트
+	public List<MatVO> addInputList(MatVO vo);
+	public List<MatVO> selectInput(MatVO vo);
+	
 
 }

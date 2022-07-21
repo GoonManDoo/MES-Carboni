@@ -25,8 +25,6 @@ public interface MatService {
 	// 발주 메인에서 자재검색모달 안의 내용을 검색하여 조회
 	public List<MatVO> findSearchMat(String miname);
 
-	// 입고관리에서 발주일자로 검색시 모달안의 내용
-	public List<MatVO> inModalSearch(String startD, String endD);
 
 	// 발주관리의 발주일자 조회해서 메인 그리드에 표시
 	public List<MatVO> findReqDate(String startD, String endD, String cusCode, String matCode);
@@ -39,6 +37,16 @@ public interface MatService {
 	
 	//발주에서 발주내용 삭제할떄
 	public void findDelreq(MatVO vo);
+	
+	//---------------------------------------------------------
+
+	// 입고관리에서 발주일자로 검색시 모달안의 내용
+	public List<MatVO> inModalSearch(String startD, String endD);
+	
+
+	//입고관리에서 자재 입고 처리하면서 발주상태 업데이트
+	public List<MatVO> addInputList(MatVO vo);
+
 	
 
 }

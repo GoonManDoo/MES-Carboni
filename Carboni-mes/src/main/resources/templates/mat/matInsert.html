@@ -123,7 +123,7 @@ ul {
 											<td style="width: 200px;"><input type="text"
 												id="searchBtn" style="width: 200px;" class="form-control ht"
 												tabindex="2" placeholder="입고처명 검색"></td>
-											<th style="width: 25%;"><label>업체명코드</label></th>
+											<th style="width: 25%;"><label>업체코드</label></th>
 											<td style="width: 200px;"><input type="text"
 												class="form-control ht" id="rightcom" readonly
 												style="width: 200px;"></td>
@@ -244,7 +244,7 @@ ul {
 						container : '#orderEdate-wapper'
 					}
 				});
-
+ 				/* ===============그리드============================ */
 				const gridData = [];
 
 				const grid = new tui.Grid({
@@ -256,8 +256,12 @@ ul {
 					columns : [ {
 						header : '입고일자',
 						align : 'center',
-						name :'mordate',
+						name :'msindate',
 						editor: 'datePicker'
+					}, {
+						header : '입출고번호',
+						name :'msnum',
+						align : 'center'
 					}, {
 							header : '발주일자',
 						name :'moodate',
@@ -289,15 +293,17 @@ ul {
 						name :'monum',
 						align : 'center'
 					}, {
+						header : '발주량',
+						name :'moaskam',
+						align : 'center'
+					}, {
 						header : '입고량',
-						name :'msam',
-						align : 'center',
-						editor : 'text'
+						name :'msinam',
+						align : 'center'
 					}, {
 						header : '자재 LOT.NO',
 						name :'mlnum',
-						align : 'center',
-						editor : 'text'
+						align : 'center'
 					}, {
 						header : '특이사항',
 						name :'msnote',
@@ -305,35 +311,8 @@ ul {
 						editor :'text'
 					} ]
 				});
+				grid.hideColumn('micode')
 				
-				
-
-				/*발주일자 검색 모달 안의 내용이 나와야함 */
-				var inmo = makeModal("#inmodal", inupdate)
-				
-				$("#btnModal").on('click', function() {
-					$("#inmodal").css('display', '')
-					inmo.dialog('open')
-					var startD =$("#orderSdate").val();
-					var endD = $("#orderEdate").val();
-					$.ajax({
-						url : 'insearchorder',
-						method:'POST',
-						data : {startD,endD},
-						dataType: 'json',
-						success : function(result){
-							inmod.refreshLayout();
-							inmod.resetData(result)
-						}
-					})
-				})
-				
-				/*발주일자 성공했을때 메인 그리드에 나올내용업데이트*/
-				function inupdate() {
-					baljo=inmod.getCheckedRows();
-					grid.appendRows(baljo)
-					inmo.dialog('close')
-				}
 				
 				/*발주일자 검색 그리드 */
 				const indata = [];
@@ -373,9 +352,10 @@ ul {
 						align : 'center',
 					} ]
 
-				})
-				/*입고처명 모달*/
-
+				});
+				inmod.hideColumn('micode')
+				inmod.hideColumn('cscode')
+				
 				/*입고처명 그리드*/
 				const giupdata = [];
 
@@ -404,6 +384,42 @@ ul {
 						align : 'center',
 					} ]
 				});
+				
+				/*================그리드 끝===============================*/
+				/*발주일자 조회해서 메인그리드에 출력=============================*/
+				/*발주일자 검색 모달 안의 내용이 나와야함 */
+				var inmo = makeModal("#inmodal", inupdate)
+				
+				$("#btnModal").on('click', function() {
+					$("#inmodal").css('display', '')
+					inmo.dialog('open')
+					var startD =$("#orderSdate").val();
+					var endD = $("#orderEdate").val();
+					$.ajax({
+						url : 'insearchorder',
+						method:'POST',
+						data : {startD,endD},
+						dataType: 'json',
+						success : function(result){
+							inmod.refreshLayout();
+							inmod.resetData(result)
+						}
+					})
+				})
+				
+				/*발주일자 성공했을때 메인 그리드에 나올내용업데이트*/
+				function inupdate() {
+					baljo=inmod.getCheckedRows();
+					grid.appendRows(baljo)
+						prl =(grid.getRowCount())-1
+						for(i=0; i<prl+1; i++){
+							grid.setValue(i,'msinam',grid.getRow(i).moaskam,false)
+						}
+					inmo.dialog('close')
+				}
+				/*발주조회=====================================*/
+				
+				/*입고처명 모달*/
 				var log = makeModal("#searchmodal", giupcheck)
 
 				/* 입고처명 모달 */
@@ -451,6 +467,7 @@ ul {
 				}
 				/*입고처명 모달 끝*/
 				
+				/*--------------------------------------------------*/
 				/*새자료 눌렀을때 리셋*/
 					$('#resetBtn').on('click', function(){
 						fnFormClear();
@@ -463,9 +480,63 @@ ul {
 							picker2.setEndDate(new Date());
 							grid.resetData(gridData);
 						}
+				/*--------------------------------------------*/
 				/*삭제눌렀을때*/
 				$('#removeBtn').on('click', function(){
-					grid.removeCheckedRows('')
+					delgrid =grid.getCheckedRows()
+					var dellists = delgrid.map((e) => {return e.msnum})
+					console.log(dellist)
+					/*삭제 아작스*/
+					/* 		
+					$.ajax({
+							url :'',
+							method :'POST',
+							data:{dellists},
+							success :function(){
+								grid.removeCheckedRows('') 
+								swal("삭제 완료", "선택한 입고내역이 삭제되었습니다.", "success");
+							}
+						}) 
+						*/
+				})
+				
+				/*저장버튼 눌렀을때 */
+				$('#saveBtn').on('click',function(){
+					var detalists =grid.getCheckedRows()
+					console.log(detalists)
+					var checkNum = detalists.some(e=>{return e.msnum != null})
+					//입고번호가 있으면 true
+					var checkDate = detalists.some(e=>{return e.msindate ==null})
+					//출고번호가 비었으면 true
+					if(checkDate == true){
+						//그리드에 값이 없으면 swal안뜨게
+						swal('','입력하지않은 값이 있습니다', 'warning')
+					}else{
+						if(checkNum == false){
+							if(detalists.length ==0){
+								return;
+							}
+							/*
+							아작스 돌리기
+							*/
+							console.log(detalists);
+							$.ajax({
+								url: 'addinputlist',
+								method : 'POST',
+								data: JSON.stringify(detalists),
+								contentType:'application/json',
+								success :function(result){
+									grid.removeCheckedRows('')
+									grid.appendRows(result)
+									swal('성공', '입고입력이 완료되었습니다.', 'success')
+								}
+							})
+						}else{
+							swal('','이미 등록된 값이 있습니다.', 'warning')
+						}
+						
+					}
+					
 				})
 			})
 		</script>
