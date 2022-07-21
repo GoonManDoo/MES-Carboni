@@ -145,9 +145,14 @@ public class ProdServiceImpl implements ProdService {
 		@Override
 		public void addPOrderDetail(List<ProdOrderVO> orders) {
 			for (ProdOrderVO vo : orders) {
-				mapper.addPOrderDetail(vo); // 계획등록
-				mapper.updatePPlanStat(vo); // 생산의뢰 상태 수정
+				mapper.addPOrderDetail(vo); // 지시상세등록(라인번호로 소요일수 검색, 지시상세등록, 해당 계획번호 찾아와서 상태 업데이트)
 			}
+		}
+		
+		// 재생산이 필요한 제품불량내역
+		@Override
+		public List<ProdOrderVO> reprodList(ProdOrderVO vo) {
+			return mapper.reprodList(vo);
 		}
 
 

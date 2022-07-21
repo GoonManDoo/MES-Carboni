@@ -673,7 +673,7 @@
 		/* 생산계획 등록 */
 		$('#saveBtn').on('click', function(){
 			if($('#planNum').val() == '') { // input hidden에 담아놓은 생산계획번호가 없을 때만 등록
-				if($('#planName').val() != '') {
+				if($('#planName').val() != '' && pdGrid.getData().length != 0) {
 					if($('td').hasClass('tui-grid-cell-invalid') == false) { // 제품테이블 그리드중에 입력안된값이 있으면 등록 못하도록
 						// 등록
 						addProdPlan();

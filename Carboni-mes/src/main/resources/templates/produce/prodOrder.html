@@ -167,8 +167,7 @@
 		<!-- 전체 표 -->
 		<div class="container-fluid px-4 mb-2">
 			<div style="display: flex; justify-content: flex-end;">
-				<button type="button" class="btn btn-secondary" style="margin-right: 5px;">추가</button>
-				<button type="button" class="btn btn-secondary" style="margin-right: 5px;">삭제</button>
+				<button type="button" class="btn btn-secondary" style="margin-right: 5px;" id="reprodBtn">재생산</button>
 			</div>
 		</div>
 		<div class="container-fluid px-4">
@@ -302,6 +301,11 @@
 						<div id="empGrid" style="margin-top: 20px;"></div>
 					</div>
 				</form>
+			</div>
+			
+			<!-- 불량으로 인한 재생산제품내역 -->
+			<div id="reprodModal" title="재생산필요내역조회">
+				<div id="reprodGrid"></div>
 			</div>
 			
 
@@ -559,6 +563,51 @@
 					]
 				})
 				
+				/* 사원목록 그리드 */
+				const reprodList = [];
+				
+				const reprodGrid = new tui.Grid({
+					el: document.getElementById('reprodGrid'),
+					data: reprodList,
+					columns: [
+						{
+							header: '불량내역번호',
+							name: 'genum',							
+							align: 'center'
+						},
+						{
+							header: '불량일자',
+							name: 'gedate',
+							align: 'center'
+						},
+						{
+							header: '작업번호',
+							name: 'phnum',
+							align: 'center'
+						},
+						{
+							header: '제품코드',
+							name: 'gicode',
+							align: 'center'
+						},
+						{
+							header: '불량분류',
+							name: 'cexplaind',
+							align: 'center'
+						},
+						{
+							header: '불량내역',
+							name: 'gedetail',
+							align: 'center'
+						},
+						{
+							header: '불량량',
+							name: 'gegdam',
+							align: 'center'
+						}
+					]
+				})
+				
 				
 
 				// 그리드끝-----------------------------------
@@ -570,6 +619,7 @@
 				var modal2 = makeModal('#planModal', planAdd)
 				var modal3 = makeModal('#matorderModal', requestMat)
 				var modal4 = makeModal('#goodsStkModal', addManager)
+				var modal5 = makeModal('#reprodModal', addReprod)
 
 				/* 생산지시조회 모달 */
 				$('#searchBtn').on('click', function () {
@@ -596,11 +646,13 @@
 				function planAdd() {
 					const count = planGrid.getCheckedRows();
 					const planNums = count.map((e)=>{return e.ppnum})
+					console.log(planNums)
 					makeAjaxCall('addPlan', {planNums}, function(rs) { // 2) success에 사용했던것처럼 바로 실행
 						pnGrid.refreshLayout();
 						matlist.resetData(material);
 						prclist.resetData(process);
 						pnGrid.resetData(rs)
+						console.log(rs)
 						for(i=0; i<pnGrid.getRowCount(); i++) {
 							pnGrid.setValue(i, 'pcdam', pnGrid.getValue(i, 'ppadam'), false)
 						}
@@ -634,6 +686,21 @@
 					modal4.dialog('close')
 				}
 				
+				/* 재생산목록 모달 */
+				$('#reprodBtn').on('click', function(){
+					modal5.dialog('open')
+					reprodGrid.refreshLayout();
+					makeAjaxCall('reprodList', function(result){
+						reprodGrid.resetData(result)
+						/*reprodGrid.on('click', e => {
+							
+						})*/
+					})
+					
+				})
+				function addReprod() {
+					
+				}
 				
 
 				/* 모달틀 */
@@ -747,10 +814,11 @@
 					prclist.resetData(process);
 				}
 				
+				
 				/* 생산지시 등록 */
 				$('#saveBtn').on('click', function(){
 					if($('#orderNum').val() == '') { // 등록
-						if($('#orderName').val() != '' || $('#employee').val() != '') {
+						if($('#orderName').val() != '' && $('#employee').val() != '' && pnGrid.getData().length != 0) {
 							if($('td').hasClass('tui-grid-cell-invalid') == false) {
 								addProdOrder();
 							} else {
@@ -775,10 +843,10 @@
 				/* 생산지시 등록 함수 */
 				function addProdOrder() {
 					// 등록
-					var orderDt = $('#orderDt').val()
-					var orderName = $('#orderName').val()
-					var employee = $('#employee').val()
-					var orderRemark = $('#orderRemark').val()
+					var pcdate = $('#orderDt').val()
+					var pcname = $('#orderName').val()
+					var pcdkeeper = $('#employee').val()
+					var pcnote = $('#orderRemark').val()
 					var addOrderAjax = function(result) {
 						$('#orderNum').val(result.pcnum)
 						var pcnum = $('#orderNum').val()
@@ -787,7 +855,7 @@
 							pnGrid.setValue(i, 'pcdnum', pcnum+'-'+(i+1), false)
 						}
 						allData = pnGrid.getData()
-						$.ajax({
+						$.ajax({ // 지시상세등록
 							url: 'addPOrderDetail',
 							method: 'POST',
 							data: JSON.stringify(allData), // 객체배열 json타입으로 변경
@@ -797,7 +865,7 @@
 							}
 						})
 					}
-					makeAjaxCall('addProdOrder', {orderDt, orderName, employee, orderRemark}, addOrderAjax, function(){
+					makeAjaxCall('addProdOrder', {pcdate, pcname, pcdkeeper, pcnote}, addOrderAjax, function(){ // 지시등록
 						swal('실패', '생산지시 등록에 실패했습니다.', 'error')
 					})
 				}
