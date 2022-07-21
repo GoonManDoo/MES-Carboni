@@ -23,15 +23,14 @@
 		                           <!-- progress1  -->
 		                           <h4>가동일</h4>
 		                           <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
-		                              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+		                              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar"></div>
 		                           </div>
 		                        </div>
 		                        <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;">
 		                           <!-- progress1  -->
 		                           <h4>정기점검</h4>
-		                           <div class="progress"
-		                              style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
-		                              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 35%"></div>
+		                           <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
+		                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar2"></div>
 		                           </div>
 		                        </div>
 		
@@ -44,7 +43,7 @@
 		                     <div class="card-body">
 		                        <div
 		                           style="width: 318px; display: block; height: 40px; margin-left: 3px; position: inherit;">
-		                           <h4 style="display: block; border-left: 2px solid gray;">headline</h4>
+		                           <h4 style="display: block; border-left: 2px solid gray;">현재 공정정보</h4>
 		                        </div>
 		                        <form >
 		                          <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pione}"  disabled readonly><br>
@@ -96,6 +95,51 @@
                 </div>
               </div>
             </div>
+            
+            
+            <!--==========================================================================================================================================-->
+            
+            <script>
+            var i = 0;
+			
+				  if (i == 0) {
+				    i = 1;
+				    var elem = document.getElementById("myBar");
+				    var width = 0;
+				    var id = setInterval(frame, 1500);
+				    function frame() {
+				      if (width >= 100) {
+				        clearInterval(id);
+				        i = 0;
+				      } else {
+				        width++;
+				        elem.style.width = width + "%";
+				        elem.innerHTML = width  + "%";
+				      }
+				    }
+				  }
+				  
+				  
+				  
+				  if (i == 0) {
+				    i = 1;
+				    var elem = document.getElementById("myBar2");
+				    var width = 0;
+				    var id = setInterval(frame, 700);
+				    function frame() {
+				      if (width >= 100) {
+				        clearInterval(id);
+				        i = 0;
+				      } else {
+				        width++;
+				        elem.style.width = width + "%";
+				        elem.innerHTML = width  + "%";
+				      }
+				    }
+				  }
+
+            
+            </script>
             
             
 	</th:block>
