@@ -58,7 +58,6 @@ public class MatServiceImpl implements MatService {
 	@Override
 	public List<MatVO> addRequestList(List<MatVO> list) {
 		List<MatVO> reqList = new ArrayList<MatVO>();
-		
 		System.out.println(list.size());
 		for (MatVO vo : list) {
 			map.addRequestList(vo);
@@ -68,11 +67,7 @@ public class MatServiceImpl implements MatService {
 			}else if(map.selectReqList(vo).get(0).getReqnum() ==null){
 				reqList.add((MatVO) map.selectReqList(vo).get(0));
 			}
-
-			System.out.println("====> " + vo);
-			System.out.println("----> " + map.selectReqList(vo));
 		}
-//		System.out.println(reqList);
 		return reqList;
 	}
 
@@ -80,6 +75,19 @@ public class MatServiceImpl implements MatService {
 	public void findDelreq(MatVO vo) {
 		map.findDelreq(vo);
 	}
+
+	
+
+	//-------------------------------------------------
+	@Override
+	public List<MatVO> addInputList(MatVO vo) {
+		System.out.println(map.addInputList(vo));
+		map.addInputList(vo);
+		System.out.println(map.selectInput(vo));
+		return map.selectInput(vo);
+	}
+	
+	
 
 
 

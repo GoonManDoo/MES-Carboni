@@ -240,41 +240,7 @@
 							container : '#endpicker-container'
 						}
 					});
-					
-					/*발주일자 조회 거래처코드 자재코드로 메인그리드 출력*/
-					$('#listBtn').on('click',function(){
-						var startD = $('#startpicker-input').val()
-						var endD =$('#endpicker-input').val()
-						var cusCode = $('#rightcom').val()
-						var matCode =$('#rightmat').val()
-						$.ajax({
-							url :'findreqdate',
-							method :'POST',
-							data:{startD,endD,cusCode, matCode },
-							success :function(result){
-								grid.refreshLayout();
-								grid.resetData(result)
-							}
-						})
-					})
-					
-					/*발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력*/
-					$('#addBtn').on('click',function(){
-						var cusCode = $('#rightcom').val()
-						var matCode =$('#rightmat').val()
-						$.ajax({
-							url: 'findcodelist',
-							method : 'post',
-							data : {cusCode,matCode},
-							success : function(result){
-								grid.refreshLayout();
-								grid.appendRows(result)
-								/*grid.resetData(result)*/
-								var date1 =new Date(grid.setValue())
-							}
-						})
-					})
-
+					/*==============그리드 모음=======================*/
 					/* 발주메인 그리드 */
 					const gridData = [];
 					
@@ -311,11 +277,7 @@
 							header : '업체코드',
 							name :'cscode',
 							align : 'center'
-						}, /*{
-							*header : '입고일자',
-							*name :'mordate',
-							*align : 'center'
-						},  */{
+						}, {
 							header : '발주업체',
 							name :'csname',
 							align : 'center',
@@ -326,14 +288,7 @@
 							header : '발주요청량',
 							name :'mrreqam',
 							align : 'center'
-						}, /*{
-							*header : '입고량',
-							*align : 'center'
-						},  *{
-							*header : '자재량',
-							*name :'msciam',
-							*align : 'center'
-						}, */{
+						},{
 							header : '주문수량',
 							name   :'moaskam',
 							editor :'text',
@@ -351,8 +306,8 @@
 					});
 					grid.hideColumn('micode')
 					grid.hideColumn('cscode')
-
-					/*발주 모달안의 그리드*/
+					
+						/*발주 모달안의 그리드*/
 					const totaldata = [];
 					var reqG = new tui.Grid({
 						el : document.getElementById('gridcomp'),
@@ -398,6 +353,132 @@
 					});
 					reqG.hideColumn('micode')
 					reqG.hideColumn('cscode')
+					
+					/*메인그리드에서 검색시 출력*/
+					const conpany =[];
+					const company =  new tui.Grid({
+						el : document.getElementById('companygrid'),
+						data : conpany,
+						scrollX : false,
+						bodyHeight : 430,
+						columns : [ {
+							header : '거래처코드',
+							name : 'cscode',
+							align : 'center',
+						}, {
+							header : '거래처명',
+							name : 'csname',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '사업자등록번호',
+							name : 'csnum',
+							align : 'center',
+						}, {
+							header : '전화번호',
+							name : 'cstel',
+							align : 'center',
+						} ]
+					});
+					
+					/*발주업체*/
+					const giupdata = [];
+
+					const gomo = new tui.Grid({
+						el : document.getElementById('goupgrid'),
+						data : giupdata,
+						scrollX : false,
+						bodyHeight : 430,
+						columns : [ {
+							header : '거래처코드',
+							name : 'cscode',
+							align : 'center',
+						}, {
+							header : '거래처명',
+							name : 'csname',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '사업자등록번호',
+							name : 'csnum',
+							align : 'center',
+						}, {
+							header : '전화번호',
+							name : 'cstel',
+							align : 'center',
+						} ]
+					});
+					
+					/*자재코드 검색 그리드*/
+					const jadata = [];
+
+					const jamo = new tui.Grid({
+						el : document.getElementById('codegrid'),
+						data : giupdata,
+						scrollX : false,
+						bodyHeight : 430,
+						columns : [ {
+							header : '자재코드',
+							name : 'micode',
+							align : 'center',
+						}, {
+							header : '자재명',
+							name : 'miname',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '규격',
+							name : 'mistand',
+							align : 'center',
+						}, {
+							header : '자재단위',
+							name : 'miunit',
+							align : 'center',
+						} ]
+					})
+					/*-------------------그리드 모음 끝------------------------*/
+					
+					
+					/*발주일자 조회 거래처코드 자재코드로 메인그리드 출력*/
+					$('#listBtn').on('click',function(){
+						var startD = $('#startpicker-input').val()
+						var endD =$('#endpicker-input').val()
+						var cusCode = $('#rightcom').val()
+						var matCode =$('#rightmat').val()
+						$.ajax({
+							url :'findreqdate',
+							method :'POST',
+							data:{startD,endD,cusCode, matCode },
+							success :function(result){
+								grid.refreshLayout();
+								grid.resetData(result)
+							}
+						})
+					})
+					
+					/*발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력*/
+					$('#addBtn').on('click',function(){
+						var cusCode = $('#rightcom').val()
+						var matCode =$('#rightmat').val()
+						$.ajax({
+							url: 'findcodelist',
+							method : 'post',
+							data : {cusCode,matCode},
+							success : function(result){
+								grid.refreshLayout();
+								grid.appendRows(result)
+								/*grid.resetData(result)*/
+								var date1 =new Date(grid.setValue())
+							}
+						})
+					})
+
+					
+
+				
 					var dia = makeModal("#reqmodal", check)
 
 					/*생산에서 넘어오는 정보를 가지고있는 모달*/
@@ -412,6 +493,16 @@
 								reqG.refreshLayout();
 								reqG.resetData(result)
 								erow = result.rowKey
+									prk =(reqG.getRowCount())-1
+									for(i=0; i<prk+1; i++) {
+										reqG.setValue(i, 'moaskam', reqG.getRow(i).mrreqam, false)
+									}
+								
+								/* 
+								prk = (grid.getRowCount())-1
+								for(i=0; i<prk+1; i++) {
+									grid.setValue(i, 'moaskam', grid.getRow(i).mrreqam, false)
+									*/
 							
 							}
 						})
@@ -454,17 +545,11 @@
 					function check() {
 						var reqlists=reqG.getCheckedRows()
 						console.log(reqlists)
-						var reqcheckcode = reqlists.some(e => {return e.cscode != null})
+						var reqcheckcode = reqlists.some(e => {return e.cscode == null})
 						/* cscode 가 null이 아닐떄 true  */
-						console.log(reqcheckcode)
-						var reqcheckam = reqlists.some(e => {return e.moaskam != null})
-						console.log(reqcheckcode)
-						/* 주문수량이 null이 아닐떄 true */
-						console.log(reqlists.length)
-						if(reqcheckcode == true && reqcheckam==true){
+						if(reqcheckcode == true ){
 							console.log(reqlists)
 							swal('','입력하지않은 값이 있습니다', 'warning')
-							 
 						}else{
 							$.ajax({
 								url:'addrequestlist',
@@ -487,65 +572,12 @@
 					
 					
 					
-					/*메인그리드에서 검색시 출력*/
-					const conpany =[];
-					const company =  new tui.Grid({
-						el : document.getElementById('companygrid'),
-						data : conpany,
-						scrollX : false,
-						bodyHeight : 430,
-						columns : [ {
-							header : '거래처코드',
-							name : 'cscode',
-							align : 'center',
-						}, {
-							header : '거래처명',
-							name : 'csname',
-							align : 'center',
-							sortingType : 'desc',
-							sortable : true
-						}, {
-							header : '사업자등록번호',
-							name : 'csnum',
-							align : 'center',
-						}, {
-							header : '전화번호',
-							name : 'cstel',
-							align : 'center',
-						} ]
-					});
+					
 					
 					
 					/*기업체 검색 모달 시작 */
 					var log = makeModal("#searchmodal", giup)
-					/*발주업체*/
-					const giupdata = [];
-
-					const gomo = new tui.Grid({
-						el : document.getElementById('goupgrid'),
-						data : giupdata,
-						scrollX : false,
-						bodyHeight : 430,
-						columns : [ {
-							header : '거래처코드',
-							name : 'cscode',
-							align : 'center',
-						}, {
-							header : '거래처명',
-							name : 'csname',
-							align : 'center',
-							sortingType : 'desc',
-							sortable : true
-						}, {
-							header : '사업자등록번호',
-							name : 'csnum',
-							align : 'center',
-						}, {
-							header : '전화번호',
-							name : 'cstel',
-							align : 'center',
-						} ]
-					});
+				
 					
 					/* 발주업체 모달 */
 					$("#searchBtn").on("click", function() {
@@ -596,34 +628,7 @@
 					
 					
 					/*자재코드 검색 모달!*/
-					/*자재코드 검색 그리드*/
-					const jadata = [];
-
-					const jamo = new tui.Grid({
-						el : document.getElementById('codegrid'),
-						data : giupdata,
-						scrollX : false,
-						bodyHeight : 430,
-						columns : [ {
-							header : '자재코드',
-							name : 'micode',
-							align : 'center',
-						}, {
-							header : '자재명',
-							name : 'miname',
-							align : 'center',
-							sortingType : 'desc',
-							sortable : true
-						}, {
-							header : '규격',
-							name : 'mistand',
-							align : 'center',
-						}, {
-							header : '자재단위',
-							name : 'miunit',
-							align : 'center',
-						} ]
-					})
+				
 
 					var cdmo = makeModal("#codemodal", cdcheck)
 					/*자재코드 모달*/
@@ -672,7 +677,7 @@
 					}
 					/*자재코드 검색 모달 끝!*/
 					//----------------------------------------------------
-					/*저장안한 행삭제*/
+					/*새자료 눌렀을때 리셋*/
 					$('#resetBtn').on('click', function(){
 						fnFormClear();
 					})
@@ -705,6 +710,7 @@
 					$('#saveBtn').on('click',function(){
 						var datas =grid.getCheckedRows()
 						var checkNull = datas.some(e => {return e.monum != null})
+						//발주 코드가 있으면 true
 						if(checkNull == false){
 							if(datas.length==0){
 								return;
@@ -723,40 +729,9 @@
 						}else{
 							swal('','이미 등록된 값이 있습니다.', 'warning')
 						}
-						
-					/* 	var datas = grid.getCheckedRows()
-						var checkNull = datas.some(e => {return e.monum != null})
-						var getrows =grid.getCheckedRows()
-						var getcheckrow = getrows.some(e =>{return e.reqnum !=null})
-						console.log(getrows);
-						
-						if(checkNull ==false){
-							for(i=0; i<getrows.length; i++){
-								if(grid.getValue(i,'cscode') == null){
-									swal('','발주업체를 선택하십시오', 'warning')
-									return ;
-								}else{
-									
-								}
-							}
-							// 등록 아작스 호출
-							 $.ajax({
-									url:'addrequestlist',
-									method : 'POST',
-									data :  JSON.stringify(datas),
-									contentType:'application/json',
-									success :function(result){
-										grid.removeCheckedRows('')
-										grid.appendRows(result)
-										swal('성공', '발주가 완료되었습니다.', 'success')
-									}
-							 })
-							
-						}else {
-							swal('','이미 등록된 값이 있습니다.', 'warning')
-						} */
-								
 					})
+					
+					
 				})
 			</script>
 		</div>
