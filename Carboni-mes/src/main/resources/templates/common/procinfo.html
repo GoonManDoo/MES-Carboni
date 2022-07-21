@@ -99,11 +99,13 @@
     </body>
     <script>
     
+    	// 신규
     	function showit(){
 			$('#myf>input').val('');
 			$('#myf').show();
     	}
     	
+    	// 입력수정
     	function check(){
     		if($(piname).val() == '' || $(pidate).val() == '' || $(pione).val()==''){
     			swal('항목을 입력하십시오', '공정명, 소요일수, 1차공정은 필수 입력 항목입니다.', 'warning');
@@ -116,6 +118,7 @@
     		}
     	}
     	
+    	// 삭제
     	function del(){
     		if($(picodeid).val() == ''){
     			swal('항목을 입력하십시오', '공정을 선택하여 삭제하여 주십시오.', 'warning');
@@ -124,7 +127,8 @@
     			document.myf.submit();
     		}
     	}
-    	
+    
+    // 라디오 -> 입력, 상세공정 그리드
     $(document).on('click', 'input[name="proc"]', function(){
 		$(picodeid).val($('input[name=proc]:checked').parent().parents().children().eq(1).text())
 		$(piname).val($('input[name=proc]:checked').parent().parents().children().eq(2).text())
@@ -164,12 +168,9 @@
         name: 'pifour',
         align: 'center'
       }]
-    });
-		
-		
+     });
 	});
     	
-      
     </script>
 </th:block>
 </html>

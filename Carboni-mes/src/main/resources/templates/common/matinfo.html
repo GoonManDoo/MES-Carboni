@@ -123,9 +123,8 @@
       $('#matmain>*>input').val('');
     })
     
-    //라디오버튼 클릭시 내용을 input창으로
+    //라디오입력
     $(document).on('click', 'input[name="list"]', function(){
-    
 		$('#micode').val($('input[name=list]:checked').parent().parents().children().eq(1).text())
 		$('#miname').val($('input[name=list]:checked').parent().parents().children().eq(2).text())
 		$('#mistand').val($('input[name=list]:checked').parent().parents().children().eq(3).text())
@@ -135,7 +134,7 @@
 		$('#mimin').val($('input[name=list]:checked').parent().parents().children().eq(7).text())
 	});
     
-    
+    // 입력수정
     function check(){
     	if($(miname).val()=='' || $(mistand).val()=='' || $(miunit).val()=='' ||
     		$(misafe).val()=='' || $(mimax).val()==''|| $(mimin).val()==''){
@@ -149,10 +148,10 @@
 				document.matmain.action="matinfoupdate.do"
 				document.matmain.submit();
 			}
-    	
     	}
 	}
 	
+	// 삭제
 	function del(){
 		if($(micode).val()==''){
     		swal('항목을 입력하십시오', '자재코드를 입력하여 삭제하여 주십시오.' , 'warning');

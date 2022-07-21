@@ -16,10 +16,12 @@ public class SecurityConfig {
 	
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
         .authorizeRequests()
-        	.antMatchers("/**/*").permitAll()
-            .anyRequest().authenticated()
+        	.antMatchers("/assets/**/*").permitAll()
+        	.antMatchers("/css/*").permitAll()
+        	.antMatchers("/js/*").permitAll()
+        	.anyRequest().authenticated()
         .and()
             .formLogin()
             	.loginPage("/login.do")
@@ -31,9 +33,8 @@ public class SecurityConfig {
                 .successForwardUrl("/")
             	.permitAll()
         .and()
-            .logout();
-        
-        http.csrf().disable();
+        	.logout()
+        		.invalidateHttpSession(true);
         
         return http.build();
     }
