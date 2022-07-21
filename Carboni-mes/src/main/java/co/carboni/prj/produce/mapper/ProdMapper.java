@@ -46,7 +46,7 @@ public interface ProdMapper {
 	
 		// 생산계획삭제
 		public void removeProdPlan(ProdPlanVO vo); // 생산계획
-		public void removePPlanDetail(ProdPlanVO vo); // 생산계획상세
+		//public void removePPlanDetail(ProdPlanVO vo); // 생산계획상세
 
 		
 	// 생산지시관리
@@ -74,6 +74,10 @@ public interface ProdMapper {
 		
 		// 재생산이 필요한 제품불량내역
 		public List<ProdOrderVO> reprodList(ProdOrderVO vo);
+		
+		// 생산지시수정
+		public void updateOrder(ProdOrderVO vo);
+
 
 		
 

@@ -185,6 +185,13 @@ public class ProdController {
 			return service.reprodList(vo);
 		}
 		
+		// 생산지시관리 - 생산지시수정
+		@RequestMapping("updateOrder")
+		@ResponseBody
+		public void updateOrder(ProdOrderVO vo) {
+			service.updateOrder(vo);
+		}
+		
 	
 	
 	// 생산지시조회
