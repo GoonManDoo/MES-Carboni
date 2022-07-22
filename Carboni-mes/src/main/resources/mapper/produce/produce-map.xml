@@ -5,7 +5,7 @@
 	<!-- 생산계획관리 -->
 		<!-- 생산계획검색 -->
 		<select id="searchPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-			SELECT ppdate, ppnum, ppname, ppnote, ppstatus
+			SELECT ppdate, ppnum, ppname, ppnote
 			FROM prodplan
 			WHERE (ppdate BETWEEN #{pstartDt} AND #{pendDt})
 			AND ppstatus =
@@ -16,7 +16,7 @@
 		
 		<!-- 생산계획로드 -->
 		<select id="prodPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-			SELECT ppnum, ppdate, ppname, ppnote
+			SELECT ppnum, ppdate, ppname, ppnote, ppstatus
 			FROM prodplan
 			WHERE ppnum = #{findNum}
 		</select>
@@ -215,9 +215,9 @@
 		
 		<!-- 생산지시삭제 -->
 		
-		<!-- 생산지시조회 -->
+		<!-- 생산지시검색 -->
 		<select id="searchOrder"  resultType="co.carboni.prj.produce.vo.ProdOrderVO">
-			SELECT pcnum, pcdate, pcname, pcdkeeper, pcnote, pcstatus
+			SELECT pcnum, pcdate, pcname, pcdkeeper, pcnote
 			FROM prodcomm
 			WHERE (pcdate BETWEEN #{ostartDt} AND #{oendDt})
 			AND pcstatus =
@@ -225,6 +225,16 @@
 			<if test="ostatus == '공정진행'">'공정진행'</if>
 			ORDER BY pcnum ASC
 		</select>
+		
+		<!-- 생산지시 페이지로드 -->
+		<select id="prodOrder" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT pcnum, pcdate, pcname, pcdkeeper, pcnote, pcstatus
+			FROM prodcomm
+			WHERE pcnum = #{findNum}
+		</select>
+		
+		<!-- 생산지시상세 페이지로드 -->
+		
 	
 	
 </mapper>

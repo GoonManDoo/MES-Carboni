@@ -209,6 +209,19 @@ public class ProdController {
 			return service.searchOrder(ostartDt, oendDt, ostatus);
 		}
 		
+		// 생산지시관리 - 생산지시 페이지로드
+		@RequestMapping("prodOrder")
+		@ResponseBody
+		public ProdOrderVO prodOrder(@RequestParam String findNum) {
+			return service.prodOrder(findNum);
+		}
+		
+		// 생산지시관리 - 생산지시상세 페이지로드
+		@RequestMapping("prodOrderDetail")
+		@ResponseBody
+		public List<ProdOrderVO> prodOrderDetail(@RequestParam String findDNum) {
+			return service.prodOrderDetail(findDNum);
+		}
 	
 	
 	// 생산지시조회
