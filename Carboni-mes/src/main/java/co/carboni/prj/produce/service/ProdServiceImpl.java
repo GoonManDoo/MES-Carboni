@@ -172,6 +172,18 @@ public class ProdServiceImpl implements ProdService {
 		public List<ProdOrderVO> searchOrder(String ostartDt, String oendDt, String ostatus) {
 			return mapper.searchOrder(ostartDt, oendDt, ostatus);
 		}
+
+		// 생산지시 페이지로드
+		@Override
+		public ProdOrderVO prodOrder(String findNum) {
+			return mapper.prodOrder(findNum);
+		}
+
+		// 생산지시상세 페이지로드
+		@Override
+		public List<ProdOrderVO> prodOrderDetail(String findDNum) {
+			return mapper.prodOrderDetail(findDNum);
+		}
 		
 
 

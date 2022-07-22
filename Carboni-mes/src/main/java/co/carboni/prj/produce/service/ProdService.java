@@ -78,6 +78,12 @@ public interface ProdService {
 
 		// 생산지시조회모달 검색
 		public List<ProdOrderVO> searchOrder(String ostartDt, String oendDt, String ostatus);
+
+		// 생산지시 페이지로드
+		public ProdOrderVO prodOrder(String findNum);
+
+		// 생산지시상세 페이지로드
+		public List<ProdOrderVO> prodOrderDetail(String findDNum);
 		
 
 		

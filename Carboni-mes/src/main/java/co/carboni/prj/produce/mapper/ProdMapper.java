@@ -83,7 +83,12 @@ public interface ProdMapper {
 		
 		// 생산지시조회모달 검색
 		public List<ProdOrderVO> searchOrder(@Param("ostartDt") String ostartDt, @Param("oendDt") String oendDt, @Param("ostatus") String ostatus);
+		
+		// 생산지시 페이지로드
+		public ProdOrderVO prodOrder(@Param("findNum") String findNum);
 
+		// 생산지시상세 페이지로드
+		public List<ProdOrderVO> prodOrderDetail(@Param("findDNum") String findDNum);
 
 		
 

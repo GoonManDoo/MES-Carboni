@@ -489,18 +489,22 @@
 			      columns: [
 			        {
 			          header: '지시일자',
+			          name: 'pcdate',
 			          align : 'center'
 			        },
 			        {
 			          header: '지시번호',
+			          name: 'pcnum',
 			          align : 'center'
 			        },
 			        {
 			          header: '지시명',
+			          name: 'pcname',
 			          align : 'center'
 			        },
 			        {
 			          header: '비고',
+			          name: 'pcnote',
 			          align : 'center'
 			        }
 			      ]
@@ -630,13 +634,33 @@
 						makeAjaxCall('searchOrder', {ostartDt, oendDt, ostatus}, function(result) {
 							orderGrid.resetData(result);
 							orderGrid.on('click', e => {
-								
+								for(i=0; i<orderGrid.getRowCount(); i++) {
+									orderGrid.removeRowClassName(i, 'rowSelect')
+								}
+								orderGrid.addRowClassName(e.rowKey, 'rowSelect')
+								findNum = orderGrid.getValue(e.rowKey, 'pcnum')
 							})
 						})
 					})
 				})
 				function orderView() {
-					
+					var loadProdOrder = function(result) {
+						$('#orderNum').val(result.pcnum)
+						$('#orderSt').val(result.pcstatus)
+						$('#orderDt').val(result.pcdate)
+						$('#orderName').val(result.pcname)
+						$('#orderNote').val(result.ppnote)
+						var findDNum = $('#orderNum').val();
+						makeAjaxCall('prodOrderDetail', {findDNum}, function(list){
+							pnGrid.refreshLayout();
+							orderGrid.resetData(orderList);
+							picker.setStartDate(new Date());
+							picker.setEndDate(new Date());
+							pnGrid.resetData(list);
+							modal1.dialog('close');
+						})
+					}
+					makeAjaxCall('prodOrder', {findNum}, loadProdOrder)
 				}
 
 
@@ -650,7 +674,7 @@
 						planGrid.resetData(result);
 						planGrid.on('click', e => {
 							for(i=0; i<planGrid.getRowCount(); i++) {
-							planGrid.removeRowClassName(i, 'rowSelect')
+								planGrid.removeRowClassName(i, 'rowSelect')
 							}
 							planGrid.addRowClassName(e.rowKey, 'rowSelect')
 							planNums = planGrid.getValue(e.rowKey, 'ppnum')
