@@ -5,13 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.carboni.prj.produce.mapper.ProdMapper;
 import co.carboni.prj.produce.service.ProdService;
 import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
@@ -22,6 +21,9 @@ public class ProdController {
 	
 	@Autowired
 	ProdService service;
+   @Autowired
+   private Prodovservice prodovDAO;
+
 	
 	// 생산계획관리
 	@RequestMapping("/prodplan.do")
@@ -192,13 +194,28 @@ public class ProdController {
 			service.updateOrder(vo);
 		}
 		
+		// 생산지시관리 - 생산지시상세수정
+		@RequestMapping("updateOrDetail")
+		@ResponseBody
+		public void updateOrDetail(@RequestBody ProdOrderVO vo) {
+			service.updateOrDetail(vo);
+		}
+		
+		// 생산지시관리 - 생산지시조회 검색
+		@RequestMapping("searchOrder")
+		@ResponseBody
+		public List<ProdOrderVO> searchOrder(@RequestParam String ostartDt, @RequestParam String oendDt, @RequestParam String ostatus) {
+			return service.searchOrder(ostartDt, oendDt, ostatus);
+		}
+		
 	
 	
 	// 생산지시조회
-	@RequestMapping("/prodOrView.do")
-	public String prodOrderView() {
-		return "produce/prodOrView";
-	}
+   @RequestMapping("/prodOrView.do")
+   public String prodOrderView(Model model) {
+      model.addAttribute("list", prodovDAO.selectProdov());
+      return "produce/prodOrView";
+   }
 	
 	// 공정모니터링
 	@RequestMapping("/procMoniter.do")

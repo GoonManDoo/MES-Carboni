@@ -5,7 +5,7 @@
 	<!-- 생산계획관리 -->
 		<!-- 생산계획검색 -->
 		<select id="searchPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
-			SELECT ppdate, ppnum, ppname, ppnote
+			SELECT ppdate, ppnum, ppname, ppnote, ppstatus
 			FROM prodplan
 			WHERE (ppdate BETWEEN #{pstartDt} AND #{pendDt})
 			AND ppstatus =
@@ -200,17 +200,31 @@
 		</select>
 	
 		<!-- 생산지시수정 -->
-		<select id="updateOrder" parameterType="co.carboni.prj.produce.vo.ProdOrderVO">
-			update into prodcomm
+		<update id="updateOrder" parameterType="co.carboni.prj.produce.vo.ProdOrderVO">
+			update prodcomm
 			set pcname = #{pcname}, pcnote = #{pcnote}, pcdkeeper = #{pcdkeeper}
 			where pcnum = #{pcnum}
-		</select>
+		</update>
 		
 		<!-- 생산지시상세수정 -->
+		<update id="updateOrDetail" parameterType="co.carboni.prj.produce.vo.ProdOrderVO">
+			update proccomm_d
+			set pcdam = #{pcdam}, pcdsdate = #{pcdsdate}, pcdedate = #{pcdedate}
+			where pcdnum = #{pcdnum}
+		</update>
 		
 		<!-- 생산지시삭제 -->
 		
 		<!-- 생산지시조회 -->
+		<select id="searchOrder"  resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT pcnum, pcdate, pcname, pcdkeeper, pcnote, pcstatus
+			FROM prodcomm
+			WHERE (pcdate BETWEEN #{ostartDt} AND #{oendDt})
+			AND pcstatus =
+			<if test="ostatus == '미공정'">'미공정'</if>
+			<if test="ostatus == '공정진행'">'공정진행'</if>
+			ORDER BY pcnum ASC
+		</select>
 	
 	
 </mapper>

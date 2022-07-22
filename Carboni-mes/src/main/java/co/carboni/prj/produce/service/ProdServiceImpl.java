@@ -161,6 +161,18 @@ public class ProdServiceImpl implements ProdService {
 			mapper.updateOrder(vo);
 		}
 		
+		// 생산지시상세수정
+		@Override
+		public void updateOrDetail(ProdOrderVO vo) {
+			mapper.updateOrDetail(vo);
+		}
+		
+		// 생산지시조회모달 검색
+		@Override
+		public List<ProdOrderVO> searchOrder(String ostartDt, String oendDt, String ostatus) {
+			return mapper.searchOrder(ostartDt, oendDt, ostatus);
+		}
+		
 
 
 		

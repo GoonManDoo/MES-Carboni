@@ -79,6 +79,7 @@
 					<!-- 입력폼 -->
 					<form autocomplete="off" id="orderForm">
 						<input type="hidden" id="orderNum" name="orderNum">
+						<input type="hidden" id="orderSt" name="orderSt">
 						<div class="container-fluid" style="display: flex; flex-flow: row wrap; justify-content: space-between;">
 							<!-- 계획일자, 생산계획명, 특이사항 -->
 							<div class="item col-6">
@@ -239,7 +240,7 @@
 										name="orderDtE"> <span class="tui-ico-date"></span>
 									<div id="orderDtE-wapper" style="margin-left: -1px;"></div>
 								</div>
-								<button type="button" class="ml-1 mw50 btn-sm btn-secondary" id="unprodBtn">검색</button>
+								<button type="button" class="ml-1 mw50 btn-sm btn-secondary" id="orSearchBtn">검색</button>
 							</li>
 						</ul>
 					</div>
@@ -249,9 +250,9 @@
 				<div class="container-fluid" style="margin-top: 40px; margin-bottom: 10px;">
 					<div>
 						<label class="fw">진행상태</label>
-						<select style="width:100px; height:28px; display: inline-block;">
-							<option value="unprocess">미공정</option>
-							<option value="processing">공정진행</option>
+						<select style="width:100px; height:28px; display: inline-block;" id="orderStatus">
+							<option value="미공정">미공정</option>
+							<option value="공정진행">공정진행</option>
 						</select>
 					</div>
 				</div>
@@ -622,6 +623,17 @@
 				$('#searchBtn').on('click', function () {
 					orderGrid.refreshLayout();
 					modal1.dialog('open')
+					$('#orSearchBtn').on('click', function(){
+						var ostartDt = $('#orderDtS').val()
+						var oendDt = $('#orderDtE').val()
+						var ostatus = $('#orderStatus option:selected').val() // 생산지시 진행상태
+						makeAjaxCall('searchOrder', {ostartDt, oendDt, ostatus}, function(result) {
+							orderGrid.resetData(result);
+							orderGrid.on('click', e => {
+								
+							})
+						})
+					})
 				})
 				function orderView() {
 					
@@ -831,10 +843,14 @@
 						}
 					} else { // 수정
 						if($('#orderName').val() != '' || $('#employee').val() != '') {
-							if($('td').hasClass('tui-grid-cell-invalid') == false) {
-								updateProdOrder();
+							if($('#orderStatus').val() != '공정진행') {
+								if($('td').hasClass('tui-grid-cell-invalid') == false) {
+									updateProdOrder();
+								} else {
+									swal('입력되지 않은 값이 있습니다.', '', 'warning')
+								}
 							} else {
-								swal('입력되지 않은 값이 있습니다.', '', 'warning')
+								swal('공정이 진행중인 지시내역입니다.', '', 'warning')
 							}
 						} else {
 							swal('입력되지 않은 값이 있습니다.', '', 'warning')
@@ -880,6 +896,7 @@
 					var pcnote = $('#orderRemark').val()
 					var upOrderDetail = function() {
 						var allOrder = pnGrid.getData()
+						console.log(allOrder)
 						makeAjaxCall('updateOrDetail', JSON.stringify(allOrder), function(){
 							swal('성공', '생산지시 수정이 완료되었습니다.', 'success')
 						})
