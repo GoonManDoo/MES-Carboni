@@ -162,11 +162,9 @@ public class SalesController {
 		}
 	
 		//제품재고관리 > 제품재고등록 제품검색조회
-		
 		@RequestMapping("stkProdList")
-	  
-		@ResponseBody public List<SalesVO> stkProdList(@RequestParam("addStk") String addStk) { List<SalesVO> stkProdList = service.findStkProdList(addStk);
-				
+		@ResponseBody public List<SalesVO> stkProdList(@RequestParam("addStk") String addStk) { 
+			List<SalesVO> stkProdList = service.findStkProdList(addStk);
 			return stkProdList; 
 		}
 		 
@@ -224,7 +222,15 @@ public class SalesController {
 	public String deliver() {
 		return "sales/deliver";
 	}
-
+		
+		//배송관리 > 제품조회
+		@RequestMapping("jepoomList")
+		@ResponseBody
+		public List<SalesVO> jepoomList(@RequestParam("cnList") String cnList) {
+			List<SalesVO> jepoomList = service.findJepoomList(cnList);
+			return jepoomList;
+			
+		}
 	
 	 
 
