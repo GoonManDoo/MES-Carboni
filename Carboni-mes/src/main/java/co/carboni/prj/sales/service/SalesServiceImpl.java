@@ -154,14 +154,13 @@ public class SalesServiceImpl implements SalesService {
 			}
 
 
-
-			
-			
-
-			
-			
-		
-
-		
 		//배송관리
+			
+			//배송관리 > 제품검색
+			@Override
+			public List<SalesVO> findJepoomList(String cnList) {
+				return mapper.findJepoomList(cnList);
+			}
+			
+			
 }

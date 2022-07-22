@@ -81,11 +81,10 @@ public interface SalesService {
 		//제품재고관리 > 제품재고등록
 		public void goodsStkInsert(String gsamin, String jepoomcoin);
 
-		
-		
-		
-		
-	
-	
+
 	//배송관리
+
+		//배송관리 > 제품검색
+		public List<SalesVO> findJepoomList(String cnList);
+
 }

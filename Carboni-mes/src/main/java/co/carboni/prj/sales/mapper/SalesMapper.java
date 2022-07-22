@@ -89,8 +89,10 @@ public interface SalesMapper {
 
 
 
-
 		
 	//배송관리
+		
+		//배송관리 > 제품검색
+		public List<SalesVO> findJepoomList(@Param("cnList") String cnList);
 	
 }
