@@ -552,21 +552,43 @@ ul {
 				/*----------------------------발주일자로 조회------------------------------------------*/
 				$('#researchBtn').on('click',function(){
 					var startD = $('#startpicker-input').val()
-					var endD = $('#endpicker-input').val()
+					var endD =$('#endpicker-input').val()
 					var cusCode = $('#rightcom').val()
-					console.log(startD)
-					console.log(endD)
-
 					$.ajax({
 							url: 'findindate',
 							method: 'POST',
-							dataType : 'JSON',
-							data : {startD ,endD, cusCode},
+							data : {startD,endD,cusCode},
 							success : function(result){
 								grid.refreshLayout();
 								grid.resetData(result)
 							}
-					})
+						})
+					
+/* 					
+ 					if(cusCode == null){
+						$.ajax({
+							url: 'findindate',
+							method: 'POST',
+							data : {startD,endD},
+							success : function(result){
+								grid.refreshLayout();
+								grid.resetData(result)
+							}
+						})
+					}else{
+						$.ajax({
+							url : 'findincom',
+							method :'POST',
+							data : {cusCode},
+							success: function(result){
+								grid.refreshLayout();
+								grid.resetData(result)
+							}
+						})
+						
+					} 
+					*/
+					
 				})
 			})
 		</script>

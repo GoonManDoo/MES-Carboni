@@ -171,7 +171,7 @@
 						C.CSNAME
 				FROM MATSAR S,MATORD O,MATINFO M,COSTOMER C
 				WHERE (S.MONUM = O.MONUM AND O.MICODE=M.MICODE AND O.CSCODE=C.CSCODE)
-			<if test="startD != null and endD != null ">AND (S.MSINDATE BETWEEN #{startD} AND #{endD})</if>
+			<if test="startD != null and endD != null">AND (S.MSINDATE BETWEEN #{startD} AND #{endD})</if>
 			<if test="cusCode != null">AND (O.CSCODE = #{cusCode})</if>
 		</select>
 
