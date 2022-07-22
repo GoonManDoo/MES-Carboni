@@ -18,6 +18,7 @@
   #container {
     clear: both;
   }
+  
 </style>
 </head>
 
@@ -30,11 +31,6 @@
     <div id="btns" class="card-header">
       <input type="button" class="btn btn-secondary" value="갱신" onclick="window.location.reload()">
     </div>
-    
-  <form id="myf" name="myf">
-    <label for="eicodeid">미정</label> <input type="text" id="eicodeid" name="eicodeid" readonly>
-  </form>
-  
   <div id="container">
     <div class="card mb-4">
       <div class="card-header">
@@ -60,7 +56,21 @@
             </tr>
           </thead>
           <tbody>
-			
+          <tr th:each="p : ${list}">
+              <td><input type="radio" name="list"></th>
+              <td th:text="${p.PCNUM}"></th>
+              <td th:text="${p.GICODE}"></th>
+              <td th:text="${p.GINAME}"></th>
+              <td th:text="${p.PICODEID}"></th>
+              <td th:text="${p[PIONE]}"></th>
+              <td th:text="${p[PITWO]}"></th>
+              <td th:text="${p[PITHREE]}"></th>
+              <td th:text="${p[PIFOUR]}"></th>
+              <td th:text="${p.PCDAM}"></th>
+              <td th:text="${p.PCSTATUS}"></th>
+              <td th:text="${#strings.substring(p.PCDSDATE, 0, 10)}" class="date"></th>
+              <td th:text="${#strings.substring(p.PCDEDATE, 0, 10)}" class="date"></th>
+          </tr>
           </tbody>
         </table>
       </div>

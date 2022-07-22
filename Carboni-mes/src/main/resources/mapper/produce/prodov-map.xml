@@ -6,6 +6,9 @@
 		FROM PROCCOMM_D C JOIN GOODSINFO G ON C.GICODE = G.GICODE
 						  JOIN PRODCOMM P ON P.PCNUM = C.PCNUM
 						  JOIN LINEINFO L ON L.LINEID = C.LINEID
-						  JOIN PROCINFO I ON L.PICODEID = I.PICODEID;
+						  JOIN PROCINFO I ON L.PICODEID = I.PICODEID
+	</select>
+	<select id="plancal" resultType="co.carboni.prj.produce.vo.PrododVO">
+		SELECT PCDNUM, PCDSDATE, PCDEDATE FROM PROCCOMM_D
 	</select>
 </mapper>

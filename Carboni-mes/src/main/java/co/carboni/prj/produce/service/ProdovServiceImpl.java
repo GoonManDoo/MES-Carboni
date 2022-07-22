@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import co.carboni.prj.produce.mapper.ProdovMapper;
+import co.carboni.prj.produce.vo.PrododVO;
 import co.carboni.prj.produce.vo.ProdovVO;
 
 @Repository("prodovDAO")
@@ -17,6 +18,11 @@ public class ProdovServiceImpl implements Prodovservice{
 	@Override
 	public List<ProdovVO> selectProdov() {
 		return m.selectProdov();
+	}
+
+	@Override
+	public List<PrododVO> plancal() {
+		return m.plancal();
 	}
 
 }
