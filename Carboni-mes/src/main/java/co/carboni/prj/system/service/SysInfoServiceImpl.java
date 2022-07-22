@@ -3,12 +3,14 @@ package co.carboni.prj.system.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.carboni.prj.system.mapper.SysinfoMapper;
 import co.carboni.prj.system.vo.SystemVO;
 
 
 
+@Service
 public class SysInfoServiceImpl implements SysinfoService{
 
 
