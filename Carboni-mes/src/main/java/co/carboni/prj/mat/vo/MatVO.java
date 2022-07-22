@@ -66,6 +66,8 @@ public class MatVO {
 	
 	private String monote; //발주비고
 	private String msnum; //입출고 번호 (앞에 붙는 문제에따라 다름)
+	private String mlnum; //lot번호
+	private String msnote; //입고의 비고
 	
 	public List<String> dellist;
 	

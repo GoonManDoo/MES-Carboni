@@ -119,8 +119,8 @@
 	<!-- 발주에서 발주내용 삭제할떄 -->
 	<delete id="findDelreq"
 		parameterType="co.carboni.prj.mat.vo.MatVO">
-		delete from matord
-		where monum in
+		DELETE FROM MATORD
+		WHERE MONUM IN
 		<foreach collection="dellist" item="arr" open="("
 			separator="," close=")">
 			#{arr}
@@ -158,13 +158,21 @@
 	<!-- 입고관리에서 입고일자와 입고업체 검색시 검색 내용 메인그리드에 출력 -->
 	
 	<!-- 입고관리에서 발주일자로 검색한 것을 insert 하면서 발주상태 update-->
-	
 		<update id="addInputList" parameterType="co.carboni.prj.mat.vo.MatVO" statementType="CALLABLE">
-			<![CDATA[{call add_inmat(#{monum},#{msindate},#{monote})}]]>
+			<![CDATA[{call add_inmat (#{monum },#{msindate},#{monote},#{msnum, mode=OUT, jdbcType=VARCHAR},#{mlnum,mode=OUT, jdbcType=VARCHAR},#{msinam},#{moodate},#{miname},#{mistand},#{miunit},#{csname},#{moaskam})]]>
 		</update>
 		
-		<select id="selectInput" resultType="co.carboni.prj.mat.vo.MatVO">
-			SELECT MATSAR_INMSNUM_SEQ.CURRVAL AS MSNUM FROM DUAL
+		<!-- 입고가 되면서 그 값들이 합산되여 자재량이 됨 -->
+		<!-- 입고일자로 조회하는 것 -->
+		<select id="findInDate" resultType="co.carboni.prj.mat.vo.MatVO">
+				SELECT S.MSINDATE,S.MSNUM,S.MLNUM,S.MSINAM,
+						O.MONUM,O.MOODATE,O.MOASKAM,
+						M.MINAME,M.MISTAND,M.MIUNIT,
+						C.CSNAME
+				FROM MATSAR S,MATORD O,MATINFO M,COSTOMER C
+				WHERE (S.MONUM = O.MONUM AND O.MICODE=M.MICODE AND O.CSCODE=C.CSCODE)
+			<if test="startD != null and endD != null ">AND (S.MSINDATE BETWEEN #{startD} AND #{endD})</if>
+			<if test="cusCode != null">AND (O.CSCODE = #{cusCode})</if>
 		</select>
 
 </mapper>
