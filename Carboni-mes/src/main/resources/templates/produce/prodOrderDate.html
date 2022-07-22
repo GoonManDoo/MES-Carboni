@@ -14,12 +14,11 @@
 		}
 	</style>
 </head>
-<body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
+<body class="sb-nav-fixed">
 		<div class="container-fluid px-4">
 			<h1 class="mt-4">생산일정조회</h1>
 			
-			<!-- 캘린더 -->
 			<div style="width:95%; margin:20px auto;">
 				<div id='calendar'></div>
 			</div>
@@ -27,19 +26,21 @@
 			
 		</div>
 		
-		<!-- 스크립트 -->
-		<script type="text/javascript">
-			$(function(){
-				
+<script>
+  $.ajax({
+        url : "plancal",
+        method :"GET",
+        dataType: "JSON",
+        success : function(result){
 				var orderCal = document.getElementById('calendar');
 				var calendar = new FullCalendar.Calendar(orderCal, {
-					themeSystem: 'default',
-					initialView: 'dayGridMonth'
+					initialView: 'dayGridMonth',
+					events: result
 				});
 				calendar.render();
-				
-			})
-		</script>
-	</th:block>
+        } 
+    });
+</script>
+</th:block>
 </body>
 </html>
