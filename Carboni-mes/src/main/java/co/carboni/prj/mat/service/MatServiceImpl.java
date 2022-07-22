@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.carboni.prj.mat.mapper.MatMapper;
 import co.carboni.prj.mat.vo.MatVO;
@@ -56,6 +57,7 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
+	@Transactional
 	public List<MatVO> addRequestList(List<MatVO> list) {
 		List<MatVO> reqList = new ArrayList<MatVO>();
 		System.out.println(list.size());
@@ -80,10 +82,9 @@ public class MatServiceImpl implements MatService {
 
 	//-------------------------------------------------
 	@Override
+	@Transactional
 	public List<MatVO> addInputList(MatVO vo) {
-		System.out.println(map.addInputList(vo));
 		map.addInputList(vo);
-		System.out.println(map.selectInput(vo));
 		return map.selectInput(vo);
 	}
 	
