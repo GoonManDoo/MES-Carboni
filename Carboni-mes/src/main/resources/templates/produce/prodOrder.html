@@ -621,8 +621,8 @@
 
 				/* 생산지시조회 모달 */
 				$('#searchBtn').on('click', function () {
-					orderGrid.refreshLayout();
 					modal1.dialog('open')
+					orderGrid.refreshLayout();
 					$('#orSearchBtn').on('click', function(){
 						var ostartDt = $('#orderDtS').val()
 						var oendDt = $('#orderDtE').val()
