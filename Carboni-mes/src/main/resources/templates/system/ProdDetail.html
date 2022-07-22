@@ -6,6 +6,22 @@
 <meta charset="UTF-8">
 <title>설비 자세히 보기</title>
 </head>
+
+<style>
+.number {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  background-color: #ffb611;
+  font-size: 100px;
+  list-style: none;
+  text-align: center;
+  margin-top: 50px;
+  color: #333;
+  border-radius: 50%;
+}
+</style>
+
 <body>
 	<th:block layout:fragment="main">
 	<div class="container py-4" style="display: flex;flex-wrap: wrap;align-content: space-around;justify-content: space-around;">
@@ -60,6 +76,8 @@
 		                     <button data-bs-toggle="modal" href="#deleteSystem" role="button" style="width: 50px; height: 25px; margin-left: 613px; margin-top: 12px; border: none; background-color: white;">버튼</button>
 		                  </div>
 		               </div>
+		               
+		               
 	</div>
   <!--======================================================================================================================================================--> 	
   <!--======================================================================================================================================================--> 
@@ -72,18 +90,28 @@
                    	</div>
                   </div>
                   <div class="modal-footer" style="border: none; margin-top: -84px;">
-                    <button class="btn btn-primary" data-bs-target="#deletingSystem" data-bs-toggle="modal" style="z-index: 100;">삭제</button>
+                    <button class="btn btn-primary" data-bs-target="#deletingSystem" data-bs-toggle="modal" style="z-index: 100;" onclick="deletingNow()">삭제</button>
                   </div>
                 </div>
               </div>
             </div>
             
-         <div class="modal fade" id="deletingSystem" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1" data-backdrop="static" data-keyboard="false">
+         <div class="modal fade" id="deletingSystem" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" style="width: fit-content;">
                   <div class="modal-body">
 					<div>
+					
                    	 <img alt="삭제진행중" src="/assets/img/SiDeleting.svg">
+                   	 <div th:each="AVD:${detail}" class="Yudahui" style="display: flex; position: absolute; top: 217px; color: #eb4141; left: 230px;">
+		                <p>삭제까지</p><p class="number" style="margin-left: 7px; margin-right: 5px; margin-top: 0px;">10</p><p>초 남았습니다</p>
+		                <form id="dieform" name="dieform">
+		                	<input type="hidden" name="sinum" th:value="${AVD.sinum}">	
+		                </form>	
+		             </div>
+		             <button class="btn btn-danger" style=" z-index: 100; margin-left: 273px; margin-top: -90px;" onclick="RUUUUN()">취소</button>
+		             
+		             
                    	</div>
                   </div>
                 </div>
@@ -112,8 +140,7 @@
 				      }
 				    }
 				  }
-				  
-				  
+				    
 				  
 				  if (i == 0) {
 				    i = 1;
@@ -132,12 +159,37 @@
 				    }
 				  }
 
+			function RUUUUN(){
+				location.href="/productSysMain"
+			}
             
-            
-            
-            
-            
+		function deletingNow() {
+  			var count = 10;
+
+			  counterFn();
+			
+			  function counterFn() {
+			
+			    id0 = setInterval(count0Fn, 1000);
+			
+			    function count0Fn() {
+			      count--;
+			      if (count < 0) {
+			       console.log('adad')
+					     document.dieform.action="deleted"
+					    document.dieform.submit();
+			        //그 씨부럴 뭐더라 그 설비삭제 하는 코-오드
+			     
+			      } else {
+			        $(".number").text(count);
+			      }
+			    }
+			  }
+			};
+
             </script>
+            
+            
             
             
 	</th:block>
