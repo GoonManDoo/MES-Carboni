@@ -84,7 +84,22 @@ public interface SalesService {
 
 	//배송관리
 
-		//배송관리 > 제품검색
+		//배송관리 > 수주번호 검색 조회
 		public List<SalesVO> findJepoomList(String cnList);
+		
+		//배송관리 > 수주번호 전체 조회
+		public List<SalesVO> findAllJepoomList(SalesVO vo);
+		
+		//배송관리 > 배송조회
+		public List<SalesVO> findDeliverSearch(String startSh, String endSh, String cnNumber);
+
+		//배송관리 > 배송목록 삭제
+		public void findDelDlist(SalesVO vo);
+		
+		//배송관리 > 배송등록 출하일자 검색조회 
+		public List<SalesVO> findInShdate(String shNumList);
+		
+		//배송관리 > 배송등록 출하일자 전체조회
+		public List<SalesVO> findAllInShdate(SalesVO vo);
 
 }

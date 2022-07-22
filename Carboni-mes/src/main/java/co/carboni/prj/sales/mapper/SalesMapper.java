@@ -92,7 +92,22 @@ public interface SalesMapper {
 		
 	//배송관리
 		
-		//배송관리 > 제품검색
+		//배송관리 > 수주번호 검색조회
 		public List<SalesVO> findJepoomList(@Param("cnList") String cnList);
+
+		//배송관리 > 수주번호 전체조회
+		public List<SalesVO> findAllJepoomList(SalesVO vo);
+		
+		//배송관리 > 배송조회
+		public List<SalesVO> findDeliverSearch(@Param("startSh") String startSh, @Param("endSh") String endSh, @Param("cnNumber") String cnNumber);
+		
+		//배송관리 > 배송목록 조회
+		public void findDelDlist(SalesVO vo);
+		
+		//배송관리 > 배송등록 출하일자 검색조회
+		public List<SalesVO> findInShdate(@Param("shNumList") String shNumList);
+		
+		//배송관리 > 배송등록 출하일자 전체조회
+		public List<SalesVO> findAllInShdate(SalesVO vo);
 	
 }

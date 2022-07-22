@@ -35,6 +35,7 @@ public class SalesVO {
 	public List<String> prList;  //삭제할 생산의뢰번호 목록
 	public List<String> shList;  //삭제할 출하번호목록
 	public List<String> gsmList; //삭제할 제품재고목록
+	public List<String> dList;	 //삭제할 배송목록
 	
 	
 	//생산의뢰관리

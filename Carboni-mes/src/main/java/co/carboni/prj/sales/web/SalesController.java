@@ -74,6 +74,8 @@ public class SalesController {
 			List<SalesVO> goodsList = service.findGiList(giname);
 			return goodsList;
 		}
+		
+		
 
 	
 
@@ -210,6 +212,14 @@ public class SalesController {
 			return shipList;
 		}
 		
+		//배송관리 > 배송목록 조회
+		@RequestMapping("deliverSearch")
+		@ResponseBody
+		public List<SalesVO> deliverSearch(@RequestParam("startSh") String startSh, @RequestParam("endSh") String endSh, @RequestParam("cnNumber") String cnNumber) {
+			List<SalesVO> deliverSearch = service.findDeliverSearch(startSh, endSh, cnNumber);
+			return deliverSearch;
+		}
+		
 		//출하관리 > 출고목록 삭제
 		@RequestMapping("delShList")
 		@ResponseBody
@@ -223,7 +233,7 @@ public class SalesController {
 		return "sales/deliver";
 	}
 		
-		//배송관리 > 제품조회
+		//배송관리 > 수주번호 검색조회
 		@RequestMapping("jepoomList")
 		@ResponseBody
 		public List<SalesVO> jepoomList(@RequestParam("cnList") String cnList) {
@@ -231,7 +241,37 @@ public class SalesController {
 			return jepoomList;
 			
 		}
-	
+		
+		//배송관리 > 수주번호 전체조회
+		@RequestMapping("allJepoomList")
+		@ResponseBody
+		public List<SalesVO> allJepoomList(SalesVO vo) {
+			List<SalesVO> allJepoomList = service.findAllJepoomList(vo);
+			return allJepoomList;
+		}
+		
+		//배송관리 > 배송목록 삭제
+		@RequestMapping("delDlist")
+		@ResponseBody
+		public void delDlist(SalesVO vo) {
+			service.findDelDlist(vo);
+		}
+		
+		//배송관리 > 배송등록 출하번호 검색조회
+		@RequestMapping("inShdate")
+		@ResponseBody
+		public List<SalesVO> inShdate(@RequestParam("shNumList") String shNumList) {
+			List<SalesVO> inShdate = service.findInShdate(shNumList);
+			return inShdate;
+		}
+		
+		//배송관리 > 배송등록 출하번호 전체조회
+		@RequestMapping("allInShdate")
+		@ResponseBody
+		public List<SalesVO> allInShdate(SalesVO vo) {
+			List<SalesVO> allInShdate = service.findAllInShdate(vo);
+			return allInShdate;
+		}
 	 
 
 
