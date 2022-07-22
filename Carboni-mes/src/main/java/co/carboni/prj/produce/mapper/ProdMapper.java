@@ -77,6 +77,12 @@ public interface ProdMapper {
 		
 		// 생산지시수정
 		public void updateOrder(ProdOrderVO vo);
+		
+		// 생산지시상세수정
+		public void updateOrDetail(ProdOrderVO vo);
+		
+		// 생산지시조회모달 검색
+		public List<ProdOrderVO> searchOrder(@Param("ostartDt") String ostartDt, @Param("oendDt") String oendDt, @Param("ostatus") String ostatus);
 
 
 		

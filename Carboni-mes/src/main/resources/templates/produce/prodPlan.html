@@ -63,6 +63,7 @@
 				<!-- 입력폼 -->
 				<form autocomplete="off" id="dataForm">
 					<input type="hidden" id="planNum" name="planNum">
+					<input type="hidden" id="planSt" name="planSt">
 					<div class="container-fluid"
 						style="display: flex; flex-flow: row wrap; justify-content: space-between;">
 						<!-- 계획일자, 생산계획명, 특이사항 -->
@@ -491,6 +492,7 @@
 				
 				function loadProdPlan(result) {
 					$('#planNum').val(result.ppnum) // hidden에 조회한 계획번호 입력
+					$('#planSt').val(result.ppstatus)
 					$('#planDt').val(result.ppdate)
 					$('#planName').val(result.ppname)
 					$('#planNote').val(result.ppnote)
@@ -660,11 +662,15 @@
 			} else { // input hidden에 담아놓은 생산계획번호가 있을 때는 수정
 				// 수정
 				if($('#planName').val() != '') {
-					if($('td').hasClass('tui-grid-cell-invalid') == false) { // 제품테이블 그리드중에 입력안된값이 있으면 등록 못하도록
-						// 등록
-						updateProdPlan();
+					if($('#planStatus').val() != '지시진행') {
+						if($('td').hasClass('tui-grid-cell-invalid') == false) { // 제품테이블 그리드중에 입력안된값이 있으면 등록 못하도록
+							// 등록
+							updateProdPlan();
+						} else {
+							swal('입력되지 않은 값이 있습니다.', '', 'warning')
+						}
 					} else {
-						swal('입력되지 않은 값이 있습니다.', '', 'warning')
+						swal('생산지시가 내려진 계획입니다.', '', 'warning')
 					}
 				} else {
 					swal('생산계획명을 입력하세요.', '', 'warning')
