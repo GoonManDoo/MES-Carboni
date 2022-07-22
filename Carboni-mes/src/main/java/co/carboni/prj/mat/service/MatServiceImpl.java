@@ -83,10 +83,22 @@ public class MatServiceImpl implements MatService {
 	//-------------------------------------------------
 	@Override
 	@Transactional
-	public List<MatVO> addInputList(MatVO vo) {
-		map.addInputList(vo);
-		return map.selectInput(vo);
+	public List<MatVO> addInputList(List<MatVO> list) {
+		List<MatVO> inList = new ArrayList<MatVO>();
+		for (MatVO vo : list) {
+			map.addInputList(vo);
+			inList.add(vo);
+			//map.updateInAm(vo);
+		}
+		return inList;
 	}
+
+	@Override
+	public List<MatVO> findInDate(String startD, String endD,String cusCode) {
+		return map.findInDate(startD, endD,cusCode);
+	}
+
+
 	
 	
 

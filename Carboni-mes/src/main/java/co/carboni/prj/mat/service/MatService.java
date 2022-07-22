@@ -45,8 +45,11 @@ public interface MatService {
 	
 
 	//입고관리에서 자재 입고 처리하면서 발주상태 업데이트
-	public List<MatVO> addInputList(MatVO vo);
-
+	public List<MatVO> addInputList(List<MatVO> list);
 	
+	//입고관리에서 입고일자들로 조회해서 메인그리드에 표시
+	public List<MatVO> findInDate(String startD, String endD,String cusCode);
+	
+
 
 }
