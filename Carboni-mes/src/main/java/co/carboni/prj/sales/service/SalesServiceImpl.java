@@ -14,43 +14,43 @@ public class SalesServiceImpl implements SalesService {
 	@Autowired
 	SalesMapper mapper;
 
-	//수주관리
-	
-		//수주관리 > 수주목록 삭제
-		@Override
-		public void findDelCnList(SalesVO vo) {
-			mapper.findDelCnList(vo);
-		}
+		//수주관리
 		
-		//수주관리 > 수주일자조회
-		@Override
-		public List<SalesVO> findCndateList(String startDt, String endDt, String cusCode, String goodsCode) {
-			return mapper.findCndateList(startDt, endDt, cusCode, goodsCode);
-		}
-		
-		//수주관리 > 거래처모달 전체조회
-		@Override
-		public List<SalesVO> findAllCsList(SalesVO vo) {
-			return mapper.findAllCsList(vo);
-		}
-		
-		//수주관리 > 거래처모달 검색조회
-		@Override
-		public List<SalesVO> findCsList(String csname) {
-			return mapper.findCsList(csname);
-		}
-		
-		//수주관리 > 제품모달 전체조회
-		@Override
-		public List<SalesVO> findAllGiList(SalesVO vo) {
-			return mapper.findAllGiList(vo);
-		}
-		
-		//수주관리 > 제품모달 검색조회
-		@Override
-		public List<SalesVO> findGiList(String giname) {
-			return mapper.findGiList(giname);
-		}
+			//수주관리 > 수주목록 삭제
+			@Override
+			public void findDelCnList(SalesVO vo) {
+				mapper.findDelCnList(vo);
+			}
+			
+			//수주관리 > 수주일자조회
+			@Override
+			public List<SalesVO> findCndateList(String startDt, String endDt, String cusCode, String goodsCode) {
+				return mapper.findCndateList(startDt, endDt, cusCode, goodsCode);
+			}
+			
+			//수주관리 > 거래처모달 전체조회
+			@Override
+			public List<SalesVO> findAllCsList(SalesVO vo) {
+				return mapper.findAllCsList(vo);
+			}
+			
+			//수주관리 > 거래처모달 검색조회
+			@Override
+			public List<SalesVO> findCsList(String csname) {
+				return mapper.findCsList(csname);
+			}
+			
+			//수주관리 > 제품모달 전체조회
+			@Override
+			public List<SalesVO> findAllGiList(SalesVO vo) {
+				return mapper.findAllGiList(vo);
+			}
+			
+			//수주관리 > 제품모달 검색조회
+			@Override
+			public List<SalesVO> findGiList(String giname) {
+				return mapper.findGiList(giname);
+			}
 	
 		//생산의뢰관리
 		
@@ -156,10 +156,40 @@ public class SalesServiceImpl implements SalesService {
 
 		//배송관리
 			
-			//배송관리 > 제품검색
+			//배송관리 > 수주번호 검색조회
 			@Override
 			public List<SalesVO> findJepoomList(String cnList) {
 				return mapper.findJepoomList(cnList);
+			}
+
+			//배송관리 > 수주번호 전체조회
+			@Override
+			public List<SalesVO> findAllJepoomList(SalesVO vo) {
+				return mapper.findAllJepoomList(vo);
+			}
+			
+			//배송관리 > 배송목록 조회
+			@Override
+			public List<SalesVO> findDeliverSearch(String startSh, String endSh, String cnNumber) {
+				return mapper.findDeliverSearch(startSh, endSh, cnNumber);
+			}
+			
+			//배송관리 > 배송목록 삭제
+			@Override
+			public void findDelDlist(SalesVO vo) {
+				mapper.findDelDlist(vo);
+			}
+			
+			//배송관리 > 배송등록 출하번호 검색조회
+			@Override
+			public List<SalesVO> findInShdate(String shNumList) {
+				return mapper.findInShdate(shNumList);
+			}
+			
+			//배송관리 > 배송등록 출하번호 전체조회
+			@Override
+			public List<SalesVO> findAllInShdate(SalesVO vo) {
+				return mapper.findAllInShdate(vo);
 			}
 			
 			

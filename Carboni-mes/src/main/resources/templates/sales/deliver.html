@@ -85,8 +85,8 @@ span {
 		<!-- 메인화면 검색 -->
 		<div class="card mb-4" id="pageing">
 			<div class="card-body">
-				 <span> 출고일자<input type="date" name="startCNDATE" id="startCNDATE" class="input" />~
-		                     <input type="date" name="endCNDATE" id="endCNDATE" class="input" /><br>
+				 <span> 출고일자<input type="date" name="startShdate" id="startShdate" class="input" />~
+		                     <input type="date" name="endShdate" id="endShdate" class="input" /><br>
                         수주번호<input type="text" id="leftinput" class="input" placeholder="수주번호 검색" readonly="readonly"><br>
                      </span> 
 			</div>
@@ -101,8 +101,8 @@ span {
 	<div id="deliverModal" style="padding: 20px;" title="수주정보 조회">
 				<div class="container">
 					<div class="title">
-						<span>  수주번호<input type="text" id="leftinput1" class="input" placeholder="검색" readonly="readonly">
-							<button id="ShdateBtn" class="btn btn-secondary">조회</button> <br>
+						<span>  수주번호<input type="text" id="leftinput1" class="input" placeholder="검색">
+							<button id="ShdateBtn1" class="btn btn-secondary">조회</button> <br>
 					</div>
 				</div>
 				
@@ -113,6 +113,27 @@ span {
 							<i class="fas fa-table me-1"></i> 수주번호 검색
 						</div>
 						<div id="delivergrid"></div>
+					</div>
+				</div>
+			</div>
+			
+	
+	<!-- 배송 등록 모달 -->
+	<div id="insertModal" style="padding: 20px;" title="배송 등록">
+				<div class="container">
+					<div class="title">
+						<span>  출하번호<input type="text" id="rightinput1" class="input" placeholder="검색">
+							<button id="ShdateBtn" class="btn btn-secondary">조회</button> <br>
+					</div>
+				</div>
+				
+				<!-- 배송 등록 모달 그리드 -->
+				<div class="container-fluid px-4">
+					<div class="card mb-4">
+						<div class="card-header" style="text-align: center;">
+							<i class="fas fa-table me-1"></i> 배송 등록
+						</div>
+						<div id="insertgrid"></div>
 					</div>
 				</div>
 			</div>
@@ -152,17 +173,25 @@ span {
 			name : 'cnnum',
 			align : 'center'
 		}, {
-			header : '제품명',
-			name : 'giname',
+			header : '출하번호',
+			name : 'shnum',
+			align : 'center'
+		},{
+			header : '거래처명',
+			name : 'csname',
 			align : 'center'
 		}, {
-			header : '거래처명',
-			name : 'gsname',
+			header : '제품명',
+			name : 'giname',
 			align : 'center'
 		}, {
 			header : '출고수량',
 			name : 'sham',
 			align : 'center'
+		},{
+			header : '납기일자',
+			name : 'cnperiod',
+			align : 'center',
 		}, {
 			header : '출고일자',
 			name : 'shdate',
@@ -183,10 +212,6 @@ span {
 			header : '수주번호',
 			name : 'cnnum',
 			align : 'center'
-		},{
-			header : '출하번호',
-			name : 'shnum',
-			align : 'center'
 		}, {
 			header : '거래처명',
 			name : 'csname',
@@ -197,6 +222,70 @@ span {
 			align : 'center'
 		} ]
 	});
+	
+	/* 배송 등록 그리드 */
+	const insertData = [];
+
+	const insertgrid = new tui.Grid({
+		el : document.getElementById('insertgrid'),
+		data : insertData,
+		scrollX : false,
+		rowHeaders : [ 'rowNum', 'checkbox' ],
+		bodyHeight : 430,
+		columns : [ {
+			header : '출하번호',
+			name : 'shnum',
+			align : 'center'
+		}, {
+			header : '제품명',
+			name : 'giname',
+			align : 'center'
+		}, {
+			header : '거래처명',
+			name : 'csname',
+			align : 'center'
+		}, {
+			header : '출고일자',
+			name : 'shdate',
+			align : 'center'
+		}, {
+			header : '납기일자',
+			name : 'cnperiod',
+			align : 'center'
+		} ]
+	});
+	
+	
+	/* 배송관리 조회 */
+	$('#searchBtn').on('click', function() {
+		var startSh = $('#startShdate').val()
+		var endSh = $('#endShdate').val()
+		var cnNumber = $('#leftinput').val()
+		$.ajax({
+			url : 'deliverSearch',
+			method: 'POST',
+			data : {startSh, endSh, cnNumber},
+			success: function(result) {
+				grid.refreshLayout();
+				grid.resetData(result)
+			}
+		})
+	})
+	
+	/* 배송목록 삭제 */
+	$('#deleteBtn').on('click', function() {
+		delGrid = grid.getCheckedRows()
+		var dList = delGrid.map((e) => {return e.dnum})
+		$.ajax({
+			url : 'delDlist',
+			method: 'POST',
+			data : {dList},
+			success: function() {
+				grid.removeCheckedRows('')
+				swal("삭제 성공!", "선택한 배송 내역이 삭제되었습니다.", "success");
+			}
+		})
+	})
 	
 	/*메이크 모달*/
 	function makeModal(e, fnc) {
@@ -219,16 +308,31 @@ span {
 		return dialog;
 	}
 	var modal1 = makeModal("#deliverModal", giup)
+		modal1 = makeModal("#deliverModal", giup1)
+	var modal2 = makeModal("#insertModal", check)
 	
-	/* 업체검색 모달 버튼 */
+	/* 수주번호검색 모달 버튼 */
 	$('#leftinput').on('click', function() {
 		$('#deliverModal').css('display', '')
 		modal1.dialog('open')
-		delivergrid.refreshLayout()
-	})
+		//전체 목록 바로 띄우는 ajax 호출
+		$.ajax({
+			url: 'allJepoomList',
+			method: 'POST',
+			success: function(result) {
+				delivergrid.refreshLayout()
+				delivergrid.resetData(result)
+				delivergrid.on('click', e => {
+					var rok = e.rowKey
+					shl = delivergrid.getRow(rok).cnnum
+				})
+					
+				}
+			})
+		})
 	
-	/* 업체검색 모달 검색 버튼  */
-	$('#ShdateBtn').on('click', function() {
+	/* 수주번호검색 모달 검색 버튼  */
+	$('#ShdateBtn1').on('click', function() {
 		var cnList = $('#leftinput1').val()
 		$.ajax({
 			url : 'jepoomList',
@@ -236,15 +340,61 @@ span {
 			data : {cnList},
 			success: function(result) {
 				delivergrid.resetData(result)
+				delivergrid.on('click', e => {
+					var rr = e.rowKey
+					shl1 = delivergrid.getRow(rr).cnnum
+				})
 			}
 		})
 	})
 	
-	/* 수주번호검색 모달 확인 버튼 눌렀을때  */
+	/* 수주번호 검색조회 모달 확인 버튼 눌렀을때  */
 	function giup() {
-		
+		$('#leftinput').val(shl1)
+		modal1.dialog('close')
 	}
 	
+	/* 수주번호 전체검색 모달 확인 버튼 눌렀을때  */
+	function giup1() {
+		$('#leftinput').val(shl)
+		modal1.dialog('close')
+	}
+	
+	
+	/* 배송등록 모달 버튼 */
+	$('#insertBtn').on("click", function() {
+		$('#insertModal').css('display', '')
+		modal2.dialog('open')
+		//전체 목록 바로 띄우는 ajax 호출
+		$.ajax({
+			url : 'allInShdate',
+			method: 'POST',
+			success: function(result) {
+				insertgrid.refreshLayout();
+				insertgrid.resetData(result)
+			}
+		})
+		insertgrid.refreshLayout();
+	})
+	
+	/* 배송등록 출하번호 조회 */
+	$('#ShdateBtn').on('click', function() {
+		var shNumList = $('#rightinput1').val()
+		$.ajax({
+			url : 'inShdate',
+			method: 'POST',
+			data : {shNumList},
+			success: function(result) {
+				insertgrid.resetData(result)
+			}
+			
+		})
+	})
+		
+	/* 배송등록 모달 확인 버튼 눌렀을때 */
+	function check() {
+		
+	}
 	
 	
 	})
