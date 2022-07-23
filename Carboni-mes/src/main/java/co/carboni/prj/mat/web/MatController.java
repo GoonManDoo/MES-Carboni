@@ -153,6 +153,11 @@ public class MatController {
 		return findindate;
 	}
 	
+	@RequestMapping("inputdelreq")
+	@ResponseBody
+	public void inputdelreq(MatVO vo) {
+		service.inputDelreq(vo);
+	}
 
 
 }

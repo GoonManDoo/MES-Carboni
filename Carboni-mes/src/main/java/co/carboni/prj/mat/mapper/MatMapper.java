@@ -52,8 +52,12 @@ public interface MatMapper {
 	public void updateInAm(MatVO vo);
 
 	// 입고관리에서 입고일자들로 조회해서 메인그리드에 표시
-	public List<MatVO> findInDate(@Param("startD") String startD, @Param("endD") String endD, @Param("cusCode") String cusCode);
+	public List<MatVO> findInDate(@Param("startD") String startD, @Param("endD") String endD,
+			@Param("cusCode") String cusCode);
 
-
+	// 입고관리에서 입고된것들 삭제할때
+	public void inputDelreq(MatVO vo);
+	// 입고관리에서 삭제하면서 발주관리의 상품 상태 되돌립
+	public void inputupdatereq(MatVO vo);
 
 }

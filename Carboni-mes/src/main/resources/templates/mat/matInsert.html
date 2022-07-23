@@ -481,24 +481,6 @@ ul {
 							grid.resetData(gridData);
 						}
 				/*--------------------------------------------*/
-				/*삭제눌렀을때*/
-				$('#removeBtn').on('click', function(){
-					delgrid =grid.getCheckedRows()
-					var dellists = delgrid.map((e) => {return e.msnum})
-					console.log(dellist)
-					/*삭제 아작스*/
-					/* 		
-					$.ajax({
-							url :'',
-							method :'POST',
-							data:{dellists},
-							success :function(){
-								grid.removeCheckedRows('') 
-								swal("삭제 완료", "선택한 입고내역이 삭제되었습니다.", "success");
-							}
-						}) 
-						*/
-				})
 				
 				/*저장버튼 눌렀을때 */
 				$('#saveBtn').on('click',function(){
@@ -588,7 +570,27 @@ ul {
 						
 					} 
 					*/
-					
+					/*=---------삭제 하면서 상태 업데이트 ------------*/
+						/*삭제눌렀을때*/
+						$('#removeBtn').on('click', function(){
+							delgrid =grid.getCheckedRows()
+							var dellists = delgrid.map((e) => {return e.msnum})
+							
+							console.log(dellist)
+							/*삭제 아작스*/
+						
+							$.ajax({
+									url :'inputdelreq',
+									method :'POST',
+									data:{dellists},
+									success :function(){
+										grid.removeCheckedRows('') 
+										swal("삭제 완료", "선택한 입고내역이 삭제되었습니다.", "success");
+									}
+								}) 
+								
+						})
+						
 				})
 			})
 		</script>

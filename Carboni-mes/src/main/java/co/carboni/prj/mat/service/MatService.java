@@ -50,6 +50,9 @@ public interface MatService {
 	//입고관리에서 입고일자들로 조회해서 메인그리드에 표시
 	public List<MatVO> findInDate(String startD, String endD,String cusCode);
 	
+	//입고관리에서 입고된것들 삭제할때 
+	public void inputDelreq(MatVO vo);
+	
 
 
 }

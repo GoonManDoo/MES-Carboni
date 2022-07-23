@@ -98,6 +98,13 @@ public class MatServiceImpl implements MatService {
 		return map.findInDate(startD, endD,cusCode);
 	}
 
+	@Override
+	public void inputDelreq(MatVO vo) {
+		map.inputDelreq(vo);
+		map.inputupdatereq(vo);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+		
+	}
+
 
 	
 	
