@@ -575,10 +575,8 @@ ul {
 						$('#removeBtn').on('click', function(){
 							delgrid =grid.getCheckedRows()
 							var dellists = delgrid.map((e) => {return e.msnum})
-							
 							console.log(dellist)
 							/*삭제 아작스*/
-						
 							$.ajax({
 									url :'inputdelreq',
 									method :'POST',
