@@ -662,7 +662,7 @@
 			} else { // input hidden에 담아놓은 생산계획번호가 있을 때는 수정
 				// 수정
 				if($('#planName').val() != '') {
-					if($('#planStatus').val() != '지시진행') {
+					if($('#planStatus').val() == '미지시') {
 						if($('td').hasClass('tui-grid-cell-invalid') == false) { // 제품테이블 그리드중에 입력안된값이 있으면 등록 못하도록
 							// 등록
 							updateProdPlan();
@@ -761,16 +761,20 @@
 		/* 생산계획 삭제 */
 		$('#removeBtn').on('click', function(){
 			if($('#planNum').val() != '') {
-				var ppnum = $('#planNum').val()
-				$.ajax({
-					url: 'removeProdPlan',
-					method: 'POST',
-					data: { ppnum },
-					success: function(){
-						swal('성공', '생산계획 삭제가 완료되었습니다.', 'success')
-						fnFormClear();
-					}
-				})
+				if($('#planStatus').val() == '미지시') {
+					var ppnum = $('#planNum').val()
+					$.ajax({
+						url: 'removeProdPlan',
+						method: 'POST',
+						data: { ppnum },
+						success: function(){
+							swal('성공', '생산계획 삭제가 완료되었습니다.', 'success')
+							fnFormClear();
+						}
+					})
+				} else {
+					swal('생산지시가 내려진 계획입니다.', '', 'warning')
+				}
 			} else {
 				swal('삭제할 내역이 없습니다.', '', 'warning')
 			}

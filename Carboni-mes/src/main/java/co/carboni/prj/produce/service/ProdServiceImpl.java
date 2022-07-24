@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.carboni.prj.produce.mapper.ProdMapper;
+import co.carboni.prj.produce.vo.ProcMoniterVO;
 import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
@@ -163,8 +164,10 @@ public class ProdServiceImpl implements ProdService {
 		
 		// 생산지시상세수정
 		@Override
-		public void updateOrDetail(ProdOrderVO vo) {
-			mapper.updateOrDetail(vo);
+		public void updateOrDetail(List<ProdOrderVO> orders) {
+			for(ProdOrderVO vo : orders) {
+				mapper.updateOrDetail(vo);
+			}
 		}
 		
 		// 생산지시조회모달 검색
@@ -184,6 +187,42 @@ public class ProdServiceImpl implements ProdService {
 		public List<ProdOrderVO> prodOrderDetail(String findDNum) {
 			return mapper.prodOrderDetail(findDNum);
 		}
+		
+		// 생산지시삭제
+		@Override
+		public void removeProdOrder(ProdOrderVO vo) {
+			mapper.removeProdOrder(vo);
+		}
+
+		
+	// 공정모니터링
+		
+		// 공정진행관리
+		
+			// 생산지시목록 검색
+			@Override
+			public List<ProcMoniterVO> callOrder(String workDt) {
+				return mapper.callOrder(workDt);
+			}
+			
+			// 진행생산지시
+			@Override
+			public List<ProcMoniterVO> loadOrder(String findNum) {
+				return mapper.loadOrder(findNum);
+			}
+
+			// 공정목록
+			@Override
+			public List<ProcMoniterVO> loadProdLine(ProcMoniterVO vo) {
+				return mapper.loadProdLine(vo);
+			}
+
+			// 더미테이블 지시번호, 설비번호 등록
+			@Override
+			public void insertSinum(ProcMoniterVO vo) {
+				mapper.insertSinum(vo);
+			}
+
 		
 
 

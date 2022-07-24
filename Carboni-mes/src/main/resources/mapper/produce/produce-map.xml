@@ -234,7 +234,53 @@
 		</select>
 		
 		<!-- 생산지시상세 페이지로드 -->
+		<select id="prodOrderDetail" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT p.ppnum, p.ppname, g.giname, r.prclose, c.lineid, (d.ppdam+d.uplam) as ppadam, c.pcdam, c.pcddiv, c.pcdsdate, c.pcdedate, c.gicode, c.pcnum, c.pcdnum
+			FROM proccomm_d c, prodplan p, prodplan_d d, goodsinfo g, prodreq r
+			WHERE (c.ppdnum = d.ppdnum and d.ppnum = p.ppnum and c.gicode = g.gicode and d.prnum = r.prnum)
+			AND c.pcnum LIKE #{findDNum}||'%'
+		</select>
 		
-	
+		<!-- 생산지시삭제 -->
+		<update id="removeProdOrder" parameterType="co.carboni.prj.produce.vo.ProdOrderVO" statementType="CALLABLE">
+			<![CDATA[{call delete_prodcomm(#{pcnum})}]]>
+		</update>
+		
+		
+	<!-- 공정모니터링 -->
+		<!-- 공정진행관리 -->
+
+			<!-- 생산지시목록 검색 -->
+			<select id="callOrder" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
+				SELECT c.pcnum, c.pcname, g.giname, d.pcdam
+				FROM prodcomm c, proccomm_d d, goodsinfo g
+				WHERE (c.pcnum = d.pcnum and d.gicode = g.gicode)
+				AND (d.pcdsdate = #{workDt} and c.pcstatus = '미공정')
+			</select>
+			
+			<!-- 진행생산지시 -->
+			<select id="loadOrder" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
+				SELECT c.pcnum, d.pcdnum, g.giname, g.gicode, d.pcdam, d.lineid, c.pcdkeeper
+				FROM prodcomm c, proccomm_d d, goodsinfo g
+				WHERE (c.pcnum = d.pcnum and d.gicode = g.gicode)
+				AND c.pcnum = #{findNum}
+			</select>
+			
+			<!-- 공정라인정보 -->
+			<select id="loadProdLine" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
+				SELECT d.pcnum, c.picodeid, c.piname, c.sinum, m.phdstime, m.phdetime, m.phdstat, d.pcdam, d.lineid
+				FROM procinfo c, proccomm_d d, dummy m
+				WHERE c.sinum = m.sinum(+)
+				AND c.picodeid in (SELECT picodeid FROM lineinfo WHERE lineid = #{lineid})
+				AND d.pcnum like #{pcnum}||'%'
+				ORDER BY c.picodeid
+			</select>
+			
+			<!-- 더미테이블 지시번호, 설비번호 등록 -->
+			<insert id="insertSinum" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO">
+				insert into dummy
+				values (#{pcnum}, #{sinum}, null, null, '정지', 'N')
+			</insert>
+			
 	
 </mapper>

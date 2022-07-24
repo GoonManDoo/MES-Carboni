@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.carboni.prj.produce.service.ProdService;
 import co.carboni.prj.produce.service.Prodovservice;
+import co.carboni.prj.produce.vo.ProcMoniterVO;
 import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
@@ -174,7 +175,7 @@ public class ProdController {
 			return vo;
 		}
 		
-		// 생산지시관리 - 생산지시상세등록 + 수정시 재등록
+		// 생산지시관리 - 생산지시상세등록
 		@RequestMapping("addPOrderDetail")
 		@ResponseBody
 		public void addPOrderDetail(@RequestBody List<ProdOrderVO> orders) {
@@ -198,8 +199,8 @@ public class ProdController {
 		// 생산지시관리 - 생산지시상세수정
 		@RequestMapping("updateOrDetail")
 		@ResponseBody
-		public void updateOrDetail(@RequestBody ProdOrderVO vo) {
-			service.updateOrDetail(vo);
+		public void updateOrDetail(@RequestBody List<ProdOrderVO> orders) {
+			service.updateOrDetail(orders);
 		}
 		
 		// 생산지시관리 - 생산지시조회 검색
@@ -222,6 +223,13 @@ public class ProdController {
 		public List<ProdOrderVO> prodOrderDetail(@RequestParam String findDNum) {
 			return service.prodOrderDetail(findDNum);
 		}
+		
+		// 생신지시관리 - 생산지시삭제
+		@RequestMapping("removeProdOrder")
+		@ResponseBody
+		public void removeProdOrder(ProdOrderVO vo) {
+			service.removeProdOrder(vo);
+		}
 	
 	
 	// 생산지시조회
@@ -236,6 +244,36 @@ public class ProdController {
 	public String procMoniter() {
 		return "produce/procMoniter";
 	}
+		
+		// 공정진행관리 - 생산지시목록 검색
+		@RequestMapping("callOrder")
+		@ResponseBody
+		public List<ProcMoniterVO> callOrder(@RequestParam String workDt) {
+			return service.callOrder(workDt);
+			
+		}
+		
+		// 공정진행관리 - 진행생산지시
+		@RequestMapping("loadOrder")
+		@ResponseBody
+		public List<ProcMoniterVO> loadOrder(@RequestParam String findNum) {
+			return service.loadOrder(findNum);
+		}
+		
+		// 공정진행관리 - 공정목록
+		@RequestMapping("loadProdLine")
+		@ResponseBody
+		public List<ProcMoniterVO> loadProdLine(ProcMoniterVO vo) {
+			return service.loadProdLine(vo);
+		}
+		
+		// 공정진행관리 - 더미테이블 지시번호, 설비번호 등록
+		@RequestMapping("insertSinum")
+		@ResponseBody
+		public void insertSinum(ProcMoniterVO vo) {
+			service.insertSinum(vo);
+		}
+		
 	
 	// 생산지시일정조회
 	@RequestMapping("/prodOrderDate.do")
