@@ -46,6 +46,7 @@ public class SystemVO {
 	private String smstatus;//설비 가동여부
 	private String sisaftem;//설비 온도관리
 	
+	
 	private int phdmkam; //생산량
 	private int phderram; //불량량
 }

@@ -12,18 +12,36 @@
 	</select>
 
 	<select id="selectSysDetAll" resultType="co.carboni.prj.system.vo.SystemVO">
-		SELECT S.SINUM, S.SINAME, S.SISAFTEM, 
-        P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR, 
-        D.PHDMKAM, D.PHDERRAM
-		FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
-		WHERE (S.PICODEID = P.PICODEID OR S.SINUM = D.SINUM)
-        AND S.SINUM = ${sinum}
+			SELECT 
+			    S.SINUM, S.SINAME, S.SISAFTEM, 
+			    M.SMSTATUS, M.SMMNTEND, M.SIMAINT, M.SIDATE, M.SIDIE, M.SYSADMIN,
+			    P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR,
+			    D.PHDMKAM, D.PHDERRAM
+			FROM SYSINFO S, SYSMAN M, PROCINFO P, PROCHEAD_D D
+			WHERE S.SINUM = M.SINUM(+) 
+			    AND S.SINUM = P.SINUM(+) 
+			    AND S.PICODEID = D.PICODEID(+)
+			    AND S.SINUM = #{sinum}
+			ORDER BY SINUM;
 	</select>
 	
 	<select id="selectPicoid" resultType="co.carboni.prj.system.vo.SystemVO">
 		SELECT PICODEID, PINAME FROM PROCINFO
 	</select>
 	
+	<select id="selectSysCondition" resultType="co.carboni.prj.system.vo.SystemVO">
+		SELECT SMSTATUS FROM SYSMAN WHERE SINUM= #{sinum};
+	</select>
+	
+	<select id="selectSysStartDie" resultType="co.carboni.prj.system.vo.SystemVO">
+	SELECT SIDATE, SIDIE FROM SYSMAN WHERE SINUM= #{sinum};
+	</select>
+	
+	<!-- 전체 남은 수명중 현재 진행중 수명 -->
+	<select id="selectSysLifespan" resultType="co.carboni.prj.system.vo.SystemVO">
+	SELECT SIDATE, TRUNC(SIDIE-SIDATE),TRUNC(100-((SIDIE-SYSDATE)/(SIDIE-SIDATE)*100), 3), SIDIE, TRUNC(SIDIE-SYSDATE) FROM SYSMAN
+	WHERE SINUM = #{sinum}
+	</select>
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
 		INSERT INTO SYSINFO
 			VALUES(SYSTEM_SINUM_SEQ.NEXTVAL, #{picodeid}, #{siname}, #{sisaftem})
