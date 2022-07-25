@@ -43,10 +43,10 @@
 	<update id="sysmanUpdate" parameterType="co.carboni.prj.system.vo.SystemVO">
 	UPDATE SYSMAN
 			<set>
-			SMSTATUS = ${smstatus} ,
+			SMSTATUS = ${smstatus},
 			SMMNTEND = SYSDATE,
 			SIMAINT = #{simaint},
-			SIDIE = #{sidie}
+			SIDIE = #{sidie},
 			</set>
 	WHERE SMNUM = #{smnum}
 	</update>
