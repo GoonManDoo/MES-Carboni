@@ -4,6 +4,9 @@
 	layout:decorate="~{layouts/layout}">
 <head>
 <style>
+.tui-datepicker {
+	z-index: 99;
+}
 h5 {
 	font-weight: 700;
 	margin-bottom: 15px;
@@ -40,61 +43,29 @@ ul.tabs li.current {
 	display: inherit;
 }
 
-.g1 {
-	padding: 15px;
-	height: 150px;
+.fw {
+	font-weight: 700;
+	margin-right: 10px;
 }
 
-.g2 {
-	padding: 15px;
-	margin-top: 10px;
-	height: 250px;
-}
-
-.g3 {
-	padding: 15px;
-	margin-top: 10px;
-	height: 410px;
-}
-
-.g4 {
-	margin: 10px;
+.mg5 {
+	margin-top: 5px;
 }
 
 #manageBtn {
 	text-align: center;
-	margin-top: 90px;
+	margin-top: 40px;
 }
 
 #start, #end {
+	border: none;
 	display: inline-block;
-	width: 150px;
-	height: 150px;
+	width: 100px;
+	height: 100px;
 	background: #ddd;
-	line-height: 150px;
+	line-height: 100px;
 	text-align: center;
 	font-size: 2em;
-}
-
-#error {
-	display: inline-block;
-	width: 150px;
-	text-align: center;
-}
-
-#plus, #minus {
-	width: 50px;
-	height: 50px;
-	background: #ddd;
-	line-height: 50px;
-	text-align: center;
-}
-
-#emerStop {
-	width: 100px;
-	background: #ddd;
-	height: 30px;
-	margin: 5px;
 }
 
 .item.mone {
@@ -117,9 +88,20 @@ ul.tabs li.current {
 .proc {
 	margin-bottom: 10px;
 }
+
 .ig {
-		margin: 10px 0 10px 0;
-		padding: 15px;
+	margin: 10px 0 10px 0;
+	padding: 15px;
+}
+
+.box {
+	padding: 15px;
+	margin: 10px 10px 0 0;
+}
+/* 그리드용 css */
+
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;
 }
 </style>
 </head>
@@ -139,50 +121,42 @@ ul.tabs li.current {
 			<!-- 공정진행관리 -->
 			<div id="tab-1" class="tab-content current">
 				<div style="background: white; padding-bottom: 5px;">
-					<div class="container-fluid"
-						style="display: flex; flex-flow: row wrap; justify-content: flex-start;">
-						<div class="item" style="width: 500px; margin: 10px 10px 0 0;">
-							<div class="border g1">
-								<h5>생산공정라인</h5>
-								<div style="margin: 20px; line-height: 60px;">
-									<label class="fw" style="width: 80px; text-align: center;">공정코드</label>
-									<select
-										style="width: 100px; height: 28px; display: inline-block;">
-										<option>코드1</option>
-										<option>코드2</option>
-										<option>코드3</option>
-									</select>
-								</div>
-							</div>
-							<div class="border g2">
-								<div id="orderContent1"></div>
-							</div>
+					<div class="card-header">
+						<div style="display: flex; justify-content: flex-end;">
+							<button type="button" id="orderBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">생산지시목록</button>
+							<button type="button" id="resetBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">새자료</button>
 						</div>
-						<div class="item" style="flex-grow: 1;">
-							<div class="border g3">
-								<h5>공정 가동관리</h5>
-								<div id="manageBtn">
-									<div id="start">시작</div>
-									<div id="end">종료</div>
-									<div id="error">
-										<label>불량률</label><br> <label id="plus">+</label> <label
-											id="minus">-</label><br> <label id="emerStop">긴급중단</label>
-									</div>
-								</div>
-							</div>
-						</div>
-						<br>
 					</div>
+					<div class="content container-fluid"
+						style="display: flex; flex-flow: row wrap; justify-content: flex-start; align-items: stretch; padding-right: 0;">
+						<div class="item border box" style="width:900px; overflow:auto;">
+							<h5>진행생산지시</h5>
+							<div id="orderGrid2"></div>
+						</div>
+						<div class="item border box" style="flex-grow: 1;">
+							<h5>가동관리</h5>
+							<div id="manageBtn">
+								<input type="hidden" id="readyPcnum">									
+								<button type="button" id="start">시작</button>
+								<button type="button" id="end">종료</button>
+							</div>
+						</div>
+					</div>
+					<br>
 					<div>
-						<div class="border g4">
-							<div id="orderContent2"></div>
+						<div class="border box" style="margin: 10px;">
+							<h5>공정목록</h5>
+							<div id="headGrid"></div>
 						</div>
 					</div>
 				</div>
-
 			</div>
+
+			<!-- 공정모니터링 -->
 			<div id="tab-2" class="tab-content">
-				
+
 				<div class="container-fluid"
 					style="display: grid; background: white;">
 					<div class="item ig mone border">
@@ -201,129 +175,44 @@ ul.tabs li.current {
 					</div>
 				</div>
 			</div>
+
+		</div>
+
+		<!-- 모달 -->
+		<div id="modal">
+
+			<!-- 생산지시목록 -->
+			<div id="orderModal" style="padding: 20px;" title="생산지시조회">
+				<!-- 작성일자 검색 -->
+				<form class="container-fluid" id="searchForm" name="searchForm">
+					<div class="search-area search-area-border" style="width: 100%;">
+						<div style="margin-bottom: 10px;">
+							<label class="fw">작업일자</label>
+							<div
+								class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+								<input type="text" class="form-control" id="workDt"
+									aria-label="Date-Time"> <span class="tui-ico-date"></span>
+								<div id="wrapper" style="margin-top: -1px;"></div>
+							</div>
+							<button type="button" class="ml-1 mw50 btn-sm btn-secondary btn-block"
+								id="orSearchBtn" style="margin-left: 5px;">검색</button>
+						</div>
+					</div>
+				</form>
+				<!-- 그리드 -->
+				<div id="orderGrid1"></div>
+			</div>
+
 		</div>
 
 
 
 		<!-- 스크립트 -->
 		<script type="text/javascript">
-			// 그리드---------------------------------------------
-			/* 공정진행관리 - 지시내용 */
-			const orderContent1 = [];
-
-			const Grid1 = new tui.Grid({
-				el : document.getElementById('orderContent1'),
-				data : orderContent1,
-				scrollX : false,
-				columns : [ {
-					header : '지시번호',
-					align : 'center'
-				}, {
-					header : '공정차수',
-					align : 'center'
-				}, {
-					header : '상세공정',
-					align : 'center'
-				}, {
-					header : '목표수량',
-					align : 'center'
-				}, {
-					header : '순서',
-					align : 'center'
-				}, {
-					header : '담당자',
-					align : 'center'
-				} ]
-			});
-
-			/* 공정진행관리 - 지시상세내용 */
-			const orderContent2 = [];
-
-			const Grid2 = new tui.Grid({
-				el : document.getElementById('orderContent2'),
-				data : orderContent2,
-				scrollX : false,
-				columns : [ {
-					header : '지시번호',
-					align : 'center'
-				}, {
-					header : '공정코드',
-					align : 'center'
-				}, {
-					header : '상세공정',
-					align : 'center'
-				}, {
-					header : '설비코드',
-					align : 'center'
-				}, {
-					header : '시작시간',
-					align : 'center'
-				}, {
-					header : '종료시간',
-					align : 'center'
-				}, {
-					header : '목표수량',
-					align : 'center'
-				}, {
-					header : '생산량',
-					align : 'center'
-				}, {
-					header : '불량량',
-					align : 'center'
-				}, {
-					header : '현재상태',
-					align : 'center'
-				} ]
-			});
-
-			/* 공정모니터링 - 생산 */
-			const processList = [];
-
-			const Grid3 = new tui.Grid({
-				el : document.getElementById('process'),
-				data : processList,
-				scrollX : false,
-				columns : [ {
-					header : '지시번호',
-					align : 'center'
-				}, {
-					header : '제품명',
-					align : 'center'
-				}, {
-					header : '공정코드',
-					align : 'center'
-				}, {
-					header : '1차공정',
-					align : 'center'
-				}, {
-					header : '2차공정',
-					align : 'center'
-				}, {
-					header : '3차공정',
-					align : 'center'
-				}, {
-					header : '4차공정',
-					align : 'center'
-				}, {
-					header : '설비코드',
-					align : 'center'
-				}, {
-					header : '가동상태',
-					align : 'center'
-				}, {
-					header : '목표수량',
-					align : 'center'
-				}, {
-					header : '로스율',
-					align : 'center'
-				} ]
-			});
-
-			// 그리드끝------------------------------------------
-
+		
 			$(function() {
-
-				//	탭--------------------------------------
+				
+//				탭--------------------------------------
 				$('ul.tabs li').click(function() {
 					var tab_id = $(this).attr('data-tab');
 
@@ -334,6 +223,370 @@ ul.tabs li.current {
 					$("#" + tab_id).addClass('current');
 				})
 				// 탭끝-------------------------------------
+				
+				// 공통 ajax 함수 -------------------------------
+				function makeAjaxCall(url, data, async, callback, error) {
+					$.ajax({
+						url: url,
+						method: 'POST',
+						data: data,
+						async: async,
+						success: callback,
+						error: error
+					})
+				}
+				// --------------------------------------------
+				
+				
+				// 그리드---------------------------------------------
+				
+				/* 공정진행관리 - 생산지시모달 */
+				const orderList1 = [];
+				
+				const orderGrid1 = new tui.Grid({
+					el : document.getElementById('orderGrid1'),
+					data : orderList1,
+					scrollX : true,
+					columns : [ {
+						header : '지시번호',
+						name: 'pcnum',
+						align : 'center'
+					}, {
+						header : '지시상세번호',
+						name: 'pcdnum',
+						align : 'center'
+					}, {
+						header : '지시명',
+						name: 'pcname',
+						align : 'center'
+					}, {
+						header : '제품명',
+						name: 'giname',
+						align : 'center'
+					}, {
+						header : '제품코드',
+						name: 'gicode',
+						align : 'center'
+					}, {
+						header : '지시량',
+						name: 'pcdam',
+						align : 'center'
+					} ]
+				});
+				orderGrid1.hideColumn('pcdnum');
+				orderGrid1.hideColumn('gicode');
+				
+				
+				/* 공정진행관리 - 진행생산지시 */
+				const orderList2 = [];
+	
+				const orderGrid2 = new tui.Grid({
+					el : document.getElementById('orderGrid2'),
+					data : orderList2,
+					scrollX : false,
+					columns : [ {
+						header : '지시번호',
+						name : 'pcnum',
+						align : 'center'
+					}, {
+						header : '지시상세번호',
+						name : 'pcdnum',
+						align : 'center'
+					}, {
+						header : '제품명',
+						name : 'giname',
+						align : 'center'
+					}, {
+						header : '제품코드',
+						name : 'gicode',
+						align : 'center'
+					}, {
+						header : '목표수량',
+						name : 'pcdam',
+						align : 'center'
+					}, {
+						header : '라인번호',
+						name : 'lineid',
+						align : 'center'
+					}, {
+						header : '담당자',
+						name : 'pcdkeeper',
+						align : 'center'
+					} ]
+				});
+				orderGrid2.hideColumn('pcdnum');
+	
+				/* 공정진행관리 - 공정목록 */
+				const headList = [];
+	
+				const headGrid = new tui.Grid({
+					el : document.getElementById('headGrid'),
+					data : headList,
+					scrollX : false,
+					columns : [ {
+						header : '지시번호',
+						name : 'pcnum',
+						align : 'center'
+					}, {
+						header : '공정코드',
+						name : 'picodeid',
+						align : 'center'
+					}, {
+						header : '공정명',
+						name : 'piname',
+						align : 'center'
+					}, {
+						header : '설비번호',
+						name : 'sinum',
+						align : 'center'
+					}, {
+						header : '시작시간',
+						name : 'phdstime',
+						align : 'center'
+					}, {
+						header : '종료시간',
+						name : 'phdetime',
+						align : 'center'
+					}, {
+						header : '목표수량',
+						name : 'pcdam',
+						align : 'center'
+					}, {
+						header : '생산량',
+						name : 'phdmkam',
+						align : 'center'
+					}, {
+						header : '불량량',
+						name : 'phderram',
+						align : 'center'
+					}, {
+						header : '가동상태',
+						name : 'phdstat',
+						align : 'center'
+					}, {
+						header : '라인번호',
+						name : 'lineid',
+						align : 'center'
+					} ]
+				});
+				headGrid.hideColumn('lineid')
+	
+				/* 공정모니터링 - 생산 */
+				const processList = [];
+	
+				const Grid3 = new tui.Grid({
+					el : document.getElementById('process'),
+					data : processList,
+					scrollX : false,
+					columns : [ {
+						header : '지시번호',
+						align : 'center'
+					}, {
+						header : '제품명',
+						align : 'center'
+					}, {
+						header : '공정코드',
+						align : 'center'
+					}, {
+						header : '1차공정',
+						align : 'center'
+					}, {
+						header : '2차공정',
+						align : 'center'
+					}, {
+						header : '3차공정',
+						align : 'center'
+					}, {
+						header : '4차공정',
+						align : 'center'
+					}, {
+						header : '설비코드',
+						align : 'center'
+					}, {
+						header : '가동상태',
+						align : 'center'
+					}, {
+						header : '목표수량',
+						align : 'center'
+					}, {
+						header : '로스율',
+						align : 'center'
+					} ]
+				});
+				
+	
+				// 그리드끝------------------------------------------
+
+				// 모달---------------------------------------------
+				var modal1 = makeModal('#orderModal', orderView)
+				
+				/* 생산지시목록모달 작업일자로 검색 */
+				$('#orderBtn').on('click', function(){
+					modal1.dialog('open')
+					orderGrid1.refreshLayout();
+					$('#orSearchBtn').on('click', function(){
+						var workDt = $('#workDt').val()
+						makeAjaxCall('callOrder', {workDt}, true, function(result){
+							orderGrid1.resetData(result);
+							orderGrid1.on('click', e => {
+								for(i=0; i<orderGrid1.getRowCount(); i++) {
+									orderGrid1.removeRowClassName(i, 'rowSelect')
+								}
+								orderGrid1.addRowClassName(e.rowKey, 'rowSelect')
+								findNum = orderGrid1.getValue(e.rowKey, 'pcnum')
+							})
+						})
+					})
+				})
+				/* 진행생산지시로 추가 */
+				function orderView(){
+					makeAjaxCall('loadOrder', {findNum}, true, function(rs){
+						datepicker1.setDate(new Date());
+						orderGrid1.clear()
+						orderGrid2.appendRows(rs)
+					})
+					modal1.dialog('close')
+				}
+				
+				
+				/* 모달틀 */
+				function makeModal(e, fnc) {
+					var dialog = $(e).dialog({
+						autoOpen: false,
+						height: 600,
+						width: 700,
+						modal: true,
+						buttons: {
+							"확인": fnc,
+							"취소": function () {
+								orderGrid1.resetData(orderList);
+								datepicker1.setDate(new Date());
+								$(this).dialog('close')
+							}
+						}
+					});
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					$('.ui-dialog-titlebar-close').html('X').css('border', 'none').on('click', function(){
+						orderGrid1.resetData(orderList);
+						datepicker1.setDate(new Date());
+					})
+					return dialog;
+				}
+				// 모달 끝-------------------------------------------
+				
+				// 그리드 이벤트---------------------------------------
+				/* 진행생산지시 */
+				orderGrid2.on('dblclick', e => {
+					for(i=0; i<orderGrid2.getRowCount(); i++) {
+						orderGrid2.removeRowClassName(i, 'rowSelect')
+					}
+					orderGrid2.addRowClassName(e.rowKey, 'rowSelect')
+					var pcnum = orderGrid2.getValue(e.rowKey, 'pcnum')
+					var lineid = orderGrid2.getValue(e.rowKey, 'lineid')
+					$('#readyPcnum').val(pcnum)
+					makeAjaxCall('loadProdLine', {pcnum, lineid}, true, function(result) {
+						headGrid.resetData(result)
+						for(i=0; i<headGrid.getRowCount(); i++) {
+							headGrid.setValue(i, 'phdstat', '정지')
+						}
+					})
+				})
+				
+				
+				// 그리드 이벤트 끝-------------------------------------
+				
+				// 버튼 이벤트-----------------------------------------
+				
+				/* 새자료 */
+				$('#resetBtn').on('click', function () {
+					fnFormClear();
+				})
+				function fnFormClear() {
+					$('#readyPcnum').val('')
+					headGrid.clear();
+					for(i=0; i<orderGrid2.getRowCount(); i++) {
+						orderGrid2.removeRowClassName(i, 'rowSelect')
+					}
+				}
+				
+				/* 해당 생산지시라인시작 */
+				$('#start').on('click', function(){
+					if($('#readyPcnum').val() != '') {
+						for(let i=0; i<headGrid.getRowCount(); i++) {
+							(function(i){
+								var pcnum = headGrid.getValue(i, 'pcnum')
+								var sinum = headGrid.getValue(i, 'sinum')
+								var lineid = headGrid.getValue(i, 'lineid')
+								makeAjaxCall('insertSinum', {pcnum, sinum}, false)
+								var timer = setInterval(
+									function(){
+										makeAjaxCall('loadProdLine', {pcnum, lineid}, false, function(result) {
+											headGrid.resetData(result)
+											
+										})
+										if(headGrid.getValue(i, 'phdetime') != null) {
+											clearInterval(timer);
+										}
+									}, 2000	
+								)
+								var phderram = Math.floor(headGrid.getValue(i, 'pcdam')*(Math.random()*0.05)) // 불량량
+								var phdmkam = headGrid.getValue(i, 'pcdam')-phderram // 생산량
+								headGrid.setValue(i, 'phdmkam', phdmkam) // 생산량
+								headGrid.setValue(i, 'phderram', phderram) // 불량량
+							})(i)
+							
+						}
+						/* for(i=0; i<headGrid.getRowCount(); i++) {
+							var pcnum = headGrid.getValue(i, 'pcnum')
+							var sinum = headGrid.getValue(i, 'sinum')
+							var lineid = headGrid.getValue(i, 'lineid')
+							var pcdam = headGrid.getValue(i, 'pcdam')
+							makeAjaxCall('insertSinum', {pcnum, sinum}, false)
+							function loadProdLine(){
+								makeAjaxCall('loadProdLine', {pcnum, lineid}, false, function(result) {
+									headGrid.resetData(result)
+									var phderram = Math.floor(pcdam*(Math.random()*0.05)) // 불량량
+									var phdmkam = pcdam-phderram // 생산량
+									headGrid.setValue(i, 'phdmkam', phdmkam) // 생산량
+									headGrid.setValue(i, 'phderram', phderram) // 불량량
+								})
+							}
+							if(headGrid.getValue(i, 'phdetime') != null) {
+								timer = setInterval(function(){
+									loadProdLine();
+								}, 2000)
+							} else {
+								clearInterval(timer);
+							}
+						} */
+					} else {
+						swal('선택된 생산지시가 없습니다.', '', 'warning')
+					}
+				})
+				
+				
+				/* $('#end').on('click', function(){
+					clearInterval(timer);
+					headGrid.setColumnValues('phdstat', '정지')
+				}) */
+				
+				// 버튼 이벤트 끝---------------------------------------
+				
+				
+				// 달력---------------------------------------------
+				
+				/* 계획일자 */
+				const datepicker1 = new tui.DatePicker('#wrapper', {
+					date : new Date(),
+					input : {
+						element : '#workDt',
+						format : 'yyyy-MM-dd'
+					},
+					language : 'ko'
+		
+				});
+				// 달력 끝-------------------------------------------
+				
 
 			})
 		</script>

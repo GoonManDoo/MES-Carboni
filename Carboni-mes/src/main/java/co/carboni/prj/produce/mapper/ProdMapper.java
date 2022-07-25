@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import co.carboni.prj.produce.vo.ProcMoniterVO;
 import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
 
@@ -89,6 +90,26 @@ public interface ProdMapper {
 
 		// 생산지시상세 페이지로드
 		public List<ProdOrderVO> prodOrderDetail(@Param("findDNum") String findDNum);
+
+		// 생산지시삭제
+		public void removeProdOrder(ProdOrderVO vo);
+
+		
+	// 공정모니터링	
+		// 공정진행관리
+			
+			// 생산지시목록 검색
+			public List<ProcMoniterVO> callOrder(@Param("workDt") String workDt);
+			
+			// 진행생산지시
+			public List<ProcMoniterVO> loadOrder(@Param("findNum") String findNum);
+
+			// 공정목록
+			public List<ProcMoniterVO> loadProdLine(ProcMoniterVO vo);
+
+			// 더미테이블 지시번호, 설비번호 등록
+			public void insertSinum(ProcMoniterVO vo);
+			
 
 		
 
