@@ -76,6 +76,7 @@ public class MatServiceImpl implements MatService {
 	@Override
 	public void findDelreq(MatVO vo) {
 		map.findDelreq(vo);
+		map.findDelreq(vo);
 	}
 
 	

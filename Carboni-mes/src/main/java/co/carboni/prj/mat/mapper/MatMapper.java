@@ -43,6 +43,7 @@ public interface MatMapper {
 
 	// 발주에서 발주내용 삭제할떄
 	public void findDelreq(MatVO vo);
+	public void findDelrequest(MatVO vo);
 
 	// ---------------------------------------------
 
