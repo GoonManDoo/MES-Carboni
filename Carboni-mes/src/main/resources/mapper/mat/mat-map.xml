@@ -181,7 +181,7 @@
 	<!-- 입고관리에서 발주일자로 검색한 것을 insert 하면서 발주상태 update -->
 	<update id="addInputList"
 		parameterType="co.carboni.prj.mat.vo.MatVO" statementType="CALLABLE">
-			<![CDATA[{call add_inmat (#{monum },#{msindate},#{monote},#{msnum, mode=OUT, jdbcType=VARCHAR},#{mlnum,mode=OUT, jdbcType=VARCHAR},#{msinam},#{moodate},#{miname},#{mistand},#{miunit},#{csname},#{moaskam})]]>
+			<![CDATA[{call add_inmat (#{monum },#{msindate},#{monote},#{msnum, mode=OUT, jdbcType=VARCHAR},#{mlnum,mode=OUT, jdbcType=VARCHAR},#{msinam},#{moodate},#{miname},#{mistand},#{miunit},#{csname},#{moaskam},#{micode})]]>
 	</update>
 
 	

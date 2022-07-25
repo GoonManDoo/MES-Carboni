@@ -8,6 +8,33 @@
 #modal {
 	display: none;
 }
+
+.tui-datepicker {
+	z-index: 99;
+}
+.title {
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
+
+.input {
+	height: 23px;
+	margin-left: 15px;
+	margin-top: 5px;
+	display: inline-block;
+	padding: 0 10px;
+	vertical-align: middle;
+	border: 1px solid #dddddd;
+	width: 20%;
+	color: rgb(94, 94, 94);
+	border-radius: 5px;
+	text-align: center;
+	display: inline-block;
+}
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;
+}
 </style>
 </head>
 <body>
@@ -22,34 +49,11 @@
 								<table class="table table-bbs">
 									<tbody>
 										<tr>
-											<th><label>작업일자</label></th>
-											<td colspan="3">
-												<div class="mt-1 grid-option-area">
-													<div
-														class="tui-datepicker-input tui-datetime-input tui-has-focus">
-														<input type="text" id="startpicker-input"
-															class="form-control" aria-label="Date-Time" tabindex="1">
-														<span class="tui-ico-date "></span>
-														<div id="startpicker-container" style="margin-left: -1px;"></div>
-													</div>
-
-													<span class="mg5">~</span>
-													<div
-														class="tui-datepicker-input tui-datetime-input tui-has-focus">
-														<input type="text" id="endpicker-input"
-															class="form-control" aria-label="Date-Time" tabindex="1">
-														<span class="tui-ico-date "></span>
-														<div id="endpicker-container" style="margin-left: -1px;"></div>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
 											<th><label>자재명</label></th>
 											<td><input type="text" class="form-control ht"
 												tabindex="2" id="searchBtn" placeholder="자재명 검색"></td>
 											<th><label>자재코드</label></th>
-											<td><input type="text" class="form-control ht" readonly></td>
+											<td><input type="text" class="form-control ht" id="rightmat" readonly></td>
 										</tr>
 									</tbody>
 								</table>
@@ -68,143 +72,175 @@
 			<div class="container-fluid px-4">
 				<div id="grid"></div>
 			</div>
+
 			<div id="modal">
-				<div id="listmodal" title="자재코드">
+				<div id="listmodal" title="자재검색" style="padding: 20px;">
+					<div class="title">
+						<span>자재명</span><input type="text" class="input" id="miSearchName">
+						<button class="btn btn-secondary" id="miSearchBtn">검색</button>
+					</div>
 					<div id="listgrid"></div>
 				</div>
-
 			</div>
 		</div>
 		<script>
-			/* 입고일자 데이터 피커  */
-			var today = new Date();
-			var picker = tui.DatePicker.createRangePicker({
-				startpicker : {
-					date : today,
-					input : '#startpicker-input',
-					container : '#startpicker-container'
-				},
-				endpicker : {
-					date : today,
-					input : '#endpicker-input',
-					container : '#endpicker-container'
-				},
-				selectableRanges : [ [
-						today,
-						new Date(today.getFullYear() + 1, today.getMonth(),
-								today.getDate()) ] ]
-			});
+			$(function() {
+				
+				const gridData = [];
 
-			const gridData = [];
-
-			const grid = new tui.Grid({
-				el : document.getElementById('grid'),
-				data : gridData,
-				scrollX : false,
-				bodyHeight : 500,
-				rowHeaders : [ 'rowNum' ],
-				columns : [ {
-					header : '자재코드',
-					sortingType : 'desc',
-					align : 'center',
-					sortable : true
-				}, {
-					header : '자재명',
-					align : 'center'
-				}, {
-					header : '입고량',
-					align : 'center'
-				}, {
-					header : '출고량',
-					align : 'center'
-				}, {
-					header : '현재고',
-					align : 'center'
-				}, {
-					header : '안전재고',
-					align : 'center'
-				}, {
-					header : '미달량',
-					align : 'center'
-				}, {
-					header : '특기사항',
-					align : 'center'
-				} ],
-			/* 		summary : {
-						height : 40,
-						position : 'bottom',
-						columnContent : {
-							c6 : {
-								template : function(valueMap) {
-									return `TOTAL: ${valueMap.sum}`;
+				const grid = new tui.Grid({
+					el : document.getElementById('grid'),
+					data : gridData,
+					scrollX : false,
+					bodyHeight : 500,
+					rowHeaders : [ 'rowNum' ],
+					columns : [ {
+						header : '자재코드',
+						sortingType : 'desc',
+						name : 'micode',
+						align : 'center',
+						sortable : true
+					}, {
+						header : '자재명',
+						name : 'miname',
+						align : 'center'
+					}, {
+						header : '입고량',
+						name:'msinam',
+						align : 'center'
+					}, {
+						header : '출고량',
+						name : 'msoutam',
+						align : 'center'
+					}, {
+						header : '현재고',
+						name : 'msciam',
+						align : 'center'
+					}, {
+						header : '안전재고',
+						name : 'misafe',
+						align : 'center'
+					}, {
+						header : '미달량',
+						align : 'center'
+					}],
+				/* 		summary : {
+							height : 40,
+							position : 'bottom',
+							columnContent : {
+								c6 : {
+									template : function(valueMap) {
+										return `TOTAL: ${valueMap.sum}`;
+									}
 								}
 							}
-						}
-					} */
-			});
-			$(function() {
+						} */
+				});
+				grid.hideColumn('')
+				/*--------------------------------------------------------*/
 				/*메이크 모달*/
-				function makeModal(e) {
+				function makeModal(e, fnc) {
 					var dialog = $(e).dialog({
 						autoOpen : false,
 						height : 600,
 						width : 700,
 						modal : true,
+						buttons : {
+							'확인' : fnc,
+							'취소' : function() {
+								$(this).dialog('close')
+							}
+						}
 					});
 					$('.ui-dialog-titlebar-close').html('X').css('border',
-							'none')
+							'none');
+					$('.ui-dialog-buttonset').children().attr('class',
+							'btn btn-secondary');
 					return dialog;
 				}
-
-				var listmo = makeModal("#listmodal")
-				$("#searchBtn").on(
-						'click',
-						function() {
-							$("#listmodal").css('display', '')
-							listmo.dialog({
-								buttons : {
-									'확인' : listupdate,
-									'취소' : function() {
-										$(this).dialog('close')
-									}
-								}
-							})
-							$('.ui-dialog-buttonset').children().attr('class',
-									'btn btn-secondary')
-							listmo.dialog('open')
-							listgd.refreshLayout();
-
-						})
-				function listupdate() {
-
-				}
-				const listdata = [];
+				/*-------------------------------------------------------------*/
+					const listdata = [];
 				let listgd = new tui.Grid({
 					el : document.getElementById('listgrid'),
 					data : listdata,
 					scrollX : false,
-					rowHeaders : [ 'checkbox' ],
 					bodyHeight : 430,
 					columns : [ {
 						header : '자재코드',
 						align : 'center',
+						name :'micode',
 						sortingType : 'desc',
 						sortable : true
 					}, {
 						header : '자재명',
+						name : 'miname',
 						align : 'center',
 
 					}, {
 						header : '규격',
 						align : 'center',
-						sortingType : 'desc',
-						sortable : true
+						name : 'mistand'
 					}, {
 						header : '자재단위',
+						name : 'miunit',
 						align : 'center',
 					} ]
 
 				})
+				/*-----------------------------------------------*/
+				var listmo = makeModal("#listmodal", listupdate)
+				$("#searchBtn").on('click', function() {
+					
+					listmo.dialog('open')
+					$.ajax({
+							url : 'matlist',
+							method : 'POST',
+							dataType : 'json',
+							success : function(result) {
+								listgd.refreshLayout();
+								listgd.resetData(result)
+								listgd.on('click',e=>{
+									var rk = e.rowKey
+									for(i=0; i<listgd.getRowCount(); i++) {
+										listgd.removeRowClassName(i, 'rowSelect')
+										}
+									listgd.addRowClassName(rk, 'rowSelect')
+									mi = listgd.getRow(rk).miname
+									maco =listgd.getRow(rk).micode
+									
+								})
+							}
+						})
+				})
+					/*자재코드 모달안의 검색을 눌렀을때 */
+					$("#miSearchBtn").on('click',function(){
+						var miname= $('#miSearchName').val()
+						$.ajax({
+							url:'findserchmaterial',
+							method: 'post',
+							data:{miname},
+							dataType: 'json',
+							success :function(result){
+								listgd.resetData(result)
+									listgd.on('click',e=>{
+									var rk = e.rowKey
+									for(i=0; i<listgd.getRowCount(); i++) {
+										listgd.removeRowClassName(i, 'rowSelect')
+										}
+									listgd.addRowClassName(rk, 'rowSelect')
+									mi = listgd.getRow(rk).miname
+									maco =listgd.getRow(rk).micode
+									})
+							}
+						})
+					})
+				
+				function listupdate() {
+					$('#searchBtn').val(mi)
+					$("#rightmat").val(maco)
+					listmo.dialog('close')
+				}
+			
 
 			})
 		</script>

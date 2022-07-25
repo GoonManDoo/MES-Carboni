@@ -59,6 +59,9 @@ ul {
 	text-align: center;
 	display: inline-block;
 }
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;
+}
 </style>
 
 </head>
@@ -435,6 +438,10 @@ ul {
 							giupgir.resetData(result)
 							giupgir.on('click',e=>{
 									var rk = e.rowKey
+									for(i=0; i<giupgir.getRowCount(); i++) {
+										giupgir.removeRowClassName(i, 'rowSelect')
+										}
+									giupgir.addRowClassName(rk, 'rowSelect')
 									cs = giupgir.getRow(rk).csname
 									csco =giupgir.getRow(rk).cscode
 								})
@@ -453,6 +460,10 @@ ul {
 								giupgir.resetData(result)
 								giupgir.on('click',e=>{
 									var rk = e.rowKey
+									for(i=0; i<giupgir.getRowCount(); i++) {
+										giupgir.removeRowClassName(i, 'rowSelect')
+										}
+									giupgir.addRowClassName(rk, 'rowSelect')
 									cs = giupgir.getRow(rk).csname
 									csco =giupgir.getRow(rk).cscode
 								})

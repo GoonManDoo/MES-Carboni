@@ -47,6 +47,9 @@
 	text-align: center;
 	display: inline-block;
 }
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;
+}
 </style>
 
 </head>
@@ -592,6 +595,10 @@
 								gomo.resetData(result)
 								gomo.on('click',e=>{
 									var rk = e.rowKey
+									for(i=0; i<gomo.getRowCount(); i++) {
+										gomo.removeRowClassName(i, 'rowSelect')
+										}
+									gomo.addRowClassName(rk, 'rowSelect')
 									cs = gomo.getRow(rk).csname
 									csco = gomo.getRow(rk).cscode
 								})
@@ -611,6 +618,10 @@
 								gomo.resetData(result)
 								gomo.on('click',e=>{
 									var rk = e.rowKey
+									for(i=0; i<gomo.getRowCount(); i++) {
+										gomo.removeRowClassName(i, 'rowSelect')
+										}
+									gomo.addRowClassName(rk, 'rowSelect')
 									cs = gomo.getRow(rk).csname
 									csco = gomo.getRow(rk).cscode
 								})
@@ -644,6 +655,10 @@
 								jamo.resetData(result)
 								jamo.on('click',e=>{
 									var rk = e.rowKey
+									for(i=0; i<jamo.getRowCount(); i++) {
+										jamo.removeRowClassName(i, 'rowSelect')
+										}
+									jamo.addRowClassName(rk, 'rowSelect')
 									mi = jamo.getRow(rk).miname
 									maco =jamo.getRow(rk).micode
 									
@@ -663,6 +678,10 @@
 								jamo.resetData(result)
 									jamo.on('click',e=>{
 									var rk = e.rowKey
+									for(i=0; i<jamo.getRowCount(); i++) {
+										jamo.removeRowClassName(i, 'rowSelect')
+										}
+									jamo.addRowClassName(rk, 'rowSelect')
 									mi = jamo.getRow(rk).miname
 									maco =jamo.getRow(rk).micode
 									})
