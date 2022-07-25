@@ -149,6 +149,9 @@ public class MatController {
 	@RequestMapping("findindate")
 	@ResponseBody
 	public List<MatVO> findindate(@RequestParam String startD, @RequestParam String endD, @RequestParam String cusCode){
+		System.out.println(startD);
+		System.out.println(endD);
+		System.out.println(cusCode);
 		List<MatVO> findindate = service.findInDate(startD, endD ,cusCode);
 		return findindate;
 	}
