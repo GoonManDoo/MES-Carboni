@@ -61,6 +61,7 @@ public class SystemController {
 	}
 	 
 	
+	
 	@RequestMapping("/DetailView")
 	@ResponseBody
 	public List<SystemVO> DetailView (SystemVO vo) {
