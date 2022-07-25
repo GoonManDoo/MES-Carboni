@@ -47,12 +47,14 @@ public interface SalesMapper {
 		public void prodReqInsert(SalesVO vo); //생산의뢰등록
 		public void updateCnStat(SalesVO vo);  //수주상태변경 cnstatus
 	
-		//출하관리 > 출하등록
-		public void shipInsert(SalesVO vo);
 		
 	
 	
 	//출하관리
+		
+		//출하관리 > 출하등록
+		public void shipInsert(SalesVO vo);
+		
 		//출하관리 > 출고목록 조회
 		public List<SalesVO> findShipList(@Param("startCp")String startCp, @Param("endCp")String endCp, 
 										 @Param("startSd")String startSd, @Param("endSd")String endSd, 
@@ -109,5 +111,8 @@ public interface SalesMapper {
 		
 		//배송관리 > 배송등록 출하일자 전체조회
 		public List<SalesVO> findAllInShdate(SalesVO vo);
+		
+		//배송관리 > 배송등록
+		public void deliverInsert(SalesVO vo);
 	
 }

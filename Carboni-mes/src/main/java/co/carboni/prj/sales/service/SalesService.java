@@ -42,8 +42,6 @@ public interface SalesService {
 		//생산의뢰관리 > 생산의뢰등록
 		public void prodReqInsert(List<SalesVO> allreq);
 		
-		//출하관리 > 출하등록
-		public void shipInsert(List<SalesVO> allship);
 	
 	
 	
@@ -60,6 +58,9 @@ public interface SalesService {
 		
 		//출하관리 > 출하등록 수주일자 조회
 		public List<SalesVO> findScndateList(String startScd, String endScd);
+		
+		//출하관리 > 출하등록
+		public void shipInsert(List<SalesVO> allship);
 	
 	//제품재고관리
 		
@@ -101,5 +102,8 @@ public interface SalesService {
 		
 		//배송관리 > 배송등록 출하일자 전체조회
 		public List<SalesVO> findAllInShdate(SalesVO vo);
+		
+		//배송관리 > 배송등록
+		public void deliverInsert(List<SalesVO> inDelver);
 
 }
