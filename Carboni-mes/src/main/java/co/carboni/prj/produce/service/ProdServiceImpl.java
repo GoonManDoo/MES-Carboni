@@ -222,6 +222,29 @@ public class ProdServiceImpl implements ProdService {
 			public void insertSinum(ProcMoniterVO vo) {
 				mapper.insertSinum(vo);
 			}
+			
+			// 더미테이블 시작시간, 종료시간 조회
+			@Override
+			public ProcMoniterVO loadTime(ProcMoniterVO vo) {
+				return mapper.loadTime(vo);
+			}
+			
+			// 생산완료되면 공정진행에 insert
+			@Override
+			public int insertProcHead(ProcMoniterVO vo) {
+				mapper.insertProcHead(vo);
+				return 1;
+			}
+			
+			// 생산완료되면 공정진행상세에 insert
+			@Override
+			public void insertProcHeadD(List<ProcMoniterVO> heads) {
+				for(ProcMoniterVO vo : heads) {
+					mapper.insertProcHeadD(vo);
+				}
+			}
+			
+			
 
 		
 

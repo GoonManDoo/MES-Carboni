@@ -274,6 +274,27 @@ public class ProdController {
 			service.insertSinum(vo);
 		}
 		
+		// 공정진행관리 - 더미테이블 시작시간, 종료시간 확인
+		@RequestMapping("loadTime")
+		@ResponseBody
+		public ProcMoniterVO loadTime(ProcMoniterVO vo) {
+			return service.loadTime(vo);
+		}
+		
+		// 공정진행관리 - 생산완료되면 공정진행에 insert
+		@RequestMapping("insertProcHead")
+		@ResponseBody
+		public ProcMoniterVO insertProcHead(ProcMoniterVO vo) {
+			service.insertProcHead(vo);
+			return vo;
+		}
+		
+		// 공정진행관리 - 생산완료되면 공정진행상세에 insert
+		@RequestMapping("insertProcHeadD")
+		@ResponseBody
+		public void insertProcHeadD(@RequestBody List<ProcMoniterVO> heads) {
+			service.insertProcHeadD(heads);
+		}
 	
 	// 생산지시일정조회
 	@RequestMapping("/prodOrderDate.do")

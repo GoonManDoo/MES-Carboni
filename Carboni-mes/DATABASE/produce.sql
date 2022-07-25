@@ -103,6 +103,30 @@ BEGIN
 END;
 /
 
+-- 공정진행상세 인서트
+create or replace PROCEDURE add_prochead_d
+    (p_phdnum IN prochead_d.phdnum%TYPE,
+    p_phnum IN prochead.phnum%TYPE,
+    p_sinum IN prochead_d.sinum%TYPE,
+    p_phdstime IN prochead_d.phdstime%TYPE,
+    p_phdetime IN prochead_d.phdetime%TYPE,
+    p_phdmkam IN prochead_d.phdmkam%TYPE,
+    p_phderram IN prochead_d.phderram%TYPE,
+    p_phdstat IN prochead_d.phdstat%TYPE,
+    p_pcnum IN prodcomm.pcnum%TYPE,
+    p_picodeid IN prochead_d.picodeid%TYPE)
+IS
+begin
+    INSERT INTO prochead_d
+    VALUES
+    (p_phdnum, p_phnum, p_sinum, p_phdstime, p_phdetime, p_phdmkam, p_phderram, p_phdstat, p_picodeid);
+
+    update prodcomm
+    set pcstatus = '공정완료'
+    where pcnum = p_pcnum;
+end;
+/
+
 
 
    

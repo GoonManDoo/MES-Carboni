@@ -110,6 +110,16 @@ public interface ProdMapper {
 			// 더미테이블 지시번호, 설비번호 등록
 			public void insertSinum(ProcMoniterVO vo);
 			
+			// 더미테이블 시작시간, 종료시간 조회
+			public ProcMoniterVO loadTime(ProcMoniterVO vo);
+			
+			// 생산완료되면 공정진행에 insert
+			public int insertProcHead(ProcMoniterVO vo);
+
+			// 생산완료되면 공정진행상세에 insert
+			public void insertProcHeadD(ProcMoniterVO vo);
+
+			
 
 		
 

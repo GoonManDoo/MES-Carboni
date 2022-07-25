@@ -35,7 +35,7 @@ public class ProcMoniterVO {
 		public String lineid; // 라인번호
 		
 		// 공정목록
-		public String phdum; // 작업번호
+		public String phnum; // 작업번호
 		public String phdnum; // 작업상세번호
 		public String picodeid; // 공정코드
 		public String piname; // 공정명
