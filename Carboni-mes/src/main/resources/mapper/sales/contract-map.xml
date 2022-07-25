@@ -193,7 +193,6 @@
 		 <insert id="goodsStkInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" useGeneratedKeys="true" keyColumn="gsmnum" keyProperty="gsmnum">
 			INSERT INTO goodsstk
 			VALUES (#{jepoomcoin}, #{gsamin}, ('GSM-'||TO_CHAR(goodsstk_GSMNUM_seq.nextval)))
-			
 		</insert> 
 		
 		<!-- 제품재고등록 -> 수정(재고 수량 변경) -->
@@ -207,21 +206,21 @@
 	
 		<!-- 배송관리 > 수주번호 검색조회 -->
 		<select id="findJepoomList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT c.cnnum, s.shnum, r.csname, g.giname
-			FROM contract c, ship s, costomer r, goodsinfo g
-			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.cnnum = s.cnnum)
+			SELECT c.cnnum, r.csname, g.giname
+			FROM contract c, costomer r, goodsinfo g
+			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode)
 			AND
 			c.cnnum = #{cnList} 
 		</select>
 		
 		<!-- 배송관리 > 수주번호 전체조회 -->
 		<select id="findAllJepoomList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT c.cnnum, s.shnum, r.csname, g.giname
-			FROM contract c, ship s, costomer r, goodsinfo g
-			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.cnnum = s.cnnum)
+			SELECT c.cnnum, r.csname, g.giname
+			FROM contract c, costomer r, goodsinfo g
+			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode)
 		</select>
 		
-			<!-- 배송관리 배송조회 -->
+		<!-- 배송관리 배송조회 -->
 		<select id="findDeliverSearch" resultType="co.carboni.prj.sales.vo.SalesVO">
 			SELECT d.dnum, c.cnnum, g.giname, r.csname, s.sham, s.shstatus, s.shdate, s.shnum, c.cnperiod
 			FROM deliver d, contract c, goodsinfo g, costomer r, ship s
@@ -244,30 +243,31 @@
 		
 		<!-- 배송등록 출하일자 전체조회 -->
 		<select id="findAllInShdate" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT s.shnum, g.giname, r.csname, s.shdate, c.cnperiod
+			SELECT s.shnum, g.giname, r.csname, s.shdate, c.cnperiod, s.cnnum
 			FROM contract c, goodsinfo g, costomer r, ship s
 			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND s.cnnum = c.cnnum)
 		</select>
 		
 		<!-- 배송등록 출하일자 검색조회 -->
 		<select id="findInShdate" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT s.shnum, g.giname, r.csname, s.shdate, c.cnperiod
+			SELECT s.shnum, g.giname, r.csname, s.shdate, c.cnperiod, s.cnnum
 			FROM contract c, goodsinfo g, costomer r, ship s
 			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND s.cnnum = c.cnnum)
             AND
-            s.shnum = #{shNumList}
+            s.cnnum = #{shNumList}
 		</select>
 		
 		<!-- 배송등록 후 상태변경 PLSQL -->
-		<insert id="insertDlist" parameterType="co.carboni.prj.sales.vo.SalesVO">
+		<insert id="deliverInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
 		DECLARE
             V_ZERO number;
             V_CNUM VARCHAR2(100);
+            V_SHAM number;
 		BEGIN
 
-		INSERT INTO deliver values ('D-'||to_char(deliver_DNUM_seq.nextval),  
-		                                 (select shnum from ship where shnum = #{shnum}), 
-		                                 (select cscode from costomer where cscode = #{cscode}));
+		INSERT INTO deliver VALUES ('D-'||to_char(deliver_DNUM_seq.nextval),  
+		                           (select shnum from ship where shnum = #{shnum}), 
+		                           (select cscode from costomer where csgb = '배송업체'));
 		    		
 		UPDATE ship
 		SET shstatus = 'Y'
@@ -278,11 +278,25 @@
 		WHERE s.shnum = #{shnum};
 		
 		
-		IF V_ZERO = 0 THEN 
 		
 		SELECT cnnum INTO  V_CNUM
 		FROM ship
 		WHERE shnum = #{shnum};
+		
+		UPDATE contract
+		SET cnrest = cnam - V_SHAM
+		WHERE cnnum = V_CNUM;
+		
+		SELECT sham INTO V_SHAM
+		FROM  ship
+		WHERE shnum = #{shnum};
+		
+		SELECT cnrest INTO V_ZERO
+		FROM contract c JOIN ship s ON c.cnnum = s.cnnum
+		WHERE s.shnum = #{shnum};
+		
+		
+		IF V_ZERO = 0 THEN 
 		
 		UPDATE contract 
 		SET cnstatus = '납품완료'
@@ -290,6 +304,7 @@
 		
 		END IF;
 		        END;
+                
 		</insert>
 		
 		

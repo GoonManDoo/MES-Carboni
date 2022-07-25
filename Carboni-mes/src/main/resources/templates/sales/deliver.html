@@ -122,7 +122,7 @@ span {
 	<div id="insertModal" style="padding: 20px;" title="배송 등록">
 				<div class="container">
 					<div class="title">
-						<span>  출하번호<input type="text" id="rightinput1" class="input" placeholder="검색">
+						<span>  수주번호<input type="text" id="rightinput1" class="input" placeholder="검색">
 							<button id="ShdateBtn" class="btn btn-secondary">조회</button> <br>
 					</div>
 				</div>
@@ -233,6 +233,10 @@ span {
 		rowHeaders : [ 'rowNum', 'checkbox' ],
 		bodyHeight : 430,
 		columns : [ {
+			header : '수주번호',
+			name : 'cnnum',
+			align : 'center'
+		}, {
 			header : '출하번호',
 			name : 'shnum',
 			align : 'center'
@@ -393,6 +397,17 @@ span {
 		
 	/* 배송등록 모달 확인 버튼 눌렀을때 */
 	function check() {
+		const inDelver = insertgrid.getCheckedRows();
+		$.ajax({
+			url : 'deliverInsert',
+			method: 'POST',
+			data: JSON.stringify(inDelver),
+			contentType:'application/json',
+			success: function() {
+				
+			}
+		})
+		modal2.dialog('close')
 	}
 	
 	

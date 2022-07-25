@@ -103,21 +103,6 @@ public class SalesController {
 			return pCndateList;
 		}
 		
-		//출하관리 > 출하등록 수주일자 조회
-		@RequestMapping("ScndateList")
-		@ResponseBody
-		public List<SalesVO> ScndateList(@RequestParam("startScd") String startScd, @RequestParam("endScd") String endScd) {
-			List<SalesVO> ScndateList = service.findScndateList(startScd, endScd);
-			return ScndateList;
-		}
-		
-		//출하관리 > 미출고건 납기일자 조회
-		@RequestMapping("noProdList")
-		@ResponseBody
-		public List<SalesVO> noProdList(@RequestParam("startCpd") String startCpd, @RequestParam("endCpd") String endCpd) {
-			List<SalesVO> noProdList = service.findNoProdList(startCpd, endCpd);
-			return noProdList;
-		}
 		
 		//생산의뢰관리 > 생산의뢰목록 삭제
 		@RequestMapping("delPrList")
@@ -131,13 +116,6 @@ public class SalesController {
 		@ResponseBody
 		public void prodReqInsert(@RequestBody List<SalesVO> allreq) {
 			service.prodReqInsert(allreq);
-		}
-		
-		//출하관리 > 출하등록
-		@RequestMapping("shipInsert")
-		@ResponseBody
-		public void shipInsert(@RequestBody List<SalesVO> allship) {
-			service.shipInsert(allship);
 		}
 		
 				
@@ -212,19 +190,41 @@ public class SalesController {
 			return shipList;
 		}
 		
-		//배송관리 > 배송목록 조회
-		@RequestMapping("deliverSearch")
-		@ResponseBody
-		public List<SalesVO> deliverSearch(@RequestParam("startSh") String startSh, @RequestParam("endSh") String endSh, @RequestParam("cnNumber") String cnNumber) {
-			List<SalesVO> deliverSearch = service.findDeliverSearch(startSh, endSh, cnNumber);
-			return deliverSearch;
-		}
-		
 		//출하관리 > 출고목록 삭제
 		@RequestMapping("delShList")
 		@ResponseBody
 		public void delShList(SalesVO vo) {
 			service.findDelShList(vo);
+		}
+		
+		//출하관리 > 출하등록 수주일자 조회
+		@RequestMapping("ScndateList")
+		@ResponseBody
+		public List<SalesVO> ScndateList(@RequestParam("startScd") String startScd, @RequestParam("endScd") String endScd) {
+			List<SalesVO> ScndateList = service.findScndateList(startScd, endScd);
+			return ScndateList;
+		}
+		
+		//출하관리 > 미출고건 납기일자 조회
+		@RequestMapping("noProdList")
+		@ResponseBody
+		public List<SalesVO> noProdList(@RequestParam("startCpd") String startCpd, @RequestParam("endCpd") String endCpd) {
+			List<SalesVO> noProdList = service.findNoProdList(startCpd, endCpd);
+			return noProdList;
+		}
+		
+		//출하관리 > 출하등록
+		@RequestMapping("shipInsert")
+		@ResponseBody
+		public void shipInsert(@RequestBody List<SalesVO> allship) {
+			service.shipInsert(allship);
+		}
+		
+		//배송관리 > 배송등록
+		@RequestMapping("deliverInsert")
+		@ResponseBody
+		public void deliverInsert(@RequestBody List<SalesVO> inDelver) {
+			service.deliverInsert(inDelver);
 		}
 
 	// 배송관리
@@ -271,6 +271,14 @@ public class SalesController {
 		public List<SalesVO> allInShdate(SalesVO vo) {
 			List<SalesVO> allInShdate = service.findAllInShdate(vo);
 			return allInShdate;
+		}
+		
+		//배송관리 > 배송목록 조회
+		@RequestMapping("deliverSearch")
+		@ResponseBody
+		public List<SalesVO> deliverSearch(@RequestParam("startSh") String startSh, @RequestParam("endSh") String endSh, @RequestParam("cnNumber") String cnNumber) {
+			List<SalesVO> deliverSearch = service.findDeliverSearch(startSh, endSh, cnNumber);
+			return deliverSearch;
 		}
 	 
 
