@@ -528,7 +528,12 @@ ul.tabs li.current {
 				var arr = [];
 				$('#start').on('click', function(){
 					if($('#readyPcnum').val() != '') { // 시작버튼에 지시번호가 있을때
-						for(let i=0; i<headGrid.getRowCount(); i++) { // 그리드 행 수
+						Promise.all(['insert1', 'select1', 'insert2', 'select2', 'insert3', 'select3'])
+									.then(function(){
+										console.log('공정진행insert')
+									})
+							
+						/* for(let i=0; i<headGrid.getRowCount(); i++) { // 그리드 행 수
 							(function(i){
 								var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
 								var sinum = headGrid.getValue(i, 'sinum') // 설비번호
@@ -536,73 +541,47 @@ ul.tabs li.current {
 								var pcdam = headGrid.getData()[0].pcdam // 최초 지시량
 								var phderram = Math.floor(pcdam*(Math.random()*0.01)) // 불량량
 								headGrid.setValue(i, 'phdstat', '대기')
-								/*function insertProcHead() {
-									var pcdnum = headGrid.getValue(0, 'pcdnum')
-									var procHead = headGrid.getData();
-									var promise = $.ajax({ // 공정진행
-										url: 'insertProcHead',
-										method: 'POST',
-										data: {pcdnum}
-									})
-									
-									promise.done(procHeadD);
-									
-									function procHeadD(result) { // 공정상세진행
-										var phnum = result.phnum
-										for(i=0; i<headGrid.getRowCount(); i++) {
-											headGrid.setValue(i, 'phnum', phnum)
-											headGrid.setValue(i, 'phdnum', phnum+'-'+(i+1))
-										}
-										$.ajax({
-											url: 'insertProcHeadD',
-											method: 'POST',
-											data: JSON.stringify(procHead),
-											contentType:'application/json',
-											success: function(){
-												swal('성공', '생산이 완료되었습니다.', 'success')
-											}
-										})
-									}
-								}*/
 								function loadProdLine(){ // 2번째 ajax
 									timer = setInterval(function(){
-										makeAjaxCall('loadTime', {pcnum, sinum}, false, function(result) {
-											if(result.phdstime != null && result.phdetime == null) { // 시작시간만
-												headGrid.setValue(i, 'phdstime', result.phdstime)
-												headGrid.setValue(i, 'phdstat', '가동')
-											} else if(result.phdstime != null) { // 종료시간 찍혔을때
-												headGrid.setValue(i, 'phdstime', result.phdstime)
-												headGrid.setValue(i, 'phdetime', result.phdetime)
-												headGrid.setValue(i, 'phdstat', '완료')
-												if(i==0) {
-													headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
-													headGrid.setValue(i, 'phderram', phderram) // 불량량
-												} else {
-													var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
-													var prevRram = Math.floor(prevDam*(Math.random()*0.01))
-													headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
-													headGrid.setValue(i, 'phderram', prevRram)
-													console.log(headGrid.getValue(2, 'phdstat'))
-												}
+										if(headGrid.getValue(2, 'phdstat') == '완료') {
+											for(y=0; y<arr.length; y++) {
+												clearInterval(arr[y])
 											}
-										})
-										if(i>2) {
-											clearInterval(timer);
+											arr = [];
+										} else {
+											makeAjaxCall('loadTime', {pcnum, sinum}, false, function(result) {
+												if(result.phdstime != null && result.phdetime == null) { // 시작시간만
+													headGrid.setValue(i, 'phdstime', result.phdstime)
+													headGrid.setValue(i, 'phdstat', '가동')
+												} else if(result.phdstime != null) { // 종료시간 찍혔을때
+													headGrid.setValue(i, 'phdstime', result.phdstime)
+													headGrid.setValue(i, 'phdetime', result.phdetime)
+													headGrid.setValue(i, 'phdstat', '완료')
+													if(i==0) {
+														headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
+														headGrid.setValue(i, 'phderram', phderram) // 불량량
+													} else {
+														var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
+														var prevRram = Math.floor(prevDam*(Math.random()*0.01))
+														headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
+														headGrid.setValue(i, 'phderram', prevRram)
+														arr.push(timer)
+													}
+													insertProcHead();
+												}
+											})
 										}
 									} , 2000)
-									arr.push(timer)
-									/* 공정진행 */
-									//insertProcHead();
-									
 								}
 								makeAjaxCall('insertSinum', {pcnum, sinum}, false, loadProdLine) // 1번째 ajax
-								
 							})(i)
-						}
+						} */
 					} else {
 						swal('선택된 생산지시가 없습니다.', '', 'warning')
 					}
 				})
+				
+				
 				
 				// 버튼 이벤트 끝---------------------------------------
 				
