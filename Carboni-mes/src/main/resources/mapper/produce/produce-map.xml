@@ -268,7 +268,7 @@
 			
 			<!-- 공정라인정보 -->
 			<select id="loadProdLine" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
-				SELECT d.pcnum, c.picodeid, c.piname, c.sinum, m.phdstime, m.phdetime, m.phdstat, d.pcdam, d.lineid
+				SELECT d.pcnum, d.pcdnum, c.picodeid, c.piname, c.sinum, m.phdstime, m.phdetime, d.pcdam, d.lineid
 				FROM procinfo c, proccomm_d d, dummy m
 				WHERE c.sinum = m.sinum(+)
 				AND c.picodeid in (SELECT picodeid FROM lineinfo WHERE lineid = #{lineid})
@@ -279,8 +279,30 @@
 			<!-- 더미테이블 지시번호, 설비번호 등록 -->
 			<insert id="insertSinum" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO">
 				insert into dummy
-				values (#{pcnum}, #{sinum}, null, null, '정지', 'N')
+				values (#{pcnum}, #{sinum}, null, null, 'N')
 			</insert>
 			
-	
+			<!-- 더미테이블 시작시간, 종료시간 확인 -->
+			<select id="loadTime" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
+				SELECT phdstime, phdetime
+				FROM dummy
+				WHERE pcnum = #{pcnum} and sinum = #{sinum}
+			</select>
+			
+			<!-- 생산완료되면 공정진행에 insert -->
+			<insert id="insertProcHead" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" useGeneratedKeys="true" keyColumn="phnum" keyProperty="phnum">
+				INSERT INTO prochead
+				VALUES (('PH-'||prochead_PHNUM_seq.nextval), #{pcdnum}, sysdate)
+				<selectKey resultType="string" keyProperty="phnum" order="AFTER">
+					SELECT 'PH-'||max(TO_NUMBER(SUBSTR(phnum, 4))) AS phnum FROM prochead
+				</selectKey>
+			</insert>
+			
+			<!-- 생산완료되면 공정진행상세에 insert -->
+			<update id="insertProcHeadD" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" statementType="CALLABLE">
+				<![CDATA[{call add_prochead_d(#{phdnum}, #{phnum}, #{sinum}, #{phdstime}, #{phdetime}, #{phdmkam}, #{phderram}, #{phdstat}, #{pcnum}, #{picodeid})}]]>
+			</update>
+			
+			
+			
 </mapper>
