@@ -44,7 +44,7 @@ public class SystemVO {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date smnextdat;//설비 다음 점검일
 	private String smstatus;//설비 가동여부
-	private int sisaftem;//설비 온도관리
+	private String sisaftem;//설비 온도관리
 	
 	private int phdmkam; //생산량
 	private int phderram; //불량량
