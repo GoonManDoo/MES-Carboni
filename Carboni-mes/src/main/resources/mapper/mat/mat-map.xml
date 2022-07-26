@@ -199,10 +199,10 @@
 	</select>
 	
 	<!-- ====================================================================== -->
-	<!--  
+	
 	<update id="insertList" parameterType="co.carboni.prj.mat.vo.MatVO" statementType="CALLABLE">
-	<![CDATA[]]>
+	<![CDATA[{call matin_info (#{micode},#{miname},#{misafe},#{miciam},#{msunam})}]]>
 	</update>
-	-->
+	
 	
 </mapper>
