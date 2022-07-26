@@ -525,6 +525,17 @@ ul.tabs li.current {
 				}
 				
 				/* 해당 생산지시라인시작 */
+				function insertSinum(i){
+					var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
+					var sinum = headGrid.getValue(i, 'sinum') // 설비번호
+					makeAjaxCall('insertSinum', {pcnum, sinum}, false)
+				}
+				function selectTime(i){
+					
+				}
+				function insertHead(){
+					
+				}
 				var arr = [];
 				$('#start').on('click', function(){
 					if($('#readyPcnum').val() != '') { // 시작버튼에 지시번호가 있을때
