@@ -83,7 +83,7 @@
 										<tr>
 											<th>불량상태</th>
 											<td>
-												<select style="width:100px; height:28px; display: inline-block;">
+												<select name = "errOp" style="width:100px; height:28px; display: inline-block;">
 													<option value="equipError">설비불량</option>
 													<option value="matError">자재불량</option>
 													<option value="prodError">제품불량</option>
@@ -103,9 +103,9 @@
 			<div class="card mb-2">
 				<div class="card-header">
 					<div style="display: flex; justify-content: flex-end;">
-						<button type="button" class="btn btn-secondary"
+						<button id="insertBtn" type="button" class="btn btn-secondary"
 							style="margin-right: 5px;">조회</button>
-						<button type="button" class="btn btn-secondary"
+						<button id="clearBtn" type="button" class="btn btn-secondary"
 							style="margin-right: 5px;">새자료</button>
 					</div>
 				</div>
@@ -125,27 +125,7 @@
 
 		<!-- 스크립트 -->
 		<script type="text/javascript">
-			// 달력-----------------------------------------
-			/* 지시일자 */
-			var today = new Date();
-			var picker = new tui.DatePicker.createRangePicker({
-				startpicker : {
-					date : today,
-					input : '#procDtS',
-					container : '#procDtS-wapper'
-				},
-				endpicker : {
-					date : today,
-					input : '#procDtE',
-					container : '#procDtE-wapper'
-				},
-				selectableRanges : [ [
-						today,
-						new Date(today.getFullYear() + 1, today.getMonth(),
-								today.getDate()) ] ],
-				language : 'ko'
-			});
-			// 달력 끝---------------------------------------
+		$(function() {
 			
 			// 그리드 ---------------------------------------
 			/* 지시목록 */
@@ -178,6 +158,49 @@
 					align : 'center'
 				} ]
 			});
+			
+		
+			// 달력-----------------------------------------
+			/* 작업일자 */
+			var today = new Date();
+			var picker = new tui.DatePicker.createRangePicker({
+				startpicker : {
+					date : today,
+					input : '#procDtS',
+					container : '#procDtS-wapper'
+				},
+				endpicker : {
+					date : today,
+					input : '#procDtE',
+					container : '#procDtE-wapper'
+				},
+				selectableRanges : [ [
+						today,
+						new Date(today.getFullYear() + 1, today.getMonth(),
+								today.getDate()) ] ],
+				language : 'ko'
+			});
+			// 달력 끝---------------------------------------
+			
+			/* 조회 버튼 */
+			$('#insertBtn').on('click', function() {
+				var startDtS = $('#procDtS').val()
+				var endDtE = $('#procDtE').val()
+				var errOpList = $("select[name=errOp] option:selected").val()
+				
+				$.ajax({
+					url : 'prodErrList',
+					method: 'POST',
+					data : {startDtS, endDtE, errOpList},
+					success: function(result) {
+						pdGrid.refreshLayout();
+						pdGrid.resetData(result)
+					}
+				})
+				
+			})
+			
+		})
 		</script>
 	</th:block>
 </body>

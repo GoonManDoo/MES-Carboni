@@ -8,6 +8,10 @@ import co.carboni.prj.sales.vo.SalesVO;
 
 public interface SalesService {
 
+	
+	//생산관리 > 불량내역조회
+	//public List<SalesVO> findProdErrList(String startDtS, String endDtE, String errOpList);
+	
 	//수주관리
 	
 		//수주관리 > 수주목록 삭제
@@ -105,5 +109,7 @@ public interface SalesService {
 		
 		//배송관리 > 배송등록
 		public void deliverInsert(List<SalesVO> inDelver);
+		
+		
 
 }
