@@ -101,7 +101,8 @@ public interface SalesMapper {
 		public List<SalesVO> findAllJepoomList(SalesVO vo);
 		
 		//배송관리 > 배송조회
-		public List<SalesVO> findDeliverSearch(@Param("startSh") String startSh, @Param("endSh") String endSh, @Param("cnNumber") String cnNumber);
+		public List<SalesVO> findDeliverSearch(@Param("startSh") String startSh,
+				@Param("endSh") String endSh, @Param("cnNumber") String cnNumber);
 		
 		//배송관리 > 배송목록 조회
 		public void findDelDlist(SalesVO vo);

@@ -222,13 +222,14 @@
 		
 		<!-- 배송관리 배송조회 -->
 		<select id="findDeliverSearch" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT d.dnum, c.cnnum, g.giname, r.csname, s.sham, s.shstatus, s.shdate, s.shnum, c.cnperiod
+			SELECT d.dnum, s.cnnum, g.giname, r.csname, s.sham, s.shstatus, s.shdate, s.shnum, c.cnperiod
 			FROM deliver d, contract c, goodsinfo g, costomer r, ship s
-			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode)
+			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.cnnum = s.cnnum AND s.shnum = d.shnum)
 			AND
 			(s.shdate BETWEEN #{startSh} AND #{endSh})
-            AND
+			AND
             c.cnnum = #{cnNumber}
+
 		</select>
 		
 		<!-- 배송목록 삭제 -->
@@ -280,21 +281,25 @@
 		
 		
 		SELECT cnnum INTO  V_CNUM
-		FROM ship
+		FROM ship 
 		WHERE shnum = #{shnum};
 		
-		UPDATE contract
-		SET cnrest = cnam - V_SHAM
-		WHERE cnnum = V_CNUM;
+		
+		
 		
 		SELECT sham INTO V_SHAM
 		FROM  ship
 		WHERE shnum = #{shnum};
 		
+		
+		
 		SELECT cnrest INTO V_ZERO
 		FROM contract c JOIN ship s ON c.cnnum = s.cnnum
 		WHERE s.shnum = #{shnum};
 		
+		UPDATE contract
+		SET cnrest = cnam - V_SHAM
+		WHERE cnnum = V_CNUM;
 		
 		IF V_ZERO = 0 THEN 
 		

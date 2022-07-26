@@ -276,7 +276,8 @@ public class SalesController {
 		//배송관리 > 배송목록 조회
 		@RequestMapping("deliverSearch")
 		@ResponseBody
-		public List<SalesVO> deliverSearch(@RequestParam("startSh") String startSh, @RequestParam("endSh") String endSh, @RequestParam("cnNumber") String cnNumber) {
+		public List<SalesVO> deliverSearch(@RequestParam("startSh") String startSh,
+				@RequestParam("endSh") String endSh, @RequestParam("cnNumber") String cnNumber) {
 			List<SalesVO> deliverSearch = service.findDeliverSearch(startSh, endSh, cnNumber);
 			return deliverSearch;
 		}
