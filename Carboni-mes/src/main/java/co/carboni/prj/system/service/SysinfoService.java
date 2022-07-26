@@ -21,6 +21,8 @@ public interface SysinfoService {
 	
 	List<SystemVO> selectSysStartDie(SystemVO vo);
 	
+	List<SystemVO> selectMaint(SystemVO vo);
+	
 	//설비 정보 등록
 	int systemInsert(SystemVO vo);
 	

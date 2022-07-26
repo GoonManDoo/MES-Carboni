@@ -84,6 +84,11 @@ public class SysInfoServiceImpl implements SysinfoService{
 		return map.selectSysStartDie(vo);
 	}
 
+	@Override
+	public List<SystemVO> selectMaint(SystemVO vo) {
+		return map.selectMaint(vo);
+	}
+
 
 
 	

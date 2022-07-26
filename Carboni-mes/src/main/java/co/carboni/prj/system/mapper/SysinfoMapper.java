@@ -21,6 +21,9 @@ public interface SysinfoMapper {
 	//설비 
 	List<SystemVO> selectSysStartDie(SystemVO vo);
 	
+	//입고일 점검주기 다음점검일
+	List<SystemVO> selectMaint(SystemVO vo);
+	
 	//설비 정보 등록
 		int systemInsert(SystemVO vo);
 		

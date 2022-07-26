@@ -36,20 +36,30 @@
 		                 	 </div>
 		                  <div class="card bg-white"style="width: 42rem; height: 300px; margin-bottom: 20px;">
 		                     <div class="card-body" style="display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;">
-		                        <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;">
+		                        
+		                        
+		                        <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="LD:${sysStart}">
 		                           <!-- progress1  -->
 		                           <h4>가동일</h4>
 		                           <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
-		                              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar"></div>
+		                               <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar"></div>
 		                           </div>
+			                           <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${LD.sidate}">asdf</p>
+			                           <p style="display: block; float: right; font-size: 13px; margin-right: 13px;"  th:text="${LD.sidie}">asdf</p>
 		                        </div>
-		                        <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;">
+		                        
+		                        
+		                        <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="MANT:${maint}">
 		                           <!-- progress1  -->
 		                           <h4>정기점검</h4>
-		                           <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
-		                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar2"></div>
+		                           <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;" >
+		                             	<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar2"></div>
 		                           </div>
+			                            <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${MANT.sidate}">asdf</p>
+			                            <p style="display: block; float: right; font-size: 13px; margin-right: 13px;" th:text="${MANT.NEXTDAT}">asdf</p>
 		                        </div>
+		                        
+		                        
 		                     </div>
 		                  </div>
 		
