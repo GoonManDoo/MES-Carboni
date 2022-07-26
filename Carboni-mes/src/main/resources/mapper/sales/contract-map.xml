@@ -260,55 +260,38 @@
 		
 		<!-- 배송등록 후 상태변경 PLSQL -->
 		<insert id="deliverInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
-		DECLARE
-            V_ZERO number;
-            V_CNUM VARCHAR2(100);
-            V_SHAM number;
-		BEGIN
-
-		INSERT INTO deliver VALUES ('D-'||to_char(deliver_DNUM_seq.nextval),  
-		                           (select shnum from ship where shnum = #{shnum}), 
-		                           (select cscode from costomer where csgb = '배송업체'));
-		    		
-		UPDATE ship
-		SET shstatus = 'Y'
-		WHERE shnum = #{shnum};
-		
-		SELECT cnrest INTO V_ZERO
-		FROM contract c JOIN ship s ON c.cnnum = s.cnnum
-		WHERE s.shnum = #{shnum};
-		
-		
-		
-		SELECT cnnum INTO  V_CNUM
-		FROM ship 
-		WHERE shnum = #{shnum};
-		
-		
-		
-		
-		SELECT sham INTO V_SHAM
-		FROM  ship
-		WHERE shnum = #{shnum};
-		
-		
-		
-		SELECT cnrest INTO V_ZERO
-		FROM contract c JOIN ship s ON c.cnnum = s.cnnum
-		WHERE s.shnum = #{shnum};
-		
-		UPDATE contract
-		SET cnrest = cnam - V_SHAM
-		WHERE cnnum = V_CNUM;
-		
-		IF V_ZERO = 0 THEN 
-		
-		UPDATE contract 
-		SET cnstatus = '납품완료'
-		WHERE cnnum = V_CNUM;
-		
-		END IF;
-		        END;
+	DECLARE
+	    v_cscode costomer.cscode%TYPE;
+	    v_cnrest contract.cnrest%TYPE;
+	    v_cnnum contract.cnnum%TYPE;
+	    v_sham ship.sham%TYPE;
+	    v_minus number;
+	BEGIN
+	    SELECT cscode INTO v_cscode FROM costomer WHERE csgb = '배송업체';
+	
+	    INSERT INTO deliver VALUES ('D-'||to_char(deliver_DNUM_seq.nextval), #{shnum}, v_cscode);
+	            
+	    UPDATE ship
+	    SET shstatus = 'Y'
+	    WHERE shnum = #{shnum};
+	    
+	    SELECT c.cnrest, c.cnnum, s.sham
+	    into v_cnrest, v_cnnum, v_sham
+	    FROM contract c JOIN ship s ON c.cnnum = s.cnnum
+	    WHERE s.shnum = #{shnum};
+	    
+	    v_minus := v_cnrest - v_sham;
+	    
+	    UPDATE contract
+	    SET cnrest = v_minus
+	    WHERE cnnum = v_cnnum;
+	    
+    IF v_minus = 0 THEN
+        UPDATE contract
+        SET cnstatus = '납품완료'
+        WHERE cnnum = v_cnnum;
+    END IF;
+	END;
                 
 		</insert>
 		
