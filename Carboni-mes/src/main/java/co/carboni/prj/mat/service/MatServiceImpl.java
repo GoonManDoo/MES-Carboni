@@ -106,6 +106,16 @@ public class MatServiceImpl implements MatService {
 		
 	}
 
+	@Override
+	public List<MatVO> insertList(List<MatVO> list) {
+		List<MatVO> inList = new ArrayList<MatVO>();
+		for(MatVO vo: list) {
+			map.insertList(vo);
+			inList.add(vo);
+		}
+		return inList;
+	}
+
 
 	
 	
