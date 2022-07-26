@@ -39,6 +39,7 @@ public class LoginVal implements UserDetailsService {
 				.password(lpw)
 				.roles(acode)
 				.build();
+
 	}
 
 }

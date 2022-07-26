@@ -6,11 +6,10 @@
 		SELECT ECODE, ACODE, TO_CHAR(EHIREDATE, 'yyyy-MM-dd')EHIREDATE, EPOSITION, ENAME FROM EMPLOYEE
 	</select>
 	<update id="employeeupdate" parameterType="co.carboni.prj.people.vo.EmployeeVO">
-		UPDATE EMPLOYEE
-		<set>
-		ACODE = #{acode}
-		</set>
-		WHERE ECODE = #{ecode}
+		BEGIN
+			UPDATE EMPLOYEE SET ACODE = #{acode} WHERE ECODE = #{ecode};
+			UPDATE LOGIN SET ACODE = #{acode} WHERE ECODE = #{ecode};
+		END;
 	</update>
 
 </mapper>

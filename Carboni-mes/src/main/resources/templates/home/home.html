@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-				layout:decorate="~{layouts/layout}">
-
+<html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <link href="https://fonts.googleapis.com/css?family=Inter&display=swap"
 	rel="stylesheet" />
@@ -15,7 +12,12 @@
 	
 		<div id="container">
 				<div>
-					메인 페이지
+					메인 페이지<br>
+        			<b>Authenticated information:</b>
+        			<div sec:authentication="principal"></div>
+        			<li sec:authorize="hasRole('ROLE_a')">
+    					관리자에게만 보이는 문자열입니다
+					</li>
 				</div>
 		</div>
 	</th:block>
