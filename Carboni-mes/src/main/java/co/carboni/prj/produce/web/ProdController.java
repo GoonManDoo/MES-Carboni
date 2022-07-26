@@ -267,6 +267,13 @@ public class ProdController {
 			return service.loadProdLine(vo);
 		}
 		
+		// 공정진행관리 - 자재출고 insert, 자재재고 update
+		@RequestMapping("updateMat")
+		@ResponseBody
+		public void updateMat(ProcMoniterVO vo) {
+			service.updateMat(vo);
+		}
+		
 		// 공정진행관리 - 더미테이블 지시번호, 설비번호 등록
 		@RequestMapping("insertSinum")
 		@ResponseBody

@@ -47,4 +47,5 @@ public class ProcMoniterVO {
 		public String phdstat; // 가동상태
 		
 		
+		
 }

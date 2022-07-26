@@ -276,6 +276,11 @@
 				ORDER BY c.picodeid
 			</select>
 			
+			<!-- 자재출고 insert, 자재재고 update -->
+			<update id="updateMat" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" statementType="CALLABLE">
+				<![CDATA[{call update_mat(#{pcnum})}]]>
+			</update>
+			
 			<!-- 더미테이블 지시번호, 설비번호 등록 -->
 			<insert id="insertSinum" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO">
 				insert into dummy

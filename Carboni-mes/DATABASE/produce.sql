@@ -132,4 +132,37 @@ CREATE SEQUENCE  "CARBONI"."MATSAR_OUTMSNUM_SEQ" MINVALUE 1 MAXVALUE 99999999999
 BY 1 START
 WITH 33 NOCACHE  NOORDER  NOCYCLE ;
 
+-- 자재출고 insert, 자재재고 update
+CREATE OR REPLACE PROCEDURE update_mat
+    (p_pcnum IN proccomm_d.pcnum%TYPE)
+IS
+    v_pcdam proccomm_d.pcdam%TYPE;
+    v_soyo number;
+    -- 제품별 자재 소요량 알아오는 커서
+    CURSOR mibam_cursor IS
+        select m.micode, b.bam
+        from proccomm_d d, bom b, matinfo m
+        where (d.gicode = b.gicode and b.micode = m.micode)
+        and d.pcnum = p_pcnum;
+BEGIN
+    -- 생산지시량
+    select pcdam
+    into v_pcdam
+    from proccomm_d
+    where pcnum = p_pcnum;
+    
+    -- 사용하는 자재코드만큼 자재출고관리 insert, 자재재고량 update
+    FOR mibam_record IN mibam_cursor LOOP
+        v_soyo := v_pcdam*(mibam_record.bam);
+       
+        insert into matsar
+        values ('OUTMS-'||matsar_outmsnum_seq.nextval, null, null, p_pcnum, '비고', null, sysdate, null, v_soyo, mibam_record.micode);
+        
+        update matstk
+        set msciam = msciam - v_soyo
+        where micode = mibam_record.micode;
+    END LOOP;
+END;
+/
+
    
