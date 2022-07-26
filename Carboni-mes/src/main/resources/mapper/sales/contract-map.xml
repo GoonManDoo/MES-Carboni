@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.carboni.prj.sales.mapper.SalesMapper">
 	
+	<!-- 생산관리 -->
+		<!-- 불량내역조회 -->
+		<select id="findProdErrList" resultType="co.carboni.prj.sales.vo.SalesVO">
+			 SELECT g.genum, p.picodeid, f.giname, c.ccodeid, c.cexplaind, g.gedetail, g.gedate
+	         FROM goods_err g, common c, prochead_d p, goodsinfo f
+	         WHERE (g.ccodeid = c.ccodeid AND p.PHDNUM = g.PHDNUM AND f.gicode = g.gicode)
+	         AND (g.gedate BETWEEN #{startDtS} AND #{endDtE})      
+	         AND c.ccodeid = #{errOpList}
+		</select>
+		
+	
 	<!-- 수주관리 -->
 	
 		<!-- 수주목록 삭제 -->
