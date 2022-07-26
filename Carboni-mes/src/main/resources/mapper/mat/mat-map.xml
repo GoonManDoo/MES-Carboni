@@ -181,7 +181,7 @@
 	<!-- 입고관리에서 발주일자로 검색한 것을 insert 하면서 발주상태 update -->
 	<update id="addInputList"
 		parameterType="co.carboni.prj.mat.vo.MatVO" statementType="CALLABLE">
-			<![CDATA[{call add_inmat (#{monum },#{msindate},#{monote},#{msnum, mode=OUT, jdbcType=VARCHAR},#{mlnum,mode=OUT, jdbcType=VARCHAR},#{msinam},#{moodate},#{miname},#{mistand},#{miunit},#{csname},#{moaskam},#{micode})]]>
+			<![CDATA[{call add_inmat (#{monum },#{msindate},#{monote},#{msnum, mode=OUT, jdbcType=VARCHAR},#{mlnum,mode=OUT, jdbcType=VARCHAR},#{msinam},#{moodate},#{miname},#{mistand},#{miunit},#{csname},#{moaskam},#{micode},#{matnum})]]>
 	</update>
 
 	
@@ -200,9 +200,13 @@
 	
 	<!-- ====================================================================== -->
 	
-	<update id="insertList" parameterType="co.carboni.prj.mat.vo.MatVO" statementType="CALLABLE">
-	<![CDATA[{call matin_info (#{micode},#{miname},#{misafe},#{miciam},#{msunam})}]]>
-	</update>
+	<select id="matListAll" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE S.MICODE=M.MICODE ORDER BY S.MATNUM
+	</select>
+	
+	<select id="matSerchList" resultType="co.carboni.prj.mat.vo.MatVO">
+		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE (S.MICODE=M.MICODE) AND S.MICODE=#{matCode}
+	</select>
 	
 	
 </mapper>

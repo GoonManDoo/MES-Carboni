@@ -162,10 +162,18 @@ public class MatController {
 		service.inputDelreq(vo);
 	}
 	
-	@RequestMapping("insertlist")
+	@RequestMapping("matlistall")
 	@ResponseBody
-	public List<MatVO> insertlist(@RequestBody List<MatVO> list){
-		return service.insertList(list);
+	public List<MatVO> matlistall(MatVO vo){
+		List<MatVO> list = service.matListAll(vo);
+		return list;
+	}
+	
+	@RequestMapping("matserchlist")
+	@ResponseBody
+	public List<MatVO> matserchlist(@RequestParam String matCode){
+		List<MatVO> list = service.matSerchList(matCode);
+		return list;
 	}
 	
 

@@ -53,8 +53,11 @@ public interface MatService {
 	//입고관리에서 입고된것들 삭제할때 
 	public void inputDelreq(MatVO vo);
 	
-	public List<MatVO> insertList(List<MatVO> list);
+	//자재관리에서 모든 자재 리스트 그리드에 출력
+	public List<MatVO> matListAll(MatVO vo);
 	
+	//자재관리에서 자재코드 검색해서 메인그리드에 출력
+	public List<MatVO> matSerchList(String matCode);
 
 
 }
