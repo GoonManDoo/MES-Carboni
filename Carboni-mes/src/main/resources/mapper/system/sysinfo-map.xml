@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.carboni.prj.system.mapper.SysinfoMapper">
 	<select id="selectSysAll" resultType="co.carboni.prj.system.vo.SystemVO">	
-		SELECT S.SINUM, S.SINAME, S.SISAFTEM, 
-        P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR, 
-        D.PHDMKAM, D.PHDERRAM
-		FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
-		WHERE S.PICODEID = P.PICODEID OR S.SINUM = D.SINUM
-		ORDER BY SINUM
+			SELECT 
+			    S.SINUM, S.SINAME, S.SISAFTEM, 
+			    P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR,
+			    D.PHDMKAM, D.PHDERRAM
+			FROM SYSINFO S, PROCINFO P, PROCHEAD_D D
+			WHERE s.sinum = p.sinum(+) 
+			    and s.picodeid = d.picodeid(+)
+			ORDER BY SINUM
 		
 	</select>
 
@@ -22,19 +24,22 @@
 			    AND S.SINUM = P.SINUM(+) 
 			    AND S.PICODEID = D.PICODEID(+)
 			    AND S.SINUM = #{sinum}
-			ORDER BY SINUM;
+			ORDER BY SINUM
 	</select>
 	
 	<select id="selectPicoid" resultType="co.carboni.prj.system.vo.SystemVO">
 		SELECT PICODEID, PINAME FROM PROCINFO
 	</select>
-	
+	<!-- 설비 가동상태 -->
 	<select id="selectSysCondition" resultType="co.carboni.prj.system.vo.SystemVO">
-		SELECT SMSTATUS FROM SYSMAN WHERE SINUM= #{sinum};
+		SELECT SMSTATUS FROM SYSMAN 
+		WHERE SINUM= #{sinum}
 	</select>
 	
+	<!-- 설비 가동시작일 가동종료일 -->
 	<select id="selectSysStartDie" resultType="co.carboni.prj.system.vo.SystemVO">
-	SELECT SIDATE, SIDIE FROM SYSMAN WHERE SINUM= #{sinum};
+	SELECT SIDATE, SIDIE FROM SYSMAN 
+	WHERE SINUM= #{sinum}
 	</select>
 	
 	<!-- 전체 남은 수명중 현재 진행중 수명 -->
@@ -42,6 +47,9 @@
 	SELECT SIDATE, TRUNC(SIDIE-SIDATE),TRUNC(100-((SIDIE-SYSDATE)/(SIDIE-SIDATE)*100), 3), SIDIE, TRUNC(SIDIE-SYSDATE) FROM SYSMAN
 	WHERE SINUM = #{sinum}
 	</select>
+	
+	
+	
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
 		INSERT INTO SYSINFO
 			VALUES(SYSTEM_SINUM_SEQ.NEXTVAL, #{picodeid}, #{siname}, #{sisaftem})

@@ -11,6 +11,16 @@ public interface SysinfoMapper {
 	
 	//공정 조회
 	public List<SystemVO> selectPicoid();
+	
+	//설비 수명
+	List<SystemVO> selectSysLifespan(SystemVO vo);
+	
+	//설비 가동상태
+	List<SystemVO> selectSysCondition(SystemVO vo);
+	
+	//설비 
+	List<SystemVO> selectSysStartDie(SystemVO vo);
+	
 	//설비 정보 등록
 		int systemInsert(SystemVO vo);
 		

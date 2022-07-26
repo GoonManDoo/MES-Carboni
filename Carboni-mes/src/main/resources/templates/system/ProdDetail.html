@@ -24,8 +24,9 @@
 
 <body>
 	<th:block layout:fragment="main">
+	
+	
 	<div class="container py-4" style="display: flex;flex-wrap: wrap;align-content: space-around;justify-content: space-around;">
-		
 		 <div th:each="AVD:${detail}"  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
 		                  <div style="width: 33rem; height: 300px; margin-bottom: 20px;">
 		                     <div class="card bg-white" style="width: 33rem; height: 260px;">
@@ -49,8 +50,6 @@
 		                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar2"></div>
 		                           </div>
 		                        </div>
-		
-		
 		                     </div>
 		                  </div>
 		
@@ -128,7 +127,6 @@
 				    i = 1;
 				    var elem = document.getElementById("myBar");
 				    var width = 0;
-				    var id = setInterval(frame, 1500);
 				    function frame() {
 				      if (width >= 100) {
 				        clearInterval(id);

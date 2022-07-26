@@ -69,6 +69,21 @@ public class SysInfoServiceImpl implements SysinfoService{
 		return map.sysmanUpdate(vo);
 	}
 
+	@Override
+	public List<SystemVO> selectSysLifespan(SystemVO vo) {
+		return map.selectSysLifespan(vo);
+	}
+
+	@Override
+	public List<SystemVO> selectSysCondition(SystemVO vo) {
+		return map.selectSysCondition(vo);
+	}
+
+	@Override
+	public List<SystemVO> selectSysStartDie(SystemVO vo) {
+		return map.selectSysStartDie(vo);
+	}
+
 
 
 	
