@@ -3,6 +3,10 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
 <head>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <style>
 .tui-datepicker {
 	z-index: 99;
@@ -103,6 +107,21 @@ ul.tabs li.current {
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
+
+
+
+
+
+.chart{
+    width: 400px;
+    height: 200px;
+    display: inline-block;
+    margin: 0 auto;
+}
+#gpchart{
+	background-color: white;
+    text-align: center;
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -174,6 +193,11 @@ ul.tabs li.current {
 						<div id="process"></div>
 					</div>
 				</div>
+				<!-- 공정모니터링 밑에  -->
+			  <div id="gpchart">
+			  <div id="clear" class="chart"></div>
+  			  <div id="piechart" class="chart"></div>
+  			  </div>
 			</div>
 
 		</div>
@@ -211,6 +235,7 @@ ul.tabs li.current {
 		<script type="text/javascript">
 		
 			$(function() {
+				
 				
 //				탭--------------------------------------
 				$('ul.tabs li').click(function() {
@@ -387,44 +412,88 @@ ul.tabs li.current {
 				headGrid.hideColumn('phdnum')
 	
 				/* 공정모니터링 - 생산 */
-				const processList = [];
-	
+				  $.ajax({
+			        url : "formon",
+			        method :"GET",
+			        dataType: "JSON",
+			        success : function(result){
+			        	console.log(result);
+			        	Grid3.resetData(result);
+			        	Grid3.on('click', ev => {
+			        		console.log(Grid3.getRow(ev.rowKey).pcdam);
+			        		pcdam = Grid3.getRow(ev.rowKey).pcdam;
+			        		mkam = Grid3.getRow(ev.rowKey).phdmkam;
+			        		erram = Grid3.getRow(ev.rowKey).phderram;
+//차트
+  google.charts.load('current', { 'packages': ['corechart'] });
+  google.charts.setOnLoadCallback(drawChart);
+  google.charts.setOnLoadCallback(drawChart2);
+
+  function drawChart() {
+    var dataformat = google.visualization.arrayToDataTable([
+      ['', ''],
+      ['정상', mkam],
+      ['불량', erram],
+    ]);
+    var data = dataformat;
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data);
+  }
+
+  function drawChart2() {
+    var data = google.visualization.arrayToDataTable([
+      ['', ''],
+      ['', 0],
+      ['', 0],
+      ['생산량', mkam],
+      ['잔량', pcdam-mkam]
+    ]);
+    var chart = new google.visualization.PieChart(document.getElementById('clear'));
+    chart.draw(data);
+  }		
+  
+  
+  
+  
+			        	})
+			        } 
+			    });	
 				const Grid3 = new tui.Grid({
 					el : document.getElementById('process'),
-					data : processList,
 					scrollX : false,
+					scrollY : false,
+					rowHeaders: ['rowNum'],
 					columns : [ {
 						header : '지시번호',
+						name : 'pcdnum',
 						align : 'center'
 					}, {
 						header : '제품명',
+						name : 'giname',
 						align : 'center'
 					}, {
 						header : '공정코드',
+						name : 'picodeid',
 						align : 'center'
 					}, {
-						header : '1차공정',
-						align : 'center'
-					}, {
-						header : '2차공정',
-						align : 'center'
-					}, {
-						header : '3차공정',
-						align : 'center'
-					}, {
-						header : '4차공정',
-						align : 'center'
-					}, {
-						header : '설비코드',
+						header : '설비번호',
+						name : 'sinum',
 						align : 'center'
 					}, {
 						header : '가동상태',
+						name : 'phdstat',
 						align : 'center'
 					}, {
-						header : '목표수량',
+						header : '지시량',
+						name : 'pcdam',
 						align : 'center'
 					}, {
-						header : '로스율',
+						header : '생산량',
+						name : 'phdmkam',
+						align : 'center'
+					}, {
+						header : '불량량',
+						name : 'phderram',
 						align : 'center'
 					} ]
 				});
@@ -613,7 +682,14 @@ ul.tabs li.current {
 				
 
 			})
+			
+			
 		</script>
+
+<script>
+
+</script>
+
 	</th:block>
 
 </body>
