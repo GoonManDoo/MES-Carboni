@@ -20,6 +20,29 @@
 .ht {
 	height: 28px;
 }
+.title {
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
+
+.input {
+	height: 23px;
+	margin-left: 15px;
+	margin-top: 5px;
+	display: inline-block;
+	padding: 0 10px;
+	vertical-align: middle;
+	border: 1px solid #dddddd;
+	width: 20%;
+	color: rgb(94, 94, 94);
+	border-radius: 5px;
+	text-align: center;
+	display: inline-block;
+}
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;
+}
 </style>
 </head>
 <body>
@@ -51,24 +74,35 @@
 									<tbody>
 										<!-- 출고일자 조회  -->
 										<tr>
-											<th><label>출고일자</label></th>
-											<td colspan="3">
-												<div
-													class="tui-datepicker-input tui-datetime-input tui-has-focus">
-													<input type="text" class="form-control" id="outDt"
-														aria-label="Date-Time" tabindex="1"> <span
-														class="tui-ico-date"></span>
+											<th style="width: 20%;"><label>발주일자</label></th>
+											<td colspan='3'>
+												<div class="mt-1 grid-option-area">
+													<div
+														class="tui-datepicker-input tui-datetime-input tui-has-focus">
+														<input type="text" id="startpicker-input"
+															class="form-control" aria-label="Date-Time" tabindex="1">
+														<span class="tui-ico-date "></span>
+														<div id="startpicker-container" style="margin-left: -1px;"></div>
+													</div>
+
+													<span class="mg5">~</span>
+													<div
+														class="tui-datepicker-input tui-datetime-input tui-has-focus">
+														<input type="text" id="endpicker-input"
+															class="form-control" aria-label="Date-Time" tabindex="1">
+														<span class="tui-ico-date "></span>
+														<div id="endpicker-container" style="margin-left: -1px;"></div>
+													</div>
 												</div>
-												<div id="wrapper" style="margin-top: -1px;"></div>
 											</td>
 										</tr>
 										<!-- 출고 공정 조회 -->
 										<tr>
-											<th><label>출고공정</label></th>
+											<th><label>자재명</label></th>
 											<td><input type="text" class="form-control ht"
-												tabindex="2" id="outBtn" placeholder="출고공정검색"></td>
-											<th><label>공정명</label></th>
-											<td><input type="text" class="form-control ht" readonly></td>
+												tabindex="2" id="outBtn" placeholder="자재명검색"></td>
+											<th><label>자제코드</label></th>
+											<td><input type="text" class="form-control ht" id="rightmat" readonly></td>
 										</tr>
 									</tbody>
 								</table>
@@ -86,22 +120,34 @@
 			<div class="container-fluid px-4">
 				<div id="grid"></div>
 			</div>
+
 			<div id="modal">
-				<div id="outmodal">
-					<div id="outgtid"></div>
+				<div id="listmodal" title="자재검색" style="padding: 20px;">
+					<div class="title">
+						<span>자재명</span><input type="text" class="input" id="miSearchName">
+						<button class="btn btn-secondary" id="miSearchBtn">검색</button>
+					</div>
+					<div id="listgrid"></div>
 				</div>
 			</div>
 		</div>
 		<script>
-			const datepicker = new tui.DatePicker('#wrapper', {
-				date : new Date(),
-				input : {
-					element : '#outDt',
-					format : 'yyyy-MM-dd'
-				},
-				language : 'ko'
-
-			});
+		$(function() {
+			/*출고일자 검색 데이트 피커*/
+			/* 입고일자 데이터 피커  */
+					var today = new Date();
+					var picker = tui.DatePicker.createRangePicker({
+						startpicker : {
+							date : today,
+							input : '#startpicker-input',
+							container : '#startpicker-container'
+						},
+						endpicker : {
+							date : today,
+							input : '#endpicker-input',
+							container : '#endpicker-container'
+						}
+					});
 
 			const gridData = [];
 
@@ -110,91 +156,147 @@
 				data : gridData,
 				scrollX : false,
 				bodyHeight : 500,
-				rowHeaders : [ 'checkbox' ],
 				columns : [ {
 					header : '자재코드',
 					sortingType : 'desc',
+					name : 'micode',
 					align : 'center',
 					sortable : true
 				}, {
 					header : '자재명',
+					name : 'miname',
 					align : 'center'
 				}, {
 					header : '규격',
+					name : 'mistand',
 					align : 'center'
 				}, {
 					header : '자재단위',
+					name : 'miunit',
 					align : 'center'
 				}, {
 					header : '출고량',
+					name : 'msoutam',
+					align : 'center'
+				}, {
+					header : '출고일자',
+					name : 'msoutdate',
 					align : 'center'
 				}, {
 					header : '자재LOT.NO',
+					name : 'mlnum',
 					align : 'center'
 				}, {
 					header : '비고',
+					name : 'msnote',
 					align : 'center'
 				} ]
 			});
 
-			$(function() {
-				/*메이크 모달*/
-				function makeModal(e) {
+			const listdata = [];
+			let listgd = new tui.Grid({
+				el : document.getElementById('listgrid'),
+				data : listdata,
+				scrollX : false,
+				bodyHeight : 430,
+				columns : [ {
+					header : '자재코드',
+					align : 'center',
+					name : 'micode',
+					sortingType : 'desc',
+					sortable : true
+				}, {
+					header : '자재명',
+					name : 'miname',
+					align : 'center',
+
+				}, {
+					header : '규격',
+					align : 'center',
+					name : 'mistand'
+				}, {
+					header : '자재단위',
+					name : 'miunit',
+					align : 'center',
+				} ]
+
+			})
+			/*=============================================*/
+		/*메이크 모달*/
+				function makeModal(e, fnc) {
 					var dialog = $(e).dialog({
 						autoOpen : false,
 						height : 600,
 						width : 700,
 						modal : true,
-					})
+						buttons : {
+							'확인' : fnc,
+							'취소' : function() {
+								$(this).dialog('close')
+							}
+						}
+					});
 					$('.ui-dialog-titlebar-close').html('X').css('border',
-							'none')
+							'none');
+					$('.ui-dialog-buttonset').children().attr('class',
+							'btn btn-secondary');
 					return dialog;
 				}
-				var outmo = makeModal("#outmodal")
+			
+			
+				var outmo = makeModal("#listmodal",outcheck)
 
-				$("#outBtn").on(
-						'click',
-						function() {
-							$("#outmodal").css('display', '')
-							outmo.dialog({
-								buttons : {
-									'확인' : outcheck,
-									'취소' : function() {
-										$(this).dialog('close')
-									}
-								}
-							})
-							$('.ui-dialog-buttonset').children().attr('class',
-									'btn btn-secondary')
-							outmo.dialog('open')
-							outgd.refreshLayout();
+				$("#outBtn").on('click',function() {
+					outmo.dialog('open')
+						$.ajax({
+							url : 'matlist',
+							method : 'POST',
+							dataType : 'json',
+							success : function(result) {
+								listgd.refreshLayout();
+								listgd.resetData(result)
+								listgd.on('click',e=>{
+									var rk = e.rowKey
+									for(i=0; i<listgd.getRowCount(); i++) {
+										listgd.removeRowClassName(i, 'rowSelect')
+										}
+									listgd.addRowClassName(rk, 'rowSelect')
+									mi = listgd.getRow(rk).miname
+									maco =listgd.getRow(rk).micode
+									
+								})
+							}
 						})
-				/*출고공정명 모달 생성 됬을떄*/
+						})
+				/*자재코드 모달안의 검색을 눌렀을때 */
+				$("#miSearchBtn").on('click',function(){
+					var miname= $('#miSearchName').val()
+					$.ajax({
+						url:'findserchmaterial',
+						method: 'post',
+						data:{miname},
+						dataType: 'json',
+						success :function(result){
+							listgd.resetData(result)
+								listgd.on('click',e=>{
+								var rk = e.rowKey
+								for(i=0; i<listgd.getRowCount(); i++) {
+									listgd.removeRowClassName(i, 'rowSelect')
+									}
+								listgd.addRowClassName(rk, 'rowSelect')
+								mi = listgd.getRow(rk).miname
+								maco =listgd.getRow(rk).micode
+								})
+						}
+					})
+				})
+					/**/
 				function outcheck() {
-
+					$('#outBtn').val(mi)
+					$("#rightmat").val(maco)
+					outmo.dialog('close')
 				}
-				const outdata = [];
-				let outgd = new tui.Grid({
-					el : document.getElementById('outgtid'),
-					data : outdata,
-					scrollX : false,
-					rowHeaders : [ 'checkbox' ],
-					bodyHeight : 430,
-					columns : [ {
-						header : '공정정보',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '공정코드',
-						align : 'center',
-
-					}, {
-						header : '소요일수',
-						align : 'center',
-
-					} ]
-				});
+			
 			})
 		</script>
 	</th:block>

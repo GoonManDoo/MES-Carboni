@@ -35,6 +35,9 @@
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
+.tui-grid-cell.matDanger {
+	background-color: #ffe5e5;
+}
 </style>
 </head>
 <body>
@@ -61,7 +64,7 @@
 							<div class="container-fluid px-4 mb-2">
 								<div style="display: flex; justify-content: flex-end;">
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;">조회</button>
+										style="margin-right: 5px;" id="showBtn">조회</button>
 								</div>
 							</div>
 						</form>
@@ -122,19 +125,9 @@
 						align : 'center'
 					}, {
 						header : '미달량',
+						name :'msunam',
 						align : 'center'
 					}],
-				/* 		summary : {
-							height : 40,
-							position : 'bottom',
-							columnContent : {
-								c6 : {
-									template : function(valueMap) {
-										return `TOTAL: ${valueMap.sum}`;
-									}
-								}
-							}
-						} */
 				});
 				grid.hideColumn('msinam')
 				grid.hideColumn('msoutam')
@@ -188,7 +181,35 @@
 					} ]
 
 				})
-				/*-----------------------------------------------*/
+				/*-------------------메인그리드에 목록 보이게 하기----------------------------*/
+				$.ajax({
+					url :'matlistall',
+					method : 'POST',
+					dataType :'JSON',
+					success : function(result){
+						grid.resetData(result)
+						
+							grid.on('click', e=>{
+							var rk = e.rowKey
+							for(i=0; i<grid.getRowCount(); i++) {
+								grid.removeRowClassName(i, 'rowSelect')
+							}
+								grid.addRowClassName(rk, 'rowSelect')
+								})
+								
+							for(i=0; i<grid.getRowCount(); i++) {
+								if(grid.getValue(i,'misafe')-grid.getValue(i,'msciam')>0){
+									grid.setValue(i,'msunam','-'+(grid.getValue(i,'misafe')-grid.getValue(i,'msciam')),false)
+									
+									grid.addRowClassName(i, 'matDanger')
+								}else{
+									grid.setValue(i,'msunam',0,false)
+								}
+							}
+					}
+				})
+				/*row의 총자재량과 안전 재고를 띄우고 미달량 계산해서 표시*/
+				/*==================================================*/
 				var listmo = makeModal("#listmodal", listupdate)
 				$("#searchBtn").on('click', function() {
 					
@@ -242,8 +263,29 @@
 					listmo.dialog('close')
 				}
 				
-				/*-그리드에 그냥 출력하는거 하나 넣어야함----------------------------------------------*/
-				
+				/*----------------------검색했을때 메인그리드에 조회------------------------*/
+				$('#showBtn').on('click',function(){
+					var matCode = $('#rightmat').val();
+					$.ajax({
+						url:'matserchlist',
+						method:'POST',
+						data : {matCode},
+						dataType : 'JSON',
+						success :function(result){
+							grid.resetData(result)
+							for(i=0; i<grid.getRowCount(); i++) {
+								if(grid.getValue(i,'misafe')-grid.getValue(i,'msciam')>0){
+									grid.setValue(i,'msunam','-'+(grid.getValue(i,'misafe')-grid.getValue(i,'msciam')),false)
+									
+									grid.addRowClassName(i, 'matDanger')
+								}else{
+									grid.setValue(i,'msunam',0,false)
+								}
+							}
+							
+						}
+					})
+				})
 			
 
 			})

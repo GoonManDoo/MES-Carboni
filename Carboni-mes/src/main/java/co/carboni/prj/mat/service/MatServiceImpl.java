@@ -89,7 +89,6 @@ public class MatServiceImpl implements MatService {
 		for (MatVO vo : list) {
 			map.addInputList(vo);
 			inList.add(vo);
-			//map.updateInAm(vo);
 		}
 		return inList;
 	}
@@ -107,14 +106,17 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
-	public List<MatVO> insertList(List<MatVO> list) {
-		List<MatVO> inList = new ArrayList<MatVO>();
-		for(MatVO vo: list) {
-			map.insertList(vo);
-			inList.add(vo);
-		}
-		return inList;
+	public List<MatVO> matListAll(MatVO vo) {
+		return map.matListAll(vo);
 	}
+
+	@Override
+	public List<MatVO> matSerchList(String matCode) {
+		return map.matSerchList(matCode);
+	}
+	
+
+
 
 
 	

@@ -177,19 +177,6 @@
 					</div>
 					<div id="companygrid"></div>
 				</div>
-
-				<!-- 		<div id="reqlistmodal" title="자체발주" style="padding: 20px;">
-				<div class="title">
-				<form autocomplete="off" >
-					<span>거래처코드</span> <input type="text" class="input" id="">
-					<span>자재코드</span> <input type="text" class="input" id="">
-					<span>주문수량</span> <input type="text" class="input" id="">
-					
-					<button class="btn btn-secondary" id="">등록</button>
-				</form>
-				<div id="reqlistgirds"></div>
-				</div>
-				</div> -->
 			</div>
 
 			<!-- 그리드 내용 만들기  -->
@@ -473,7 +460,6 @@
 							success : function(result){
 								grid.refreshLayout();
 								grid.appendRows(result)
-								/*grid.resetData(result)*/
 								var date1 =new Date(grid.setValue())
 							}
 						})
