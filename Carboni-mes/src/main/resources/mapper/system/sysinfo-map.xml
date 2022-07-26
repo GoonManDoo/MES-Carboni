@@ -48,6 +48,12 @@
 	WHERE SINUM = #{sinum}
 	</select>
 	
+	<!-- 입고일, 점검주기, 다음점검일 -->
+	<select id="selectMaint" resultType="co.carboni.prj.system.vo.SystemVO">
+		SELECT SIMAINT, SIDATE,(SIDATE+SIMAINT) NEXTDAT
+		FROM SYSMAN
+		WHERE SINUM = #{sinum}
+	</select>
 	
 	
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">

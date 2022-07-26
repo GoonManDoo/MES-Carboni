@@ -31,6 +31,7 @@ public class SystemController {
 		m1.addAttribute("sysStart", service.selectSysStartDie(vo));
 		m1.addAttribute("syscon",service.selectSysCondition(vo));
 		m1.addAttribute("sysLife", service.selectSysLifespan(vo));
+		m1.addAttribute("maint", service.selectMaint(vo));
 		return "system/ProdDetail";
 	}
 	

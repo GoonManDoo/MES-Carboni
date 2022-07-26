@@ -34,15 +34,13 @@ public class SystemVO {
 	private Date sidate;//설비 입고
 	private Date sidie;//설비 가동한계기간
 	private int simaint;//설비 점검주기
-	
+	private String NEXTDAT;//다음 점검일
 	
 	//설비관리
 	private String smnum;//설비관리번호
 	private String smcons;//소모품명
 	
 	
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date smnextdat;//설비 다음 점검일
 	private String smstatus;//설비 가동여부
 	private String sisaftem;//설비 온도관리
 	
