@@ -161,6 +161,13 @@ public class MatController {
 	public void inputdelreq(MatVO vo) {
 		service.inputDelreq(vo);
 	}
+	
+	@RequestMapping("insertlist")
+	@ResponseBody
+	public List<MatVO> insertlist(@RequestBody List<MatVO> list){
+		return service.insertList(list);
+	}
+	
 
 
 }

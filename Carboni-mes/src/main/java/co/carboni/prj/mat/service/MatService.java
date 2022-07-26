@@ -53,6 +53,8 @@ public interface MatService {
 	//입고관리에서 입고된것들 삭제할때 
 	public void inputDelreq(MatVO vo);
 	
+	public List<MatVO> insertList(List<MatVO> list);
+	
 
 
 }
