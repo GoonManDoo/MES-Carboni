@@ -106,6 +106,9 @@ public interface ProdMapper {
 
 			// 공정목록
 			public List<ProcMoniterVO> loadProdLine(ProcMoniterVO vo);
+			
+			// 자재출고 insert, 자재재고 update
+			public void updateMat(ProcMoniterVO vo);
 
 			// 더미테이블 지시번호, 설비번호 등록
 			public void insertSinum(ProcMoniterVO vo);

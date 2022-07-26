@@ -104,6 +104,9 @@ public interface ProdService {
 			// 공정목록
 			public List<ProcMoniterVO> loadProdLine(ProcMoniterVO vo);
 			
+			// 자재출고 insert, 자재재고 update
+			public void updateMat(ProcMoniterVO vo);
+			
 			// 더미테이블 지시번호, 설비번호 입력
 			public void insertSinum(ProcMoniterVO vo);
 			
@@ -115,6 +118,8 @@ public interface ProdService {
 
 			// 생산완료되면 공정진행상세에 insert
 			public void insertProcHeadD(List<ProcMoniterVO> heads);
+
+
 
 
 

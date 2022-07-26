@@ -216,6 +216,12 @@ public class ProdServiceImpl implements ProdService {
 			public List<ProcMoniterVO> loadProdLine(ProcMoniterVO vo) {
 				return mapper.loadProdLine(vo);
 			}
+			
+			// 자재출고 insert, 자재재고 update
+			@Override
+			public void updateMat(ProcMoniterVO vo) {
+				mapper.updateMat(vo);
+			}
 
 			// 더미테이블 지시번호, 설비번호 등록
 			@Override
@@ -243,6 +249,8 @@ public class ProdServiceImpl implements ProdService {
 					mapper.insertProcHeadD(vo);
 				}
 			}
+			
+			
 			
 			
 

@@ -133,7 +133,7 @@ ul.tabs li.current {
 			<!-- 탭 -->
 			<ul class="tabs">
 				<li class="tab-link current" data-tab="tab-1">공정진행관리</li>
-				<li class="tab-link" data-tab="tab-2">공정모니터링</li>
+				<li class="tab-link" data-tab="tab-2" id="moniterTab">공정모니터링</li>
 			</ul>
 
 			<!-- 내용 -->
@@ -581,6 +581,11 @@ ul.tabs li.current {
 				
 				// 버튼 이벤트-----------------------------------------
 				
+				/* 공정모니터링 탭 */
+				$('#moniterTab').on('click', function(){
+					Grid3.refreshLayout();
+				})
+				
 				/* 새자료 */
 				$('#resetBtn').on('click', function () {
 					fnFormClear();
@@ -594,36 +599,20 @@ ul.tabs li.current {
 				}
 				
 				/* 해당 생산지시라인시작 */
-				function insertSinum(i){
+				/*function insertSinum(i){ // 설비번호 insert
 					var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
 					var sinum = headGrid.getValue(i, 'sinum') // 설비번호
 					makeAjaxCall('insertSinum', {pcnum, sinum}, false)
 				}
-				function selectTime(i){
-					
-				}
-				function insertHead(){
-					
-				}
-				var arr = [];
-				$('#start').on('click', function(){
-					if($('#readyPcnum').val() != '') { // 시작버튼에 지시번호가 있을때
-						Promise.all(['insert1', 'select1', 'insert2', 'select2', 'insert3', 'select3'])
-									.then(function(){
-										console.log('공정진행insert')
-									})
-							
-						/* for(let i=0; i<headGrid.getRowCount(); i++) { // 그리드 행 수
-							(function(i){
-								var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
-								var sinum = headGrid.getValue(i, 'sinum') // 설비번호
-								var lineid = headGrid.getValue(i, 'lineid') // 라인이름
-								var pcdam = headGrid.getData()[0].pcdam // 최초 지시량
-								var phderram = Math.floor(pcdam*(Math.random()*0.01)) // 불량량
-								headGrid.setValue(i, 'phdstat', '대기')
-								function loadProdLine(){ // 2번째 ajax
-									timer = setInterval(function(){
-										if(headGrid.getValue(2, 'phdstat') == '완료') {
+				
+				function selectTime(i){ // 시작시간, 종료시간 불러오기
+				var arr = []; // setInterval용 배열
+					var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
+					var sinum = headGrid.getValue(i, 'sinum') // 설비번호
+					var pcdam = headGrid.getData()[0].pcdam // 최초 지시량
+					var phderram = Math.floor(pcdam*(Math.random()*0.01)) // 불량량
+					timer = setInterval(function(){
+										if(headGrid.getValue(i, 'phdstat') == '완료') {
 											for(y=0; y<arr.length; y++) {
 												clearInterval(arr[y])
 											}
@@ -640,28 +629,133 @@ ul.tabs li.current {
 													if(i==0) {
 														headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
 														headGrid.setValue(i, 'phderram', phderram) // 불량량
+														//arr.push(timer)
 													} else {
 														var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
 														var prevRram = Math.floor(prevDam*(Math.random()*0.01))
 														headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
 														headGrid.setValue(i, 'phderram', prevRram)
-														arr.push(timer)
+														//arr.push(timer)
 													}
-													insertProcHead();
 												}
 											})
 										}
-									} , 2000)
-								}
-								makeAjaxCall('insertSinum', {pcnum, sinum}, false, loadProdLine) // 1번째 ajax
-							})(i)
-						} */
+									} , 1000)
+					arr.push(timer)
+				}*/
+				
+				function insertHead(){ // 공정진행, 공정진행상세 insert
+					var pcdnum = headGrid.getValue(0, 'pcdnum')
+					var procHead = headGrid.getData();
+					var promise = $.ajax({ // 공정진행
+					   url: 'insertProcHead',
+					   method: 'POST',
+					   data: {pcdnum}
+					})
+					
+					promise.done(procHeadD);
+					
+					function procHeadD(result) { // 공정상세진행
+					   var phnum = result.phnum
+					   console.log(phnum)
+					   for(i=0; i<headGrid.getRowCount(); i++) {
+					      headGrid.setValue(i, 'phnum', phnum)
+					      headGrid.setValue(i, 'phdnum', phnum+'-'+(i+1))
+					   }
+					   $.ajax({
+					      url: 'insertProcHeadD',
+					      method: 'POST',
+					      data: JSON.stringify(procHead),
+					      contentType:'application/json',
+					      success: function(){
+					         swal('성공', '생산이 완료되었습니다.', 'success')
+					      }
+					   })
+					}
+				}
+				var stop = []; // 종료버튼 interval stop 배열
+				$('#start').on('click', function(){
+					if($('#readyPcnum').val() != '') { // 시작버튼에 지시번호가 있을때
+						/*var pcnum = headGrid.getValue(1, 'pcnum') // 지시번호
+						makeAjaxCall('updateMat', {pcnum}, false, function(){
+							Promise.all([insertSinum(0), selectTime(0), insertSinum(1), selectTime(1), insertSinum(2), selectTime(2)])
+										.then(function(){
+											console.log('공정진행insert')
+											//insertHead()
+										})
+						})*/
+						var pcnum = headGrid.getValue(1, 'pcnum') // 지시번호
+						makeAjaxCall('updateMat', {pcnum}, false, function(){
+								for(let i=0; i<headGrid.getRowCount(); i++) { // 그리드 행 수
+								(function(i){
+									var arr = []; // setInterval용 배열
+									var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
+									var sinum = headGrid.getValue(i, 'sinum') // 설비번호
+									var lineid = headGrid.getValue(i, 'lineid') // 라인이름
+									var pcdam = headGrid.getData()[0].pcdam // 최초 지시량
+									var phderram = Math.floor(pcdam*(Math.random()*0.01)) // 불량량
+									headGrid.setValue(i, 'phdstat', '대기')
+									function loadProdLine(){ // 2번째 ajax
+										var timer = setInterval(function(){ // setInterval 시작
+											console.log(i, timer);
+											if(headGrid.getValue(i, 'phdstat') == '완료') {
+												arr.push(timer);
+												stop.push(timer);
+												for(y=0; y<arr.length; y++) {
+													clearInterval(arr[y])
+												}
+												arr = [];
+												
+												if(i==2) {
+													console.log(i, timer, 'setInterval 끝');
+													setTimeout(insertHead(), 3000);
+												}
+											} else {
+												makeAjaxCall('loadTime', {pcnum, sinum}, false, function(result) {
+													if(result.phdstime != null && result.phdetime == null) { // 시작시간만
+														headGrid.setValue(i, 'phdstime', result.phdstime)
+														headGrid.setValue(i, 'phdstat', '가동')
+														arr.push(timer)
+														stop.push(timer);
+													} else if(result.phdstime != null) { // 종료시간 찍혔을때
+														headGrid.setValue(i, 'phdstime', result.phdstime)
+														headGrid.setValue(i, 'phdetime', result.phdetime)
+														headGrid.setValue(i, 'phdstat', '완료')
+														if(i==0) {
+															headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
+															headGrid.setValue(i, 'phderram', phderram) // 불량량
+															arr.push(timer)
+															stop.push(timer);
+														} else {
+															var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
+															var prevRram = Math.floor(prevDam*(Math.random()*0.01))
+															headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
+															headGrid.setValue(i, 'phderram', prevRram)
+															arr.push(timer)
+															stop.push(timer);
+														}
+													}
+												})
+											}
+										} , 2000)
+										arr.push(timer)
+										stop.push(timer);
+									}
+									makeAjaxCall('insertSinum', {pcnum, sinum}, false, loadProdLine) // 1번째 ajax
+								})(i)
+							}
+						})
 					} else {
 						swal('선택된 생산지시가 없습니다.', '', 'warning')
 					}
 				})
 				
-				
+				$('#end').on('click', function(){
+					for(i=0; i<stop.length; i++) {
+						clearInterval(stop[i])
+					}
+					stop = [];
+				})
 				
 				// 버튼 이벤트 끝---------------------------------------
 				
