@@ -26,8 +26,11 @@ public class SystemController {
 	
 	//설비 자세히 보기
 	@RequestMapping("/ProdDetail.do")
-	public String ProdDetail(SystemVO vo, Model model) {
-		model.addAttribute("detail", service.selectSysDetAll(vo));
+	public String ProdDetail(SystemVO vo, Model m1) {
+		m1.addAttribute("detail", service.selectSysDetAll(vo));
+		m1.addAttribute("sysStart", service.selectSysStartDie(vo));
+		m1.addAttribute("syscon",service.selectSysCondition(vo));
+		m1.addAttribute("sysLife", service.selectSysLifespan(vo));
 		return "system/ProdDetail";
 	}
 	

@@ -15,6 +15,12 @@ public interface SysinfoService {
 	//공정정보 조회
 	List<SystemVO> selectPicoid();
 	
+	List<SystemVO> selectSysLifespan(SystemVO vo);
+	
+	List<SystemVO> selectSysCondition(SystemVO vo);
+	
+	List<SystemVO> selectSysStartDie(SystemVO vo);
+	
 	//설비 정보 등록
 	int systemInsert(SystemVO vo);
 	
