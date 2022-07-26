@@ -10,7 +10,7 @@ public interface SalesService {
 
 	
 	//생산관리 > 불량내역조회
-	//public List<SalesVO> findProdErrList(String startDtS, String endDtE, String errOpList);
+	public List<SalesVO> findProdErrList(String startDtS, String endDtE, String errOpList);
 	
 	//수주관리
 	

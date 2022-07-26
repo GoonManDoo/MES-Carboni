@@ -52,7 +52,7 @@
 			<div class="card mb-2">
 				<div class="card-body">
 					<!-- 입력폼 -->
-					<form autocomplete="off">
+					<form autocomplete="off" id="dataForm">
 						<div class="container-fluid">
 							<!-- 계획일자, 생산계획명, 특이사항 -->
 							<div class="item col-6">
@@ -84,9 +84,9 @@
 											<th>불량상태</th>
 											<td>
 												<select name = "errOp" style="width:100px; height:28px; display: inline-block;">
-													<option value="equipError">설비불량</option>
-													<option value="matError">자재불량</option>
-													<option value="prodError">제품불량</option>
+													<option value="66">설비불량</option>
+													<option value="64">자재불량</option>
+													<option value="65">제품불량</option>
 												</select>
 											</td>
 										</tr>
@@ -105,7 +105,7 @@
 					<div style="display: flex; justify-content: flex-end;">
 						<button id="insertBtn" type="button" class="btn btn-secondary"
 							style="margin-right: 5px;">조회</button>
-						<button id="clearBtn" type="button" class="btn btn-secondary"
+						<button id="resetBtn" type="button" class="btn btn-secondary"
 							style="margin-right: 5px;">새자료</button>
 					</div>
 				</div>
@@ -136,30 +136,37 @@
 				data : totalPlan,
 				scrollX : false,
 				columns : [ {
-					header: '작업번호',
+					header: '불량내역번호',
+					name : 'genum',
 					align: 'center'
 				}, {
 					header : '공정코드',
+					name : 'picodeid',
 					align : 'center'
 				}, {
 					header : '제품명',
+					name : 'giname',
 					align : 'center'
 				}, {
 					header : '불량코드',
+					name : 'ccodeid',
 					align : 'center'
 				}, {
 					header : '불량명',
+					name : 'cexplaind',
 					align : 'center'
 				}, {
 					header : '불량내역',
+					name : 'gedetail',
 					align : 'center'
 				}, {
 					header : '불량일자',
+					name : 'gedate',
 					align : 'center'
 				} ]
 			});
 			
-		
+			
 			// 달력-----------------------------------------
 			/* 작업일자 */
 			var today = new Date();
@@ -174,19 +181,28 @@
 					input : '#procDtE',
 					container : '#procDtE-wapper'
 				},
-				selectableRanges : [ [
-						today,
-						new Date(today.getFullYear() + 1, today.getMonth(),
-								today.getDate()) ] ],
 				language : 'ko'
 			});
 			// 달력 끝---------------------------------------
+			
+			/* 새자료 - 초기화버튼 */
+			$('#resetBtn').on('click', function() {
+				fnFormClear();
+			})
+			
+			function fnFormClear() {
+				document.getElementById('dataForm').reset();
+				picker.setStartDate(new Date());
+				picker.setEndDate(new Date());
+				pdGrid.resetData(totalPlan);
+			}
 			
 			/* 조회 버튼 */
 			$('#insertBtn').on('click', function() {
 				var startDtS = $('#procDtS').val()
 				var endDtE = $('#procDtE').val()
 				var errOpList = $("select[name=errOp] option:selected").val()
+				
 				
 				$.ajax({
 					url : 'prodErrList',
@@ -195,6 +211,7 @@
 					success: function(result) {
 						pdGrid.refreshLayout();
 						pdGrid.resetData(result)
+
 					}
 				})
 				

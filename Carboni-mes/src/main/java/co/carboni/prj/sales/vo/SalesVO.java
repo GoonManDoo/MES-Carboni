@@ -12,6 +12,20 @@ import lombok.Data;
 @Data
 public class SalesVO {
 
+	//제품불량내역
+	public String genum;     //불량내역번호
+	public String phdnum;    //작업상세번호
+	public String ccodeid;   //코드ID
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	public Date gedate;      //불량일자
+	public String gedetail;  //불량내역
+	public int gegdam;       //불량량
+	public String gestatus;  //여부
+	public String picodeid;  //공정코드
+	public String cexplaind; //불량명
+	//public String gicode;    //제품코드
+	//public String giname;    //제품명
+	
 	//수주관리
 	public String cnnum;    //수주번호
 	public int cnam;        //수주수량

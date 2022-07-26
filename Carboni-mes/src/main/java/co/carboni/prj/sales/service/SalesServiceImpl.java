@@ -200,10 +200,10 @@ public class SalesServiceImpl implements SalesService {
 			}
 
 			//생산관리 > 불량내역조회
-			/*
-			 * @Override public List<SalesVO> findProdErrList(String startDtS, String
-			 * endDtE, String errOpList) { return mapper.findProdErrList(vo); }
-			 */
+			 @Override public List<SalesVO> findProdErrList(String startDtS, String endDtE, String errOpList) { 
+				 return mapper.findProdErrList(startDtS, endDtE, errOpList); 
+				 }
+			 
 			
 			
 			

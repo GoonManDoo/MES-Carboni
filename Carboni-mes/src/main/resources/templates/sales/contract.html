@@ -88,9 +88,12 @@ span {
 				<div style="display: flex; justify-content: flex-end;">
 					<button type="button" id="searchBtn" class="btn btn-secondary" style="margin-right: 5px;">조회</button>
 					<button type="button" id="removeBtn" class="btn btn-secondary" style="margin-right: 5px;">삭제</button>
+					<button type="button" id="clearBtn" class="btn btn-secondary" style="margin-right: 5px;">새자료</button>
 				</div>
 			</div>
 
+			<!-- 입력폼 -->
+			<form autocomplete="off" id="dataForm">
 			<!-- 메인화면 검색 -->
 			<div class="card mb-4" id="pageing">
 				<div class="card-body">
@@ -105,7 +108,7 @@ span {
 					</span>
 				</div>
 			</div>
-			
+			</form>
 			<!-- 메인화면 그리드 -->
 			<div class="container-fluid px-4">
 				<div class="card mb-4">
@@ -168,175 +171,6 @@ span {
 			
 			$(function() {
 			
-			/* 수주일자 조회 */
-			$('#searchBtn').on('click', function(){
-				var startDt = $('#startCndate').val()
-				var endDt = $('#endCndate').val()
-				var cusCode = $('#leftinput1').val()
-				var goodsCode = $('#rightinput1').val()
-				  if($('#startCndate').val()== '' || $('#endCndate').val()== '' || $('#leftinput').val()== '' || $('#rightinput').val() == '') {
-					  swal('다시 입력하세요!', "입력되지 않은 수주정보가 있습니다!", 'warning')
-				} 
-				$.ajax({
-					url: 'cndateList',
-					method: 'POST',
-					data : {startDt, endDt, cusCode, goodsCode},
-					success: function(result) {
-						grid.refreshLayout();
-						grid.resetData(result)
-					}
-				})
-			})
-			
-			/* 수주삭제 버튼 */
-			$('#removeBtn').on('click', function() {
-				delGrid = grid.getCheckedRows()
-				var cnList = delGrid.map((e) => {return e.cnnum})
-				console.log(cnList)
-				$.ajax({
-					url: 'delCnList',
-					method: 'POST',
-					data: {cnList},
-					success: function(){
-						grid.removeCheckedRows('')
-						swal("삭제 성공!!", "선택한 수주내역이 삭제되었습니다.", "success");
-					}
-					
-				})
-				
-			})
-				
-				/*메이크 모달*/
-				function makeModal(e, fnc) {
-					var dialog = $(e).dialog({
-						autoOpen : false,
-						height : 742,
-						width : 700,
-						modal : true,
-						buttons : {
-							'확인' : fnc,
-							'취소' : function() {
-								$(this).dialog('close')
-							}
-						}
-					});
-					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
-					$('.ui-dialog-titlebar-close').html('X').css('border','none')
-					return dialog;
-				}
-
-				var modal1 = makeModal("#contractModal", check)
-					modal1 = makeModal("#contractModal", check1)
-				var modal2 = makeModal("#prodNameModal", giup)
-				    modal2 = makeModal("#prodNameModal", giup1)
-
-				/*거래처정보모달*/
-				$("#leftinput").on("click", function() {
-					$("#contractModal").css('display', '')
-					modal1.dialog('open')
-					//전체거래처 바로 띄우는 ajax 호출 
-					$.ajax({
-						url:'allCostomerList',
-						method: 'POST',
-						success: function(result) {
-							gurae.refreshLayout();
-							gurae.resetData(result)
-							gurae.on('click', e => {
-								var rk = e.rowKey
-								csn = gurae.getRow(rk).csname
-								csc = gurae.getRow(rk).cscode
-							})
-							
-						}
-					})
-				})
-				/* 거래처명 검색 이벤트 */
-				$('#cssearchBtn').on('click', function() {
-					var csname = $('#csinput').val()
-					$.ajax({
-						url:'costomerList',
-						method: 'POST',
-						data : {csname},
-						success: function(result) {
-							gurae.resetData(result)
-							gurae.on('click', e => {
-							var rk = e.rowKey
-							csn1 = gurae.getRow(rk).csname
-							csc1 = gurae.getRow(rk).cscode
-						})
-						}
-					})
-				})
-				/*거래처명 검색조회 모달 확인버튼 눌렀을떄 */
-				function check() {
-					$('#leftinput').val(csn1)
-					$('#leftinput1').val(csc1)
-					modal1.dialog('close')
-				}
-				
-				/*거래처명 전체조회 모달 확인버튼 눌렀을떄 */
-				function check1() {
-					$('#leftinput').val(csn)
-					$('#leftinput1').val(csc)
-					modal1.dialog('close')
-				}
-				
-
-				
-
-				/* 제품정보 모달 */
-				$("#rightinput").on("click", function() {
-					$("#prodNameModal").css('display', '')
-					modal2.dialog('open')
-					//전체제품 바로 띄우는 ajax 호출
-					$.ajax({
-						url:'allGoodsList',
-						method: 'POST',
-						success: function(result) {
-							jepoom.refreshLayout();
-							jepoom.resetData(result)
-							jepoom.on('click', e => {
-								var rok = e.rowKey
-								gin = jepoom.getRow(rok).giname
-								gic = jepoom.getRow(rok).gicode
-							})
-						}
-					})
-				})
-				
-				/* 제품정보 모달 검색 이벤트 */
-				$('#gisearchBtn').on('click', function() {
-					var giname = $('#giinput').val()
-					$.ajax({
-						url:'goodsList',
-						method: 'POST',
-						data : {giname},
-						success: function(result) {
-							jepoom.resetData(result)
-							jepoom.on('click', e => {
-							var rok = e.rowKey
-							gin1 = jepoom.getRow(rok).giname
-							gic1 = jepoom.getRow(rok).gicode
-							})
-						}
-					})
-				})
-				
-				/*제품정보 검색조회 모달 확인버튼 눌렀을떄 */
-				function giup() {
-					$('#rightinput').val(gin1)
-					$('#rightinput1').val(gic1)
-					modal2.dialog('close')
-				}
-				
-				/*제품정보 전체조회 모달 확인버튼 눌렀을떄 */
-				function giup1() {
-					$('#rightinput').val(gin)
-					$('#rightinput1').val(gic)
-					modal2.dialog('close')
-				}
-
-				
 				/* 수주 그리드 시작 */
 				const gridData = [];
 	
@@ -468,6 +302,197 @@ span {
 						sortable : true
 					} ]
 				});
+				
+				
+			/* 수주일자 조회 */
+			$('#searchBtn').on('click', function(){
+				var startDt = $('#startCndate').val()
+				var endDt = $('#endCndate').val()
+				var cusCode = $('#leftinput1').val()
+				var goodsCode = $('#rightinput1').val()
+				  if($('#startCndate').val()== '' || $('#endCndate').val()== '' || $('#leftinput').val()== '' || $('#rightinput').val() == '') {
+					  swal('다시 입력하세요!', "입력되지 않은 수주정보가 있습니다!", 'warning')
+				} 
+				$.ajax({
+					url: 'cndateList',
+					method: 'POST',
+					data : {startDt, endDt, cusCode, goodsCode},
+					success: function(result) {
+						grid.refreshLayout();
+						grid.resetData(result)
+					}
+				})
+			})
+			
+			/* 수주삭제 버튼 */
+			$('#removeBtn').on('click', function() {
+				delGrid = grid.getCheckedRows()
+				var cnList = delGrid.map((e) => {return e.cnnum})
+				console.log(cnList)
+				$.ajax({
+					url: 'delCnList',
+					method: 'POST',
+					data: {cnList},
+					success: function(){
+						grid.removeCheckedRows('')
+						swal("삭제 성공!!", "선택한 수주내역이 삭제되었습니다.", "success");
+					}
+					
+				})
+				
+			})
+			
+			/* 새자료 - 초기화버튼 */
+			$('#clearBtn').on('click', function() {
+				fnFormClear();
+			})
+			
+			function fnFormClear() {
+				document.getElementById('dataForm').reset();
+				grid.resetData(gridData);
+				gurae.resetData(totaldata);
+				jepoom.resetData(giupdata);
+			}
+				
+				/*메이크 모달*/
+				function makeModal(e, fnc) {
+					var dialog = $(e).dialog({
+						autoOpen : false,
+						height : 742,
+						width : 700,
+						modal : true,
+						buttons : {
+							'확인' : fnc,
+							'취소' : function() {
+								grid.resetData(gridData);
+								gurae.resetData(totaldata);
+								jepoom.resetData(giupdata);
+								$(this).dialog('close')
+							}
+						}
+					});
+					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
+					$('.ui-dialog-titlebar-close').html('X').css('border','none')
+					grid.resetData(gridData);
+					gurae.resetData(totaldata);
+					jepoom.resetData(giupdata);
+					return dialog;
+				}
+
+				var modal1 = makeModal("#contractModal", check)
+					modal1 = makeModal("#contractModal", check1)
+				var modal2 = makeModal("#prodNameModal", giup)
+				    modal2 = makeModal("#prodNameModal", giup1)
+
+				/*거래처정보모달*/
+				$("#leftinput").on("click", function() {
+					$("#contractModal").css('display', '')
+					modal1.dialog('open')
+					//전체거래처 바로 띄우는 ajax 호출 
+					$.ajax({
+						url:'allCostomerList',
+						method: 'POST',
+						success: function(result) {
+							gurae.refreshLayout();
+							gurae.resetData(result)
+							gurae.on('click', e => {
+								var rk = e.rowKey
+								csn = gurae.getRow(rk).csname
+								csc = gurae.getRow(rk).cscode
+							})
+							
+						}
+					})
+				})
+				
+				/* 거래처명 검색 이벤트 */
+				$('#cssearchBtn').on('click', function() {
+					var csname = $('#csinput').val()
+					$.ajax({
+						url:'costomerList',
+						method: 'POST',
+						data : {csname},
+						success: function(result) {
+							gurae.resetData(result)
+							gurae.on('click', e => {
+							var rk = e.rowKey
+							csn1 = gurae.getRow(rk).csname
+							csc1 = gurae.getRow(rk).cscode
+						})
+						}
+					})
+				})
+				/*거래처명 검색조회 모달 확인버튼 눌렀을떄 */
+				function check() {
+					$('#leftinput').val(csn1)
+					$('#leftinput1').val(csc1)
+					modal1.dialog('close')
+				}
+				
+				/*거래처명 전체조회 모달 확인버튼 눌렀을떄 */
+				function check1() {
+					$('#leftinput').val(csn)
+					$('#leftinput1').val(csc)
+					modal1.dialog('close')
+				}
+				
+
+				
+
+				/* 제품정보 모달 */
+				$("#rightinput").on("click", function() {
+					$("#prodNameModal").css('display', '')
+					modal2.dialog('open')
+					//전체제품 바로 띄우는 ajax 호출
+					$.ajax({
+						url:'allGoodsList',
+						method: 'POST',
+						success: function(result) {
+							jepoom.refreshLayout();
+							jepoom.resetData(result)
+							jepoom.on('click', e => {
+								var rok = e.rowKey
+								gin = jepoom.getRow(rok).giname
+								gic = jepoom.getRow(rok).gicode
+							})
+						}
+					})
+				})
+				
+				/* 제품정보 모달 검색 이벤트 */
+				$('#gisearchBtn').on('click', function() {
+					var giname = $('#giinput').val()
+					$.ajax({
+						url:'goodsList',
+						method: 'POST',
+						data : {giname},
+						success: function(result) {
+							jepoom.resetData(result)
+							jepoom.on('click', e => {
+							var rok = e.rowKey
+							gin1 = jepoom.getRow(rok).giname
+							gic1 = jepoom.getRow(rok).gicode
+							})
+						}
+					})
+				})
+				
+				/*제품정보 검색조회 모달 확인버튼 눌렀을떄 */
+				function giup() {
+					$('#rightinput').val(gin1)
+					$('#rightinput1').val(gic1)
+					modal2.dialog('close')
+				}
+				
+				/*제품정보 전체조회 모달 확인버튼 눌렀을떄 */
+				function giup1() {
+					$('#rightinput').val(gin)
+					$('#rightinput1').val(gic)
+					modal2.dialog('close')
+				}
+
+				
+			
 			})
 				
 		</script>

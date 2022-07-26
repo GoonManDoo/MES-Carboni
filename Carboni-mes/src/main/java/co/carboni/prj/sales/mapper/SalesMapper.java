@@ -115,5 +115,8 @@ public interface SalesMapper {
 		
 		//배송관리 > 배송등록
 		public void deliverInsert(SalesVO vo);
+		
+		//생산관리 > 불량내역조회
+		public List<SalesVO> findProdErrList(@Param("startDtS") String startDtS, @Param("endDtE") String endDtE, @Param("errOpList") String errOpList);
 	
 }
