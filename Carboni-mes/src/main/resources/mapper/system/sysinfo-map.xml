@@ -44,25 +44,26 @@
 	
 	<!-- 전체 남은 수명중 현재 진행중 수명 -->
 	<select id="selectSysLifespan" resultType="co.carboni.prj.system.vo.SystemVO">
-	SELECT SIDATE, TRUNC(SIDIE-SIDATE),TRUNC(100-((SIDIE-SYSDATE)/(SIDIE-SIDATE)*100), 3), SIDIE, TRUNC(SIDIE-SYSDATE) FROM SYSMAN
+	SELECT SIDATE, TRUNC(SIDIE-SIDATE) ALLDATE ,TRUNC(100-((SIDIE-SYSDATE)/(SIDIE-SIDATE)*100), 5)||'%' NOWPERCENT , SIDIE, TRUNC(SIDIE-SYSDATE) LEFTENDDAT 
+	FROM SYSMAN
 	WHERE SINUM = #{sinum}
 	</select>
 	
 	<!-- 입고일, 점검주기, 다음점검일 -->
 	<select id="selectMaint" resultType="co.carboni.prj.system.vo.SystemVO">
-		SELECT SIMAINT, SIDATE,(SIDATE+SIMAINT) NEXTDAT
-		FROM SYSMAN
-		WHERE SINUM = #{sinum}
+	SELECT SIMAINT, SIDATE, TO_DATE(SIDATE+SIMAINT) NEXTDAT, TRUNC((100/((SIDATE+SIMAINT)-SYSDATE)), 5)||'%' NOWPERCENT2
+	FROM SYSMAN
+	WHERE SINUM = #{sinum}
 	</select>
 	
 	
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
 		INSERT INTO SYSINFO
-			VALUES(SYSTEM_SINUM_SEQ.NEXTVAL, #{picodeid}, #{siname}, #{sisaftem})
+			VALUES('SS-'||SYSTEM_SINUM_SEQ.NEXTVAL, #{smnum}, #{smname}, #{sisaftem}||'ºC')
 	</insert>
 	<insert id="sysmanInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
-		INSERT INTO SYSMAN
-		VALUES(SYSTEM_SINUM_SEQ.CURRVAL, SYSTEM_SINUM_SEQ.CURRVAL, DEFAULT, SYSDATE, #{simaint}, SYSDATE, DEFAULT, '')
+	INSERT INTO SYSMAN
+            VALUES('SS-'||SYSTEM_SMNUM_SEQ.CURRVAL, 'SS-'||SYSTEM_SINUM_SEQ.CURRVAL, DEFAULT, SYSDATE, #{simaint}, SYSDATE, DEFAULT, ' ')
 	</insert>
 	<update id="systemUpdate" parameterType="co.carboni.prj.system.vo.SystemVO">
 		UPDATE SYSINFO

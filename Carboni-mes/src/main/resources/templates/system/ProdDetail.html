@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{layouts/layout}">
 <head>
 <meta charset="UTF-8">
 <title>설비 자세히 보기</title>
@@ -23,80 +23,81 @@
 </style>
 
 <body>
-	<th:block layout:fragment="main">
-	
-	
-	<div class="container py-4" style="display: flex;flex-wrap: wrap;align-content: space-around;justify-content: space-around;">
-		 <div th:each="AVD:${detail}"  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
-		                  <div style="width: 33rem; height: 300px; margin-bottom: 20px;">
-		                     <div class="card bg-white" style="width: 33rem; height: 260px;">
-		                        <div class="card-body"></div>
-		                     </div>
-		                    	 <button style="width: 50px; height: 25px; margin-left: 463px; margin-top: 12px; border: none; background-color: white;">버튼</button>
-		                 	 </div>
-		                  <div class="card bg-white"style="width: 42rem; height: 300px; margin-bottom: 20px;">
-		                     <div class="card-body" style="display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;">
-		                        
-		                        
-		                        <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="LD:${sysStart}">
-		                           <!-- progress1  -->
-		                           <h4>가동일</h4>
-		                           <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
-		                               <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar"></div>
-		                           </div>
-			                           <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${LD.sidate}">asdf</p>
-			                           <p style="display: block; float: right; font-size: 13px; margin-right: 13px;"  th:text="${LD.sidie}">asdf</p>
-		                        </div>
-		                        
-		                        
-		                        <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="MANT:${maint}">
-		                           <!-- progress1  -->
-		                           <h4>정기점검</h4>
-		                           <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;" >
-		                             	<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar2"></div>
-		                           </div>
-			                            <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${MANT.sidate}">asdf</p>
-			                            <p style="display: block; float: right; font-size: 13px; margin-right: 13px;" th:text="${MANT.NEXTDAT}">asdf</p>
-		                        </div>
-		                        
-		                        
-		                     </div>
-		                  </div>
-		
-		                  <div class="card bg-white" style="width: 33rem; height: 300px;">
-		                     <!--3번 공정순서  -->
-		                     <div class="card-body">
-		                        <div
-		                           style="width: 318px; display: block; height: 40px; margin-left: 3px; position: inherit;">
-		                           <h4 style="display: block; border-left: 2px solid gray;">현재 공정정보</h4>
-		                        </div>
-		                        <form >
-		                          <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pione}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pitwo}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pithree}"  disabled readonly><br>
-	                           <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pifour}"  disabled readonly>
-		                        </form>
-		                     </div>
-		                  </div>
-		                  <div style="width: 42rem; height: 300px; margin-bottom: 35px;">
-		                     <div class="card bg-white" style="width: 42rem; height: 300px;">
-		                        <div class="card-body"></div>
-		                     </div>
-		                     <button data-bs-toggle="modal" href="#deleteSystem" role="button" style="width: 50px; height: 25px; margin-left: 613px; margin-top: 12px; border: none; background-color: white;">버튼</button>
-		                  </div>
-		               </div>
-		               
-		               
-	</div>
-  <!--======================================================================================================================================================--> 	
+   <th:block layout:fragment="main">
+   
+   
+   <div class="container py-4" style="display: flex;flex-wrap: wrap;align-content: space-around;justify-content: space-around;">
+       <div th:each="AVD:${detail}"  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
+                  
+                        <div style="width: 33rem; height: 300px; margin-bottom: 20px;">
+                           <div class="card bg-white" style="width: 33rem; height: 260px;">
+                              <div class="card-body">헤으응</div>
+                           </div>
+                              <button style="width: 50px; height: 25px; margin-left: 463px; margin-top: 12px; border: none; background-color: white;">버튼</button>
+                           </div>
+                           
+                        <div class="card bg-white"style="width: 42rem; height: 300px; margin-bottom: 20px;" th:each="SL:${sysLife}">
+                           <div class="card-body" style="display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;">
+                           
+                              <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="LD:${sysStart}">
+                                 <!-- progress1  -->
+                                 <h4>가동일</h4>
+                                 <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
+                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar" th:style="'width:' + ${SL.leftdate} + '%;'"></div>
+                                 </div>
+                                    <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${LD.sidate}">asdf</p>
+                                    <p style="display: block; float: right; font-size: 13px; margin-right: 13px;"  th:text="${LD.sidie}">asdf</p>
+                              </div>
+                              
+                              
+                              <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="MANT:${maint}">
+                                 <!-- progress2  -->
+                                 <h4>정기점검</h4>
+                                 <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;" >
+                                      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar2"></div>
+                                 </div>
+                                     <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${MANT.sidate}">asdf</p>
+                                     <p style="display: block;float: right; width: 76px; height: 18px; overflow: hidden; font-size: 13px; margin-right: 4px;" th:text="${MANT.NEXTDAT}">asdf</p>
+                             </div>
+                           
+                           </div>
+                        </div>
+                        
+                        
+                        <div class="card bg-white" style="width: 33rem; height: 300px;">
+                           <!--3번 공정순서  -->
+                           <div class="card-body">
+                              <div
+                                 style="width: 318px; display: block; height: 40px; margin-left: 3px; position: inherit;">
+                                 <h4 style="display: block; border-left: 2px solid gray;">현재 공정정보</h4>
+                              </div>
+                              <form >
+                                <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pione}"  disabled readonly><br>
+                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pitwo}"  disabled readonly><br>
+                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pithree}"  disabled readonly><br>
+                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pifour}"  disabled readonly>
+                              </form>
+                           </div>
+                        </div>
+                        <div style="width: 42rem; height: 300px; margin-bottom: 35px;">
+                           <div class="card bg-white" style="width: 42rem; height: 300px;">
+                              <div class="card-body"></div>
+                           </div>
+                           <button data-bs-toggle="modal" href="#deleteSystem" role="button" style="width: 50px; height: 25px; margin-left: 613px; margin-top: 12px; border: none; background-color: white;">버튼</button>
+                        </div>
+                     </div>
+                     
+                     
+   </div>
+  <!--======================================================================================================================================================-->    
   <!--======================================================================================================================================================--> 
-	     <div class="modal fade" id="deleteSystem" aria-hidden="true" >
+        <div class="modal fade" id="deleteSystem" aria-hidden="true" >
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-body">
-                   	<div>
-                   	 <img alt="삭제" src="/assets/img/SiDelete.svg" style="width: 470px;">
-                   	</div>
+                      <div>
+                       <img alt="삭제" src="/assets/img/SiDelete.svg" style="width: 470px;">
+                      </div>
                   </div>
                   <div class="modal-footer" style="border: none; margin-top: -84px;">
                     <button class="btn btn-primary" data-bs-target="#deletingSystem" data-bs-toggle="modal" style="z-index: 100;" onclick="deletingNow()">삭제</button>
@@ -109,19 +110,19 @@
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" style="width: fit-content;">
                   <div class="modal-body">
-					<div>
-					
-                   	 <img alt="삭제진행중" src="/assets/img/SiDeleting.svg">
-                   	 <div th:each="AVD:${detail}" class="Yudahui" style="display: flex; position: absolute; top: 217px; color: #eb4141; left: 230px;">
-		                <p>삭제까지</p><p class="number" style="margin-left: 7px; margin-right: 5px; margin-top: 0px;">10</p><p>초 남았습니다</p>
-		                <form id="dieform" name="dieform">
-		                	<input type="hidden" name="sinum" th:value="${AVD.sinum}">	
-		                </form>	
-		             </div>
-		             <button class="btn btn-danger" style=" z-index: 100; margin-left: 273px; margin-top: -90px;" onclick="RUUUUN()">취소</button>
-		             
-		             
-                   	</div>
+               <div>
+               
+                       <img alt="삭제진행중" src="/assets/img/SiDeleting.svg">
+                       <div th:each="AVD:${detail}" class="Yudahui" style="display: flex; position: absolute; top: 217px; color: #eb4141; left: 230px;">
+                      <p>삭제까지</p><p class="number" style="margin-left: 7px; margin-right: 5px; margin-top: 0px;">10</p><p>초 남았습니다</p>
+                      <form id="dieform" name="dieform">
+                         <input type="hidden" name="sinum" th:value="${AVD.sinum}">   
+                      </form>   
+                   </div>
+                   <button class="btn btn-danger" style=" z-index: 100; margin-left: 273px; margin-top: -90px;" onclick="RUUUUN()">취소</button>
+                   
+                   
+                      </div>
                   </div>
                 </div>
               </div>
@@ -131,75 +132,43 @@
             <!--==========================================================================================================================================-->
             
             <script>
-            var i = 0;
-			
-				  if (i == 0) {
-				    i = 1;
-				    var elem = document.getElementById("myBar");
-				    var width = 0;
-				    function frame() {
-				      if (width >= 100) {
-				        clearInterval(id);
-				        i = 0;
-				      } else {
-				        width++;
-				        elem.style.width = width + "%";
-				        elem.innerHTML = width  + "%";
-				      }
-				    }
-				  }
-				    
-				  
-				  if (i == 0) {
-				    i = 1;
-				    var elem = document.getElementById("myBar2");
-				    var width = 0;
-				    var id = setInterval(frame, 700);
-				    function frame() {
-				      if (width >= 100) {
-				        clearInterval(id);
-				        i = 0;
-				      } else {
-				        width++;
-				        elem.style.width = width + "%";
-				        elem.innerHTML = width  + "%";
-				      }
-				    }
-				  }
-
-			function RUUUUN(){
-				location.href="/productSysMain"
-			}
+          
+          
+          
+          
+         function RUUUUN(){
+            location.href="/productSysMain"
+         }
             
-		function deletingNow() {
-  			var count = 10;
+      function deletingNow() {
+           var count = 10;
 
-			  counterFn();
-			
-			  function counterFn() {
-			
-			    id0 = setInterval(count0Fn, 1000);
-			
-			    function count0Fn() {
-			      count--;
-			      if (count < 0) {
-			       console.log('adad')
-					     document.dieform.action="deleted"
-					    document.dieform.submit();
-			        //그 씨부럴 뭐더라 그 설비삭제 하는 코-오드
-			     
-			      } else {
-			        $(".number").text(count);
-			      }
-			    }
-			  }
-			};
+           counterFn();
+         
+           function counterFn() {
+         
+             id0 = setInterval(count0Fn, 1000);
+         
+             function count0Fn() {
+               count--;
+               if (count < 0) {
+                console.log('adad')
+                    document.dieform.action="deleted"
+                   document.dieform.submit();
+                 //그 씨부럴 뭐더라 그 설비삭제 하는 코-오드
+              
+               } else {
+                 $(".number").text(count);
+               }
+             }
+           }
+         };
 
             </script>
             
             
             
             
-	</th:block>
+   </th:block>
 </body>
 </html>
