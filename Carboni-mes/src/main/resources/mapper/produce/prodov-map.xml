@@ -11,4 +11,12 @@
 	<select id="plancal" resultType="co.carboni.prj.produce.vo.PrododVO">
 		SELECT PCDNUM, PCDSDATE, PCDEDATE FROM PROCCOMM_D
 	</select>
+	
+	<select id="formon" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
+		SELECT C.PCDNUM, G.GINAME, P.PICODEID, H.SINUM, H.PHDSTAT, C.PCDAM, H.PHDMKAM, H.PHDERRAM
+		FROM PROCHEAD_D H JOIN PROCHEAD J ON H.PHNUM = J.PHNUM
+        		          JOIN PROCCOMM_D C ON J.PCDNUM = C.PCDNUM
+        		          JOIN PROCINFO P ON H.PICODEID = P.PICODEID
+        		          JOIN GOODSINFO G ON G.GICODE = C.GICODE
+	</select>
 </mapper>

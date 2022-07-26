@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.carboni.prj.produce.service.Prodovservice;
+import co.carboni.prj.produce.vo.ProcMoniterVO;
 import co.carboni.prj.produce.vo.PrododVO;
 
 @Controller
@@ -35,6 +36,13 @@ public class CalController {
 			jsonArr.add(jsonObj);
 		}
 		return jsonArr;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/formon")
+	List<ProcMoniterVO> formon(){
+		List<ProcMoniterVO> formon = prodovDAO.formon();
+		return formon;
 	}
 
 }
