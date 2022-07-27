@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="main">
 <head>
@@ -43,9 +43,9 @@
       <div id="btns" class="card-header">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
         <button type="button" class="btn btn-secondary" id="search">검색</button>
-        <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
         <!-- localDB에서 INSERT 문제 발생, 클라우드 지갑DB에서는 멀쩡히 동작함 -->
-        <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
     <form id="myf" name="subform">
       <label for="gicode">제품코드</label> <input type="text" id="gicode" name="gicode">

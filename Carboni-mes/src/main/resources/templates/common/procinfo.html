@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
   <th:block layout:fragment="main">
   <head>
@@ -46,7 +46,7 @@
       <div id="menu">
         <a href="/">홈</a> > 기준정보관리 > <b>공정코드관리</b>
       </div>
-      <div id="btns" class="card-header">
+      <div sec:authorize="hasRole('ROLE_a')" id="btns" class="card-header">
         <input type="button" class="btn btn-secondary" value="신규" onclick="showit()">
         <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
         <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="main">
   <head>
@@ -62,8 +62,8 @@
       </div>
       <div id="btns" class="card-header">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
-        <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
-        <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
       <div id="container">
         <div class="left">
