@@ -116,11 +116,16 @@ public interface ProdMapper {
 			// 더미테이블 시작시간, 종료시간 조회
 			public ProcMoniterVO loadTime(ProcMoniterVO vo);
 			
+			// 생산완료되면 수주상태, 제품영업재고 update
+			public void updateConStk(ProcMoniterVO vo);
 			// 생산완료되면 공정진행에 insert
 			public int insertProcHead(ProcMoniterVO vo);
 
 			// 생산완료되면 공정진행상세에 insert
 			public void insertProcHeadD(ProcMoniterVO vo);
+
+			// 스케줄링
+			public void schedule(String sinum1, String sinum2);
 
 			
 

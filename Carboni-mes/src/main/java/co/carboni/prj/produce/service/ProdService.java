@@ -113,12 +113,14 @@ public interface ProdService {
 			// 더미테이블 시작시간, 종료시간 조회
 			public ProcMoniterVO loadTime(ProcMoniterVO vo);
 			
-			// 생산완료되면 공정진행에 insert
+			// 생산완료되면 공정진행에 insert, 수주상태와 영업재고 update
 			public int insertProcHead(ProcMoniterVO vo);
 
 			// 생산완료되면 공정진행상세에 insert
 			public void insertProcHeadD(List<ProcMoniterVO> heads);
-
+			
+			// 스케줄링
+			public void schedule(String sinum1, String sinum2); // 두번째 공정
 
 
 

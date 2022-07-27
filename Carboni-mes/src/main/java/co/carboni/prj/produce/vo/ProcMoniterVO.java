@@ -40,12 +40,13 @@ public class ProcMoniterVO {
 		public String picodeid; // 공정코드
 		public String piname; // 공정명
 		public String sinum; // 설비번호
-		public Date phdstime; // 시작시간
-		public Date phdetime; // 종료시간
+		public String phdstime; // 시작시간
+		public String phdetime; // 종료시간
 		public int phdmkam; // 생산량
 		public int phderram; // 불량량
 		public String phdstat; // 가동상태
 		
-		
+		// 더미데이터
+		public int linenum; // 라인에 사용되는 공정 순서
 		
 }

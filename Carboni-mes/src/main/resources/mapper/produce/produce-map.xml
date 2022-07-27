@@ -213,7 +213,6 @@
 			where pcdnum = #{pcdnum}
 		</update>
 		
-		<!-- 생산지시삭제 -->
 		
 		<!-- 생산지시검색 -->
 		<select id="searchOrder"  resultType="co.carboni.prj.produce.vo.ProdOrderVO">
@@ -223,6 +222,7 @@
 			AND pcstatus =
 			<if test="ostatus == '미공정'">'미공정'</if>
 			<if test="ostatus == '공정진행'">'공정진행'</if>
+			<if test="ostatus == '공정완료'">'공정완료'</if>
 			ORDER BY pcnum ASC
 		</select>
 		
@@ -276,7 +276,7 @@
 				ORDER BY c.picodeid
 			</select>
 			
-			<!-- 자재출고 insert, 자재재고 update -->
+			<!-- 생산지시 상태변경, 자재출고 insert, 자재재고 update -->
 			<update id="updateMat" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" statementType="CALLABLE">
 				<![CDATA[{call update_mat(#{pcnum})}]]>
 			</update>
@@ -284,7 +284,7 @@
 			<!-- 더미테이블 지시번호, 설비번호 등록 -->
 			<insert id="insertSinum" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO">
 				insert into dummy
-				values (#{pcnum}, #{sinum}, null, null, 'N')
+				values (#{pcnum}, #{sinum}, null, null, 'N', #{linenum})
 			</insert>
 			
 			<!-- 더미테이블 시작시간, 종료시간 확인 -->
@@ -293,6 +293,12 @@
 				FROM dummy
 				WHERE pcnum = #{pcnum} and sinum = #{sinum}
 			</select>
+			
+			<!-- 생산완료되면 수주상태, 제품영업재고 update -->
+			<update id="updateConStk" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" statementType="CALLABLE">
+				<![CDATA[{call update_constk(#{pcdnum}, #{phdmkam})}]]>
+			</update>
+			
 			
 			<!-- 생산완료되면 공정진행에 insert -->
 			<insert id="insertProcHead" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" useGeneratedKeys="true" keyColumn="phnum" keyProperty="phnum">
@@ -308,6 +314,9 @@
 				<![CDATA[{call add_prochead_d(#{phdnum}, #{phnum}, #{sinum}, #{phdstime}, #{phdetime}, #{phdmkam}, #{phderram}, #{phdstat}, #{pcnum}, #{picodeid})}]]>
 			</update>
 			
-			
+			<!-- 스케줄링 -->
+			<update id="schedule">
+				<![CDATA[{call schedule(#{param1}, #{param2})}]]>
+			</update>
 			
 </mapper>

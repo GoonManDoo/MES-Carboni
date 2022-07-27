@@ -165,4 +165,83 @@ BEGIN
 END;
 /
 
+
+-- 수주상태, 제품재고 update
+create or replace procedure update_constk  
+    (p_pcdnum proccomm_d.pcdnum%TYPE,
+    p_phdmkam prochead_d.phderram%TYPE)
+IS
+    v_cnnum contract.cnnum%TYPE;
+    v_gicode goodsinfo.gicode%TYPE;
+BEGIN
+    select c.cnnum, d.gicode
+    into v_cnnum, v_gicode
+    from proccomm_d d, prodplan_d p, prodreq r, contract c
+    where (d.ppdnum = p.ppdnum and p.prnum = r.prnum and r.cnnum = c.cnnum)
+    and d.pcdnum = p_pcdnum;
+    
+    update contract
+    set cnstatus = '납품전'
+    where cnnum = v_cnnum;
+    
+    update goodsstk
+    set gsam = gsam + p_phdmkam
+    where gicode = v_gicode;
+END;
+/
+
+-- 스케줄러 프로시저
+create or replace PROCEDURE schedule
+    (p_sinum1 sysinfo.sinum%TYPE,
+    p_sinum2 sysinfo.sinum%TYPE)
+IS
+    v_phdstime prochead_d.phdstime%TYPE;
+    v_sstatus dummy.sstatus%TYPE;
+BEGIN
+    IF p_sinum1 IS NULL THEN
+        -- 첫번째행
+        select phdstime
+        into v_phdstime
+        from dummy
+        where sinum = p_sinum2 and sstatus = 'N';
+
+        IF v_phdstime IS NULL THEN
+            update dummy
+            set phdstime = to_char(sysdate, 'HH24:MM:SS')
+            where sinum = p_sinum2;
+        ELSE
+            update dummy
+            set phdetime = to_char(sysdate, 'HH24:MM:SS'), sstatus = 'Y'
+            where sinum = p_sinum2;
+        END IF;
+    ELSE
+        select sstatus
+        into v_sstatus
+        from dummy
+        where sinum = p_sinum1;
+        
+        IF v_sstatus = 'Y' THEN
+            -- 두번째행
+            select phdstime
+            into v_phdstime
+            from dummy
+            where sinum = p_sinum2 and sstatus = 'N';
+    
+            IF v_phdstime IS NULL THEN
+                update dummy
+                set phdstime = to_char(sysdate, 'HH24:MM:SS')
+                where sinum = p_sinum2;
+            ELSE
+                update dummy
+                set phdetime = to_char(sysdate, 'HH24:MM:SS'), sstatus = 'Y'
+                where sinum = p_sinum2;
+            END IF;
+        END IF;
+    END IF;
+    
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('데이터가 없습니다.');
+END;
+
    

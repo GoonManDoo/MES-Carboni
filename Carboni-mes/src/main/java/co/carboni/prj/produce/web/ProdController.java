@@ -288,7 +288,7 @@ public class ProdController {
 			return service.loadTime(vo);
 		}
 		
-		// 공정진행관리 - 생산완료되면 공정진행에 insert
+		// 공정진행관리 - 생산완료되면 공정진행에 insert, 수주상태와 영업재고 update
 		@RequestMapping("insertProcHead")
 		@ResponseBody
 		public ProcMoniterVO insertProcHead(ProcMoniterVO vo) {
