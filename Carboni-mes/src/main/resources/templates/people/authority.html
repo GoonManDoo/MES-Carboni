@@ -26,11 +26,14 @@
   
     <h1>권한 코드</h1>
     <div id="menu">
-      <a href="#">홈</a> > 사원 > <b>권한코드</b>
+      <a href="/">홈</a> > 사원 > <b>권한코드</b>
     </div>
-    <div sec:authorize="hasRole('ROLE_a')" id="container">
+    <div id="container">
+      <div sec:authorize="hasRole('ROLE_u')">
+      	　관리자 권한이 없는 계정으로 조회하실 수 없습니다.
+      </div>
   
-      <div class="card mb-4">
+      <div sec:authorize="hasRole('ROLE_a')" class="card mb-4">
         <div class="card-body">
           <table id="datatablesSimple">
             <thead>

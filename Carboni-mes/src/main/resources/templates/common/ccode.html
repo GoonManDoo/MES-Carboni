@@ -56,8 +56,8 @@
     <form name="subform" id="subform">
       <div id="btns" class="card-header">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
-        <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
-        <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
       <div id="myf">
         <label for="ccodeid">코드ID</label> <input type="text" id="ccodeid" name="ccodeid" readonly>

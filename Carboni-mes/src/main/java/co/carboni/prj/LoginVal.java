@@ -31,6 +31,7 @@ public class LoginVal implements UserDetailsService {
 		if (user == null) {
             return null;
         }
+		
         String lpw = user.getLpw();
         String acode = user.getAcode();
         

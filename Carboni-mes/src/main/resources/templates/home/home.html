@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<link href="https://fonts.googleapis.com/css?family=Inter&display=swap"
-	rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
 </head>
-
 
 <body>
 	<th:block layout:fragment="main">
 
 	
 		<div id="container">
-				<div>
+				<div sec:authorize="hasRole('ROLE_a')">
 					메인 페이지<br>
-        			<b>Authenticated information:</b>
-        			<div sec:authentication="principal"></div>
-        			<li sec:authorize="hasRole('ROLE_a')">
-    					관리자에게만 보이는 문자열입니다
-					</li>
+					<b>관리자</b>
+        			<b sec:authentication="name"></b>
+        			<b>님이 로그인하셨습니다.</b>
+				</div>
+				<div sec:authorize="hasRole('ROLE_u')">
+					메인 페이지<br>
+					<b>사용자</b>
+        			<b sec:authentication="name"></b>
+        			<b>님이 로그인하셨습니다.</b>
 				</div>
 		</div>
 	</th:block>
