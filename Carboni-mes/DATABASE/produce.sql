@@ -191,11 +191,12 @@ END;
 /
 
 -- 스케줄러 프로시저
-CREATE OR REPLACE PROCEDURE schedule
+create or replace PROCEDURE schedule
     (p_sinum1 sysinfo.sinum%TYPE,
     p_sinum2 sysinfo.sinum%TYPE)
 IS
     v_phdstime prochead_d.phdstime%TYPE;
+    v_sstatus dummy.sstatus%TYPE;
 BEGIN
     IF p_sinum1 IS NULL THEN
         -- 첫번째행
@@ -203,36 +204,44 @@ BEGIN
         into v_phdstime
         from dummy
         where sinum = p_sinum2 and sstatus = 'N';
-        
+
         IF v_phdstime IS NULL THEN
             update dummy
-            set phdstime = sysdate
+            set phdstime = to_char(sysdate, 'HH24:MM:SS')
             where sinum = p_sinum2;
         ELSE
             update dummy
-            set phdetime = sysdate
+            set phdetime = to_char(sysdate, 'HH24:MM:SS'), sstatus = 'Y'
             where sinum = p_sinum2;
         END IF;
-        
     ELSE
-        -- 두번째행
-        select phdstime
-        into v_phdstime
+        select sstatus
+        into v_sstatus
         from dummy
-        where (sinum = p_sinum1 and sstatus = 'Y') and (sinum = p_sinum2 and sstatus = 'N');
+        where sinum = p_sinum1;
         
-        IF v_phdstime IS NULL THEN
-            update dummy
-            set phdstime = sysdate
-            where (sinum = p_sinum1 and sstatus = 'Y') and (sinum = p_sinum2 and sstatus = 'N');
-        ELSE
-            update dummy
-            set phdetime = sysdate
-            where (sinum = p_sinum1 and sstatus = 'Y') and (sinum = p_sinum2 and sstatus = 'N');
+        IF v_sstatus = 'Y' THEN
+            -- 두번째행
+            select phdstime
+            into v_phdstime
+            from dummy
+            where sinum = p_sinum2 and sstatus = 'N';
+    
+            IF v_phdstime IS NULL THEN
+                update dummy
+                set phdstime = to_char(sysdate, 'HH24:MM:SS')
+                where sinum = p_sinum2;
+            ELSE
+                update dummy
+                set phdetime = to_char(sysdate, 'HH24:MM:SS'), sstatus = 'Y'
+                where sinum = p_sinum2;
+            END IF;
         END IF;
     END IF;
+    
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('데이터가 없습니다.');
 END;
-/
-
 
    
