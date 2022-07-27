@@ -20,8 +20,8 @@ public class SysInfoServiceImpl implements SysinfoService{
 	
 
 	@Override
-	public List<SystemVO> selectSysAll() {
-		return map.selectSysAll();
+	public List<SystemVO> selectSysAll(SystemVO vo) {
+		return map.selectSysAll(vo);
 	}
 	
 	@Override
@@ -31,8 +31,8 @@ public class SysInfoServiceImpl implements SysinfoService{
 	}
 	
 	@Override
-	public List<SystemVO> selectPicoid() {
-		return map.selectPicoid();
+	public List<SystemVO> selectPicoid(SystemVO vo) {
+		return map.selectPicoid(vo);
 	}
 	
 	
@@ -87,6 +87,23 @@ public class SysInfoServiceImpl implements SysinfoService{
 	@Override
 	public List<SystemVO> selectMaint(SystemVO vo) {
 		return map.selectMaint(vo);
+	}
+
+	@Override
+	public void editAdmin(String aaad, String aaac) {
+		
+		map.editAdmin(aaad, aaac);
+	}
+
+	@Override
+	public List<SystemVO> deleteAdmin(SystemVO vo) {
+	
+		return map.deleteAdmin(vo);
+	}
+
+	@Override
+	public List<SystemVO> selectEmployee() {
+		return map.selectEmployee();
 	}
 
 
