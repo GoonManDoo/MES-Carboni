@@ -60,7 +60,6 @@ public class MatServiceImpl implements MatService {
 	@Transactional
 	public List<MatVO> addRequestList(List<MatVO> list) {
 		List<MatVO> reqList = new ArrayList<MatVO>();
-		System.out.println(list.size());
 		for (MatVO vo : list) {
 			map.addRequestList(vo);
 			if(map.selectReqList(vo).get(0).getReqnum() !=null) {
@@ -72,15 +71,16 @@ public class MatServiceImpl implements MatService {
 		}
 		return reqList;
 	}
-
+	//발주 삭제할떄 
 	@Override
-	public void findDelreq(MatVO vo) {
-		map.findDelreq(vo);
-		map.findDelreq(vo);
+	public void findDelreq(List<MatVO> list) {
+		for(MatVO vo : list) {
+			map.findDelreq(vo);
+			map.findDelrequest(vo);
+		}
 	}
 
 	
-
 	//-------------------------------------------------
 	@Override
 	@Transactional
@@ -99,9 +99,11 @@ public class MatServiceImpl implements MatService {
 	}
 
 	@Override
-	public void inputDelreq(MatVO vo) {
-		map.inputDelreq(vo);
-		map.inputupdatereq(vo);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+	public void inputDelreq(List<MatVO> list) {
+		for(MatVO vo : list) {
+			map.inputDelreq(vo);
+			map.inputupdatereq(vo);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+		}
 		
 	}
 
@@ -114,6 +116,17 @@ public class MatServiceImpl implements MatService {
 	public List<MatVO> matSerchList(String matCode) {
 		return map.matSerchList(matCode);
 	}
+
+	@Override
+	public List<MatVO> selectOutList(MatVO vo) {
+		return map.selectOutList(vo);
+	}
+
+	@Override
+	public List<MatVO> findOutList(String startD, String endD, String matCode) {
+		return map.findOutList(startD, endD, matCode);
+	}
+	
 	
 
 

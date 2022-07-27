@@ -91,6 +91,7 @@ public class MatController {
 	@ResponseBody
 	public List<MatVO> insearchorder(@RequestParam String startD, @RequestParam String endD) {
 		List<MatVO> insearchorder = service.inModalSearch(startD, endD);
+
 		return insearchorder;
 	}
 
@@ -116,6 +117,9 @@ public class MatController {
 	public List<MatVO> findreqdate(@RequestParam String startD, @RequestParam String endD, @RequestParam String cusCode,
 			@RequestParam String matCode) {
 		List<MatVO> findreqdate = service.findReqDate(startD, endD, cusCode, matCode);
+		System.out.println(startD);
+		System.out.println(endD);
+		System.out.println(findreqdate);
 		return findreqdate;
 	}
 
@@ -134,10 +138,10 @@ public class MatController {
 	}
 	
 	
-	@RequestMapping("finddelreq")
+	@RequestMapping(method = RequestMethod.POST, path ="finddelreq")
 	@ResponseBody
-	public void finddelreq(MatVO vo) {
-		service.findDelreq(vo);
+	public void finddelreq(@RequestBody List<MatVO> list) {
+		service.findDelreq(list);
 	}
 	
 	@RequestMapping("addinputlist")
@@ -156,10 +160,10 @@ public class MatController {
 		return findindate;
 	}
 	
-	@RequestMapping("inputdelreq")
+	@RequestMapping(method = RequestMethod.POST, path ="inputdelreq")
 	@ResponseBody
-	public void inputdelreq(MatVO vo) {
-		service.inputDelreq(vo);
+	public void inputdelreq(@RequestBody List<MatVO> list) {
+		service.inputDelreq(list);
 	}
 	
 	@RequestMapping("matlistall")
@@ -174,6 +178,20 @@ public class MatController {
 	public List<MatVO> matserchlist(@RequestParam String matCode){
 		List<MatVO> list = service.matSerchList(matCode);
 		return list;
+	}
+	
+	//출고에서 출고 된것들 조회 하는 거
+	@RequestMapping("selectoutlist")
+	@ResponseBody
+	public List<MatVO> selectoutlist(MatVO vo){
+		return service.selectOutList(vo);
+	}
+	
+	//출고에서 일자로만 검색 또는 일자와 자재로 검색
+	@RequestMapping("findoutlist")
+	@ResponseBody
+	public List<MatVO> findoutlist(@RequestParam String startD, @RequestParam String endD,@RequestParam String matCode){
+		return service.findOutList(startD, endD, matCode);
 	}
 	
 

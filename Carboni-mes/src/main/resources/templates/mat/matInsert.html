@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+	layout:decorate="~{layouts/layout}"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <script>
@@ -77,9 +78,9 @@ ul {
 						<button type="button" id="researchBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">조회</button>
 						<button type="button" id="saveBtn" class="btn btn-secondary"
-							style="margin-right: 5px;">저장</button>
+							style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">저장</button>
 						<button type="button" id="removeBtn" class="btn btn-secondary"
-							style="margin-right: 5px;">삭제</button>
+							style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">삭제</button>
 
 					</div>
 				</div>
@@ -228,7 +229,7 @@ ul {
 						container : '#startpicker-container'
 					},
 					endpicker : {
-						date : today,
+						date : new Date(today.getFullYear(),today.getMonth(),today.getDate()+1),
 						input : '#endpicker-input',
 						container : '#endpicker-container'
 					}
@@ -242,7 +243,7 @@ ul {
 						container : '#orderSdate-wapper'
 					},
 					endpicker : {
-						date : today,
+						date : new Date(today.getFullYear(),today.getMonth(),today.getDate()+1),
 						input : '#orderEdate',
 						container : '#orderEdate-wapper'
 					}
@@ -266,7 +267,7 @@ ul {
 						name :'msnum',
 						align : 'center'
 					}, {
-							header : '발주일자',
+						header : '발주일자',
 						name :'moodate',
 						align : 'center'
 					}, {
@@ -315,6 +316,7 @@ ul {
 					} ]
 				});
 				grid.hideColumn('micode')
+				grid.hideColumn('mlnum')
 				
 				
 				/*발주일자 검색 그리드 */
@@ -387,7 +389,6 @@ ul {
 						align : 'center',
 					} ]
 				});
-				
 				/*================그리드 끝===============================*/
 				/*발주일자 조회해서 메인그리드에 출력=============================*/
 				/*발주일자 검색 모달 안의 내용이 나와야함 */
@@ -437,14 +438,14 @@ ul {
 							giupgir.refreshLayout();
 							giupgir.resetData(result)
 							giupgir.on('click',e=>{
-									var rk = e.rowKey
-									for(i=0; i<giupgir.getRowCount(); i++) {
-										giupgir.removeRowClassName(i, 'rowSelect')
-										}
-									giupgir.addRowClassName(rk, 'rowSelect')
-									cs = giupgir.getRow(rk).csname
-									csco =giupgir.getRow(rk).cscode
-								})
+								var rk = e.rowKey
+								for(i=0; i<giupgir.getRowCount(); i++) {
+									giupgir.removeRowClassName(i, 'rowSelect')
+									}
+								giupgir.addRowClassName(rk, 'rowSelect')
+								cs = giupgir.getRow(rk).csname
+								csco =giupgir.getRow(rk).cscode
+							})
 						}
 					})
 				})
@@ -532,14 +533,11 @@ ul {
 								swal('','입고일자를 다시 입력하세요', 'warning')
 								return;
 							}
-						
 						}else{
 							swal('','이미 등록된 값이 있습니다.', 'warning')
 							return;
 						}
-						
 					}
-					
 				})
 				
 				/*----------------------------발주일자로 조회------------------------------------------*/
@@ -556,51 +554,26 @@ ul {
 								grid.resetData(result)
 							}
 						})
-					
-/* 					
- 					if(cusCode == null){
-						$.ajax({
-							url: 'findindate',
-							method: 'POST',
-							data : {startD,endD},
-							success : function(result){
-								grid.refreshLayout();
-								grid.resetData(result)
-							}
-						})
-					}else{
-						$.ajax({
-							url : 'findincom',
-							method :'POST',
-							data : {cusCode},
-							success: function(result){
-								grid.refreshLayout();
-								grid.resetData(result)
-							}
-						})
-						
-					} 
-					*/
+				})
 					/*=---------삭제 하면서 상태 업데이트 ------------*/
 						/*삭제눌렀을때*/
 						$('#removeBtn').on('click', function(){
 							delgrid =grid.getCheckedRows()
-							var dellists = delgrid.map((e) => {return e.msnum})
-							console.log(dellist)
+							var dellists = delgrid.map((e) => {
+								return {msnum:e.msnum,monum:e.monum}})
+							console.log(dellists)
 							/*삭제 아작스*/
 							$.ajax({
 									url :'inputdelreq',
 									method :'POST',
-									data:{dellists},
+									data:JSON.stringify(dellists),
+									contentType: 'application/json',
 									success :function(){
 										grid.removeCheckedRows('') 
 										swal("삭제 완료", "선택한 입고내역이 삭제되었습니다.", "success");
 									}
-								}) 
-								
+							}) 
 						})
-						
-				})
 			})
 		</script>
 	</th:block>
