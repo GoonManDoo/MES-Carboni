@@ -44,18 +44,38 @@
 	
 	<!-- 전체 남은 수명중 현재 진행중 수명 -->
 	<select id="selectSysLifespan" resultType="co.carboni.prj.system.vo.SystemVO">
-	SELECT SIDATE, TRUNC(SIDIE-SIDATE) ALLDATE ,TRUNC(100-((SIDIE-SYSDATE)/(SIDIE-SIDATE)*100), 5)||'%' NOWPERCENT , SIDIE, TRUNC(SIDIE-SYSDATE) LEFTENDDAT 
+	SELECT SIDATE, TRUNC(SIDIE-SIDATE) ALLDATE ,TRUNC(100-((SIDIE-SYSDATE)/(SIDIE-SIDATE)*100), 1)||'%' NOWPERCENT , SIDIE, TRUNC(SIDIE-SYSDATE) LEFTENDDAT 
 	FROM SYSMAN
 	WHERE SINUM = #{sinum}
 	</select>
 	
 	<!-- 입고일, 점검주기, 다음점검일 -->
 	<select id="selectMaint" resultType="co.carboni.prj.system.vo.SystemVO">
-	SELECT SIMAINT, SIDATE, TO_DATE(SIDATE+SIMAINT) NEXTDAT, TRUNC((100/((SIDATE+SIMAINT)-SYSDATE)), 5)||'%' NOWPERCENT2
+	SELECT SIMAINT, SIDATE, TO_DATE(SIDATE+SIMAINT) NEXTDAT, TRUNC((100/((SIDATE+SIMAINT)-SYSDATE)), 1)||'%' NOWPERCENT2
 	FROM SYSMAN
 	WHERE SINUM = #{sinum}
 	</select>
 	
+	<select id="selectEmployee" resultType="co.carboni.prj.system.vo.SystemVO">
+		SELECT ECODE, ENAME, EPOSITION
+		FROM EMPLOYEE
+	</select>
+	
+	<update id="editAdmin" parameterType="co.carboni.prj.system.vo.SystemVO">
+		UPDATE SYSMAN 
+		<set> 
+		SYSADMIN = #{aaad}
+		</set>
+		WHERE SMNUM = #{aaac}
+	</update>
+	
+	<update id="deleteAdmin" parameterType="co.carboni.prj.system.vo.SystemVO">
+		UPDATE SYSMAN 
+		<set> 
+		SYSADMIN = ''
+		</set>
+		WHERE SMNUM = #{smnum}
+	</update>
 	
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
 		INSERT INTO SYSINFO
@@ -84,7 +104,7 @@
 	WHERE SMNUM = #{smnum}
 	</update>
 	
-	<delete id="systemDelete">
+	<delete id="systemDelete" parameterType="co.carboni.prj.system.vo.SystemVO">
 		DELETE  FROM SYSINFO
 		WHERE SINUM = #{sinum}
 	</delete>

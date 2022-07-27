@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.carboni.prj.system.mapper.SysinfoMapper;
@@ -48,12 +50,19 @@ public class SystemController {
 	
 	
 	@RequestMapping("/productSysMain")
-		public String productSysMain(Model m1, Model m2) {
-		m1.addAttribute("divalign", service.selectSysAll());
-		m2.addAttribute("Pid", service.selectPicoid());
+		public String productSysMain(SystemVO vo, Model m1) {
+		m1.addAttribute("divalign", service.selectSysAll(vo));
+		m1.addAttribute("Pid", service.selectPicoid(vo));
 		return "system/productSysMain";
 	}
 
+	@RequestMapping("/selEmp")
+	@ResponseBody
+	public List<SystemVO> selEmp(){
+		List<SystemVO> selEmp=service.selectEmployee();
+		return selEmp;
+	}
+	
 	@RequestMapping("/systemInsert")
 	public String systemInsert(SystemVO vo) {
 		service.systemInsert(vo);
@@ -61,6 +70,17 @@ public class SystemController {
 		return "redirect:productSysMain";
 	}
 	
+	@RequestMapping("EditAdmin")
+	@ResponseBody // 나갈때
+	public void editAdmin(@RequestParam String aaad, @RequestParam String aaac) { // 들어올때
+		service.editAdmin(aaad, aaac);
+	}
+	
+	@RequestMapping("/deleteAdmin")
+	public String deleteAdmin(SystemVO vo) {
+		service.deleteAdmin(vo);
+		return "redirect:productSysMain";
+	}
 	
 	@RequestMapping("/deleted")
 	public String systemDelete(SystemVO vo) {

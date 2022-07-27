@@ -45,9 +45,14 @@ public class SystemVO {
 	private String sisaftem;//설비 온도관리
 	
 	private String alldate;
-	private String nowpercent;
-	private String nowpercent2;
+	private String NOWPERCENT;
+	private String NOWPERCENT2;
 	private String leftenddat;
+	
+	private String ecode;
+	private String eposition;
+	private String ename;
+	private String sysadmin;
 	
 	private int phdmkam; //생산량
 	private int phderram; //불량량

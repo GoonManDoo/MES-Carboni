@@ -3,6 +3,14 @@
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
    layout:decorate="~{layouts/layout}">
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <meta charset="UTF-8">
 <title>설비 자세히 보기</title>
 </head>
@@ -28,44 +36,55 @@
    
    <div class="container py-4" style="display: flex;flex-wrap: wrap;align-content: space-around;justify-content: space-around;">
        <div th:each="AVD:${detail}"  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
-                  
-                        <div style="width: 33rem; height: 300px; margin-bottom: 20px;">
+                 	  
+                 	   <!--1번카드 설비가동-->
+                        <div style="width: 33rem; height: 300px; margin-bottom: 20px;" th:each="SCN:${syscon}">
                            <div class="card bg-white" style="width: 33rem; height: 260px;">
-                              <div class="card-body">헤으응</div>
+                              <div class="card-body">
+                              	<div class="SystemEnabled" th:if="${#strings.equals(SCN.smstatus, 'Y')}">
+                              		<img style="width: 495px; margin-top: -8px;" alt="작동중" src="/assets/img/IsRunning.svg">
+                              	</div>
+                              	<div class="SystemDisabled" th:if="${#strings.equals(SCN.smstatus, 'N')}">
+                              		<img style="width: 495px; margin-top: -8px;" alt="점검중" src="/assets/img/MainTaining.svg">
+                              	</div>
+                              </div>
                            </div>
-                              <button style="width: 50px; height: 25px; margin-left: 463px; margin-top: 12px; border: none; background-color: white;">버튼</button>
-                           </div>
+                        </div>
                            
-                        <div class="card bg-white"style="width: 42rem; height: 300px; margin-bottom: 20px;" th:each="SL:${sysLife}">
+                           
+                       <!--2번카드 설비상태-->    
+                        <div class="card bg-white"style="width: 42rem; height: 300px; margin-bottom: 20px;" >
                            <div class="card-body" style="display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;">
                            
-                              <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="LD:${sysStart}">
+                              <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="SLI:${sysLife}">
                                  <!-- progress1  -->
                                  <h4>가동일</h4>
                                  <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
-                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar" th:style="'width:' + ${SL.leftdate} + '%;'"></div>
+                                     <div class="progress-bar progress-bar-striped active" role="progressbar" 
+                                     aria-valuemin="0" aria-valuemax="100"  th:style="'width:' + (${SLI.NOWPERCENT}) + '%;'" th:text="${SLI.NOWPERCENT}"></div>
                                  </div>
-                                    <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${LD.sidate}">asdf</p>
-                                    <p style="display: block; float: right; font-size: 13px; margin-right: 13px;"  th:text="${LD.sidie}">asdf</p>
+                                    <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${AVD.sidate}">시작일</p>
+                                    <p style="display: block; float: right; font-size: 13px; margin-right: 13px;" th:text="${AVD.sidie}" >종료일</p>
                               </div>
                               
                               
-                              <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="MANT:${maint}">
+                           <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="MIT:${maint}" >
                                  <!-- progress2  -->
                                  <h4>정기점검</h4>
                                  <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;" >
-                                      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="myBar2"></div>
+                                      <div class="progress-bar progress-bar-striped active" role="progressbar" 
+                                      aria-valuemin="0" aria-valuemax="100" th:style="'width:' + (${MIT.NOWPERCENT2}) + '%;'" th:text="${MIT.NOWPERCENT2}" ></div>
                                  </div>
-                                     <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${MANT.sidate}">asdf</p>
-                                     <p style="display: block;float: right; width: 76px; height: 18px; overflow: hidden; font-size: 13px; margin-right: 4px;" th:text="${MANT.NEXTDAT}">asdf</p>
+                                     <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${AVD.sidate}">asdf</p>
+                                     <p style="display: block;float: right; width: 76px; height: 18px; overflow: hidden; font-size: 13px; margin-right: 4px;" th:text="${MIT.NEXTDAT}">asdf</p>
                              </div>
                            
                            </div>
                         </div>
                         
                         
+                       <!--3번 공정순서  -->
                         <div class="card bg-white" style="width: 33rem; height: 300px;">
-                           <!--3번 공정순서  -->
                            <div class="card-body">
                               <div
                                  style="width: 318px; display: block; height: 40px; margin-left: 3px; position: inherit;">
@@ -79,15 +98,20 @@
                               </form>
                            </div>
                         </div>
+                        
+                        <!--4번카드-->
                         <div style="width: 42rem; height: 300px; margin-bottom: 35px;">
                            <div class="card bg-white" style="width: 42rem; height: 300px;">
-                              <div class="card-body"></div>
+                              <div class="card-body">
+                              <figure>
+								    <div id="container"></div>
+							  </figure>
+                              </div>
                            </div>
+                           <!--4번카드 버튼-->
                            <button data-bs-toggle="modal" href="#deleteSystem" role="button" style="width: 50px; height: 25px; margin-left: 613px; margin-top: 12px; border: none; background-color: white;">버튼</button>
                         </div>
-                     </div>
-                     
-                     
+      </div>
    </div>
   <!--======================================================================================================================================================-->    
   <!--======================================================================================================================================================--> 
@@ -120,22 +144,14 @@
                       </form>   
                    </div>
                    <button class="btn btn-danger" style=" z-index: 100; margin-left: 273px; margin-top: -90px;" onclick="RUUUUN()">취소</button>
-                   
-                   
                       </div>
                   </div>
                 </div>
               </div>
             </div>
             
-            
-            <!--==========================================================================================================================================-->
-            
-            <script>
-          
-          
-          
-          
+  <!--==========================================================================================================================================-->            
+<script>
          function RUUUUN(){
             location.href="/productSysMain"
          }
@@ -164,11 +180,98 @@
            }
          };
 
-            </script>
-            
-            
-            
-            
+console.log('sedafjuk')
+</script>
+<script>
+Highcharts.chart('container', {
+      chart: {
+        type: 'spline',
+        animation: Highcharts.svg, // don't animate in old IE
+        marginRight: 10,
+        events: {
+          load: function () {
+
+            // set up the updating of the chart each second
+            var series = this.series[0];
+            setInterval(function () {
+              var x = (new Date()).getTime(), // current time
+                y = Math.random();
+              series.addPoint([x, y], true, true);
+            }, 1000);
+          }
+        }
+      },
+
+      time: {
+        useUTC: false
+      },
+
+      title: {
+        text: '라이브 랜덤데이터'
+      },
+
+      accessibility: {
+        announceNewData: {
+          enabled: true,
+          minAnnounceInterval: 15000,
+          announcementFormatter: function (allSeries, newSeries, newPoint) {
+            if (newPoint) {
+              return 'New point added. Value: ' + newPoint.y;
+            }
+            return false;
+          }
+        }
+      },
+
+      xAxis: {
+        type: 'datetime',
+        tickPixelInterval: 150
+      },
+
+      yAxis: {
+        title: {
+          text: 'Value'
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }]
+      },
+
+      tooltip: {
+        headerFormat: '<b>{series.name}</b><br/>',
+        pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+      },
+
+      legend: {
+        enabled: false
+      },
+
+      exporting: {
+        enabled: false
+      },
+
+      series: [{
+        name: 'Random data',
+        data: (function () {
+          // generate an array of random data
+          var data = [],
+            time = (new Date()).getTime(),
+            i;
+
+          for (i = -19; i <= 0; i += 1) {
+            data.push({
+              x: time + i * 1000,
+              y: Math.random()
+            });
+          }
+          return data;
+        }())
+      }]
+    });
+</script>
+
    </th:block>
 </body>
 </html>
