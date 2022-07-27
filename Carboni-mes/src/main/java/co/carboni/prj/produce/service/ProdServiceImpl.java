@@ -235,9 +235,10 @@ public class ProdServiceImpl implements ProdService {
 				return mapper.loadTime(vo);
 			}
 			
-			// 생산완료되면 공정진행에 insert
+			// 생산완료되면 공정진행에 insert, 수주상태와 영업재고 update
 			@Override
 			public int insertProcHead(ProcMoniterVO vo) {
+				mapper.updateConStk(vo);
 				mapper.insertProcHead(vo);
 				return 1;
 			}
@@ -248,6 +249,12 @@ public class ProdServiceImpl implements ProdService {
 				for(ProcMoniterVO vo : heads) {
 					mapper.insertProcHeadD(vo);
 				}
+			}
+
+			// 스케줄링
+			@Override
+			public void schedule(String sinum1, String sinum2) {
+				mapper.schedule(sinum1, sinum2);
 			}
 			
 			

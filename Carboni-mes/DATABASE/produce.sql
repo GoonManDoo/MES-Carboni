@@ -165,4 +165,74 @@ BEGIN
 END;
 /
 
+
+-- 수주상태, 제품재고 update
+create or replace procedure update_constk  
+    (p_pcdnum proccomm_d.pcdnum%TYPE,
+    p_phdmkam prochead_d.phderram%TYPE)
+IS
+    v_cnnum contract.cnnum%TYPE;
+    v_gicode goodsinfo.gicode%TYPE;
+BEGIN
+    select c.cnnum, d.gicode
+    into v_cnnum, v_gicode
+    from proccomm_d d, prodplan_d p, prodreq r, contract c
+    where (d.ppdnum = p.ppdnum and p.prnum = r.prnum and r.cnnum = c.cnnum)
+    and d.pcdnum = p_pcdnum;
+    
+    update contract
+    set cnstatus = '납품전'
+    where cnnum = v_cnnum;
+    
+    update goodsstk
+    set gsam = gsam + p_phdmkam
+    where gicode = v_gicode;
+END;
+/
+
+-- 스케줄러 프로시저
+CREATE OR REPLACE PROCEDURE schedule
+    (p_sinum1 sysinfo.sinum%TYPE,
+    p_sinum2 sysinfo.sinum%TYPE)
+IS
+    v_phdstime prochead_d.phdstime%TYPE;
+BEGIN
+    IF p_sinum1 IS NULL THEN
+        -- 첫번째행
+        select phdstime
+        into v_phdstime
+        from dummy
+        where sinum = p_sinum2 and sstatus = 'N';
+        
+        IF v_phdstime IS NULL THEN
+            update dummy
+            set phdstime = sysdate
+            where sinum = p_sinum2;
+        ELSE
+            update dummy
+            set phdetime = sysdate
+            where sinum = p_sinum2;
+        END IF;
+        
+    ELSE
+        -- 두번째행
+        select phdstime
+        into v_phdstime
+        from dummy
+        where (sinum = p_sinum1 and sstatus = 'Y') and (sinum = p_sinum2 and sstatus = 'N');
+        
+        IF v_phdstime IS NULL THEN
+            update dummy
+            set phdstime = sysdate
+            where (sinum = p_sinum1 and sstatus = 'Y') and (sinum = p_sinum2 and sstatus = 'N');
+        ELSE
+            update dummy
+            set phdetime = sysdate
+            where (sinum = p_sinum1 and sstatus = 'Y') and (sinum = p_sinum2 and sstatus = 'N');
+        END IF;
+    END IF;
+END;
+/
+
+
    

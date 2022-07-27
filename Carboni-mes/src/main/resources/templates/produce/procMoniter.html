@@ -128,12 +128,12 @@ ul.tabs li.current {
 	<th:block layout:fragment="main">
 
 		<div class="container-fluid px-4">
-			<h1 class="mt-4" style="margin-bottom: 20px;">공정모니터링</h1>
+			<h1 class="mt-4" style="margin-bottom: 20px;">공정관리</h1>
 
 			<!-- 탭 -->
 			<ul class="tabs">
 				<li class="tab-link current" data-tab="tab-1">공정진행관리</li>
-				<li class="tab-link" data-tab="tab-2" id="moniterTab">공정모니터링</li>
+				<li class="tab-link" data-tab="tab-2" id="moniterTab">실적모니터링</li>
 			</ul>
 
 			<!-- 내용 -->
@@ -179,7 +179,7 @@ ul.tabs li.current {
 				<div class="container-fluid"
 					style="display: grid; background: white;">
 					<div class="item ig mone border">
-						<h5>공정진행상황</h5>
+						<h5>생산라인</h5>
 						<div class="border proc">공정1</div>
 						<div class="border proc">공정2</div>
 						<div class="border proc">공정3</div>
@@ -189,7 +189,7 @@ ul.tabs li.current {
 						<h5>온도</h5>
 					</div>
 					<div class="item ig mthree border">
-						<h5>생산</h5>
+						<h5>생산실적</h5>
 						<div id="process"></div>
 					</div>
 				</div>
@@ -424,37 +424,35 @@ ul.tabs li.current {
 			        		pcdam = Grid3.getRow(ev.rowKey).pcdam;
 			        		mkam = Grid3.getRow(ev.rowKey).phdmkam;
 			        		erram = Grid3.getRow(ev.rowKey).phderram;
-//차트
-  google.charts.load('current', { 'packages': ['corechart'] });
-  google.charts.setOnLoadCallback(drawChart);
-  google.charts.setOnLoadCallback(drawChart2);
-
-  function drawChart() {
-    var dataformat = google.visualization.arrayToDataTable([
-      ['', ''],
-      ['정상', mkam],
-      ['불량', erram],
-    ]);
-    var data = dataformat;
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-    chart.draw(data);
-  }
-
-  function drawChart2() {
-    var data = google.visualization.arrayToDataTable([
-      ['', ''],
-      ['', 0],
-      ['', 0],
-      ['생산량', mkam],
-      ['잔량', pcdam-mkam]
-    ]);
-    var chart = new google.visualization.PieChart(document.getElementById('clear'));
-    chart.draw(data);
-  }		
-  
-  
-  
-  
+			        		
+								//차트
+								  google.charts.load('current', { 'packages': ['corechart'] });
+								  google.charts.setOnLoadCallback(drawChart);
+								  google.charts.setOnLoadCallback(drawChart2);
+								
+								  function drawChart() {
+								    var dataformat = google.visualization.arrayToDataTable([
+								      ['', ''],
+								      ['정상', mkam],
+								      ['불량', erram],
+								    ]);
+								    var data = dataformat;
+								    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+								    chart.draw(data);
+								  }
+								
+								  function drawChart2() {
+								    var data = google.visualization.arrayToDataTable([
+								      ['', ''],
+								      ['', 0],
+								      ['', 0],
+								      ['생산량', mkam],
+								      ['잔량', pcdam-mkam]
+								    ]);
+								    var chart = new google.visualization.PieChart(document.getElementById('clear'));
+								    chart.draw(data);
+								  }		
+								  
 			        	})
 			        } 
 			    });	
@@ -543,7 +541,7 @@ ul.tabs li.current {
 						buttons: {
 							"확인": fnc,
 							"취소": function () {
-								orderGrid1.resetData(orderList);
+								orderGrid1.clear();
 								datepicker1.setDate(new Date());
 								$(this).dialog('close')
 							}
@@ -551,7 +549,7 @@ ul.tabs li.current {
 					});
 					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					$('.ui-dialog-titlebar-close').html('X').css('border', 'none').on('click', function(){
-						orderGrid1.resetData(orderList);
+						orderGrid1.clear();
 						datepicker1.setDate(new Date());
 					})
 					return dialog;
@@ -560,7 +558,9 @@ ul.tabs li.current {
 				
 				// 그리드 이벤트---------------------------------------
 				/* 진행생산지시 */
+				selectRk = null;
 				orderGrid2.on('dblclick', e => {
+					selectRk = e.rowKey;
 					for(i=0; i<orderGrid2.getRowCount(); i++) {
 						orderGrid2.removeRowClassName(i, 'rowSelect')
 					}
@@ -599,58 +599,14 @@ ul.tabs li.current {
 				}
 				
 				/* 해당 생산지시라인시작 */
-				/*function insertSinum(i){ // 설비번호 insert
-					var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
-					var sinum = headGrid.getValue(i, 'sinum') // 설비번호
-					makeAjaxCall('insertSinum', {pcnum, sinum}, false)
-				}
-				
-				function selectTime(i){ // 시작시간, 종료시간 불러오기
-				var arr = []; // setInterval용 배열
-					var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
-					var sinum = headGrid.getValue(i, 'sinum') // 설비번호
-					var pcdam = headGrid.getData()[0].pcdam // 최초 지시량
-					var phderram = Math.floor(pcdam*(Math.random()*0.01)) // 불량량
-					timer = setInterval(function(){
-										if(headGrid.getValue(i, 'phdstat') == '완료') {
-											for(y=0; y<arr.length; y++) {
-												clearInterval(arr[y])
-											}
-											arr = [];
-										} else {
-											makeAjaxCall('loadTime', {pcnum, sinum}, false, function(result) {
-												if(result.phdstime != null && result.phdetime == null) { // 시작시간만
-													headGrid.setValue(i, 'phdstime', result.phdstime)
-													headGrid.setValue(i, 'phdstat', '가동')
-												} else if(result.phdstime != null) { // 종료시간 찍혔을때
-													headGrid.setValue(i, 'phdstime', result.phdstime)
-													headGrid.setValue(i, 'phdetime', result.phdetime)
-													headGrid.setValue(i, 'phdstat', '완료')
-													if(i==0) {
-														headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
-														headGrid.setValue(i, 'phderram', phderram) // 불량량
-														//arr.push(timer)
-													} else {
-														var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
-														var prevRram = Math.floor(prevDam*(Math.random()*0.01))
-														headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
-														headGrid.setValue(i, 'phderram', prevRram)
-														//arr.push(timer)
-													}
-												}
-											})
-										}
-									} , 1000)
-					arr.push(timer)
-				}*/
 				
 				function insertHead(){ // 공정진행, 공정진행상세 insert
 					var pcdnum = headGrid.getValue(0, 'pcdnum')
-					var procHead = headGrid.getData();
+					var phdmkam = headGrid.getValue(2, 'phdmkam')
 					var promise = $.ajax({ // 공정진행
 					   url: 'insertProcHead',
 					   method: 'POST',
-					   data: {pcdnum}
+					   data: {pcdnum, phdmkam}
 					})
 					
 					promise.done(procHeadD);
@@ -662,6 +618,7 @@ ul.tabs li.current {
 					      headGrid.setValue(i, 'phnum', phnum)
 					      headGrid.setValue(i, 'phdnum', phnum+'-'+(i+1))
 					   }
+					   var procHead = headGrid.getData();
 					   $.ajax({
 					      url: 'insertProcHeadD',
 					      method: 'POST',
@@ -669,6 +626,10 @@ ul.tabs li.current {
 					      contentType:'application/json',
 					      success: function(){
 					         swal('성공', '생산이 완료되었습니다.', 'success')
+					         headGrid.clear();
+					         $('#readyPcnum').val() // 시작버튼그리드에 저장해둔 생산지시번호 지우기
+					         orderGrid2.removeRow(selectRk)
+					         
 					      }
 					   })
 					}
@@ -676,14 +637,6 @@ ul.tabs li.current {
 				var stop = []; // 종료버튼 interval stop 배열
 				$('#start').on('click', function(){
 					if($('#readyPcnum').val() != '') { // 시작버튼에 지시번호가 있을때
-						/*var pcnum = headGrid.getValue(1, 'pcnum') // 지시번호
-						makeAjaxCall('updateMat', {pcnum}, false, function(){
-							Promise.all([insertSinum(0), selectTime(0), insertSinum(1), selectTime(1), insertSinum(2), selectTime(2)])
-										.then(function(){
-											console.log('공정진행insert')
-											//insertHead()
-										})
-						})*/
 						var pcnum = headGrid.getValue(1, 'pcnum') // 지시번호
 						makeAjaxCall('updateMat', {pcnum}, false, function(){
 								for(let i=0; i<headGrid.getRowCount(); i++) { // 그리드 행 수
@@ -693,18 +646,21 @@ ul.tabs li.current {
 									var sinum = headGrid.getValue(i, 'sinum') // 설비번호
 									var lineid = headGrid.getValue(i, 'lineid') // 라인이름
 									var pcdam = headGrid.getData()[0].pcdam // 최초 지시량
-									var phderram = Math.floor(pcdam*(Math.random()*0.01)) // 불량량
+									var phderram = Math.floor(pcdam*(Math.random()*0.05)) // 불량량
 									headGrid.setValue(i, 'phdstat', '대기')
 									function loadProdLine(){ // 2번째 ajax
 										var timer = setInterval(function(){ // setInterval 시작
-											console.log(i, timer);
 											if(headGrid.getValue(i, 'phdstat') == '완료') {
 												arr.push(timer);
-												stop.push(timer);
+												//stop.push(timer);
 												for(y=0; y<arr.length; y++) {
 													clearInterval(arr[y])
 												}
+												/*for(z=0; z<stop.length; z++) {
+													clearInterval(stop[z])
+												}*/
 												arr = [];
+												//stop = [];
 												
 												if(i==2) {
 													console.log(i, timer, 'setInterval 끝');
@@ -716,7 +672,7 @@ ul.tabs li.current {
 														headGrid.setValue(i, 'phdstime', result.phdstime)
 														headGrid.setValue(i, 'phdstat', '가동')
 														arr.push(timer)
-														stop.push(timer);
+														//stop.push(timer);
 													} else if(result.phdstime != null) { // 종료시간 찍혔을때
 														headGrid.setValue(i, 'phdstime', result.phdstime)
 														headGrid.setValue(i, 'phdetime', result.phdetime)
@@ -725,23 +681,23 @@ ul.tabs li.current {
 															headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
 															headGrid.setValue(i, 'phderram', phderram) // 불량량
 															arr.push(timer)
-															stop.push(timer);
+															//stop.push(timer);
 														} else {
 															var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
-															var prevRram = Math.floor(prevDam*(Math.random()*0.01))
+															var prevRram = Math.floor(prevDam*(Math.random()*0.05))
 															headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
 															headGrid.setValue(i, 'phderram', prevRram)
 															arr.push(timer)
-															stop.push(timer);
+															//stop.push(timer);
 														}
 													}
 												})
 											}
 										} , 2000)
 										arr.push(timer)
-										stop.push(timer);
+										//stop.push(timer);
 									}
-									makeAjaxCall('insertSinum', {pcnum, sinum}, false, loadProdLine) // 1번째 ajax
+									makeAjaxCall('insertSinum', {pcnum, sinum, "linenum" : i+1}, false, loadProdLine) // 1번째 ajax
 								})(i)
 							}
 						})
@@ -751,10 +707,10 @@ ul.tabs li.current {
 				})
 				
 				$('#end').on('click', function(){
-					for(i=0; i<stop.length; i++) {
+					/*for(i=0; i<stop.length; i++) {
 						clearInterval(stop[i])
 					}
-					stop = [];
+					stop = [];*/
 				})
 				
 				// 버튼 이벤트 끝---------------------------------------
@@ -780,9 +736,7 @@ ul.tabs li.current {
 			
 		</script>
 
-<script>
 
-</script>
 
 	</th:block>
 
