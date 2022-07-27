@@ -79,6 +79,15 @@ public class SalesServiceImpl implements SalesService {
 					mapper.updateCnStat(vo);
 				}
 			}
+			
+			//출하관리 > 출하등록
+			@Override
+			public void shipInsert(List<SalesVO> allship) {
+				for (SalesVO vo: allship) {
+					mapper.shipInsert(vo);
+					//mapper.shipInsertUp(vo);
+				}
+			}
 		
 			
 		//제품재고관리
@@ -145,13 +154,7 @@ public class SalesServiceImpl implements SalesService {
 				return mapper.findScndateList(startScd, endScd);
 			}
 
-			//출하관리 > 출하등록
-			@Override
-			public void shipInsert(List<SalesVO> allship) {
-				for (SalesVO vo: allship) {
-					mapper.shipInsert(vo);
-				}
-			}
+		
 
 		//배송관리
 			

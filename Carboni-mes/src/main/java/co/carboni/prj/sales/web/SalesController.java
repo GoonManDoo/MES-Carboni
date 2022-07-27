@@ -128,6 +128,13 @@ public class SalesController {
 			service.prodReqInsert(allreq);
 		}
 		
+		//출하관리 > 출하등록
+		@RequestMapping("shipInsert")
+		@ResponseBody
+		public void shipInsert(@RequestBody List<SalesVO> allship) {
+			service.shipInsert(allship);
+		}
+		
 				
 				
 
@@ -223,25 +230,22 @@ public class SalesController {
 			return noProdList;
 		}
 		
-		//출하관리 > 출하등록
-		@RequestMapping("shipInsert")
-		@ResponseBody
-		public void shipInsert(@RequestBody List<SalesVO> allship) {
-			service.shipInsert(allship);
-		}
 		
-		//배송관리 > 배송등록
-		@RequestMapping("deliverInsert")
-		@ResponseBody
-		public void deliverInsert(@RequestBody List<SalesVO> inDelver) {
-			service.deliverInsert(inDelver);
-		}
+		
+		
 
 	// 배송관리
 	@RequestMapping("/deliver.do")
 	public String deliver() {
 		return "sales/deliver";
 	}
+	
+		//배송관리 > 배송등록
+		@RequestMapping("deliverInsert")
+		@ResponseBody
+		public void deliverInsert(@RequestBody List<SalesVO> inDelver) {
+			service.deliverInsert(inDelver);
+		}
 		
 		//배송관리 > 수주번호 검색조회
 		@RequestMapping("jepoomList")
