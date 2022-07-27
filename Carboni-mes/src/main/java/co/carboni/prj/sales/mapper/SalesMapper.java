@@ -53,7 +53,9 @@ public interface SalesMapper {
 	//출하관리
 		
 		//출하관리 > 출하등록
-		public void shipInsert(SalesVO vo);
+		public void shipInsert(SalesVO vo);   //출하등록
+		//public void shipInsertUp(SalesVO vo); //출하수량 - 제품재고 업데이트
+	     
 		
 		//출하관리 > 출고목록 조회
 		public List<SalesVO> findShipList(@Param("startCp")String startCp, @Param("endCp")String endCp, 

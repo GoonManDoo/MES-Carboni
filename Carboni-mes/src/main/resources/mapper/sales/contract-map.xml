@@ -79,6 +79,13 @@
 			SET cnstatus = '생산중'
 			WHERE cnnum = (SELECT cnnum FROM prodreq WHERE prnum =#{prnum})
 		</update>
+		
+		<!-- 출하등록 -->
+		<insert id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
+			INSERT INTO ship
+			VALUES ( ('SH-'||to_char(ship_SHNUM_seq.nextval) ), #{cnnum}, #{sham}, #{shdate}, 'N' )
+		</insert>
+		
 	
 		<!-- 생산의뢰 조회 -->
 		<select id="findPrcloseList" resultType="co.carboni.prj.sales.vo.SalesVO">
@@ -116,11 +123,6 @@
 	
 	<!-- 출하관리 -->
 	
-		<!-- 출하등록 -->
-		<insert id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
-			INSERT INTO ship
-			VALUES ( ('SH-'||to_char(ship_SHNUM_seq.nextval) ), #{cnnum}, #{sham}, #{shdate}, 'N' )
-		</insert>
 	
 		<!-- 출하목록 삭제 -->
 		<delete id="findDelShList" parameterType="co.carboni.prj.sales.vo.SalesVO">
@@ -162,6 +164,8 @@
 			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode)
 			AND
 			(c.cnperiod BETWEEN #{startCpd} AND #{endCpd})
+			AND
+			c.cnrest > 0
 
 		</select>
 		
