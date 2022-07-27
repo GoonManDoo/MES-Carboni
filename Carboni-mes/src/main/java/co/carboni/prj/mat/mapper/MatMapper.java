@@ -64,5 +64,12 @@ public interface MatMapper {
 	
 	//자재관리에서 자재코드 검색해서 메인그리드에 출력
 	public List<MatVO> matSerchList(@Param("matCode")String matCode);
+	
+	//출고에서 조회하는 기능 
+	public List<MatVO> selectOutList(MatVO vo);
+	
+	//입고관리에서 입고일자들로 조회해서 메인그리드에 표시
+	public List<MatVO> findOutList(@Param("startD") String startD, @Param("endD") String endD,
+			@Param("matCode") String matCode);
 
 }

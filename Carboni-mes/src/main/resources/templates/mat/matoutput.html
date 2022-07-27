@@ -1,304 +1,323 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
+
 <head>
-<meta charset="UTF-8">
-<style>
-#modal {
-	display: none;
-}
+    <meta charset="UTF-8">
+    <style>
+        #modal {
+            display: none;
+        }
 
-.tui-datepicker {
-	z-index: 99;
-}
+        .tui-datepicker {
+            z-index: 99;
+        }
 
-.mg5 {
-	margin-top: 5px;
-}
+        .mg5 {
+            margin-top: 5px;
+        }
 
-.ht {
-	height: 28px;
-}
-.title {
-	text-align: center;
-	margin-bottom: 10px;
-	margin-top: -10px;
-}
+        .ht {
+            height: 28px;
+        }
 
-.input {
-	height: 23px;
-	margin-left: 15px;
-	margin-top: 5px;
-	display: inline-block;
-	padding: 0 10px;
-	vertical-align: middle;
-	border: 1px solid #dddddd;
-	width: 20%;
-	color: rgb(94, 94, 94);
-	border-radius: 5px;
-	text-align: center;
-	display: inline-block;
-}
-.tui-grid-cell.rowSelect {
-	background-color: #ffffff;
-}
-</style>
+        .title {
+            text-align: center;
+            margin-bottom: 10px;
+            margin-top: -10px;
+        }
+
+        .input {
+            height: 23px;
+            margin-left: 15px;
+            margin-top: 5px;
+            display: inline-block;
+            padding: 0 10px;
+            vertical-align: middle;
+            border: 1px solid #dddddd;
+            width: 20%;
+            color: rgb(94, 94, 94);
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .tui-grid-cell.rowSelect {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
+
 <body>
-	<th:block layout:fragment="main">
-		<div>
-			<!-- 전체를 관통  -->
-			<div class="container-fluid px-4">
-				<h1 class="mt-4">출고관리</h1>
-				<div class="card mb-2">
-					<div class="card-header">
-						<div style="display: flex; justify-content: flex-end;">
-							<button type="button" id="resetBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">새자료</button>
-							<button type="button" id="researchBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">조회</button>
-							<button type="button" id="saveBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">저장</button>
-							<button type="button" id="removeBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">삭제</button>
+    <th:block layout:fragment="main">
+        <div>
+            <!-- 전체를 관통  -->
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">출고관리</h1>
+                <div class="card mb-2 ">
+                    <div class="card-body">
+                        <form autocomplete="off" id="dataForm">
+                            <div class="col-6">
+                                <table class="table table-bbs">
+                                    <tbody>
+                                        <!-- 출고일자 조회  -->
+                                        <tr>
+                                            <th style="width: 20%;"><label>발주일자</label></th>
+                                            <td colspan='3'>
+                                                <div class="mt-1 grid-option-area">
+                                                    <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                                                        <input type="text" id="startpicker-input" class="form-control"
+                                                            aria-label="Date-Time" tabindex="1">
+                                                        <span class="tui-ico-date "></span>
+                                                        <div id="startpicker-container" style="margin-left: -1px;">
+                                                        </div>
+                                                    </div>
 
-						</div>
-					</div>
-				</div>
-				<div class="card mb-2 ">
-					<div class="card-body">
-						<form autocomplete="off" id="dataForm">
-							<div class="col-6">
-								<table class="table table-bbs">
-									<tbody>
-										<!-- 출고일자 조회  -->
-										<tr>
-											<th style="width: 20%;"><label>발주일자</label></th>
-											<td colspan='3'>
-												<div class="mt-1 grid-option-area">
-													<div
-														class="tui-datepicker-input tui-datetime-input tui-has-focus">
-														<input type="text" id="startpicker-input"
-															class="form-control" aria-label="Date-Time" tabindex="1">
-														<span class="tui-ico-date "></span>
-														<div id="startpicker-container" style="margin-left: -1px;"></div>
-													</div>
+                                                    <span class="mg5">~</span>
+                                                    <div class="tui-datepicker-input tui-datetime-input tui-has-focus">
+                                                        <input type="text" id="endpicker-input" class="form-control"
+                                                            aria-label="Date-Time" tabindex="1">
+                                                        <span class="tui-ico-date "></span>
+                                                        <div id="endpicker-container" style="margin-left: -1px;"></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- 출고 공정 조회 -->
+                                        <tr>
+                                            <th><label>자재명</label></th>
+                                            <td><input type="text" class="form-control ht" tabindex="2" id="outBtn"
+                                                    placeholder="자재명검색"></td>
+                                            <th><label>자제코드</label></th>
+                                            <td><input type="text" class="form-control ht" id="rightmat" readonly></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="container-fluid px-4 mb-2">
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <button type="button" class="btn btn-secondary" style="margin-right: 5px;"
+                                        id="researchBtn">조회</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid px-4">
+                <div id="grid"></div>
+            </div>
 
-													<span class="mg5">~</span>
-													<div
-														class="tui-datepicker-input tui-datetime-input tui-has-focus">
-														<input type="text" id="endpicker-input"
-															class="form-control" aria-label="Date-Time" tabindex="1">
-														<span class="tui-ico-date "></span>
-														<div id="endpicker-container" style="margin-left: -1px;"></div>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<!-- 출고 공정 조회 -->
-										<tr>
-											<th><label>자재명</label></th>
-											<td><input type="text" class="form-control ht"
-												tabindex="2" id="outBtn" placeholder="자재명검색"></td>
-											<th><label>자제코드</label></th>
-											<td><input type="text" class="form-control ht" id="rightmat" readonly></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<div class="container-fluid px-4 mb-2">
-								<div style="display: flex; justify-content: flex-end;">
-									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;">조회</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="container-fluid px-4">
-				<div id="grid"></div>
-			</div>
+            <div id="modal">
+                <div id="listmodal" title="자재검색" style="padding: 20px;">
+                    <div class="title">
+                        <span>자재명</span><input type="text" class="input" id="miSearchName">
+                        <button class="btn btn-secondary" id="miSearchBtn">검색</button>
+                    </div>
+                    <div id="listgrid"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                /*출고일자 검색 데이트 피커*/
+                /* 입고일자 데이터 피커  */
+                var today = new Date();
+                var picker = tui.DatePicker.createRangePicker({
+                    startpicker: {
+                        date: today,
+                        input: '#startpicker-input',
+                        container: '#startpicker-container'
+                    },
+                    endpicker: {
+                        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
+                        input: '#endpicker-input',
+                        container: '#endpicker-container'
+                    }
+                });
 
-			<div id="modal">
-				<div id="listmodal" title="자재검색" style="padding: 20px;">
-					<div class="title">
-						<span>자재명</span><input type="text" class="input" id="miSearchName">
-						<button class="btn btn-secondary" id="miSearchBtn">검색</button>
-					</div>
-					<div id="listgrid"></div>
-				</div>
-			</div>
-		</div>
-		<script>
-		$(function() {
-			/*출고일자 검색 데이트 피커*/
-			/* 입고일자 데이터 피커  */
-					var today = new Date();
-					var picker = tui.DatePicker.createRangePicker({
-						startpicker : {
-							date : today,
-							input : '#startpicker-input',
-							container : '#startpicker-container'
-						},
-						endpicker : {
-							date : today,
-							input : '#endpicker-input',
-							container : '#endpicker-container'
-						}
-					});
+                const gridData = [];
 
-			const gridData = [];
+                const grid = new tui.Grid({
+                    el: document.getElementById('grid'),
+                    data: gridData,
+                    scrollX: false,
+                    bodyHeight: 500,
+                    columns: [{
+                        header: '자재코드',
+                        sortingType: 'desc',
+                        name: 'micode',
+                        align: 'center',
+                        sortable: true
+                    }, {
+                        header: '자재명',
+                        name: 'miname',
+                        align: 'center'
+                    }, {
+                        header: '규격',
+                        name: 'mistand',
+                        align: 'center'
+                    }, {
+                        header: '자재단위',
+                        name: 'miunit',
+                        align: 'center'
+                    }, {
+                        header: '출고량',
+                        name: 'msoutam',
+                        align: 'center'
+                    }, {
+                        header: '출고일자',
+                        name: 'msoutdate',
+                        align: 'center'
+                    }, {
+                        header: '자재LOT.NO',
+                        name: 'mlnum',
+                        align: 'center'
+                    }, {
+                        header: '비고',
+                        name: 'msnote',
+                        align: 'center'
+                    }]
+                });
+                grid.hideColumn('mlnum')
 
-			const grid = new tui.Grid({
-				el : document.getElementById('grid'),
-				data : gridData,
-				scrollX : false,
-				bodyHeight : 500,
-				columns : [ {
-					header : '자재코드',
-					sortingType : 'desc',
-					name : 'micode',
-					align : 'center',
-					sortable : true
-				}, {
-					header : '자재명',
-					name : 'miname',
-					align : 'center'
-				}, {
-					header : '규격',
-					name : 'mistand',
-					align : 'center'
-				}, {
-					header : '자재단위',
-					name : 'miunit',
-					align : 'center'
-				}, {
-					header : '출고량',
-					name : 'msoutam',
-					align : 'center'
-				}, {
-					header : '출고일자',
-					name : 'msoutdate',
-					align : 'center'
-				}, {
-					header : '자재LOT.NO',
-					name : 'mlnum',
-					align : 'center'
-				}, {
-					header : '비고',
-					name : 'msnote',
-					align : 'center'
-				} ]
-			});
+                const listdata = [];
+                let listgd = new tui.Grid({
+                    el: document.getElementById('listgrid'),
+                    data: listdata,
+                    scrollX: false,
+                    bodyHeight: 430,
+                    columns: [{
+                        header: '자재코드',
+                        align: 'center',
+                        name: 'micode',
+                        sortingType: 'desc',
+                        sortable: true
+                    }, {
+                        header: '자재명',
+                        name: 'miname',
+                        align: 'center',
 
-			const listdata = [];
-			let listgd = new tui.Grid({
-				el : document.getElementById('listgrid'),
-				data : listdata,
-				scrollX : false,
-				bodyHeight : 430,
-				columns : [ {
-					header : '자재코드',
-					align : 'center',
-					name : 'micode',
-					sortingType : 'desc',
-					sortable : true
-				}, {
-					header : '자재명',
-					name : 'miname',
-					align : 'center',
+                    }, {
+                        header: '규격',
+                        align: 'center',
+                        name: 'mistand'
+                    }, {
+                        header: '자재단위',
+                        name: 'miunit',
+                        align: 'center',
+                    }]
 
-				}, {
-					header : '규격',
-					align : 'center',
-					name : 'mistand'
-				}, {
-					header : '자재단위',
-					name : 'miunit',
-					align : 'center',
-				} ]
+                })
+                /*=============================================*/
+                /*메이크 모달*/
+                function makeModal(e, fnc) {
+                    var dialog = $(e).dialog({
+                        autoOpen: false,
+                        height: 600,
+                        width: 700,
+                        modal: true,
+                        buttons: {
+                            '확인': fnc,
+                            '취소': function () {
+                                $(this).dialog('close')
+                            }
+                        }
+                    });
+                    $('.ui-dialog-titlebar-close').html('X').css('border',
+                        'none');
+                    $('.ui-dialog-buttonset').children().attr('class',
+                        'btn btn-secondary');
+                    return dialog;
+                }
 
-			})
-			/*=============================================*/
-		/*메이크 모달*/
-				function makeModal(e, fnc) {
-					var dialog = $(e).dialog({
-						autoOpen : false,
-						height : 600,
-						width : 700,
-						modal : true,
-						buttons : {
-							'확인' : fnc,
-							'취소' : function() {
-								$(this).dialog('close')
-							}
-						}
-					});
-					$('.ui-dialog-titlebar-close').html('X').css('border',
-							'none');
-					$('.ui-dialog-buttonset').children().attr('class',
-							'btn btn-secondary');
-					return dialog;
-				}
-			
-			
-				var outmo = makeModal("#listmodal",outcheck)
+                var outmo = makeModal("#listmodal", outcheck)
 
-				$("#outBtn").on('click',function() {
-					outmo.dialog('open')
-						$.ajax({
-							url : 'matlist',
-							method : 'POST',
-							dataType : 'json',
-							success : function(result) {
-								listgd.refreshLayout();
-								listgd.resetData(result)
-								listgd.on('click',e=>{
-									var rk = e.rowKey
-									for(i=0; i<listgd.getRowCount(); i++) {
-										listgd.removeRowClassName(i, 'rowSelect')
-										}
-									listgd.addRowClassName(rk, 'rowSelect')
-									mi = listgd.getRow(rk).miname
-									maco =listgd.getRow(rk).micode
-									
-								})
-							}
-						})
-						})
-				/*자재코드 모달안의 검색을 눌렀을때 */
-				$("#miSearchBtn").on('click',function(){
-					var miname= $('#miSearchName').val()
-					$.ajax({
-						url:'findserchmaterial',
-						method: 'post',
-						data:{miname},
-						dataType: 'json',
-						success :function(result){
-							listgd.resetData(result)
-								listgd.on('click',e=>{
-								var rk = e.rowKey
-								for(i=0; i<listgd.getRowCount(); i++) {
-									listgd.removeRowClassName(i, 'rowSelect')
-									}
-								listgd.addRowClassName(rk, 'rowSelect')
-								mi = listgd.getRow(rk).miname
-								maco =listgd.getRow(rk).micode
-								})
-						}
-					})
-				})
-					/**/
-				function outcheck() {
-					$('#outBtn').val(mi)
-					$("#rightmat").val(maco)
-					outmo.dialog('close')
-				}
-			
-			})
-		</script>
-	</th:block>
+                $("#outBtn").on('click', function () {
+                    outmo.dialog('open')
+                    $.ajax({
+                        url: 'matlist',
+                        method: 'POST',
+                        dataType: 'json',
+                        success: function (result) {
+                            listgd.refreshLayout();
+                            listgd.resetData(result)
+                            listgd.on('click', e => {
+                                var rk = e.rowKey
+                                for (i = 0; i < listgd.getRowCount(); i++) {
+                                    listgd.removeRowClassName(i, 'rowSelect')
+                                }
+                                listgd.addRowClassName(rk, 'rowSelect')
+                                mi = listgd.getRow(rk).miname
+                                maco = listgd.getRow(rk).micode
+
+                            })
+                        }
+                    })
+                })
+                /*자재코드 모달안의 검색을 눌렀을때 */
+                $("#miSearchBtn").on('click', function () {
+                    var miname = $('#miSearchName').val()
+                    $.ajax({
+                        url: 'findserchmaterial',
+                        method: 'post',
+                        data: {
+                            miname
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            listgd.resetData(result)
+                            listgd.on('click', e => {
+                                var rk = e.rowKey
+                                for (i = 0; i < listgd.getRowCount(); i++) {
+                                    listgd.removeRowClassName(i, 'rowSelect')
+                                }
+                                listgd.addRowClassName(rk, 'rowSelect')
+                                mi = listgd.getRow(rk).miname
+                                maco = listgd.getRow(rk).micode
+                            })
+                        }
+                    })
+                })
+                
+                function outcheck() {
+                    $('#outBtn').val(mi)
+                    $("#rightmat").val(maco)
+                    outmo.dialog('close')
+                }
+                /*전제 조회 아작스 만들기~!*/
+                $.ajax({
+                    url: 'selectoutlist',
+                    method: 'POST',
+                    dataType: 'JSON',
+                    success: function (result) {
+                        grid.resetData(result)
+                    }
+                })
+                /*======================================================================================*/
+                /*일자와 자재코드로 조회하기~*/
+                $('#researchBtn').on('click', function () {
+                    var startD = $('#startpicker-input').val()
+                    var endD = $('#endpicker-input').val()
+                    var matCode = $('#rightmat').val()
+                    $.ajax({
+                        url: 'findoutlist',
+                        method: 'POST',
+                        data: {
+                            startD,
+                            endD,
+                            matCode
+                        },
+                        success: function (result) {
+                            grid.refreshLayout();
+                            grid.resetData(result)
+                        }
+                    })
+                })
+
+            })
+        </script>
+    </th:block>
 </body>
+
 </html>

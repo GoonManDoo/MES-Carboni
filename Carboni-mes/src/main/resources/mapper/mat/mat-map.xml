@@ -54,13 +54,10 @@
 		SELECT
 		O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,C.CSNAME,M.MINAME,O.MOASKAM
 		FROM MATORD O,COSTOMER C,MATINFO M
-		WHERE (O.MICODE=M.MICODE
-		AND
-		C.CSCODE=O.CSCODE)
-		AND O.CSCODE=#{cusCode}
-		AND O.MICODE=#{matCode}
-		AND
-		(O.MOODATE BETWEEN #{startD} AND #{endD})
+		WHERE (O.MICODE=M.MICODE AND C.CSCODE=O.CSCODE)
+		<if test="cusCode != null and !cusCode.equals('')">AND (O.CSCODE = #{cusCode})</if>
+		<if test="matCode != null and !matCode.equals('')">AND (O.MICODE = #{matCode})</if>
+		<if test="startD != null and endD != null">AND (O.MOODATE BETWEEN #{startD} AND #{endD})</if>
 	</select>
 
 	<!-- 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 -->
@@ -125,12 +122,9 @@
 	<delete id="findDelreq"
 		parameterType="co.carboni.prj.mat.vo.MatVO">
 		DELETE FROM MATORD
-		WHERE MONUM IN
-		<foreach collection="dellist" item="arr" open="("
-			separator="," close=")">
-			#{arr}
-		</foreach>
+		WHERE MONUM = #{monum} 
 	</delete>
+	
 		<update id="findDelrequest" parameterType="co.carboni.prj.mat.vo.MatVO">
 		update matreq
 		<set>
@@ -155,19 +149,15 @@
 		E.MOSTATUS='발주중'
 	</select>
 	<!-- 입고관리에서 내용 삭제 -->
-	<!-- 내용 삭제하면서 발주내용 다시 발주전으로 바꿔야함 update 상태를 발주전으로 변경 -->
+	
 
 	<delete id="inputDelreq"
 		parameterType="co.carboni.prj.mat.vo.MatVO">
 
 		DELETE FROM MATSAR
-		WHERE MONUM IN
-		<foreach collection="dellists" item="arr" open="("
-			separator="," close=")">
-			#{arr}
-		</foreach>
+		WHERE MSNUM =#{msnum}
 	</delete>
-
+	<!-- 내용 삭제하면서 발주내용 다시 발주전으로 바꿔야함 update 상태를 발주전으로 변경 -->	
 	<update id="inputupdatereq" parameterType="co.carboni.prj.mat.vo.MatVO">
 		update matord
 		<set>
@@ -194,11 +184,12 @@
 		C.CSNAME
 		FROM MATSAR S,MATORD O,MATINFO M,COSTOMER C
 		WHERE (S.MONUM = O.MONUM AND O.MICODE=M.MICODE AND O.CSCODE=C.CSCODE)
+		AND S.MSSTAT='입고'
 		<if test="cusCode != null and !cusCode.equals('')">AND (O.CSCODE = #{cusCode})</if>
 		<if test="startD != null and endD != null">AND (S.MSINDATE BETWEEN #{startD} AND #{endD})</if>
 	</select>
 	
-	<!-- ====================================================================== -->
+	<!-- ===========자재관리=========================================================== -->
 	
 	<select id="matListAll" resultType="co.carboni.prj.mat.vo.MatVO">
 		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE S.MICODE=M.MICODE ORDER BY S.MATNUM
@@ -208,5 +199,23 @@
 		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE (S.MICODE=M.MICODE) AND S.MICODE=#{matCode}
 	</select>
 	
+	<!-- ====출고============================================================================== -->
+	<select id="selectOutList" resultType="co.carboni.prj.mat.vo.MatVO">
+	  SELECT M.MSNUM,M.PCNUM,M.MSOUTDATE,M.MSOUTAM,
+			M.MICODE,A.MINAME,A.MISTAND,A.MIUNIT
+      FROM MATSAR M,MATINFO A
+      WHERE m.micode = a.micode
+      and  M.MSSTAT ='출고'
+	</select>
+	
+	<select id="findOutList" resultType="co.carboni.prj.mat.vo.MatVO">
+	SELECT M.MSNUM,M.PCNUM,M.MSOUTDATE,M.MSOUTAM,
+			M.MICODE,A.MINAME,A.MISTAND,A.MIUNIT
+      FROM MATSAR M,MATINFO A
+      WHERE M.MICODE = A.MICODE
+      AND M.MSSTAT ='출고'
+     <if test="matCode != null and !matCode.equals('')">AND (M.MICODE = #{matCode})</if>
+	<if test="startD != null and endD != null">AND (M.MSOUTDATE BETWEEN #{startD} AND #{endD})</if>
+	</select>
 	
 </mapper>

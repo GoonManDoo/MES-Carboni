@@ -36,7 +36,7 @@ public interface MatService {
 	public List<MatVO>  addRequestList(List<MatVO> list);
 	
 	//발주에서 발주내용 삭제할떄
-	public void findDelreq(MatVO vo);
+	public void findDelreq(List<MatVO> list);
 	
 	//---------------------------------------------------------
 
@@ -51,13 +51,21 @@ public interface MatService {
 	public List<MatVO> findInDate(String startD, String endD,String cusCode);
 	
 	//입고관리에서 입고된것들 삭제할때 
-	public void inputDelreq(MatVO vo);
+	public void inputDelreq(List<MatVO> list);
 	
+	////////////////////////////////////////////////////////////////////////
 	//자재관리에서 모든 자재 리스트 그리드에 출력
 	public List<MatVO> matListAll(MatVO vo);
 	
 	//자재관리에서 자재코드 검색해서 메인그리드에 출력
 	public List<MatVO> matSerchList(String matCode);
+	
+	////////////////////////////////////////////////////////////////////////
+	//출고에서 조회하는 기능 
+	public List<MatVO> selectOutList(MatVO vo);
+	//입고관리에서 입고일자들로 조회해서 메인그리드에 표시
+	public List<MatVO> findOutList(String startD, String endD,String matCode);
+	
 
 
 }

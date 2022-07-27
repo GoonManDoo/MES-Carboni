@@ -72,14 +72,6 @@ public class MatVO {
 	private String matnum; //자재관리번호
 	private int msunam; //미달량(총자재량-안전재고)
 	
-	
-	
-	
-	public List<String> dellist;
-	
-	//입고관리에서 삭제할떄
-	public List<String> dellists;
-	
 
 
 }
