@@ -65,7 +65,7 @@
                               <div sec:authorize="hasRole('ROLE_a')" style="display: flex;  justify-content: space-evenly;">
                                  <button type="button" class="btn btn-primary"
                                     data-bs-toggle="modal" data-bs-target="#adEditModal"
-                                    style="background-color: white; border: 1px solid black;
+                                    style="background-color: white; border: 1px solid #b5b5b5;
                                     color:black;" onclick="addEdit()">등록</button>
                             
                            
@@ -80,15 +80,20 @@
                      <div class="card bg-white"
                         style="width: 590px; height: 200px; margin-top: 17px;">
                         <div class="card-body">
-                           <div style="border-bottom: solid #d1d1d1 1px;">
-                              <h5 style="display: block;">3rdline</h5>
+                           <div style="border-bottom: solid #d1d1d1 1px; display: flex; justify-content: flex-end;">
+                              <h5 style="display: block; display: block; margin-right: 372px; margin-left: -50px;">설비온도</h5>
+                              <h5 style="font-size: 15px; margin-top: 11px; margin-bottom: -10px;">적정온도:</h5>
+                              <h5 style="font-size: 15px; margin-left: 5px; margin-top: 11px; margin-bottom: -10px;" th:text="${sysvo.sisaftem}">온도</h5>
                            </div >
                           <figure class="highcharts-figure">
                          <div th:id="${sysvo.sinum}"  style="height: 130px;"></div>
                        </figure>                            
                         </div>
                      </div>
-                     <a sec:authorize="hasRole('ROLE_a')" style="margin-bottom: -8px; margin-top: 10px; margin-left: 426px; border: none; background-color: white; font-size: x-large;" th:href="@{/ProdDetail.do(sinum=${sysvo.sinum})}" >자세히보기</a>
+                     <a sec:authorize="hasRole('ROLE_a')" 
+                     style="margin-bottom: -8px; margin-top: 10px; margin-left: 426px; border: none; background-color: white; font-size: x-large;" 
+                     th:href="@{/ProdDetail.do(sinum=${sysvo.sinum})}">
+                     <img style="width: 98px; margin-left: 58px; margin-top: -9px;" alt="자세히보기 버튼" src="/assets/img/detailBut.svg"></a>
                   </div>     
                </div>
     
