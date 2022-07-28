@@ -9,7 +9,8 @@
 						  JOIN PROCINFO I ON L.PICODEID = I.PICODEID
 	</select>
 	<select id="plancal" resultType="co.carboni.prj.produce.vo.PrododVO">
-		SELECT PCDNUM, PCDSDATE, PCDEDATE FROM PROCCOMM_D
+		select p.PCDSDATE,p.PCDEDATE,m.pcname,p.pcnum from PROCCOMM_D p,
+		prodcomm m where m.pcnum=p.pcnum
 	</select>
 	
 	<select id="formon" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
@@ -18,5 +19,15 @@
         		          JOIN PROCCOMM_D C ON J.PCDNUM = C.PCDNUM
         		          JOIN PROCINFO P ON H.PICODEID = P.PICODEID
         		          JOIN GOODSINFO G ON G.GICODE = C.GICODE
+	</select>
+	
+	<select id="detailList" resultType="co.carboni.prj.produce.vo.PrododVO">
+			select a.pcnum,a.pcname,a.pcstatus,a.pcnote
+		        ,s.lineid,s.pcdam,s.pcdsdate,s.pcdedate
+		        ,g.giname
+		    from prodcomm a, PROCCOMM_D s, goodsinfo g
+		    where a.pcnum=s.pcnum
+		    and s.gicode=g.gicode
+		    and a.pcnum=#{pcnum}
 	</select>
 </mapper>

@@ -3,43 +3,121 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
 <head>
-	<!-- 캘린더 cdn -->
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
-	<link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
-	<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
-	<style>
-		a {
-		 color: #4e4e4e;
-		}
-	</style>
+<!-- 캘린더 cdn -->
+<script
+	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
+<link rel="stylesheet"
+	href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
+<script
+	src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+<style>
+a {
+	color: #4e4e4e;
+}
+</style>
 </head>
-	<th:block layout:fragment="main">
-<body class="sb-nav-fixed">
+<th:block layout:fragment="main">
+	<body class="sb-nav-fixed">
 		<div class="container-fluid px-4">
 			<h1 class="mt-4">생산일정조회</h1>
-			
-			<div style="width:95%; margin:20px auto;">
+
+			<div style="width: 95%; margin: 20px auto;">
 				<div id='calendar'></div>
 			</div>
-			
-			
 		</div>
-		
-<script>
-  $.ajax({
+		<div>
+			<div id="alllist" title="상세 정보 " style="padding: 20px;">
+			<table>
+				<tr>
+				<th>지시번호</th>
+				<td id ="pcnum"></td>
+				</tr>
+				<tr>
+				<th>지시명</th>
+				<td id="name"></td>
+				</tr>
+				<tr>
+				<th>라인번호</th>
+				</tr>
+			</table>
+			</div>
+		</div>
+
+		<script>
+$(function(){
+	/*메이크 모달*/
+    function makeModal(e) {
+        var dialog = $(e).dialog({
+            autoOpen: false,
+            height: 600,
+            width: 700,
+            modal: true,
+            buttons: {
+                '확인': function () {
+                    $(this).dialog('close')
+                }
+            }
+        });
+        $('.ui-dialog-titlebar-close').html('X').css('border',
+            'none');
+        $('.ui-dialog-buttonset').children().attr('class',
+            'btn btn-secondary');
+        return dialog;
+    }
+	
+	arr = [];
+	
+	$.ajax({
         url : "plancal",
         method :"GET",
         dataType: "JSON",
         success : function(result){
 				var orderCal = document.getElementById('calendar');
+				for(data of result){
+					var obj={
+						title : data.pcnum +' '+ data.title,
+						start: moment(data.start).format('YYYY-MM-DD'),
+						end : moment(data.end).format('YYYY-MM-DD')	,
+						content : data.pcnum
+					}
+					arr.push(obj);
+				}
+				
+				console.log(arr)
 				var calendar = new FullCalendar.Calendar(orderCal, {
 					initialView: 'dayGridMonth',
-					events: result
-				});
-				calendar.render();
+					locale: 'ko',
+					eventClick: function(arg){
+						console.log(arg)
+						var list = makeModal('#alllist')
+						list.dialog('open')
+						var pcnum = arg.el.fcSeg.eventRange.def.extendedProps.content;
+						console.log(pcnum)
+						$.ajax({
+							url:'detaillist',
+							method : 'POST',
+							data:{pcnum},
+							success : function(rs){
+								$('#pcnum').text(rs[0].pcnum)
+								$('#name').text(rs[0].pcname)
+							
+							}
+						})
+						
+						
+					}
+				,events: arr,
+				})
+			calendar.render();
         } 
-    });
+    })
+})
+  
+  
 </script>
 </th:block>
 </body>

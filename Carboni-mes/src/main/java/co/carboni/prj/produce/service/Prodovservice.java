@@ -10,5 +10,7 @@ public interface Prodovservice {
 	List<ProdovVO> selectProdov();
 	List<PrododVO> plancal();
 	List<ProcMoniterVO> formon();
+	//이벤트 클릭시 상세 보기
+	public List<PrododVO> detailList(PrododVO vo);
 	
 }

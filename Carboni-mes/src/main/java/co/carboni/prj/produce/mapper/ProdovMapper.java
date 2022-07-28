@@ -10,4 +10,6 @@ public interface ProdovMapper {
 	List<ProdovVO> selectProdov();
 	List<PrododVO> plancal();
 	List<ProcMoniterVO> formon();
+	
+	public List<PrododVO> detailList(PrododVO vo);
 }
