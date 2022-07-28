@@ -193,15 +193,25 @@
 		
 		<!-- 제품재고등록 검색조회 -->
 		<select id="findStkProdList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT  giname, gicode
-			FROM goodsinfo
-			WHERE giname like '%' || #{addStk} || '%'
+			SELECT g.giname, g.gicode
+			FROM goodsinfo g
+			WHERE NOT EXISTS (
+                             SELECT s.gsam
+                             FROM goodsstk s
+                             WHERE s.gicode = g.gicode
+                             )
+			AND giname like '%' || #{addStk} || '%'
 		</select>
 		
 		<!-- 제품재고등록 전체조회 -->
 		<select id="findAllStkProdList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT  giname, gicode
-			FROM goodsinfo
+			SELECT g.giname, g.gicode
+			FROM goodsinfo g
+			WHERE NOT EXISTS (
+                             SELECT s.gsam
+                             FROM goodsstk s
+                             WHERE s.gicode = g.gicode
+                             )
 		</select>
 		
 		<!-- 제품재고 등록 -->
@@ -291,7 +301,7 @@
 	    WHERE shnum = #{shnum};
 	    
 	    SELECT c.cnrest, c.cnnum, s.sham
-	    into v_cnrest, v_cnnum, v_sham
+	    INTO v_cnrest, v_cnnum, v_sham
 	    FROM contract c JOIN ship s ON c.cnnum = s.cnnum
 	    WHERE s.shnum = #{shnum};
 	    

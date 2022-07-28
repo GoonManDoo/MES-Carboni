@@ -1,13 +1,13 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+	layout:decorate="~{layouts/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <head>
 <style>
 .btn-secondary {
-	margin-left: 20px;
+	margin-left: 5px;
 }
 
 span {
@@ -82,20 +82,20 @@ margin-right : -500px;
 <body class="sb-nav-fixed">
 <th:block layout:fragment="main">
 	<div class="container-fluid px-4">
-		 <h2 class="mt-4">생산의뢰관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>생산의뢰관리</div></h2>
+		 <h1 class="mt-4">생산의뢰관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>생산의뢰관리</div></h1>
 		
 		<!-- 메인화면 버튼 -->
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-				<button id="searchBtn" class="btn btn-secondary">조회</button>
-				<button id="insertBtn" class="btn btn-secondary">등록</button>
-				<button id="deleteBtn" class="btn btn-secondary">삭제</button>
+				<button id="searchBtn" class="btn btn-secondary" >조회</button>
+				<button id="insertBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">등록</button>
+				<button id="deleteBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button>
 				<button id="clearBtn" class="btn btn-secondary">새자료</button>
 			</div>
 		</div>
 		
 		<!-- 메인화면 검색 -->
-				<form autocomplete="off" id="dataForm">
+		<form autocomplete="off" id="dataForm">
 		<div class="card mb-4" id="pageing">
 			<div class="card-body">
 				<span> 수주일자<input type="date" name="startCndate" id="startCndate" class="input" />~ 
@@ -242,7 +242,7 @@ margin-right : -500px;
 			el : document.getElementById('gridpro'),
 			data : giupdata,
 			scrollX : false,
-			rowHeaders : [ 'rowNum', 'checkbox' ],
+			rowHeaders : [ 'rowNum' ],
 			bodyHeight : 430,
 			columns : [ {
 				header : '제품코드',
@@ -366,8 +366,8 @@ margin-right : -500px;
 				buttons : {
 					'확인' : fnc,
 					'취소' : function() {
-						jepoom.resetData(giupdata);
-						reqprod.resetData(checkdata);
+						jepoom.clear();
+						reqprod.clear();
 						$('#startCndate1').val(new Date());
 						$('#endCndate1').val(new Date());
 						$(this).dialog('close')
@@ -376,8 +376,8 @@ margin-right : -500px;
 			});
 			$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 			$('.ui-dialog-titlebar-close').html('X').css('border','none').on('click', function() {
-				jepoom.resetData(giupdata);
-				reqprod.resetData(checkdata);
+				jepoom.clear();
+				reqprod.clear();
 				$('#startCndate1').val(new Date());
 				$('#endCndate1').val(new Date());
 				

@@ -1,11 +1,11 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
 <style>
 .btn-secondary {
-	margin-left: 20px;
+	margin-left: 5px;
 }
 
 span {
@@ -74,23 +74,24 @@ span {
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
 		<div class="container-fluid px-4">
-			<h2 class="mt-4">출하 관리<div class="nameing">
+			<h1 class="mt-4">출하 관리<div class="nameing">
 					<a href="/" style="text-decoration-line: none; color: black">홈</a>>영업관리>출하관리
 				</div>
-			</h2>
+			</h1>
 
 			<!-- 메인화면 버튼 -->
 			<div class="card-header" id="btn">
 				<div style="display: flex; justify-content: flex-end;">
 					<button id="norestBtn" class="btn btn-secondary" >미출고건조회</button>
 					<button id="searchBtn" class="btn btn-secondary">조회</button>
-					<button id="insertBtn" class="btn btn-secondary">등록</button>
-					<button id="deleteBtn" class="btn btn-secondary">삭제</button>
+					<button id="insertBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">등록</button>
+					<button id="deleteBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button>
 					<button id="clearBtn" class="btn btn-secondary">새자료</button>
 				</div>
 			</div>
 
 			<!-- 메인화면 검색 -->
+			<form autocomplete="off" id="dataForm">
 			<div class="card mb-4" id="pageing">
 				<div class="card-body">
 					<span> 납기일자<input type="date" name="startCnperiod" id="startCnperiod" class="input" />~ 
@@ -102,6 +103,7 @@ span {
 					</span>
 				</div>
 			</div>
+			</form>
 		</div>
 
 		<!-- 메인화면 그리드 -->
@@ -185,7 +187,157 @@ span {
 
 			$(function() {
 				
+				/* 출고관리 메인 그리드 */
+				const gridData = [];
+
+				const grid = new tui.Grid({
+					el : document.getElementById('grid'),
+					data : gridData,
+					scrollX : false,
+					rowHeaders : [ 'rowNum', 'checkbox' ],
+					columns : [{
+						header : '출하번호',
+						name : 'shnum',
+						align : 'center'
+					},{
+						header : '수주번호',
+						name : 'cnnum',
+						align : 'center'
+					}, {
+						header : '거래처명',
+						name : 'csname',
+						align : 'center'
+					}, {
+						header : '제품명',
+						name : 'giname',
+						align : 'center'
+					},  {
+						header : '출하수량',
+						name : 'sham',
+						align : 'center'
+					}, {
+						header : '출고일자',
+						name : 'shdate',
+						align : 'center'
+					}, {
+						header : '납기일자',
+						name : 'cnperiod',
+						align : 'center'
+					}, {
+						header : '출하진행상태',
+						name : 'shstatus',
+						align : 'center'
+					} ]
+				});
 				
+				/* 출하등록 그리드 */
+				const shipdata = [];
+
+				let ship = new tui.Grid({
+					el : document.getElementById('insertShgrid'),
+					data : shipdata,
+					scrollX : false,
+					rowHeaders : [ 'rowNum', 'checkbox' ],
+					bodyHeight : 430,
+					columns : [ {
+						header : '수주번호',
+						name : 'cnnum',
+						align : 'center'
+					}, {
+						header : '제품명',
+						name : 'giname',
+						align : 'center'
+					}, {
+						header : '거래처명',
+						name : 'csname',
+						align : 'center'
+					}, {
+						header : '수주일자',
+						name : 'cndate',
+						align : 'center'
+					},{
+						header : '납기일자',
+						name : 'cnperiod',
+						align : 'center'
+					}, {
+						header : '출하수량',
+						name : 'sham',
+						align : 'center',
+						editor : 'text'
+					}, {
+						header : '출고일자',
+						name : 'shdate',
+						align : 'center',
+						editor : 'datePicker',
+					    width: 240
+					} ]
+				});
+
+					/*미출고 모달 그리드*/
+					const totaldata = [];
+
+					let mechool = new tui.Grid({
+						el : document.getElementById('gridcomp'),
+						data : totaldata,
+						scrollX : false,
+						rowHeaders : [ 'rowNum'],
+						bodyHeight : 430,
+						columns : [ {
+							header : '수주번호',
+							name : 'cnnum',
+							align : 'center'
+						}, {
+							header : '제품명',
+							name : 'giname',
+							align : 'center'
+						}, {
+							header : '거래처명',
+							name : 'csname',
+							align : 'center'
+						}, {
+							header : '납기일자',
+							name : 'cnperiod',
+							align : 'center'
+						}, {
+							header : '수주수량',
+							name : 'cnam',
+							align : 'center'
+						}, {
+							header : '수주잔량',
+							name : 'cnrest',
+							align : 'center'
+						} ]
+					});
+
+					/*제품정보 그리드*/
+					const giupdata = [];
+
+					let jepoom = new tui.Grid({
+						el : document.getElementById('gridpro'),
+						data : giupdata,
+						scrollX : false,
+						rowHeaders : [ 'rowNum', 'checkbox' ],
+						bodyHeight : 430,
+						columns : [ {
+							header : '제품코드',
+							name : 'gicode',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '제품명',
+							name : 'giname',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						}, {
+							header : '제품단위',
+							name : 'giunit',
+							align : 'center',
+							sortingType : 'desc',
+							sortable : true
+						} ]
+					});
 				
 				/* 출고관리 출고조회 */
 				$('#searchBtn').on('click', function() {
@@ -207,11 +359,7 @@ span {
 					success: function(result) {
 						grid.refreshLayout();
 						grid.resetData(result)
-						/* 총출하수량 계산 */
-						/* asa = grid.getRowCount()
-						for(i=0; i<asa; i++) {
-							grid.setValue(i, 'allshdam', grid.getRow(i).)
-						} */
+						
 						
 					}
 				})
@@ -231,6 +379,19 @@ span {
 					}
 				})
 			})
+			
+			/* 새자료 - 초기화버튼 */
+			$('#clearBtn').on('click', function() {
+				fnFormClear();
+			})
+			
+			function fnFormClear() {
+				document.getElementById('dataForm').reset();
+				grid.resetData(gridData);
+				ship.resetData(shipdata);
+				mechool.resetData(totaldata);
+				jepoom.resetData(giupdata);
+			}
 
 				/*메이크 모달*/
 				function makeModal(e, fnc) {
@@ -242,12 +403,18 @@ span {
 						buttons : {
 							'확인' : fnc,
 							'취소' : function() {
+								ship.clear();
+								mechool.clear();
+								jepoom.clear();
 								$(this).dialog('close')
 							}
 						}
 					});
 					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					$('.ui-dialog-titlebar-close').html('X').css('border', 'none')
+						ship.clear();
+						mechool.clear();
+						jepoom.clear();
 					return dialog;
 				}
 
@@ -372,160 +539,6 @@ span {
 			})
 			modal3.dialog('close')
 		}
-
-				
-				
-			/* 출고관리 메인 그리드 */
-			const gridData = [];
-
-			const grid = new tui.Grid({
-				el : document.getElementById('grid'),
-				data : gridData,
-				scrollX : false,
-				rowHeaders : [ 'rowNum', 'checkbox' ],
-				columns : [{
-					header : '출하번호',
-					name : 'shnum',
-					align : 'center'
-				},{
-					header : '수주번호',
-					name : 'cnnum',
-					align : 'center'
-				}, {
-					header : '거래처명',
-					name : 'csname',
-					align : 'center'
-				}, {
-					header : '제품명',
-					name : 'giname',
-					align : 'center'
-				},  {
-					header : '출하수량',
-					name : 'sham',
-					align : 'center'
-				}, {
-					header : '출고일자',
-					name : 'shdate',
-					align : 'center'
-				}, {
-					header : '납기일자',
-					name : 'cnperiod',
-					align : 'center'
-				}, {
-					header : '출하진행상태',
-					name : 'shstatus',
-					align : 'center'
-				} ]
-			});
-			
-			/* 출하등록 그리드 */
-			const shipdata = [];
-
-			let ship = new tui.Grid({
-				el : document.getElementById('insertShgrid'),
-				data : shipdata,
-				scrollX : false,
-				rowHeaders : [ 'rowNum', 'checkbox' ],
-				bodyHeight : 430,
-				columns : [ {
-					header : '수주번호',
-					name : 'cnnum',
-					align : 'center'
-				}, {
-					header : '제품명',
-					name : 'giname',
-					align : 'center'
-				}, {
-					header : '거래처명',
-					name : 'csname',
-					align : 'center'
-				}, {
-					header : '수주일자',
-					name : 'cndate',
-					align : 'center'
-				},{
-					header : '납기일자',
-					name : 'cnperiod',
-					align : 'center'
-				}, {
-					header : '출하수량',
-					name : 'sham',
-					align : 'center',
-					editor : 'text'
-				}, {
-					header : '출고일자',
-					name : 'shdate',
-					align : 'center',
-					editor : 'datePicker',
-				    width: 240
-				} ]
-			});
-
-				/*미출고 모달 그리드*/
-				const totaldata = [];
-
-				let mechool = new tui.Grid({
-					el : document.getElementById('gridcomp'),
-					data : totaldata,
-					scrollX : false,
-					rowHeaders : [ 'rowNum'],
-					bodyHeight : 430,
-					columns : [ {
-						header : '수주번호',
-						name : 'cnnum',
-						align : 'center'
-					}, {
-						header : '제품명',
-						name : 'giname',
-						align : 'center'
-					}, {
-						header : '거래처명',
-						name : 'csname',
-						align : 'center'
-					}, {
-						header : '납기일자',
-						name : 'cnperiod',
-						align : 'center'
-					}, {
-						header : '수주수량',
-						name : 'cnam',
-						align : 'center'
-					}, {
-						header : '수주잔량',
-						name : 'cnrest',
-						align : 'center'
-					} ]
-				});
-
-				/*제품정보 그리드*/
-				const giupdata = [];
-
-				let jepoom = new tui.Grid({
-					el : document.getElementById('gridpro'),
-					data : giupdata,
-					scrollX : false,
-					rowHeaders : [ 'rowNum', 'checkbox' ],
-					bodyHeight : 430,
-					columns : [ {
-						header : '제품코드',
-						name : 'gicode',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '제품명',
-						name : 'giname',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					}, {
-						header : '제품단위',
-						name : 'giunit',
-						align : 'center',
-						sortingType : 'desc',
-						sortable : true
-					} ]
-				});
 			})
 		</script>
 	</th:block>
