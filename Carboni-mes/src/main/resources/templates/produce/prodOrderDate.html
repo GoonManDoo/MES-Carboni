@@ -21,7 +21,16 @@ a {
 #modal {
 	display: none;
 }
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+  color: rgb(69, 123, 169);
+  text-decoration: none;
+}
 
+.fc-day-sun a {
+  color: rgb(184, 108, 111);
+  text-decoration: none;
+}
 </style>
 </head>
 <th:block layout:fragment="main">
@@ -35,7 +44,7 @@ a {
 		</div>
 		<div  id="modal">
 			<div id="alllist" title="상세 정보 " style="padding: 20px;">
-				<table>
+				<table class="table table-bordered">
 					<tr>
 					<th>지시번호</th>
 					<td id ="pcnum"></td>
@@ -118,7 +127,7 @@ $(function(){
 				
 				console.log(arr)
 				var calendar = new FullCalendar.Calendar(orderCal, {
-					height: '710px', // calendar 높이 설정
+					height: '750px', // calendar 높이 설정
 					initialView: 'dayGridMonth',
 					locale: 'ko',
 					eventClick: function(arg){
@@ -146,6 +155,8 @@ $(function(){
 						
 					}
 				,events: arr,
+				eventColor: 'rgb(146, 146, 155)',
+				eventTextColor: '#ffffff'
 				})
 			calendar.render();
         } 
