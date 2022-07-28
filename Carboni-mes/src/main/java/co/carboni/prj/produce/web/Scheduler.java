@@ -15,10 +15,9 @@ public class Scheduler {
 	@Autowired
 	ProdService service;
 	
-	@Scheduled(fixedDelay = 5000)
+	@Scheduled(fixedRate = 15000)
 	public void schedule() {
 		
-		 System.out.println("스케줄");
 		 service.schedule(null, "SS-1");
 		 service.schedule("SS-1", "SS-5");
 		 service.schedule("SS-5", "SS-7");
