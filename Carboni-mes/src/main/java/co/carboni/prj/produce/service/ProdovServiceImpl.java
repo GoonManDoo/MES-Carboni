@@ -31,4 +31,10 @@ public class ProdovServiceImpl implements Prodovservice{
 		return m.formon();
 	}
 
+	@Override
+	public List<PrododVO> detailList(PrododVO vo) {
+		List<PrododVO> list =  m.detailList(vo);
+		return list;
+	}
+
 }

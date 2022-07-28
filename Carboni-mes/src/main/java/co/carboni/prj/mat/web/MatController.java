@@ -117,9 +117,6 @@ public class MatController {
 	public List<MatVO> findreqdate(@RequestParam String startD, @RequestParam String endD, @RequestParam String cusCode,
 			@RequestParam String matCode) {
 		List<MatVO> findreqdate = service.findReqDate(startD, endD, cusCode, matCode);
-		System.out.println(startD);
-		System.out.println(endD);
-		System.out.println(findreqdate);
 		return findreqdate;
 	}
 
@@ -153,9 +150,7 @@ public class MatController {
 	@RequestMapping("findindate")
 	@ResponseBody
 	public List<MatVO> findindate(@RequestParam String startD, @RequestParam String endD, @RequestParam String cusCode){
-		System.out.println(startD);
-		System.out.println(endD);
-		System.out.println(cusCode);
+
 		List<MatVO> findindate = service.findInDate(startD, endD ,cusCode);
 		return findindate;
 	}

@@ -28,7 +28,8 @@ public class CalController {
 		JSONArray jsonArr = new JSONArray();
 		HashMap<String, Object> hash = new HashMap<String, Object>();
 		for(int i=0; i<list.size(); i++) {
-			hash.put("title", list.get(i).getPcdnum());
+			hash.put("title", list.get(i).getPcname());
+			hash.put("pcnum",list.get(i).getPcnum());
 			hash.put("start", list.get(i).getPcdsdate());
 			hash.put("end", list.get(i).getPcdedate());
 			
@@ -43,6 +44,14 @@ public class CalController {
 	List<ProcMoniterVO> formon(){
 		List<ProcMoniterVO> formon = prodovDAO.formon();
 		return formon;
+	}
+	
+	@RequestMapping("detaillist")
+	@ResponseBody
+	public List<PrododVO> detaillist(PrododVO vo){
+		return prodovDAO.detailList(vo);
+
+		
 	}
 
 }
