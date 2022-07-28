@@ -3,9 +3,7 @@
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
    layout:decorate="~{layouts/layout}">
 <head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -16,6 +14,8 @@
 </head>
 
 <style>
+
+
 .number {
   width: 150px;
   height: 150px;
@@ -34,12 +34,12 @@
    <th:block layout:fragment="main">
    
    
-   <div class="container py-4" style="display: flex;flex-wrap: wrap;align-content: space-around;justify-content: space-around;">
+   <div class="container py-4" style="display: flex; flex-wrap: nowrap; width: 1300px; align-content: space-around; justify-content: space-around;">
        <div th:each="AVD:${detail}"  style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
                  	  
                  	   <!--1번카드 설비가동-->
-                        <div style="width: 33rem; height: 300px; margin-bottom: 20px;" th:each="SCN:${syscon}">
-                           <div class="card bg-white" style="width: 33rem; height: 260px;">
+                        <div  th:each="SCN:${syscon}">
+                           <div class="card bg-white" style=" height: 260px;">
                               <div class="card-body">
                               	<div class="SystemEnabled" th:if="${#strings.equals(SCN.smstatus, 'Y')}">
                               		<img style="width: 495px; margin-top: -8px;" alt="작동중" src="/assets/img/IsRunning.svg">
@@ -53,69 +53,78 @@
                            
                            
                        <!--2번카드 설비상태-->    
-                        <div class="card bg-white"style="width: 42rem; height: 300px; margin-bottom: 20px;" >
+                        <div class="card bg-white"style="width: min-content; height: 300px; margin-bottom: 20px;" >
                            <div class="card-body" style="display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;">
                            
                               <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="SLI:${sysLife}">
                                  <!-- progress1  -->
-                                 <h4>가동일</h4>
+                                 <h4 style="margin-left: 10px; margin-top: 15px; margin-bottom: -15px;">가동일</h4>
                                  <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;">
                                      <div class="progress-bar progress-bar-striped active" role="progressbar" 
                                      aria-valuemin="0" aria-valuemax="100"  th:style="'width:' + (${SLI.NOWPERCENT}) + '%;'" th:text="${SLI.NOWPERCENT}"></div>
                                  </div>
-                                    <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${AVD.sidate}">시작일</p>
-                                    <p style="display: block; float: right; font-size: 13px; margin-right: 13px;" th:text="${AVD.sidie}" >종료일</p>
+                                    <p style="display: block;float: left;font-size: 13px; margin-left: 13px; margin-top: 5px;" th:text="${AVD.sidate}">시작일</p>
+                                    <p style="display: block; float: right; font-size: 13px; margin-right: 13px; margin-top: 5px;" th:text="${AVD.sidie}" >종료일</p>
                               </div>
                               
                               
                            <div style="height: 120px; border: 1px solid #e3e3e3; border-radius: 0.25rem;" th:each="MIT:${maint}" >
                                  <!-- progress2  -->
-                                 <h4>정기점검</h4>
+                                 <h4 style="margin-left: 10px; margin-top: 15px; margin-bottom: -15px;">정기점검</h4>
                                  <div class="progress" style="width: 600px; margin-top: 25px; margin-left: 10px; margin-right: 10px;" >
                                       <div class="progress-bar progress-bar-striped active" role="progressbar" 
                                       aria-valuemin="0" aria-valuemax="100" th:style="'width:' + (${MIT.NOWPERCENT2}) + '%;'" th:text="${MIT.NOWPERCENT2}" ></div>
                                  </div>
-                                     <p style="display: block;float: left;font-size: 13px; margin-left: 13px;" th:text="${AVD.sidate}">asdf</p>
-                                     <p style="display: block;float: right; width: 76px; height: 18px; overflow: hidden; font-size: 13px; margin-right: 4px;" th:text="${MIT.NEXTDAT}">asdf</p>
+                                     <p style="display: block;float: left;font-size: 13px; margin-left: 13px; margin-top: 5px;" th:text="${AVD.sidate}">asdf</p>
+                                     <p style="display: block;float: right; width: 76px; height: 18px; overflow: hidden; font-size: 13px; margin-right: 4px; margin-top: 5px;" th:text="${MIT.NEXTDAT}">asdf</p>
                              </div>
                            
                            </div>
                         </div>
                         
-                        
-                       <!--3번 공정순서  -->
-                        <div class="card bg-white" style="width: 33rem; height: 300px;">
-                           <div class="card-body">
-                              <div
-                                 style="width: 318px; display: block; height: 40px; margin-left: 3px; position: inherit;">
-                                 <h4 style="display: block; border-left: 2px solid gray;">현재 공정정보</h4>
-                              </div>
-                              <form >
-                                <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pione}"  disabled readonly><br>
-                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pitwo}"  disabled readonly><br>
-                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pithree}"  disabled readonly><br>
-                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pifour}"  disabled readonly>
-                              </form>
-                           </div>
-                        </div>
-                        
-                        <!--4번카드-->
-                        <div style="width: 42rem; height: 300px; margin-bottom: 35px;">
-                           <div class="card bg-white" style="width: 42rem; height: 300px;">
-                              <div class="card-body">
-                              <figure>
-								    <div id="container"></div>
-							  </figure>
-                              </div>
-                           </div>
-                           <!--4번카드 버튼-->
-                           <button data-bs-toggle="modal" href="#deleteSystem" role="button" style="width: 50px; height: 25px; margin-left: 613px; margin-top: 12px; border: none; background-color: white;">버튼</button>
-                        </div>
+		                     <!--3번 공정순서  -->
+		                  <div class="card bg-white" style="width: 518px; height: 300px;">
+		                           <div class="card-body">
+		                              <div
+		                                 style="width: 318px; display: block; height: 40px; margin-left: 3px; position: inherit;">
+		                                 <h4 style="display: block; border-left: 2px solid gray;">현재 공정정보</h4>
+		                              </div>
+		                              <form >
+		                                <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pione}"  disabled readonly><br>
+		                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pitwo}"  disabled readonly><br>
+		                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pithree}"  disabled readonly><br>
+		                              <input class="form-control bg-white" style="text-align: center;" type="text" th:value="${AVD.pifour}"  disabled readonly>
+		                              </form>
+		                           </div>
+		                  </div>
+		                        
+		                        <!--4번카드-->
+		                  <div class="card bg-white"
+		                        style="width: 643px; height: 282px; margin-top: 17px;">
+		                        <div class="card-body">
+		                           <div style="display: flex; border-bottom: solid #d1d1d1 1px;justify-content: flex-end;">
+		                              <h5 style="display: block; margin-left: -10px; margin-right: 424px;">설비 온도</h5>
+		                              
+                              <h5 style="font-size: 15px; margin-top: 11px; margin-bottom: -10px;">적정온도:</h5>
+                              <h5 style="font-size: 15px; margin-left: 5px; margin-top: 11px; margin-bottom: -10px;" th:text="${AVD.sisaftem}">온도</h5>
+		                           </div>
+		                           <figure class="highcharts-figure">
+										    <div id="container" style="height: 230px;"></div>
+									  </figure>
+		                           <!--4번카드 버튼-->
+		                           <button role="button" 
+                						   data-bs-toggle="modal" data-bs-target="#deleteSystem"  
+                						   style="margin-left: 573px; border: none; 
+                						   background-color: white;">
+                						   <img alt="설비삭제버튼" src="/assets/img/deleteSysBut.svg">
+                					</button>
+		                        </div>
+		                  </div>
       </div>
    </div>
   <!--======================================================================================================================================================-->    
   <!--======================================================================================================================================================--> 
-        <div class="modal fade" id="deleteSystem" aria-hidden="true" >
+        <div class="modal fade" id="deleteSystem" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-body">
@@ -181,9 +190,7 @@
            }
          };
 
-console.log('sedafjuk')
-</script>
-<script>
+
 Highcharts.chart('container', {
       chart: {
         type: 'spline',
@@ -192,86 +199,93 @@ Highcharts.chart('container', {
         events: {
           load: function () {
 
-            // set up the updating of the chart each second
-            var series = this.series[0];
-            setInterval(function () {
-              var x = (new Date()).getTime(), // current time
-                y = Math.random();
-              series.addPoint([x, y], true, true);
-            }, 1000);
-          }
+              // set up the updating of the chart each second
+          var series = this.series[0];
+          setInterval(function () {
+            var x = (new Date()).getTime(), // current time
+              y = Math.random()*2+35
+            series.addPoint([x, y], true, true);
+          }, 1000);
         }
-      },
+      }
+    },
 
       time: {
         useUTC: false
       },
 
-      title: {
-        text: '라이브 랜덤데이터'
-      },
+title:{
+   text:''
+},
 
-      accessibility: {
-        announceNewData: {
-          enabled: true,
-          minAnnounceInterval: 15000,
-          announcementFormatter: function (allSeries, newSeries, newPoint) {
-            if (newPoint) {
-              return 'New point added. Value: ' + newPoint.y;
-            }
-            return false;
+    accessibility: {
+      announceNewData: {
+        enabled: true,
+        minAnnounceInterval: 15000,
+        announcementFormatter: function (allSeries, newSeries, newPoint) {
+          if (newPoint) {
+            return 'New point added. Value: ' + newPoint.y;
           }
+          return false;
         }
+      }
+    },
+
+    xAxis: {
+      type: 'datetime',
+      tickPixelInterval: 150
+    },
+
+    yAxis: {
+      title: {
+        text: 'Value'
       },
-
-      xAxis: {
-        type: 'datetime',
-        tickPixelInterval: 150
-      },
-
-      yAxis: {
-        title: {
-          text: 'Value'
-        },
-        plotLines: [{
-          value: 0,
-          width: 1,
-          color: '#808080'
-        }]
-      },
-
-      tooltip: {
-        headerFormat: '<b>{series.name}</b><br/>',
-        pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
-      },
-
-      legend: {
-        enabled: false
-      },
-
-      exporting: {
-        enabled: false
-      },
-
-      series: [{
-        name: 'Random data',
-        data: (function () {
-          // generate an array of random data
-          var data = [],
-            time = (new Date()).getTime(),
-            i;
-
-          for (i = -19; i <= 0; i += 1) {
-            data.push({
-              x: time + i * 1000,
-              y: Math.random()
-            });
-          }
-          return data;
-        }())
+      plotLines: [{
+        value: 0,
+        width: 1,
+        color: '#808080'
       }]
-    });
+    },
+
+    tooltip: {
+      headerFormat: '<b>{series.name}</b><br/>',
+      pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+    },
+
+    legend: {
+      enabled: false
+    },
+    
+
+    exporting: {
+      enabled: false
+    },
+
+    series: [{
+      name: 'Random data',
+      data: (function () {
+        // generate an array of random data
+        var data = [],
+          time = (new Date()).getTime(),
+          i;
+
+        for (i = -19; i <= 0; i += 1) {
+          data.push({
+            x: time + i * 1000,
+            y: Math.random()*1 + 35
+          });
+        }
+        return data;
+      }())
+    }]
+  });
+
+   
+
+
 </script>
+
+
 
    </th:block>
 </body>
