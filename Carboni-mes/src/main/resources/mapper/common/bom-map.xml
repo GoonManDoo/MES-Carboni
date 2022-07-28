@@ -5,7 +5,6 @@
 	<select id="selectGoods" resultType="co.carboni.prj.common.vo.GoodsinfoVO">
 		SELECT * FROM GOODSINFO
 	</select>
-	
 	<select id="selectBom" resultType="map">
 		SELECT G.GICODE, M.MICODE, G.GINAME, M.MINAME, B.BAM, B.BNOTE
 		FROM BOM B JOIN MATINFO M ON B.MICODE = M.MICODE
@@ -32,7 +31,8 @@
 		END;
 	</insert>
 	<delete id="bomdelete" parameterType="co.carboni.prj.common.vo.BomVO">
-		DELETE FROM BOM WHERE GICODE=#{gicode} AND MICODE=#{micode}
+		DELETE FROM BOM
+		WHERE GICODE=#{gicode} AND MICODE=#{micode}
 	</delete>
 
 </mapper>

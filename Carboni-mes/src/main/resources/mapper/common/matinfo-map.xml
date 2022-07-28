@@ -9,17 +9,18 @@
 		VALUES(MATINFO_MICODE_SEQ.NEXTVAL, #{miname}, #{mistand}, #{miunit}, #{misafe}, #{mimax}, #{mimin})
 	</insert>
 	<delete id="matinfoDelete" parameterType="co.carboni.prj.common.vo.MatinfoVO">
-		DELETE FROM MATINFO WHERE MICODE = #{micode}
+		DELETE FROM MATINFO
+		WHERE MICODE = #{micode}
 	</delete>
 	<update id="matinfoUpdate" parameterType="co.carboni.prj.common.vo.MatinfoVO">
 		UPDATE MATINFO
 		<set>
-		MINAME = #{miname},
-		MISTAND = #{mistand},
-		MIUNIT = #{miunit},
-		MISAFE = #{misafe},
-		MIMAX = #{mimax},
-		MIMIN = #{mimin},
+			MINAME = #{miname},
+			MISTAND = #{mistand},
+			MIUNIT = #{miunit},
+			MISAFE = #{misafe},
+			MIMAX = #{mimax},
+			MIMIN = #{mimin},
 		</set>
 		WHERE MICODE = #{micode}
 	</update>

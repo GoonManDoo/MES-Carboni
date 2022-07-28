@@ -12,21 +12,23 @@
 	<update id="procinfoupdate" parameterType="co.carboni.prj.common.vo.ProcinfoVO">
 		UPDATE PROCINFO
 		<set>
-		PINAME=#{piname},
-		PIONE=#{pione},
-		PITWO=#{pitwo},
-		PITHREE=#{pithree},
-		PIFOUR=#{pifour},
-		PIDATE=#{pidate},
-		SINUM=#{sinum},
+			PINAME=#{piname},
+			PIONE=#{pione},
+			PITWO=#{pitwo},
+			PITHREE=#{pithree},
+			PIFOUR=#{pifour},
+			PIDATE=#{pidate},
+			SINUM=#{sinum},
 		</set>
 		WHERE PICODEID=#{picodeid}
 	</update>
 	<delete id="procinfodelete">
-		DELETE FROM PROCINFO WHERE PICODEID = #{picodeid}
+		DELETE FROM PROCINFO
+		WHERE PICODEID = #{picodeid}
 	</delete>
 	<select id="selectLine" resultType="co.carboni.prj.common.vo.ProcinfoVO">
-		SELECT PIONE, PITWO, PITHREE, PIFOUR FROM PROCINFO WHERE PICODEID = #{picodeid}
+		SELECT PIONE, PITWO, PITHREE, PIFOUR FROM PROCINFO
+		WHERE PICODEID = #{picodeid}
 	</select>
-	
+
 </mapper>

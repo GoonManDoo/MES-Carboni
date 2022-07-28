@@ -39,8 +39,8 @@ public class CalController {
 		return jsonArr;
 	}
 	
-	@ResponseBody
 	@RequestMapping("/formon")
+	@ResponseBody
 	List<ProcMoniterVO> formon(){
 		List<ProcMoniterVO> formon = prodovDAO.formon();
 		return formon;

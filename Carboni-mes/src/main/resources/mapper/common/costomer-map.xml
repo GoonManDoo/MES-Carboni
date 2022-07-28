@@ -6,19 +6,21 @@
 		SELECT * FROM COSTOMER ORDER BY TO_NUMBER(CSCODE)
 	</select>
 	<insert id="costInsert" parameterType="co.carboni.prj.common.vo.CostomerVO">
-		INSERT INTO COSTOMER VALUES(COSTOMER_CSCODE_SEQ.NEXTVAL, #{csname}, #{csnum}, #{cstel}, #{csgb}, #{csnote})
+		INSERT INTO COSTOMER
+		VALUES(COSTOMER_CSCODE_SEQ.NEXTVAL, #{csname}, #{csnum}, #{cstel}, #{csgb}, #{csnote})
 	</insert>
 	<delete id="costDelete" parameterType="co.carboni.prj.common.vo.CostomerVO">
-		DELETE FROM COSTOMER WHERE CSCODE = #{cscode}
+		DELETE FROM COSTOMER
+		WHERE CSCODE = #{cscode}
 	</delete>
 	<update id="costUpdate" parameterType="co.carboni.prj.common.vo.CostomerVO">
 		UPDATE COSTOMER
 		<set>
-		CSNAME = #{csname},
-		CSNUM = #{csnum},
-		CSTEL = #{cstel},
-		CSGB = #{csgb},
-		CSNOTE = #{csnote},
+			CSNAME = #{csname},
+			CSNUM = #{csnum},
+			CSTEL = #{cstel},
+			CSGB = #{csgb},
+			CSNOTE = #{csnote},
 		</set>
 		WHERE CSCODE = #{cscode}
 	</update>
