@@ -256,6 +256,21 @@ public class ProdServiceImpl implements ProdService {
 			public void schedule(String sinum1, String sinum2) {
 				mapper.schedule(sinum1, sinum2);
 			}
+
+			
+		// 실적모니터링
+
+			// 생산실적 클릭시 공정별 생산내역 확인
+			@Override
+			public List<ProcMoniterVO> searchHead(ProcMoniterVO vo) {
+				return mapper.searchHead(vo);
+			}
+
+			// 라인번호 클릭시 생산실적
+			@Override
+			public List<ProcMoniterVO> lineProd(ProcMoniterVO vo) {
+				return mapper.lineProd(vo);
+			}
 			
 			
 			

@@ -239,7 +239,7 @@ public class ProdController {
       return "produce/prodOrView";
    }
 	
-	// 공정모니터링
+	// 공정관리
 	@RequestMapping("/procMoniter.do")
 	public String procMoniter() {
 		return "produce/procMoniter";
@@ -301,6 +301,20 @@ public class ProdController {
 		@ResponseBody
 		public void insertProcHeadD(@RequestBody List<ProcMoniterVO> heads) {
 			service.insertProcHeadD(heads);
+		}
+		
+		// 실적모니터링 - 생산실적 클릭시 공정별 생산내역 확인
+		@RequestMapping("searchHead")
+		@ResponseBody
+		public List<ProcMoniterVO> searchHead(ProcMoniterVO vo) {
+			return service.searchHead(vo);
+		}
+		
+		// 실적모니터링 - 라인번호 클릭시 생산실적
+		@RequestMapping("lineProd")
+		@ResponseBody
+		public List<ProcMoniterVO> lineProd(ProcMoniterVO vo) {
+			return service.lineProd(vo);
 		}
 	
 	// 생산지시일정조회

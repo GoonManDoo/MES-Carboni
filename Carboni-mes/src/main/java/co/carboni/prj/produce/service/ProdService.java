@@ -121,6 +121,15 @@ public interface ProdService {
 			
 			// 스케줄링
 			public void schedule(String sinum1, String sinum2); // 두번째 공정
+			
+		
+		// 실적모니터링
+
+			// 생산실적 클릭시 공정별 생산내역 확인
+			public List<ProcMoniterVO> searchHead(ProcMoniterVO vo);
+			
+			// 라인번호 클릭시 생산실적
+			public List<ProcMoniterVO> lineProd(ProcMoniterVO vo);
 
 
 

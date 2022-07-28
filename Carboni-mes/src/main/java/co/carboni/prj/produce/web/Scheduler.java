@@ -15,7 +15,7 @@ public class Scheduler {
 	@Autowired
 	ProdService service;
 	
-	@Scheduled(fixedRate = 15000)
+	@Scheduled(fixedRate = 5000)
 	public void schedule() {
 		
 		 service.schedule(null, "SS-1");

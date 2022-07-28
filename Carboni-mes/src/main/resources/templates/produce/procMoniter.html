@@ -72,23 +72,6 @@ ul.tabs li.current {
 	font-size: 2em;
 }
 
-.item.mone {
-	grid-column: 1;
-	grid-row: 1/4;
-	margin-right: 10px;
-}
-
-.item.mtwo {
-	grid-column: 2/5;
-	grid-row: 1/2;
-}
-
-.item.mthree {
-	grid-column: 2/5;
-	grid-row: 2/4;
-	margin-top: 0;
-}
-
 .proc {
 	margin-bottom: 10px;
 }
@@ -108,10 +91,7 @@ ul.tabs li.current {
 	background-color: #ffffff;
 }
 
-
-
-
-
+/* 차트용 */
 .chart{
     width: 400px;
     height: 200px;
@@ -181,20 +161,31 @@ ul.tabs li.current {
 						<div class="col-md-3" style="min-width: 350px; overflow:auto;">
 							<div class="card-body ig border">
 								<h5>생산라인</h5>
-								<span>
-									<div class="border ig proc" style="overflow:auto;">
+								<div style="margin-bottom: 10px;">
+									<label class="fw mg5">작업일자</label>
+									<div
+										class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+										<input type="text" class="form-control" id="prodDt"
+											aria-label="Date-Time"> <span class="tui-ico-date"></span>
+										<div id="wrapper2" style="margin-top: -1px;"></div>
+									</div>
+								</div>
+								<div>
+									<div class="border ig proc line"style="overflow:auto;">
+										<input type="hidden" class="cbn" value="LIN-CBN-1">
 										<h5>LIN-CBN-1</h5>
 										<div style="text-align:center;">
 											<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
 										</div>
 									</div>
-									<div class="border ig proc" style="overflow:auto;">
+									<div class="border ig proc line"style="overflow:auto;">
+										<input type="hidden" class="cbn" value="LIN-CBN-2">
 										<h5>LIN-CBN-2</h5>
 										<div style="text-align:center;">
 											<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
 										</div>
 									</div>
-								</span>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-9">
@@ -471,68 +462,68 @@ ul.tabs li.current {
 					rowHeaders: ['rowNum'],
 					columns : [ {
 						header : '지시번호',
-						name : 'pcdnum',
+						name : 'pcnum',
+						align : 'center'
+					}, {
+						header : '생산일자',
+						name : 'phdate',
 						align : 'center'
 					}, {
 						header : '제품명',
 						name : 'giname',
 						align : 'center'
 					}, {
-						header : '공정코드',
-						name : 'picodeid',
+						header : '라인번호',
+						name : 'lineid',
 						align : 'center'
 					}, {
-						header : '설비번호',
-						name : 'sinum',
-						align : 'center'
-					}, {
-						header : '가동상태',
-						name : 'phdstat',
-						align : 'center'
-					}, {
-						header : '지시량',
+						header : '목표량',
 						name : 'pcdam',
 						align : 'center'
 					}, {
 						header : '생산량',
-						name : 'phdmkam',
+						name : 'phmkam',
 						align : 'center'
 					}, {
 						header : '불량량',
-						name : 'phderram',
+						name : 'pherram',
+						align : 'center'
+					}, {
+						header : '담당자',
+						name : 'pcdkeeper',
+						align : 'center'
+					}, {
+						header : '작업번호',
+						name : 'phnum',
 						align : 'center'
 					} ]
 				});
+				produceList.hideColumn('phnum');
 	
 				/* 실적모니터링 - 공정별 생산내역 */
 				const Grid3 = new tui.Grid({
 					el : document.getElementById('process'),
 					scrollX : false,
 					scrollY : false,
-					rowHeaders: ['rowNum'],
 					columns : [ {
 						header : '지시번호',
-						name : 'pcdnum',
+						name : 'pcnum',
 						align : 'center'
 					}, {
-						header : '제품명',
-						name : 'giname',
-						align : 'center'
-					}, {
-						header : '공정코드',
-						name : 'picodeid',
+						header : '공정명',
+						name : 'piname',
 						align : 'center'
 					}, {
 						header : '설비번호',
 						name : 'sinum',
 						align : 'center'
 					}, {
-						header : '가동상태',
-						name : 'phdstat',
+						header : '시작시간',
+						name : 'phdstime',
 						align : 'center'
 					}, {
-						header : '지시량',
-						name : 'pcdam',
+						header : '종료시간',
+						name : 'phdetime',
 						align : 'center'
 					}, {
 						header : '생산량',
@@ -542,8 +533,13 @@ ul.tabs li.current {
 						header : '불량량',
 						name : 'phderram',
 						align : 'center'
+					}, {
+						header : '지시량',
+						name : 'pcdam',
+						align : 'center'
 					} ]
 				});
+				Grid3.hideColumn('pcdam');
 				
 	
 				// 그리드끝------------------------------------------
@@ -625,6 +621,59 @@ ul.tabs li.current {
 					})
 				})
 				
+				/* 생산실적 */
+				produceList.on('click', e => {
+					for(i=0; i<orderGrid2.getRowCount(); i++) {
+						produceList.removeRowClassName(i, 'rowSelect')
+					}
+					produceList.addRowClassName(e.rowKey, 'rowSelect')
+					var phnum = produceList.getValue(e.rowKey, 'phnum');
+					makeAjaxCall('searchHead', {phnum}, true, function(result){
+						Grid3.resetData(result)
+					})
+				})
+				
+				
+				/* 공정별 생산내역 차트 */
+				Grid3.on('click', ev => {
+					for(i=0; i<Grid3.getRowCount(); i++) {
+						Grid3.removeRowClassName(i, 'rowSelect')
+					}
+					Grid3.addRowClassName(ev.rowKey, 'rowSelect')
+	        		pcdam = Grid3.getRow(ev.rowKey).pcdam;
+	        		mkam = Grid3.getRow(ev.rowKey).phdmkam;
+	        		erram = Grid3.getRow(ev.rowKey).phderram;
+	        		
+						//차트
+						  google.charts.load('current', { 'packages': ['corechart'] });
+						  google.charts.setOnLoadCallback(drawChart);
+						  google.charts.setOnLoadCallback(drawChart2);
+						
+						  function drawChart() {
+						    var dataformat = google.visualization.arrayToDataTable([
+						      ['', ''],
+						      ['정상', mkam],
+						      ['불량', erram],
+						    ]);
+						    var data = dataformat;
+						    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+						    chart.draw(data);
+						  }
+						
+						  function drawChart2() {
+						    var data = google.visualization.arrayToDataTable([
+						      ['', ''],
+						      ['', 0],
+						      ['', 0],
+						      ['생산량', mkam],
+						      ['잔량', pcdam-mkam]
+						    ]);
+						    var chart = new google.visualization.PieChart(document.getElementById('clear'));
+						    chart.draw(data);
+						  }		
+						  
+	        	})
+				
 				
 				// 그리드 이벤트 끝-------------------------------------
 				
@@ -639,45 +688,10 @@ ul.tabs li.current {
 			        method :"POST",
 			        dataType: "JSON",
 			        success : function(result){
-			        	console.log(result);
-			        	Grid3.resetData(result);
-			        	Grid3.on('click', ev => {
-			        		console.log(Grid3.getRow(ev.rowKey).pcdam);
-			        		pcdam = Grid3.getRow(ev.rowKey).pcdam;
-			        		mkam = Grid3.getRow(ev.rowKey).phdmkam;
-			        		erram = Grid3.getRow(ev.rowKey).phderram;
-			        		
-								//차트
-								  google.charts.load('current', { 'packages': ['corechart'] });
-								  google.charts.setOnLoadCallback(drawChart);
-								  google.charts.setOnLoadCallback(drawChart2);
-								
-								  function drawChart() {
-								    var dataformat = google.visualization.arrayToDataTable([
-								      ['', ''],
-								      ['정상', mkam],
-								      ['불량', erram],
-								    ]);
-								    var data = dataformat;
-								    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-								    chart.draw(data);
-								  }
-								
-								  function drawChart2() {
-								    var data = google.visualization.arrayToDataTable([
-								      ['', ''],
-								      ['', 0],
-								      ['', 0],
-								      ['생산량', mkam],
-								      ['잔량', pcdam-mkam]
-								    ]);
-								    var chart = new google.visualization.PieChart(document.getElementById('clear'));
-								    chart.draw(data);
-								  }		
-								  
-			        	})
+			        	produceList.resetData(result);
 			        } 
-			    });	
+			    });
+					
 				})
 				
 				/* 새자료 */
@@ -808,6 +822,17 @@ ul.tabs li.current {
 					stop = [];*/
 				})
 				
+				/* 실적모니터링 - 라인번호 생산실적 */
+				$('.line').on('click', function(){
+					var lineid = $(this).children().eq(0).val()
+					console.log(lineid)
+					var phdate = $('#prodDt').val()
+					makeAjaxCall('lineProd', {lineid, phdate}, true, function(result){
+						produceList.resetData(result);
+						console.log(result)
+					})
+				})
+				
 				// 버튼 이벤트 끝---------------------------------------
 				
 				
@@ -818,6 +843,17 @@ ul.tabs li.current {
 					date : new Date(),
 					input : {
 						element : '#workDt',
+						format : 'yyyy-MM-dd'
+					},
+					language : 'ko'
+		
+				});
+				
+				/* 생산일자 */
+				const datepicker2 = new tui.DatePicker('#wrapper2', {
+					date : new Date(),
+					input : {
+						element : '#prodDt',
 						format : 'yyyy-MM-dd'
 					},
 					language : 'ko'
