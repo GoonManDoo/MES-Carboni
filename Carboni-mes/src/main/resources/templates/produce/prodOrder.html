@@ -705,7 +705,7 @@
 							for(i=0; i<pnGrid.getRowCount(); i++) {
 								empGrid.removeRowClassName(i, 'rowSelect')
 							}
-							empGrid.addRowClassName(e, 'rowSelect')
+							empGrid.addRowClassName(e.rowKey, 'rowSelect')
 							empName = empGrid.getValue(e.rowKey, 'ename')
 							empId = empGrid.getValue(e.rowKey, 'ecode')
 						})

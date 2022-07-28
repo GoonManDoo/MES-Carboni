@@ -632,6 +632,7 @@ ul.tabs li.current {
 				
 				/* 공정모니터링 탭 */
 				$('#moniterTab').on('click', function(){
+					produceList.refreshLayout();
 					Grid3.refreshLayout();
 					$.ajax({
 			        url : "formon",
