@@ -1,6 +1,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/layout}">
+	layout:decorate="~{layouts/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 
 <style>
 .btn-secondary {
-	margin-left: 20px;
+	margin-left: 5px;
 }
 
 span {
@@ -76,17 +76,21 @@ span {
 <body class="sb-nav-fixed">
 <th:block layout:fragment="main">
 	<div class="container-fluid px-4">
-		 <h2 class="mt-4">영업재고관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>영업재고관리</div></h2>
+		 <h1 class="mt-4">영업재고관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>영업재고관리</div></h1>
 		 
+		 <!-- 메인화면 버튼 -->
 		<div class="card-header" id="btn">
 			<div style="display: flex; justify-content: flex-end;">
-				<button id="insertBtn" class="btn btn-secondary">등록</button>
+				<button id="insertBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">등록</button>
 				<button id="searchBtn" class="btn btn-secondary">조회</button>
-				<button id="updateBtn" class="btn btn-secondary">수정</button>
-				<button id="deleteBtn" class="btn btn-secondary">삭제</button>
+				<button id="updateBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">수정</button>
+				<button id="deleteBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button>
 				<button id="clearBtn" class="btn btn-secondary">새자료</button>
 			</div>
 		</div>
+		
+		<!-- 메인화면 검색 -->
+		<form autocomplete="off" id="dataForm">
 		<div class="card mb-4" id="pageing">
 			<div class="card-body">
 				 <span>제품정보<input type="text" id="leftinput" placeholder="제품검색" class="input" readonly="readonly">
@@ -94,6 +98,8 @@ span {
                      </span> 
 			</div>
 		</div>
+		</form>
+		
 	</div>
 
 	<!-- 모달 -->
@@ -234,7 +240,7 @@ span {
 			el : document.getElementById('gridpro'),
 			data : giupdata,
 			scrollX : false,
-			rowHeaders : [ 'rowNum', 'checkbox' ],
+			rowHeaders : [ 'rowNum' ],
 			bodyHeight : 430,
 			columns : [ {
 				header : '제품코드',
@@ -307,6 +313,21 @@ span {
 				}
 			})
 		})
+		
+		/* 새자료 - 초기화버튼 */
+		$('#clearBtn').on('click', function() {
+			fnFormClear();
+		})
+		
+		function fnFormClear() {
+			const gsamin = $('#giami').val()
+			const jepoomcoin = $('#jehiin').val()
+			document.getElementById('dataForm').reset();
+			grid.resetData(gridData);
+			jepoomstk.resetData(stkdata);
+			jepoom.resetData(giupdata);
+
+		}
 
 		/*메이크 모달*/
 		function makeModal(e, fnc) {
@@ -318,12 +339,17 @@ span {
 				buttons : {
 					'확인' : fnc,
 					'취소' : function() {
+						jepoomstk.clear();
+						jepoom.clear();
+						
 						$(this).dialog('close')
 					}
 				}
 			});
 			$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 			$('.ui-dialog-titlebar-close').html('X').css('border','none')
+				jepoomstk.clear();
+				jepoom.clear();
 			return dialog;
 		}
 
@@ -344,6 +370,7 @@ span {
 				success: function(result) {
 				jepoomstk.refreshLayout()
 				jepoomstk.resetData(result)
+				
 					
 				}
 			})
@@ -359,6 +386,7 @@ span {
 				method: 'POST',
 				data : {addStk},
 				success: function(result) {
+					jepoomstk.refreshLayout();
 					jepoomstk.resetData(result)
 				}
 			})
@@ -385,8 +413,6 @@ span {
 				data: {gsamin, jepoomcoin},
 				success: function(result) {
 					swal("등록 성공!!", "제품재고가 등록되었습니다.", "success");
-					jepoomstk.refreshLayout();
-					jepoomstk.resetData(result)
 				}
 			})
 			modal2.dialog('close')

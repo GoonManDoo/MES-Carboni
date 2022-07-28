@@ -1,12 +1,14 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <head>
 
 <style>
 .btn-secondary {
-	margin-left: 20px;
+	margin-left: 5px;
 }
 
 span {
@@ -76,19 +78,19 @@ span {
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
 		<div class="container-fluid px-4">
-			<h2 class="mt-4">
+			<h1 class="mt-4">
 				수주 관리
 				<div class="nameing">
 					<a href="/" style="text-decoration-line: none; color: black">홈</a>>영업관리>수주관리
 				</div>
-			</h2>
+			</h1>
 			
 			<!-- 메인화면 버튼 -->
 			<div class="card-header">
 				<div style="display: flex; justify-content: flex-end;">
-					<button type="button" id="searchBtn" class="btn btn-secondary" style="margin-right: 5px;">조회</button>
-					<button type="button" id="removeBtn" class="btn btn-secondary" style="margin-right: 5px;">삭제</button>
-					<button type="button" id="clearBtn" class="btn btn-secondary" style="margin-right: 5px;">새자료</button>
+					<button type="button" id="searchBtn" class="btn btn-secondary">조회</button>
+					<button type="button" id="removeBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button>
+					<button type="button" id="clearBtn" class="btn btn-secondary">새자료</button>
 				</div>
 			</div>
 
@@ -166,10 +168,59 @@ span {
 				</div>
 			</div>
 		</div>
+		
+		<div id="pdfArea">
+	<span>make PDF</span>
+</div>
+<button type="button" onclick="savePDF()">PDF 다운</button>
+
+<!-- PDF -->
+<!-- <script type="text/javascript">
+  function savePDF(){
+    //저장 영역 div id
+    html2canvas($('#pdfArea')[0] ,{	
+      //logging : true,		// 디버그 목적 로그
+      //proxy: "html2canvasproxy.php",
+      allowTaint : true,	// cross-origin allow 
+      useCORS: true,		// CORS 사용한 서버로부터 이미지 로드할 것인지 여부
+      scale : 2			// 기본 96dpi에서 해상도를 두 배로 증가
+      
+    }).then(function(canvas) {	
+      // 캔버스를 이미지로 변환
+      var imgData = canvas.toDataURL('image/png');
+
+      var imgWidth = 190; // 이미지 가로 길이(mm) / A4 기준 210mm
+      var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+      var margin = 10; // 출력 페이지 여백설정
+      var doc = new jsPDF('p', 'mm');
+      var position = 0;
+
+      // 첫 페이지 출력
+      doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // 한 페이지 이상일 경우 루프 돌면서 출력
+      while (heightLeft >= 20) {			// 35
+      position = heightLeft - imgHeight;
+      position = position - 20 ;		// -25
+
+      doc.addPage();
+      doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+      }
+
+      // 파일 저장
+      doc.save('filename.pdf');
+    });
+  }
+</script> -->
 
 		<script>
-			
+		
 			$(function() {
+			
 			
 				/* 수주 그리드 시작 */
 				const gridData = [];
@@ -364,18 +415,16 @@ span {
 						buttons : {
 							'확인' : fnc,
 							'취소' : function() {
-								grid.resetData(gridData);
-								gurae.resetData(totaldata);
-								jepoom.resetData(giupdata);
+								gurae.clear();
+								jepoom.clear();
 								$(this).dialog('close')
 							}
 						}
 					});
 					$('.ui-dialog-buttonset').children().attr('class', 'btn btn-secondary')
 					$('.ui-dialog-titlebar-close').html('X').css('border','none')
-					grid.resetData(gridData);
-					gurae.resetData(totaldata);
-					jepoom.resetData(giupdata);
+						gurae.clear();
+						jepoom.clear();
 					return dialog;
 				}
 
