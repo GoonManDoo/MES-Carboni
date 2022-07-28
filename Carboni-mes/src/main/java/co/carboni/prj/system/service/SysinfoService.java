@@ -6,6 +6,7 @@ import co.carboni.prj.system.vo.SystemVO;
 //CRUD+AllList
 public interface SysinfoService {
 	
+	
 	//메인화면 진입 시 DB 내의 모든 system 을 조회해줌
 	List<SystemVO> selectSysAll(SystemVO vo);
 	
