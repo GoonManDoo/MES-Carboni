@@ -30,7 +30,9 @@ public interface SysinfoService {
 	
 	List<SystemVO> selectEmployee();
 	
+	List<SystemVO> rePosit (String sinum);
 	
+	List<SystemVO> deleteAdmin(String sinum);
 	
 	//설비 정보 등록
 	int systemInsert(SystemVO vo);

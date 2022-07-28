@@ -31,6 +31,11 @@ public interface SysinfoMapper {
 	List<SystemVO> deleteAdmin(SystemVO vo);
 	
 	public List<SystemVO> selectEmployee();
+	
+	public List<SystemVO> rePosit(@Param("sinum") String sinum);
+	
+	public List<SystemVO> deleteAdmin(@Param("sinum") String sinum);
+	
 	//설비 정보 등록
 		int systemInsert(SystemVO vo);
 		

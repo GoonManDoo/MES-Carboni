@@ -61,12 +61,20 @@
 		FROM EMPLOYEE
 	</select>
 	
+	
+	<select id="rePosit" resultType="co.carboni.prj.system.vo.SystemVO">
+	SELECT M.SINUM, M.SYSADMIN, E.ENAME, E.EPOSITION
+		FROM EMPLOYEE E, SYSMAN M
+		WHERE E.ECODE = M.SYSADMIN
+		AND SINUM = #{sinum}
+	</select>
+	
 	<update id="editAdmin" parameterType="co.carboni.prj.system.vo.SystemVO">
 		UPDATE SYSMAN 
 		<set> 
 		SYSADMIN = #{aaad}
 		</set>
-		WHERE SMNUM = #{aaac}
+		WHERE SINUM = #{aaac}
 	</update>
 	
 	<update id="deleteAdmin" parameterType="co.carboni.prj.system.vo.SystemVO">
@@ -74,17 +82,20 @@
 		<set> 
 		SYSADMIN = ''
 		</set>
-		WHERE SMNUM = #{smnum}
+		WHERE SINUM = #{sinum}
 	</update>
 	
 	<insert id="systemInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
 		INSERT INTO SYSINFO
-			VALUES('SS-'||SYSTEM_SINUM_SEQ.NEXTVAL, #{smnum}, #{smname}, #{sisaftem}||'ºC')
+			VALUES('SS-'||SYSTEM_SINUM_SEQ.NEXTVAL, #{picodeid}, #{siname}, #{sisaftem}||'ºC')
 	</insert>
 	<insert id="sysmanInsert" parameterType="co.carboni.prj.system.vo.SystemVO">
 	INSERT INTO SYSMAN
-            VALUES('SS-'||SYSTEM_SMNUM_SEQ.CURRVAL, 'SS-'||SYSTEM_SINUM_SEQ.CURRVAL, DEFAULT, SYSDATE, #{simaint}, SYSDATE, DEFAULT, ' ')
+            VALUES('SS-'||SYSTEM_SINUM_SEQ.CURRVAL, 'SS-'||SYSTEM_SINUM_SEQ.CURRVAL, DEFAULT, SYSDATE, #{simaint}, SYSDATE, DEFAULT, ' ')
 	</insert>
+	
+	
+	
 	<update id="systemUpdate" parameterType="co.carboni.prj.system.vo.SystemVO">
 		UPDATE SYSINFO
 		<set>
@@ -92,6 +103,7 @@
 		</set>
 		WHERE SINUM = #{sinum}
 	</update>
+	
 	
 	<update id="sysmanUpdate" parameterType="co.carboni.prj.system.vo.SystemVO">
 	UPDATE SYSMAN

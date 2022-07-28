@@ -106,6 +106,19 @@ public class SysInfoServiceImpl implements SysinfoService{
 		return map.selectEmployee();
 	}
 
+	@Override
+	public List<SystemVO> rePosit(String sinum) {
+	
+			return map.rePosit(sinum);
+		
+	}
+
+	@Override
+	public List<SystemVO> deleteAdmin(String sinum) {
+
+		return map.deleteAdmin(sinum);
+	}
+
 
 
 	
