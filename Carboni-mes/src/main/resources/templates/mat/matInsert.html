@@ -14,6 +14,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 #modal {
 	display: none;
 }
+.nameing {
+	float: right;
+	font-size: medium;
+	font-weight: normal;
+	margin-top: 15px;
+}
 
 ul {
 	list-style: none;
@@ -63,13 +69,19 @@ ul {
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
+
 </style>
 
 </head>
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
 		<div class="container-fluid px-4">
-			<h1 class="mt-4">입고관리</h1>
+			<h1 class="mt-4">입고관리
+			<div class="nameing">
+					<a href="/" style="text-decoration-line: none; color: black">홈</a>>자재관리>입고관리
+				</div>
+			</h1>
+			
 			<div class="card mb-2">
 				<div class="card-header">
 					<div style="display: flex; justify-content: flex-end;">
