@@ -175,29 +175,81 @@ ul.tabs li.current {
 
 			<!-- 공정모니터링 -->
 			<div id="tab-2" class="tab-content">
-
-				<div class="container-fluid"
+				
+				<div class="container-fluid" style="background: white;">
+					<div class="row">
+						<div class="col-md-3" style="min-width: 350px; overflow:auto;">
+							<div class="card-body ig border">
+								<h5>생산라인</h5>
+								<span>
+									<div class="border ig proc" style="overflow:auto;">
+										<h5>LIN-CBN-1</h5>
+										<div style="text-align:center;">
+											<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
+										</div>
+									</div>
+									<div class="border ig proc" style="overflow:auto;">
+										<h5>LIN-CBN-2</h5>
+										<div style="text-align:center;">
+											<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
+										</div>
+									</div>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-9">
+							<div class="card-body ig border" style="overflow:auto;">
+								<h5>생산실적</h5>
+								<div style="padding: 10px;">
+									<div id="produce"></div>							
+								</div>
+							</div>
+							<div class="card-body ig border" style="overflow:auto;">
+								<h5>공정별 생산내역</h5>
+								<div style="padding: 10px;">
+									<div id="process"></div>
+									<!-- 공정모니터링 밑에  -->
+								  <div id="gpchart" class="container-fluid" style="margin: 0 auto;">
+									  <div id="clear" class="chart"></div>
+						  			<div id="piechart" class="chart"></div>
+					  			</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--<div class="container-fluid"
 					style="display: grid; background: white;">
 					<div class="item ig mone border">
 						<h5>생산라인</h5>
-						<div class="border proc">공정1</div>
-						<div class="border proc">공정2</div>
-						<div class="border proc">공정3</div>
-						<div class="border">공정4</div>
+						<span>
+							<div class="border ig proc" style="width: 300px; height: 280px;">
+								<h5>LIN-CBN-1</h5>
+								<div style="text-align:center;">
+									<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px;">
+								</div>
+							</div>
+							<div class="border ig proc" style="width: 300px; height: 280px;">
+								<h5>LIN-CBN-2</h5>
+								<div style="text-align:center;">
+									<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px;">
+								</div>
+							</div>
+						</span>
 					</div>
-					<div class="item ig mtwo border">
-						<h5>온도</h5>
-					</div>
-					<div class="item ig mthree border">
+					<div class="item ig mtwo border" style="overflow:auto;">
 						<h5>생산실적</h5>
-						<div id="process"></div>
+						<div>
+							<div id="produce"></div>							
+						</div>
 					</div>
-				</div>
-				<!-- 공정모니터링 밑에  -->
-			  <div id="gpchart">
-			  <div id="clear" class="chart"></div>
-  			  <div id="piechart" class="chart"></div>
-  			  </div>
+					<div class="item ig mthree border" style="overflow:auto;">
+						<h5>공정별 생산내역</h5>
+						<div style="padding: 10px;">
+							<div id="process"></div>
+						</div>
+					</div>
+				</div>-->
 			</div>
 
 		</div>
@@ -237,7 +289,7 @@ ul.tabs li.current {
 			$(function() {
 				
 				
-//				탭--------------------------------------
+				// 탭--------------------------------------
 				$('ul.tabs li').click(function() {
 					var tab_id = $(this).attr('data-tab');
 
@@ -411,51 +463,48 @@ ul.tabs li.current {
 				headGrid.hideColumn('phnum')
 				headGrid.hideColumn('phdnum')
 	
-				/* 공정모니터링 - 생산 */
-				  $.ajax({
-			        url : "formon",
-			        method :"GET",
-			        dataType: "JSON",
-			        success : function(result){
-			        	console.log(result);
-			        	Grid3.resetData(result);
-			        	Grid3.on('click', ev => {
-			        		console.log(Grid3.getRow(ev.rowKey).pcdam);
-			        		pcdam = Grid3.getRow(ev.rowKey).pcdam;
-			        		mkam = Grid3.getRow(ev.rowKey).phdmkam;
-			        		erram = Grid3.getRow(ev.rowKey).phderram;
-			        		
-								//차트
-								  google.charts.load('current', { 'packages': ['corechart'] });
-								  google.charts.setOnLoadCallback(drawChart);
-								  google.charts.setOnLoadCallback(drawChart2);
-								
-								  function drawChart() {
-								    var dataformat = google.visualization.arrayToDataTable([
-								      ['', ''],
-								      ['정상', mkam],
-								      ['불량', erram],
-								    ]);
-								    var data = dataformat;
-								    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-								    chart.draw(data);
-								  }
-								
-								  function drawChart2() {
-								    var data = google.visualization.arrayToDataTable([
-								      ['', ''],
-								      ['', 0],
-								      ['', 0],
-								      ['생산량', mkam],
-								      ['잔량', pcdam-mkam]
-								    ]);
-								    var chart = new google.visualization.PieChart(document.getElementById('clear'));
-								    chart.draw(data);
-								  }		
-								  
-			        	})
-			        } 
-			    });	
+				/* 실적모니터링 - 생산실적 */
+				const produceList = new tui.Grid({
+					el : document.getElementById('produce'),
+					scrollX : false,
+					scrollY : false,
+					rowHeaders: ['rowNum'],
+					columns : [ {
+						header : '지시번호',
+						name : 'pcdnum',
+						align : 'center'
+					}, {
+						header : '제품명',
+						name : 'giname',
+						align : 'center'
+					}, {
+						header : '공정코드',
+						name : 'picodeid',
+						align : 'center'
+					}, {
+						header : '설비번호',
+						name : 'sinum',
+						align : 'center'
+					}, {
+						header : '가동상태',
+						name : 'phdstat',
+						align : 'center'
+					}, {
+						header : '지시량',
+						name : 'pcdam',
+						align : 'center'
+					}, {
+						header : '생산량',
+						name : 'phdmkam',
+						align : 'center'
+					}, {
+						header : '불량량',
+						name : 'phderram',
+						align : 'center'
+					} ]
+				});
+	
+				/* 실적모니터링 - 공정별 생산내역 */
 				const Grid3 = new tui.Grid({
 					el : document.getElementById('process'),
 					scrollX : false,
@@ -584,6 +633,50 @@ ul.tabs li.current {
 				/* 공정모니터링 탭 */
 				$('#moniterTab').on('click', function(){
 					Grid3.refreshLayout();
+					$.ajax({
+			        url : "formon",
+			        method :"POST",
+			        dataType: "JSON",
+			        success : function(result){
+			        	console.log(result);
+			        	Grid3.resetData(result);
+			        	Grid3.on('click', ev => {
+			        		console.log(Grid3.getRow(ev.rowKey).pcdam);
+			        		pcdam = Grid3.getRow(ev.rowKey).pcdam;
+			        		mkam = Grid3.getRow(ev.rowKey).phdmkam;
+			        		erram = Grid3.getRow(ev.rowKey).phderram;
+			        		
+								//차트
+								  google.charts.load('current', { 'packages': ['corechart'] });
+								  google.charts.setOnLoadCallback(drawChart);
+								  google.charts.setOnLoadCallback(drawChart2);
+								
+								  function drawChart() {
+								    var dataformat = google.visualization.arrayToDataTable([
+								      ['', ''],
+								      ['정상', mkam],
+								      ['불량', erram],
+								    ]);
+								    var data = dataformat;
+								    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+								    chart.draw(data);
+								  }
+								
+								  function drawChart2() {
+								    var data = google.visualization.arrayToDataTable([
+								      ['', ''],
+								      ['', 0],
+								      ['', 0],
+								      ['생산량', mkam],
+								      ['잔량', pcdam-mkam]
+								    ]);
+								    var chart = new google.visualization.PieChart(document.getElementById('clear'));
+								    chart.draw(data);
+								  }		
+								  
+			        	})
+			        } 
+			    });	
 				})
 				
 				/* 새자료 */
@@ -602,11 +695,12 @@ ul.tabs li.current {
 				
 				function insertHead(){ // 공정진행, 공정진행상세 insert
 					var pcdnum = headGrid.getValue(0, 'pcdnum')
-					var phdmkam = headGrid.getValue(2, 'phdmkam')
+					var phmkam = headGrid.getValue(2, 'phdmkam') // 최종생산량
+					var pherram = (headGrid.getValue(0, 'phderram')+headGrid.getValue(1, 'phderram')+headGrid.getValue(2, 'phderram')) // 총 불량량
 					var promise = $.ajax({ // 공정진행
 					   url: 'insertProcHead',
 					   method: 'POST',
-					   data: {pcdnum, phdmkam}
+					   data: {pcdnum, phmkam, pherram}
 					})
 					
 					promise.done(procHeadD);

@@ -42,9 +42,11 @@ public class ProcMoniterVO {
 		public String sinum; // 설비번호
 		public String phdstime; // 시작시간
 		public String phdetime; // 종료시간
-		public int phdmkam; // 생산량
-		public int phderram; // 불량량
+		public int phdmkam; // 공정생산량
+		public int phderram; // 공정불량량
 		public String phdstat; // 가동상태
+		public int phmkam; // 최종 생산량
+		public int pherram; // 총 불량량
 		
 		// 더미데이터
 		public int linenum; // 라인에 사용되는 공정 순서
