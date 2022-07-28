@@ -303,7 +303,7 @@
 			<!-- 생산완료되면 공정진행에 insert -->
 			<insert id="insertProcHead" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" useGeneratedKeys="true" keyColumn="phnum" keyProperty="phnum">
 				INSERT INTO prochead
-				VALUES (('PH-'||prochead_PHNUM_seq.nextval), #{pcdnum}, sysdate, #{phmkam}, #{pherram})
+				VALUES (('PH-'||prochead_PHNUM_seq.nextval), #{pcdnum}, to_char(sysdate, 'YYYY-MM-DD'), #{phmkam}, #{pherram})
 				<selectKey resultType="string" keyProperty="phnum" order="AFTER">
 					SELECT 'PH-'||max(TO_NUMBER(SUBSTR(phnum, 4))) AS phnum FROM prochead
 				</selectKey>
@@ -318,5 +318,27 @@
 			<update id="schedule">
 				<![CDATA[{call schedule(#{param1}, #{param2})}]]>
 			</update>
+			
+			
+		<!-- 실적모니터링 -->
+			<!-- 생산실적 클릭시 공정별 생산내역 확인 -->
+			<select id="searchHead" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
+				SELECT c.pcnum, i.piname, d.sinum, d.phdstime, d.phdetime, d.phdmkam, d.phderram, d.phnum, d.phdnum, m.pcdam
+				FROM prochead_d d, prochead h, proccomm_d m, prodcomm c, procinfo i
+				WHERE d.phnum = h.phnum
+				AND h.pcdnum = m.pcdnum
+				AND m.pcnum = c.pcnum
+				AND d.picodeid = i.picodeid(+)
+				AND d.phnum = #{phnum}
+				ORDER BY d.phdnum
+			</select>
+			
+			<!-- 라인번호 클릭시 생산실적 --> 
+			<select id="lineProd" resultType="co.carboni.prj.produce.vo.ProcMoniterVO">
+				select c.pcnum, h.phdate, g.giname, d.lineid, h.phmkam, h.pherram, c.pcdkeeper, h.phnum, d.pcdam
+				from prochead h, prodcomm c, proccomm_d d, goodsinfo g
+				where (h.pcdnum = d.pcdnum and d.pcnum = c.pcnum and d.gicode = g.gicode)
+				and h.phdate = #{phdate} and d.lineid = #{lineid}
+			</select>
 			
 </mapper>
