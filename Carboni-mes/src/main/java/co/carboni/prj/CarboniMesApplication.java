@@ -24,6 +24,7 @@ public class CarboniMesApplication {
 	public String login() {
 		return "home/login";
 	}
+	
 	@RequestMapping("/loginfail.do")
 	public String loginfail() {
 		return "home/asset_denied";

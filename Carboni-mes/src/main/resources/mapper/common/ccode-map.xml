@@ -3,10 +3,12 @@
 <mapper namespace="co.carboni.prj.common.mapper.CcodeMapper">
 
 	<select id="selectCodeAll" resultType="co.carboni.prj.common.vo.CcodeVO">
-		SELECT * FROM COMMON WHERE CCLASS = '#' ORDER BY 1
+		SELECT * FROM COMMON
+		WHERE CCLASS = '#' ORDER BY 1
 	</select>
 	<select id="selectCodeClass" resultType="co.carboni.prj.common.vo.CcodeVO">
-		SELECT * FROM COMMON WHERE CCLASS=(SELECT CCLASSD FROM COMMON WHERE CCODEID = #{ccodeid}) ORDER BY 1
+		SELECT * FROM COMMON WHERE CCLASS=(SELECT CCLASSD FROM COMMON
+		WHERE CCODEID = #{ccodeid}) ORDER BY 1
 	</select>
 	<insert id="codeInsertBig" parameterType="co.carboni.prj.common.vo.CcodeVO">
 		INSERT INTO COMMON
@@ -17,14 +19,15 @@
 		VALUES(COMMON_CID_SEQ.NEXTVAL, #{cclass}, #{cclassd}, #{cexplain}, #{cexplaind}, #{cnote})
 	</insert>
 	<delete id="codeDelete">
-		DELETE FROM COMMON WHERE CCODEID = #{ccodeid}
+		DELETE FROM COMMON
+		WHERE CCODEID = #{ccodeid}
 	</delete>
 	<update id="codeUpdate" parameterType="co.carboni.prj.common.vo.CcodeVO">
 		UPDATE COMMON
 		<set>
-		CEXPLAIN = #{cexplain},
-		CEXPLAIND = #{cexplaind},
-		CNOTE = #{cnote},
+			CEXPLAIN = #{cexplain},
+			CEXPLAIND = #{cexplaind},
+			CNOTE = #{cnote},
 		</set>
 		WHERE CCODEID = #{ccodeid}
 	</update>
