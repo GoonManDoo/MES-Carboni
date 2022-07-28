@@ -56,6 +56,23 @@ public class SystemController {
 		return "system/productSysMain";
 	}
 
+	
+	@RequestMapping("/rePosit")
+	@ResponseBody
+	public List<SystemVO> rePosit(String sinum){
+		System.out.println(sinum);	
+		List<SystemVO> rePosit=service.rePosit(sinum);
+		return rePosit;
+	}
+	@RequestMapping("/deleteAdmin")
+	@ResponseBody
+	public List<SystemVO> deleteAdmin(String sinum){
+		System.out.println(sinum);
+		List<SystemVO> deleteAdmin=service.deleteAdmin(sinum);
+		return deleteAdmin;
+	}
+	
+	
 	@RequestMapping("/selEmp")
 	@ResponseBody
 	public List<SystemVO> selEmp(){
@@ -76,11 +93,7 @@ public class SystemController {
 		service.editAdmin(aaad, aaac);
 	}
 	
-	@RequestMapping("/deleteAdmin")
-	public String deleteAdmin(SystemVO vo) {
-		service.deleteAdmin(vo);
-		return "redirect:productSysMain";
-	}
+	
 	
 	@RequestMapping("/deleted")
 	public String systemDelete(SystemVO vo) {

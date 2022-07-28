@@ -4,7 +4,9 @@
      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 
 <head>
+
 <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/jumbotron/">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -50,29 +52,26 @@
                         </div>
                      </div>
                      
-                     <div class="card bg-white" style="width: 18rem; height: 351px;">
+                     <div class="card bg-white" style="width: 18rem; height: 351px;" >
                         <div class="card-body" style="display: flex; align-content: space-around; justify-content: space-around; align-items: center;">
                            <div>
                               <h3 style="display: block; display: block; margin-bottom: 25px; margin-top: -10px;">관리자정보</h3>
                               <form id="Sysadmin">
                                  <p style="margin-bottom: 3px;">관리자 이름</p>
-                                    <input class="form-control bg-white" style="text-align: center;" type="text"disabled readonly><br>
+                                    <input class="form-control bg-white" id="ename"style="text-align: center;" type="text" disabled readonly><br>
                                 <p style="margin-bottom: 3px;">관리자 직급</p>
-                                    <input class="form-control bg-white" style="text-align: center;" type="text"disabled readonly><br>
+                                    <input class="form-control bg-white" id="eposition" style="text-align: center;" type="text"disabled readonly><br>
                                 </form>
                               <div sec:authorize="hasRole('ROLE_a')" style="display: flex;  justify-content: space-evenly;">
                                  <button type="button" class="btn btn-primary"
                                     data-bs-toggle="modal" data-bs-target="#adEditModal"
                                     style="background-color: white; border: 1px solid black;
-                                    color:black;" onclick="addEdit()">편집</button>
+                                    color:black;" onclick="addEdit()">등록</button>
                             
-                            <button type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#adDelModal"
-                                    style="background-color: white; border: 1px solid black;
-                                    color:black;" onclick="">삭제</button>
+                           
                                </div>
                               
-                             
+                              <input type="hidden" th:value="${sysvo.sinum}" id="valsinum" name="valsinum">
                            </div>
                               
                         </div>
@@ -159,31 +158,15 @@
                      
                              </div>   
                           <form  class="modal-footer"  style="display: flex; justify-content: center; border: none;">
-                                <input type="text" id="aaad">
-                                <input type="text" th:value="${sysvo.sinum}" id="aaac">
-                            <input type="button" class="form-control btn btn-primary" value="저장" style="text-align:center; width: 64px;"  onclick="adEditClik()">
+                                <input type="hidden" id="aaad">
+                                <input type="hidden" th:value="${sysvo.sinum}" id="aaac">
+                            <input type="button" class="btn btn-primary" data-bs-dismiss="modal" value="저장" style="text-align:center; width: 64px;" onclick="adEditClik()">
                         </form>
                      </div>
                      </div>
                    </div>
                 </div>
-            <!-- ================================================================================================================================== -->     
-            <!--   ========================================================= 관리자 삭제 ========================================================================= -->                
-                
-                <div class="modal fade" id="adDelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                     <div class="modal-header" style="border: none;"></div>
-                     <div class="modal-body">
-                        <form name="deleteAdminForm" id="deleteAdminForm">
-                           삭제할거임? 못되돌림
-                            <input type="button" class="form-control btn btn-primary" value="저장" style="text-align:center; width: 64px;"  onclick="adDeleteCLIK()">
-                        </form>
-                     </div>
-                     </div>
-                   </div>
-                </div>
-            <!-- ================================================================================================================================== -->   
+            
              </th:block>
            
             </div>
@@ -204,7 +187,8 @@
             document.insertSysForm.submit();
       }
    }
-   
+ 
+    
 
 var reqG = new tui.Grid({
 el : document.getElementById('gridcomp'),
@@ -248,7 +232,7 @@ function addEdit(){
 }
 
 
-
+		
 
 function adEditClik(){
    var aaad = $('#aaad').val()
@@ -259,12 +243,49 @@ function adEditClik(){
       data: { aaad, aaac },
       success:function(){
          console.log("업데이트 완료")
+         ec();
+         return true
+      },
+      error: function(){
+	console.log("업데이트 실패")
+      return false
       }
    })
+  
 }   
 
-         
-            
+//페이지 로딩시 바뀌는 함수
+$(ecc())
+
+function ec(){
+ ecc();
+}
+
+function ecc(){
+	var valsinum = $('#valsinum').val()
+	$.ajax({
+		url:'rePosit',
+		data:{sinum:valsinum},
+		success:function(result){
+			result.forEach(sf => {
+				console.log(sf.ename)
+				console.log(sf.eposition)
+				$('#ename').val(sf.ename)
+				$('#eposition').val(sf.eposition)
+			})
+			console.log(result)
+			
+		},
+		error:function(){
+			console.log("실패")
+			return false
+		}
+	})
+}
+
+
+
+       
             
 $(function(){
    for (i=1; i<30; i++){
