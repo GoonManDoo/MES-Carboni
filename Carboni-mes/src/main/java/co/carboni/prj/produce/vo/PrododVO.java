@@ -20,7 +20,7 @@ public class PrododVO {
 	private String pcstatus; //공정상태
 	private String pcnote; //비고
 	private String lineid; //라인번호
-	private int pcdaml; //지시량
+	private int pcdam; //지시량
 	private String giname; //제품명
 	
 	

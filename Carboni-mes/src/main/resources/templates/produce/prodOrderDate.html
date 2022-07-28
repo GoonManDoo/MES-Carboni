@@ -18,6 +18,10 @@
 a {
 	color: #4e4e4e;
 }
+#modal {
+	display: none;
+}
+
 </style>
 </head>
 <th:block layout:fragment="main">
@@ -29,21 +33,46 @@ a {
 				<div id='calendar'></div>
 			</div>
 		</div>
-		<div>
+		<div  id="modal">
 			<div id="alllist" title="상세 정보 " style="padding: 20px;">
-			<table>
-				<tr>
-				<th>지시번호</th>
-				<td id ="pcnum"></td>
-				</tr>
-				<tr>
-				<th>지시명</th>
-				<td id="name"></td>
-				</tr>
-				<tr>
-				<th>라인번호</th>
-				</tr>
-			</table>
+				<table>
+					<tr>
+					<th>지시번호</th>
+					<td id ="pcnum"></td>
+					</tr>
+					<tr>
+					<th>지시명</th>
+					<td id="name"></td>
+					</tr>
+					<tr>
+					<th>라인번호</th>
+					<td id="line"></td>
+					</tr>
+					<tr>
+					<th>제품명</th>
+					<td id="giname"></td>
+					</tr>
+					<tr>
+					<th>지시량</th>
+					<td id="pcdam"></td>
+					</tr>
+					<tr>
+					<th>생산시작일</th>
+					<td id="pcdsdate"></td>
+					</tr>
+					<tr>
+					<th>생산마감일</th>
+					<td id="pcdedate"></td>
+					</tr>
+					<tr>
+					<th>공정상태</th>
+					<td id="pcstatus"></td>
+					</tr>
+					<tr>
+					<th>비고</th>
+					<td id="pcnote"></td>
+					</tr>
+				</table>
 			</div>
 		</div>
 
@@ -89,14 +118,14 @@ $(function(){
 				
 				console.log(arr)
 				var calendar = new FullCalendar.Calendar(orderCal, {
+					height: '710px', // calendar 높이 설정
 					initialView: 'dayGridMonth',
 					locale: 'ko',
 					eventClick: function(arg){
-						console.log(arg)
 						var list = makeModal('#alllist')
+						$("#alllist").css('display', '');
 						list.dialog('open')
 						var pcnum = arg.el.fcSeg.eventRange.def.extendedProps.content;
-						console.log(pcnum)
 						$.ajax({
 							url:'detaillist',
 							method : 'POST',
@@ -104,7 +133,13 @@ $(function(){
 							success : function(rs){
 								$('#pcnum').text(rs[0].pcnum)
 								$('#name').text(rs[0].pcname)
-							
+								$('#line').text(rs[0].lineid)
+								$('#giname').text(rs[0].giname)
+								$('#pcdam').text(rs[0].pcdam)
+								$('#pcdsdate').text(moment(rs[0].pcdsdate).format('YYYY-MM-DD'))
+								$('#pcdedate').text(moment(rs[0].pcdedate).format('YYYY-MM-DD'))
+								$('#pcstatus').text(rs[0].pcstatus)
+								$('#pcnote').text(rs[0].pcnote)
 							}
 						})
 						
