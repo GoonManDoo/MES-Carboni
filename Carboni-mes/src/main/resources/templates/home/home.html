@@ -2,25 +2,45 @@
 <html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+<style>
+	#container{
+		width: 100%;
+		height: 200%;
+	}
+	#title{
+		margin: auto;
+		text-align : center;
+	}
+	h2 {
+    	margin: 20px;
+    }
+    #icons{
+    	text-align : center;
+    }
+    .ic {
+    	width: 250px;
+    	height: 250px;
+    	padding: 50px;
+    }
+
+</style>
 </head>
 
 <body>
 	<th:block layout:fragment="main">
-
-	
 		<div id="container">
-				<div sec:authorize="hasRole('ROLE_a')">
-					메인 페이지<br>
-					<b>관리자</b>
-        			<b sec:authentication="name"></b>
-        			<b>님이 로그인하셨습니다.</b>
-				</div>
-				<div sec:authorize="hasRole('ROLE_u')">
-					메인 페이지<br>
-					<b>사용자</b>
-        			<b sec:authentication="name"></b>
-        			<b>님이 로그인하셨습니다.</b>
-				</div>
+			<div id="title">
+				<h2>카보니 MES</h2>
+				<img src="/assets/img/carboniLogo.png" alt="carboni">
+			</div>
+
+			<div id="icons">
+				<a href="/productSysMain"><img class="ic" src="/assets/img/top2.png" alt="sul"></a>
+				<a href="/procMoniter.do"><img class="ic" src="/assets/img/gong2.png" alt="gong"></a>
+			<div sec:authorize="hasRole('ROLE_a')">
+				<b>현재 관리자로 접속 중입니다.</b>
+			</div>
+			</div>
 		</div>
 	</th:block>
 	</body>
