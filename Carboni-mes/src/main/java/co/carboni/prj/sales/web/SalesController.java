@@ -19,7 +19,6 @@ public class SalesController {
 	SalesService service;
 
 	// 생산관리 > 제품불량내역조회
-	
 	  @RequestMapping("prodErrList")
 	  @ResponseBody 
 	  public List<SalesVO> prodErrList(@RequestParam("startDtS")String startDtS, @RequestParam("endDtE")String endDtE, @RequestParam("errOpList")String errOpList) { 

@@ -261,8 +261,7 @@
 		<delete id="findDelDlist" parameterType="co.carboni.prj.sales.vo.SalesVO">
 			DELETE FROM deliver
 			WHERE dnum in
-			<foreach 
-			collection="dList" item="arr" open="(" separator="," close=")">
+			<foreach collection="dList" item="arr" open="(" separator="," close=")">
 				#{arr}
 			</foreach>
 		</delete>
