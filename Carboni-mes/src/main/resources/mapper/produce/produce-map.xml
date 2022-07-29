@@ -303,7 +303,7 @@
 			<!-- 생산완료되면 공정진행에 insert -->
 			<insert id="insertProcHead" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" useGeneratedKeys="true" keyColumn="phnum" keyProperty="phnum">
 				INSERT INTO prochead
-				VALUES (('PH-'||prochead_PHNUM_seq.nextval), #{pcdnum}, to_char(sysdate, 'YYYY-MM-DD'), #{phmkam}, #{pherram})
+				VALUES (('PH-'||prochead_PHNUM_seq.nextval), #{pcdnum}, to_date(sysdate, 'YYYY-MM-DD'), #{phmkam}, #{pherram})
 				<selectKey resultType="string" keyProperty="phnum" order="AFTER">
 					SELECT 'PH-'||max(TO_NUMBER(SUBSTR(phnum, 4))) AS phnum FROM prochead
 				</selectKey>
@@ -338,7 +338,8 @@
 				select c.pcnum, h.phdate, g.giname, d.lineid, h.phmkam, h.pherram, c.pcdkeeper, h.phnum, d.pcdam
 				from prochead h, prodcomm c, proccomm_d d, goodsinfo g
 				where (h.pcdnum = d.pcdnum and d.pcnum = c.pcnum and d.gicode = g.gicode)
-				and h.phdate = #{phdate} and d.lineid = #{lineid}
+				and d.lineid = #{lineid}
+				and h.phdate >= to_date(sysdate-7, 'YYYY/MM/DD')
 			</select>
 			
 </mapper>
