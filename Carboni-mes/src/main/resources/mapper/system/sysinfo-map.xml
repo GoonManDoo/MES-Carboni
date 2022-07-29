@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.carboni.prj.system.mapper.SysinfoMapper">
 	<select id="selectSysAll" resultType="co.carboni.prj.system.vo.SystemVO">	
-			SELECT 
-           S.SINUM, S.SINAME, S.SISAFTEM, 
-           P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR
-			FROM SYSINFO S, PROCINFO P
-			WHERE s.sinum = p.sinum
+		SELECT 
+            S.SINUM, S.SINAME, S.SISAFTEM, 
+            P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR,
+            M.SYSADMIN
+			FROM SYSINFO S, PROCINFO P, SYSMAN M
+			WHERE S.PICODEID = P.PICODEID
+            AND S.SINUM = M.SINUM
 			ORDER BY SINUM
 	</select>
 
