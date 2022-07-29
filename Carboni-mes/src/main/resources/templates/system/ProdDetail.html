@@ -248,7 +248,7 @@ title:{
     },
 
     tooltip: {
-      headerFormat: '<b>{series.name}</b><br/>',
+      headerFormat: '<b>{detail.siname}</b><br/>',
       pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
     },
 
@@ -262,7 +262,7 @@ title:{
     },
 
     series: [{
-      name: 'Random data',
+      name: '현재 온도',
       data: (function () {
         // generate an array of random data
         var data = [],
