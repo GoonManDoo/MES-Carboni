@@ -130,6 +130,12 @@ public interface ProdService {
 			
 			// 라인번호 클릭시 생산실적
 			public List<ProcMoniterVO> lineProd(ProcMoniterVO vo);
+			
+			// 생산일자로 생산실적 검색
+			public List<ProcMoniterVO> lineProdDt(String prodDtS, String prodDtE, String lineid);
+			
+			// 불량내역 등록
+			public void errorInsert(ProcMoniterVO vo);
 
 
 
