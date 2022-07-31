@@ -97,6 +97,8 @@ public class ProdOrderVO {
 	
 	// 재생산이 필요한 불량내역
 		public String genum; // 불량내역번호
+		@DateTimeFormat(pattern="yyyy-MM-dd")
+		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 		public Date gedate; // 불량일자
 		public String phnum; // 작업번호
 		// 제품코드
@@ -104,7 +106,7 @@ public class ProdOrderVO {
 		public String ccodeid; // 공통코드id
 		public String cexplaind; // 공통상세분류
 		public String gedetail; // 불량내역
-		public int gegdan; // 불량량
+		public int gegdam; // 불량량
 		public String gestatus; // 재생산상태
 		
 	// 선택한 계획의 제품정보

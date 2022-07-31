@@ -86,8 +86,12 @@ ul.tabs li.current {
 	margin: 10px 10px 0 0;
 }
 
-.line {
-	
+.line:hover {
+	opacity: .5;
+}
+
+th {
+	width: 90px;
 }
 
 /* 그리드용 css */
@@ -166,25 +170,25 @@ ul.tabs li.current {
 							<div class="card-body ig border">
 								<h5>생산라인</h5>
 								<div>
-									<div class="border ig proc line" style="overflow:auto;">
+									<div class="border ig proc" style="overflow:auto;">
 										<input type="hidden" class="cbn" value="LIN-CBN-1">
 										<h5>LIN-CBN-1</h5>
 										<div style="text-align:center;">
-											<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
+											<img class="line" src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
 										</div>
 									</div>
-									<div class="border ig proc line" style="overflow:auto;">
+									<div class="border ig proc" style="overflow:auto;">
 										<input type="hidden" class="cbn" value="LIN-CBN-2">
 										<h5>LIN-CBN-2</h5>
 										<div style="text-align:center;">
-											<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
+											<img class="line" src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-9">
-							<div class="card-body ig border" style="overflow:auto;">
+							<div class="card-body ig border" style="overflow:auto; height:400px;">
 								<input type="hidden" id="cbn">
 								<h5>생산실적</h5>
 								<div>
@@ -227,40 +231,7 @@ ul.tabs li.current {
 						</div>
 					</div>
 				</div>
-				<!--<div class="container-fluid"
-					style="display: grid; background: white;">
-					<div class="item ig mone border">
-						<h5>생산라인</h5>
-						<span>
-							<div class="border ig proc" style="width: 300px; height: 280px;">
-								<h5>LIN-CBN-1</h5>
-								<div style="text-align:center;">
-									<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px;">
-								</div>
-							</div>
-							<div class="border ig proc" style="width: 300px; height: 280px;">
-								<h5>LIN-CBN-2</h5>
-								<div style="text-align:center;">
-									<img src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px;">
-								</div>
-							</div>
-						</span>
-					</div>
-					<div class="item ig mtwo border" style="overflow:auto;">
-						<h5>생산실적</h5>
-						<div>
-							<div id="produce"></div>							
-						</div>
-					</div>
-					<div class="item ig mthree border" style="overflow:auto;">
-						<h5>공정별 생산내역</h5>
-						<div style="padding: 10px;">
-							<div id="process"></div>
-						</div>
-					</div>
-				</div>-->
 			</div>
-
 		</div>
 
 		<!-- 모달 -->
@@ -286,6 +257,45 @@ ul.tabs li.current {
 				</form>
 				<!-- 그리드 -->
 				<div id="orderGrid1"></div>
+			</div>
+			
+			<!-- 불량내역 등록 모달 -->
+			<div id="errorModal" style="padding: 20px;" title="불량내역등록">
+				<form id="formData">
+					<input type="hidden" id="gicode">
+					<table class="table table-bordered">
+						<tr>
+							<th>작업번호</th>
+							<td id="phnum"></td>
+						</tr>
+						<tr>
+							<th>작업일자</th>
+							<td id="gedate"></td>
+						</tr>
+						<tr>
+							<th>제품명</th>
+							<td id="giname"></td>
+						</tr>
+						<tr>
+							<th>불량분류</th>
+							<td>
+								<select style="width: 100px; height: 28px; display: inline-block;" name="ccodeid">
+									<option value="66">설비불량</option>
+									<option value="64">자재불량</option>
+									<option value="65">제품불량</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>불량내용</th>
+							<td><input id="gedetail" type="text" style="width:550px; border:none;"></td>
+						</tr>
+						<tr>
+							<th>불량량</th>
+							<td id="gegdam"></td>
+						</tr>
+					</table>
+				</form>
 			</div>
 
 		</div>
@@ -479,6 +489,10 @@ ul.tabs li.current {
 					scrollY : true,
 					rowHeaders: ['rowNum'],
 					columns : [ {
+						header : '작업번호',
+						name : 'phnum',
+						align : 'center'
+					}, {
 						header : '지시번호',
 						name : 'pcnum',
 						align : 'center'
@@ -511,12 +525,12 @@ ul.tabs li.current {
 						name : 'pcdkeeper',
 						align : 'center'
 					}, {
-						header : '작업번호',
-						name : 'phnum',
+						header : '제품코드',
+						name : 'gicode',
 						align : 'center'
 					} ]
 				});
-				produceList.hideColumn('phnum');
+				produceList.hideColumn('gicode')
 	
 				/* 실적모니터링 - 공정별 생산내역 */
 				const Grid3 = new tui.Grid({
@@ -564,6 +578,7 @@ ul.tabs li.current {
 
 				// 모달---------------------------------------------
 				var modal1 = makeModal('#orderModal', orderView)
+				var modal2 = makeModal('#errorModal', errorInsert)
 				
 				/* 생산지시목록모달 작업일자로 검색 */
 				$('#orderBtn').on('click', function(){
@@ -592,6 +607,8 @@ ul.tabs li.current {
 					})
 					modal1.dialog('close')
 				}
+				
+				/* 불량등록모달 -> 그리드이벤트에 */
 				
 				
 				/* 모달틀 */
@@ -645,11 +662,42 @@ ul.tabs li.current {
 						produceList.removeRowClassName(i, 'rowSelect')
 					}
 					produceList.addRowClassName(e.rowKey, 'rowSelect')
+					if(e.columnName == 'pherram') {
+						pn = produceList.getValue(e.rowKey, 'phnum') // 작업번호
+						pd = produceList.getValue(e.rowKey, 'phdate') // 작업일자
+						gc = produceList.getValue(e.rowKey, 'gicode') // 제품코드
+						gn = produceList.getValue(e.rowKey, 'giname') // 제품명
+						ea = produceList.getValue(e.rowKey, 'pherram') // 불량량
+						$('#phnum').html(pn)
+						$('#gedate').html(pd)
+						$('#giname').html(gn)
+						$('#gicode').val(gc)
+						console.log(gc)
+						$('#gegdam').html(ea)
+						modal2.dialog('open')
+					}
 					var phnum = produceList.getValue(e.rowKey, 'phnum');
 					makeAjaxCall('searchHead', {phnum}, true, function(result){
 						Grid3.resetData(result)
 					})
 				})
+				function errorInsert(){
+					var phnum = $('#phnum').html()
+					var gedate = $('#gedate').html()
+					var gicode = $('#gicode').val()
+					var gegdam = $('#gegdam').html()
+					var ccodeid = $('select[name=ccodeid] option:selected').val()
+					var gedetail = $('#gedetail').val()
+					makeAjaxCall('errorInsert', {phnum, gedate, gicode, gegdam, ccodeid, gedetail}, true, function(){
+						swal('성공', '불량내역 등록이 완료되었습니다.', 'success')
+						$('#phnum').html('')
+						$('#gedate').html('')
+						$('#gegdam').html('')
+						document.getElementById('formData').reset();
+						modal2.dialog('close')
+					})
+					
+				}
 				
 				
 				/* 공정별 생산내역 차트 */
@@ -708,7 +756,7 @@ ul.tabs li.current {
 			        success : function(result){
 			        	produceList.resetData(result);
 			        } 
-			    });
+			  	  });
 					
 				})
 				
@@ -850,14 +898,16 @@ ul.tabs li.current {
 					})
 				})
 				
+				
+				
 				/* 실적모니터링 - 라인번호 작업일자 */
 				$('#prodBtn').on('click', function(){
 					var prodDtS = $('#prodDtS').val()
 					var prodDtE = $('#prodDtE').val()
 					var lineid = $('#cbn').val()
-					console.log(prodDtS)
-					console.log(prodDtE)
-					console.log(lineid)
+					makeAjaxCall('lineProdDt', {prodDtS, prodDtE, lineid}, true, function(result){
+						produceList.resetData(result)
+					})
 				})
 				
 				// 버튼 이벤트 끝---------------------------------------

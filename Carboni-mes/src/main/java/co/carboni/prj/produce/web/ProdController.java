@@ -183,7 +183,7 @@ public class ProdController {
 		}
 		
 		// 생산지시관리 - 재생산내역모달 조회
-		@RequestMapping("errorList")
+		@RequestMapping("reprodList")
 		@ResponseBody
 		public List<ProdOrderVO> reprodList(ProdOrderVO vo) {
 			return service.reprodList(vo);
@@ -315,6 +315,20 @@ public class ProdController {
 		@ResponseBody
 		public List<ProcMoniterVO> lineProd(ProcMoniterVO vo) {
 			return service.lineProd(vo);
+		}
+		
+		// 실적모니터링 - 생산일자로 생산실적 검색
+		@RequestMapping("lineProdDt")
+		@ResponseBody
+		public List<ProcMoniterVO> lineProdDt(@RequestParam String prodDtS, @RequestParam String prodDtE, @RequestParam String lineid) {
+			return service.lineProdDt(prodDtS, prodDtE, lineid);
+		}
+		
+		// 실적모니터링 - 불량등록
+		@RequestMapping("errorInsert")
+		@ResponseBody
+		public void errorInsert(ProcMoniterVO vo) {
+			service.errorInsert(vo);
 		}
 	
 	// 생산지시일정조회

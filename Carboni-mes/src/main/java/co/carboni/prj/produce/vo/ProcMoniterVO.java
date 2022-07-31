@@ -57,5 +57,12 @@ public class ProcMoniterVO {
 	
 	// 실적모니터링
 		
+		// 불량내역등록
+		@DateTimeFormat(pattern="yyyy-MM-dd")
+		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+		public Date gedate; // 불량일자
+		public Integer gegdam; // 불량량
+		public String ccodeid; // 불량코드
+		public String gedetail; // 불량내용
 		
 }
