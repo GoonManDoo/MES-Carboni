@@ -26,7 +26,7 @@ public interface SysinfoMapper {
 	//입고일 점검주기 다음점검일
 	List<SystemVO> selectMaint(SystemVO vo);
 	
-	void editAdmin(@Param("aaad") String aaad, @Param("aaac") String aaac);
+	void editAdmin(@Param("admin") String admin, @Param("sinum") String sinum);
 	
 	List<SystemVO> deleteAdmin(SystemVO vo);
 	

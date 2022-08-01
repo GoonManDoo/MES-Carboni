@@ -90,9 +90,9 @@ public class SysInfoServiceImpl implements SysinfoService{
 	}
 
 	@Override
-	public void editAdmin(String aaad, String aaac) {
+	public void editAdmin(String admin, String sinum) {
 		
-		map.editAdmin(aaad, aaac);
+		map.editAdmin(admin, sinum);
 	}
 
 	@Override

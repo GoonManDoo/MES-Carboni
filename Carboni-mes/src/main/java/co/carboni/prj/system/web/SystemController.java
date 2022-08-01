@@ -85,10 +85,10 @@ public class SystemController {
 		return "redirect:productSysMain";
 	}
 	
-	@RequestMapping("EditAdmin")
+	@RequestMapping("editAdmin")
 	@ResponseBody // 나갈때
-	public void editAdmin(@RequestParam String aaad, @RequestParam String aaac) { // 들어올때
-		service.editAdmin(aaad, aaac);
+	public void editAdmin(@RequestParam String admin, @RequestParam String sinum) { // 들어올때
+		service.editAdmin(admin, sinum);
 	}
 	
 	
