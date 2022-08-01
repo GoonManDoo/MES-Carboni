@@ -69,9 +69,9 @@
 	<update id="editAdmin" parameterType="co.carboni.prj.system.vo.SystemVO">
 		UPDATE SYSMAN 
 		<set> 
-		SYSADMIN = #{aaad}
+		SYSADMIN = #{admin}
 		</set>
-		WHERE SINUM = #{aaac}
+		WHERE SINUM = #{sinum}
 	</update>
 	
 	<update id="deleteAdmin" parameterType="co.carboni.prj.system.vo.SystemVO">

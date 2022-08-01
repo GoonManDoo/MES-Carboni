@@ -24,7 +24,7 @@ public interface SysinfoService {
 	
 	List<SystemVO> selectMaint(SystemVO vo);
 	
-	void editAdmin(String aaad, String aaac); // update라서 return값이 없음
+	void editAdmin(String admin, String sinum); 
 	
 	List<SystemVO> deleteAdmin(SystemVO vo);
 	
