@@ -141,7 +141,7 @@ public class MatServiceImpl implements MatService {
 
 	@Override
 	public List<Map<String, Object>> insertexel(MatVO vo) {
-		return null;
+		return map.insertexel(vo);
 	}
 	
 	

@@ -218,6 +218,18 @@ public class MatController {
 		map.put("datas", list);
 		return new ModelAndView(new CommonExcelView(),map);
 	}
+	
+	@RequestMapping("insertexel")
+	public ModelAndView insertexel(MatVO vo) throws IOException{
+		List<Map<String,Object>> list = service.requestexel(vo);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		String[] header = {"입고일자","입출고번호","발주일자","입고업체","자재명","규격","자재단위","발주번호","발주량","입고량"};
+		   map.put("headers",header);
+		   map.put("filename", "MATERIAL INPUT LIST");
+		   map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(),map);
+		
+	}
 
 
 
