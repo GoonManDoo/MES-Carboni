@@ -1,6 +1,11 @@
 package co.carboni.prj.mat.web;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import co.carboni.prj.mat.service.MatService;
 import co.carboni.prj.mat.vo.MatVO;
@@ -187,6 +193,14 @@ public class MatController {
 	@ResponseBody
 	public List<MatVO> findoutlist(@RequestParam String startD, @RequestParam String endD,@RequestParam String matCode){
 		return service.findOutList(startD, endD, matCode);
+	}
+	
+	//자재 재고 엑셀 다운로드
+	@RequestMapping("listexel")
+	public ModelAndView listexel(MatVO vo,HttpServletResponse response) throws IOException{
+		List<Map<String,Object>> list = service.listExel(vo);
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
 	}
 	
 

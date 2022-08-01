@@ -2,6 +2,7 @@ package co.carboni.prj.mat.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -125,6 +126,11 @@ public class MatServiceImpl implements MatService {
 	@Override
 	public List<MatVO> findOutList(String startD, String endD, String matCode) {
 		return map.findOutList(startD, endD, matCode);
+	}
+
+	@Override
+	public List<Map<String, Object>> listExel(MatVO vo) {
+		return map.listExel(vo);
 	}
 	
 	

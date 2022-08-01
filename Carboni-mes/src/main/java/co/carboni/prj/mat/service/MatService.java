@@ -1,8 +1,7 @@
 package co.carboni.prj.mat.service;
 
 import java.util.List;
-
-import org.springframework.stereotype.Service;
+import java.util.Map;
 
 import co.carboni.prj.mat.vo.MatVO;
 
@@ -66,6 +65,7 @@ public interface MatService {
 	//입고관리에서 입고일자들로 조회해서 메인그리드에 표시
 	public List<MatVO> findOutList(String startD, String endD,String matCode);
 	
-
+	//엑셀 용 
+	List<Map<String,Object>> listExel(MatVO vo);
 
 }
