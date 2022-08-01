@@ -143,6 +143,11 @@ public class MatServiceImpl implements MatService {
 	public List<Map<String, Object>> insertexel(MatVO vo) {
 		return map.insertexel(vo);
 	}
+
+	@Override
+	public List<Map<String, Object>> outputexel(MatVO vo) {
+		return map.outputexel(vo);
+	}
 	
 	
 

@@ -132,105 +132,117 @@ public class MatController {
 		List<MatVO> findcodelist = service.findCode(cusCode, matCode);
 		return findcodelist;
 	}
-	//자체 발주 및 요청 발주
+
+	// 자체 발주 및 요청 발주
 	@RequestMapping(method = RequestMethod.POST, path = "addrequestlist")
 	@ResponseBody
 	public List<MatVO> addrequestlist(@RequestBody List<MatVO> list) {
 		return service.addRequestList(list);
 	}
-	
-	
-	@RequestMapping(method = RequestMethod.POST, path ="finddelreq")
+
+	@RequestMapping(method = RequestMethod.POST, path = "finddelreq")
 	@ResponseBody
 	public void finddelreq(@RequestBody List<MatVO> list) {
 		service.findDelreq(list);
 	}
-	
+
 	@RequestMapping("addinputlist")
 	@ResponseBody
-	public List<MatVO> addinputlist(@RequestBody List<MatVO> list){
+	public List<MatVO> addinputlist(@RequestBody List<MatVO> list) {
 		return service.addInputList(list);
 	}
 
 	@RequestMapping("findindate")
 	@ResponseBody
-	public List<MatVO> findindate(@RequestParam String startD, @RequestParam String endD, @RequestParam String cusCode){
+	public List<MatVO> findindate(@RequestParam String startD, @RequestParam String endD,
+			@RequestParam String cusCode) {
 
-		List<MatVO> findindate = service.findInDate(startD, endD ,cusCode);
+		List<MatVO> findindate = service.findInDate(startD, endD, cusCode);
 		return findindate;
 	}
-	
-	@RequestMapping(method = RequestMethod.POST, path ="inputdelreq")
+
+	@RequestMapping(method = RequestMethod.POST, path = "inputdelreq")
 	@ResponseBody
 	public void inputdelreq(@RequestBody List<MatVO> list) {
 		service.inputDelreq(list);
 	}
-	
+
 	@RequestMapping("matlistall")
 	@ResponseBody
-	public List<MatVO> matlistall(MatVO vo){
+	public List<MatVO> matlistall(MatVO vo) {
 		List<MatVO> list = service.matListAll(vo);
 		return list;
 	}
-	
+
 	@RequestMapping("matserchlist")
 	@ResponseBody
-	public List<MatVO> matserchlist(@RequestParam String matCode){
+	public List<MatVO> matserchlist(@RequestParam String matCode) {
 		List<MatVO> list = service.matSerchList(matCode);
 		return list;
 	}
-	
-	//출고에서 출고 된것들 조회 하는 거
+
+	// 출고에서 출고 된것들 조회 하는 거
 	@RequestMapping("selectoutlist")
 	@ResponseBody
-	public List<MatVO> selectoutlist(MatVO vo){
+	public List<MatVO> selectoutlist(MatVO vo) {
 		return service.selectOutList(vo);
 	}
-	
-	//출고에서 일자로만 검색 또는 일자와 자재로 검색
+
+	// 출고에서 일자로만 검색 또는 일자와 자재로 검색
 	@RequestMapping("findoutlist")
 	@ResponseBody
-	public List<MatVO> findoutlist(@RequestParam String startD, @RequestParam String endD,@RequestParam String matCode){
+	public List<MatVO> findoutlist(@RequestParam String startD, @RequestParam String endD,
+			@RequestParam String matCode) {
 		return service.findOutList(startD, endD, matCode);
 	}
-	
-	//자재 재고 엑셀 다운로드
+
+	// 자재 재고 엑셀 다운로드
 	@RequestMapping("listexel")
-	public ModelAndView listexel(MatVO vo) throws IOException{
-		List<Map<String,Object>> list = service.listExel(vo);
-		
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		String[] header = {"자재코드","자재명","현재고","안전재고"};
+	public ModelAndView listexel(MatVO vo) throws IOException {
+		List<Map<String, Object>> list = service.listExel(vo);
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = { "자재코드", "자재명", "현재고", "안전재고" };
 		map.put("headers", header);
 		map.put("filename", "MATERIAL LIST");
 		map.put("datas", list);
-		return new ModelAndView(new CommonExcelView(),map);
-		
+		return new ModelAndView(new CommonExcelView(), map);
+
 	}
-	
+
 	@RequestMapping("requestexel")
-	public ModelAndView requestexel(MatVO vo) throws IOException{
-		List<Map<String,Object>> list = service.requestexel(vo);
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		String[] header = {"발주일자","발주코드","요청번호","자재명","발주업체","발주요청량","주문수량","발주상태","비고"};
+	public ModelAndView requestexel(MatVO vo) throws IOException {
+		List<Map<String, Object>> list = service.requestexel(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = { "발주일자", "발주코드", "요청번호", "자재명", "발주업체", "발주요청량", "주문수량", "발주상태", "비고" };
 		map.put("headers", header);
-		map.put("filename","MATERIAL REQUEST LIST");
+		map.put("filename", "MATERIAL REQUEST LIST");
 		map.put("datas", list);
-		return new ModelAndView(new CommonExcelView(),map);
+		return new ModelAndView(new CommonExcelView(), map);
 	}
-	
+
 	@RequestMapping("insertexel")
-	public ModelAndView insertexel(MatVO vo) throws IOException{
-		List<Map<String,Object>> list = service.requestexel(vo);
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		String[] header = {"입고일자","입출고번호","발주일자","입고업체","자재명","규격","자재단위","발주번호","발주량","입고량"};
-		   map.put("headers",header);
-		   map.put("filename", "MATERIAL INPUT LIST");
-		   map.put("datas", list);
-		return new ModelAndView(new CommonExcelView(),map);
+	public ModelAndView insertexel(MatVO vo) throws IOException {
+		List<Map<String, Object>> list = service.insertexel(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = { "입고일자", "입출고번호", "발주일자", "입고업체", "자재명", "규격", "자재단위", "발주번호", "발주량", "입고량" };
+		map.put("headers", header);
+		map.put("filename", "MATERIAL INPUT LIST");
+		map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(), map);
+
+	}
+
+	@RequestMapping("outputexel")
+	public ModelAndView outputexel(MatVO vo) throws IOException {
+		List<Map<String, Object>> list = service.outputexel(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = {"자재코드","자재명","규격","자재단위","출고량","출고일자","비고"};
+		map.put("headers", header);
+		map.put("filename", "MATERIAL OUTPUT LIST");
+		map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(), map);
 		
 	}
-
-
 
 }

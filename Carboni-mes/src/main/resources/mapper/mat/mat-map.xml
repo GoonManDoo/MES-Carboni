@@ -201,7 +201,7 @@
 	
 	<!-- ====출고============================================================================== -->
 	<select id="selectOutList" resultType="co.carboni.prj.mat.vo.MatVO">
-	  SELECT M.MSNUM,M.PCNUM,M.MSOUTDATE,M.MSOUTAM,
+	  SELECT M.MSNUM,M.PCNUM,M.MSOUTDATE,M.MSOUTAM,M.MSNOTE,
 			M.MICODE,A.MINAME,A.MISTAND,A.MIUNIT
       FROM MATSAR M,MATINFO A
       WHERE m.micode = a.micode
@@ -235,6 +235,14 @@
 	</select>
 	
 	<select id="insertexel" resultType="map">
-	SELECT 
+	 select * from insertlist
+	</select>
+	
+	<select id="outputexel" resultType="map">
+	SELECT TO_CHAR(M.MSOUTDATE) AS "출고일자",M.MSOUTAM AS "출고량",M.MSNOTE AS "비고",
+			M.MICODE AS "자재코드",A.MINAME AS "자재명",A.MISTAND AS "규격",A.MIUNIT AS "자재단위"
+      FROM MATSAR M,MATINFO A
+      WHERE M.MICODE = A.MICODE
+      AND M.MSSTAT ='출고'
 	</select>
 </mapper>
