@@ -1,6 +1,7 @@
 package co.carboni.prj.mat.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -71,5 +72,8 @@ public interface MatMapper {
 	//입고관리에서 입고일자들로 조회해서 메인그리드에 표시
 	public List<MatVO> findOutList(@Param("startD") String startD, @Param("endD") String endD,
 			@Param("matCode") String matCode);
+	
+	//엑셀 용 
+		List<Map<String,Object>> listExel(MatVO vo);
 
 }
