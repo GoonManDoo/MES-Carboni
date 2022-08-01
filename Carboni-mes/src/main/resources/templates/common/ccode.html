@@ -44,6 +44,10 @@
       #myf>label {
         width: 80px;
         font-size: 80%;
+        text-align: center;
+      }
+      #myf>input{
+      	margin: 2px 0 0 0;
       }
     </style>
   </head>
@@ -134,16 +138,14 @@
     
     
     // 대분류로 소분류 조회
-    grid.on('click', (ev) => {
-  		var ccode = ev.nativeEvent.target.innerText
-    	if(ev.columnName == 'ccodeid'){
+    grid.on('click', ev => {
+  		ccode = grid.getRow(ev.rowKey).ccodeid
   			$.ajax({
   				url: "smallList",
   				data: {ccodeid:ccode},
   				success: function(data){
   						$('#tbody').children().remove();
   					    data.forEach(ele => {
-  					    
     					var mktr = $('<tr>');
     					mktr.append($('<td>').html('<input type="radio" name="list">'))
     					mktr.append($('<td>').html(ele.ccodeid))
@@ -156,7 +158,6 @@
   					});
   				}
   			});
-    	}
 	});
 	
 	// 소분류 라디오로 정보입력
