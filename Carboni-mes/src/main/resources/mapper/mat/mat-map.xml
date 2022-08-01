@@ -229,8 +229,12 @@
 	<select id="requestexel" resultType="map">
 		SELECT
 		O.MOSTATUS AS "발주상태",O.MONUM AS "발주코드",O.REQNUM AS "요청번호",O.MRREQAM AS "발주요청량",
-		TO_CHAR(O.MOODATES) AS "발주일자",C.CSNAME AS "발주업체",M.MINAME AS "자재명",O.MOASKAM AS "주문수량",O.MONOTE AS "비고"
+		TO_CHAR(O.MOODATE) AS "발주일자",C.CSNAME AS "발주업체",M.MINAME AS "자재명",O.MOASKAM AS "주문수량",O.MONOTE AS "비고"
 		FROM MATORD O,COSTOMER C,MATINFO M
 		WHERE (O.MICODE=M.MICODE AND C.CSCODE=O.CSCODE)
+	</select>
+	
+	<select id="insertexel" resultType="map">
+	SELECT 
 	</select>
 </mapper>
