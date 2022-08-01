@@ -82,8 +82,39 @@
 		
 		<!-- 출하등록 -->
 		<insert id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
-			INSERT INTO ship
-			VALUES ( ('SH-'||to_char(ship_SHNUM_seq.nextval) ), #{cnnum}, #{sham}, #{shdate}, 'N' )
+			DECLARE
+			    v_sham ship.sham%TYPE;
+		        v_gsam goodsstk.gsam%TYPE;
+		        v_gsmnum goodsstk.gsmnum%TYPE;
+			    v_minus number;
+			BEGIN
+		    
+			    SELECT sham INTO v_sham
+			    FROM ship
+			    WHERE shnum = #{shnum};
+		    
+				SELECT g.gsam INTO v_gsam
+				FROM goodsstk g, contract c, ship s
+				WHERE (g.gicode = c.gicode AND c.cnnum = s.cnnum)
+				AND s.shnum = #{shnum};
+				
+				SELECT gsmnum INTO v_gsmnum
+				FROM goodsstk
+				WHERE gsmnum = #{gsmnum};
+		   
+				v_minus := v_gsam - v_sham;
+			
+				
+			 
+				UPDATE goodsstk
+				SET gsam = v_minus
+				WHERE  gsmnum = v_gsmnum;
+				  
+				INSERT INTO ship
+				VALUES ( ('SH-'||to_char(ship_SHNUM_seq.nextval) ), #{cnnum}, #{sham}, #{shdate}, 'N' )
+  
+			END;
+		    /
 		</insert>
 		
 	
