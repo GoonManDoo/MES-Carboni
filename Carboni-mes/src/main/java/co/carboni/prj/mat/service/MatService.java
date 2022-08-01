@@ -67,5 +67,11 @@ public interface MatService {
 	
 	//엑셀 용 
 	List<Map<String,Object>> listExel(MatVO vo);
+	
+	//발주 요청 엑셀 전체 리스트
+	List<Map<String,Object>> requestexel(MatVO vo);
+	
+	//입고관리의 엑셀 전체 리스트 
+	List<Map<String,Object>> insertexel(MatVO vo);
 
 }

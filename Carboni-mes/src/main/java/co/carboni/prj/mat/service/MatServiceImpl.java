@@ -132,6 +132,17 @@ public class MatServiceImpl implements MatService {
 	public List<Map<String, Object>> listExel(MatVO vo) {
 		return map.listExel(vo);
 	}
+
+	@Override
+	public List<Map<String, Object>> requestexel(MatVO vo) {
+		// TODO Auto-generated method stub
+		return map.requestexel(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> insertexel(MatVO vo) {
+		return null;
+	}
 	
 	
 

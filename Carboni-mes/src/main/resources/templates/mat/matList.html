@@ -1,103 +1,118 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
-    <meta charset="UTF-8">
-    <style>
-    .nameing {
+<meta charset="UTF-8">
+<style>
+.nameing {
 	float: right;
 	font-size: medium;
 	font-weight: normal;
 	margin-top: 15px;
 }
-        #modal {
-            display: none;
-        }
 
-        .tui-datepicker {
-            z-index: 99;
-        }
+#modal {
+	display: none;
+}
 
-        .title {
-            text-align: center;
-            margin-bottom: 10px;
-            margin-top: -10px;
-        }
+.tui-datepicker {
+	z-index: 99;
+}
 
-        .input {
-            height: 23px;
-            margin-left: 15px;
-            margin-top: 5px;
-            display: inline-block;
-            padding: 0 10px;
-            vertical-align: middle;
-            border: 1px solid #dddddd;
-            width: 20%;
-            color: rgb(94, 94, 94);
-            border-radius: 5px;
-            text-align: center;
-            display: inline-block;
-        }
+.title {
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
 
-        .tui-grid-cell.rowSelect {
-            background-color: #ffffff;
-        }
+.input {
+	height: 23px;
+	margin-left: 15px;
+	margin-top: 5px;
+	display: inline-block;
+	padding: 0 10px;
+	vertical-align: middle;
+	border: 1px solid #dddddd;
+	width: 20%;
+	color: rgb(94, 94, 94);
+	border-radius: 5px;
+	text-align: center;
+	display: inline-block;
+}
 
-        .tui-grid-cell.matDanger {
-            background-color: #ffe5e5;
-        }
-    </style>
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;
+}
+
+.tui-grid-cell.matDanger {
+	background-color: #ffe5e5;
+}
+</style>
 </head>
 <body>
-    <th:block layout:fragment="main">
-        <div>
-            <div class="container-fluid px-4">
-                <h1 class="mt-4">재고조회
-                	<div class="nameing">
-					<a href="/" style="text-decoration-line: none; color: black">홈</a>>재고관리>재고조회
+	<th:block layout:fragment="main">
+		<div>
+			<div class="container-fluid px-4">
+				<h1 class="mt-4">
+					재고조회
+					<div class="nameing">
+						<a href="/" style="text-decoration-line: none; color: black">홈</a>>재고관리>재고조회
+					</div>
+				</h1>
+				<div class="card mb-2">
+					<div class="card-header">
+						<div style="display: flex; justify-content: flex-end;">
+							<button type="button" id="exelBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">엑셀</button>
+						</div>
+					</div>
 				</div>
-                </h1>
-                <div class="card mb-2 ">
-                    <div class="card-body">
-                        <form autocomplete="off" id="dataForm">
-                            <div class="col-6">
-                                <table class="table table-bbs">
-                                    <tbody>
-                                        <tr>
-                                            <th><label>자재명</label></th>
-                                            <td><input type="text" class="form-control ht" tabindex="2" id="searchBtn"
-                                                    placeholder="자재명 검색"></td>
-                                            <th><label>자재코드</label></th>
-                                            <td><input type="text" class="form-control ht" id="rightmat" readonly></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="container-fluid px-4 mb-2">
-                                <div style="display: flex; justify-content: flex-end;">
-                                    <button type="button" class="btn btn-secondary" style="margin-right: 5px;"
-                                        id="showBtn">조회</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid px-4">
-                <div id="grid"></div>
-            </div>
 
-            <div id="modal">
-                <div id="listmodal" title="자재검색" style="padding: 20px;">
-                    <div class="title">
-                        <span>자재명</span><input type="text" class="input" id="miSearchName">
-                        <button class="btn btn-secondary" id="miSearchBtn">검색</button>
-                    </div>
-                    <div id="listgrid"></div>
-                </div>
-            </div>
-        </div>
-        <script>
+
+				<div class="card mb-2 ">
+					<div class="card-body">
+						<form autocomplete="off" id="dataForm">
+							<div class="col-6">
+								<table class="table table-bbs">
+									<tbody>
+										<tr>
+											<th><label>자재명</label></th>
+											<td><input type="text" class="form-control ht"
+												tabindex="2" id="searchBtn" placeholder="자재명 검색"></td>
+											<th><label>자재코드</label></th>
+											<td><input type="text" class="form-control ht"
+												id="rightmat" readonly></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="container-fluid px-4 mb-2">
+								<div style="display: flex; justify-content: flex-end;">
+									<button type="button" class="btn btn-secondary"
+										style="margin-right: 5px;" id="showBtn">조회</button>
+
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid px-4">
+				<div id="grid"></div>
+			</div>
+
+			<div id="modal">
+				<div id="listmodal" title="자재검색" style="padding: 20px;">
+					<div class="title">
+						<span>자재명</span><input type="text" class="input" id="miSearchName">
+						<button class="btn btn-secondary" id="miSearchBtn">검색</button>
+					</div>
+					<div id="listgrid"></div>
+				</div>
+			</div>
+		</div>
+		<script>
             $(function () {
                 const gridData = [];
 
@@ -304,9 +319,19 @@
                         }
                     })
                 })
+                
+                /*------------엑셀버튼 눌렀을때 ------------------------------------------------------*/
+                $('#exelBtn').on('click',function(){
+                	location.href="listexel"
+                	
+                	/*  $.ajax({
+                		url : 'listexel',
+                		
+                	})  */
+                })
             })
         </script>
-    </th:block>
+	</th:block>
 </body>
 
 </html>
