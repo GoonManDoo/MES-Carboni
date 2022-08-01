@@ -79,6 +79,8 @@
 								style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">요청</button>
 							<button type="button" id="saveBtn" class="btn btn-secondary"
 								style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">주문</button>
+							<button type="button" id="exelBtn" class="btn btn-secondary"
+								style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">엑셀</button>
 						</div>
 					</div>
 				</div>
@@ -738,6 +740,12 @@
                             swal('', '이미 등록된 값이 있습니다.', 'warning')
                         }
                     })
+                    
+                     /*------------엑셀버튼 눌렀을때 ------------------------------------------------------*/
+                $('#exelBtn').on('click',function(){
+                	location.href="requestexel"
+                	
+                })
                 })
             </script>
 		</div>

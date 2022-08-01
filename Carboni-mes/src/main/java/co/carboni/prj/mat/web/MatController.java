@@ -195,19 +195,30 @@ public class MatController {
 	}
 	
 	//자재 재고 엑셀 다운로드
-   @RequestMapping("listexel")
-   public ModelAndView listexel(MatVO vo) throws IOException{
-      List<Map<String,Object>> list = service.listExel(vo);
-      
-      HashMap<String,Object> map = new HashMap<String,Object>();
-      String[] header = {"자재코드","자재명","현재고","안전재고"};
-      map.put("headers", header);
-      map.put("filename", "MATERIAL LIST");
-      map.put("datas", list);
-      return new ModelAndView(new CommonExcelView(),map);
-      
-   }
+	@RequestMapping("listexel")
+	public ModelAndView listexel(MatVO vo) throws IOException{
+		List<Map<String,Object>> list = service.listExel(vo);
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		String[] header = {"자재코드","자재명","현재고","안전재고"};
+		map.put("headers", header);
+		map.put("filename", "MATERIAL LIST");
+		map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(),map);
+		
+	}
 	
+	@RequestMapping("requestexel")
+	public ModelAndView requestexel(MatVO vo) throws IOException{
+		List<Map<String,Object>> list = service.requestexel(vo);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		String[] header = {"발주일자","발주코드","요청번호","자재명","발주업체","발주요청량","주문수량","발주상태","비고"};
+		map.put("headers", header);
+		map.put("filename","MATERIAL REQUEST LIST");
+		map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(),map);
+	}
+
 
 
 }
