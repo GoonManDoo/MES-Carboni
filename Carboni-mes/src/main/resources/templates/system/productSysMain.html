@@ -22,9 +22,11 @@
       <!-- ================================================================================================================================== -->
 
       <th:block th:each=" sysvo :${divalign}">
+      <input type="hidden" th:value="${sysvo.sinum}" id="valsinum">
+      
      
       <script>
-         var checkSysnum = "[[${sysvo.sinum[3]}]]";
+         var checkSysnum = "[[${sysvo.sinum}]]";
          console.log("[checkSysnum] : " + checkSysnum )
       </script>
       
@@ -55,24 +57,17 @@
                      <div class="card bg-white" style="width: 18rem; height: 351px;" >
                         <div class="card-body" style="display: flex; align-content: space-around; justify-content: space-around; align-items: center;">
                            <div>
+                           
                               <h3 style="display: block; display: block; margin-bottom: 25px; margin-top: -10px;">관리자정보</h3>
-                              <form id="Sysadmin">
                                  <p style="margin-bottom: 3px;">관리자 이름</p>
                                     <input class="form-control bg-white" id="ename"style="text-align: center;" type="text" disabled readonly><br>
                                 <p style="margin-bottom: 3px;">관리자 직급</p>
                                     <input class="form-control bg-white" id="eposition" style="text-align: center;" type="text"disabled readonly><br>
-                                </form>
                               <div sec:authorize="hasRole('ROLE_a')" style="display: flex;  justify-content: space-evenly;">
-                                 <button type="button" class="btn btn-primary"
-                                    data-bs-toggle="modal" data-bs-target="#adEditModal"
-                                    style="background-color: white; border: 1px solid #b5b5b5;
-                                    color:black;" onclick="addEdit()">등록</button>
-                            
-                           
+                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adEditModal" style="background-color: white; border: 1px solid #b5b5b5; color:black;"
+                                 onclick="addEdit()">등록</button>
+                                 <input type="hidden" th:value="${sysvo.sinum}" id="sinum">
                                </div>
-                              
-                              <input type="text" th:value="${sysvo.sinum}" th:id="'val'+(${sysvo.sinum})">
-                             
                            </div>
                               
                         </div>
@@ -102,7 +97,7 @@
           <!-- ================================================================================================================================== -->
 
 
-            <!--    MODAL -->
+            <!-- 설비 인서트 모달 -->
             
             
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -111,8 +106,6 @@
                      <div class="modal-header" style="border: none;"></div>
                      <div class="modal-body">
                        <h4 style="text-align: center;">설비 정보 입력</h4>
-                       
-                       
                           <form  class="modal-footer"  style="display: flex; justify-content: center; border: none;" name="insertSysForm" id="insertSysFrom">
                           <input class="form-control"type="text" placeholder="설비 이름을 입력해주세요" style="text-align: center; margin-bottom:30px;" id="siname" name="siname"><br>
                              <div class="form-floating" style="width: 426px;">
@@ -137,7 +130,7 @@
 
      
      
-          <!--   ========================================================= 관리자 편집 ========================================================================= -->                
+          <!-- 관리자 모달  -->                
           
        
                 <div class="modal fade" id="adEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -148,12 +141,8 @@
                        <h4 style="text-align: center;">관리자 추가 및 수정</h4>
                         <form  class="modal-footer"  style="display: flex; justify-content: center; border: none;">
                              <div class="form-floating" style="width: 426px;">
-                           <div id="gridcomp"></div>
-                     
+                           		<div id="gridcomp"></div>
                              </div>   
-                          <form  class="modal-footer"  style="display: flex; justify-content: center; border: none;">
-                              
-                                <input type="text"  id="aaad">
                             <input type="button" class="btn btn-primary" data-bs-dismiss="modal" value="저장" style="text-align:center; width: 64px;" onclick="adEditClik()">
                         </form>
                      </div>
@@ -185,8 +174,8 @@
           
 
 
-     <script type="text/javascript">         
-    //설비 정보 입력 시
+<script type="text/javascript">         
+    //설비 INSERT
      function check(){
       if($(siname).val() == '' || $(picodeid).val() == '' || $(simaint).val() == '' || $(sisaftem).val() ==''){
          swal('정보를 입력하십시오', '각 값은 필수 입력 조건입니다.', 'warning');
@@ -195,34 +184,31 @@
             document.insertSysForm.submit();
       }
    }
+   
  
     
-
+//사원목록 그리드
 var reqG = new tui.Grid({
-el : document.getElementById('gridcomp'),
-//   data : totaldata,
-scrollX : false,
-rowHeaders : [ 'rowNum' ],
-bodyHeight : 430,
-columns : [ {
-header : '사원코드',
-name : 'ecode',
-align : 'center',
-                     
-},{
-header : '직급',
-name : 'eposition',
-align : 'center',
-}, {
-header : '이름',
-name : 'ename',
-align : 'center',
-}]
-});      
+	el : document.getElementById('gridcomp'),
+	scrollX : false,
+	rowHeaders : [ 'rowNum' ],
+	bodyHeight : 430,
+	columns : [ {
+		header : '사원코드',
+		name : 'ecode',
+		align : 'center',
+		},{
+		header : '직급',
+		name : 'eposition',
+		align : 'center',
+		}, {
+		header : '이름',
+		name : 'ename',
+		align : 'center',
+		}]
+	});      
 
-
-
-
+// 사원목록 불러오는 코드
 function addEdit(){
    reqG.refreshLayout();
    $.ajax({
@@ -231,28 +217,25 @@ function addEdit(){
       dataType: 'json',
       success: function(result){
          reqG.resetData(result)
-         aidi = $('#valSS-2').val()
-         console.log(aidi)
-            $('#aaad').val(aidi)
-         reqG.on('click', ad =>{
-            var ade = ad.rowKey
-            ecod = reqG.getRow(ade).ecode
-            console.log('asdfdsa'+aidi)//이벤트 클릭 일어났
-         })
+         reqG.on('click', ev =>{
+         	if(reqG.getRow(ev.rowKey) != null){
+		 		admin = reqG.getRow(ev.rowKey).ecode
+         	}
+		 })
       }
    })
 }
 
 
 		
+// 업데이트
 
+sinum = $('#sinum').val()
 function adEditClik(){
-   var aaad = $('#aaad').val()
-   var aaac = $('#aaac').val()
    $.ajax({
-      url:'EditAdmin',
+      url:'editAdmin',
       method:'POST',
-      data: { aaad, aaac },
+      data: {admin, sinum},
       success:function(){
          console.log("업데이트 완료")
          ec();
@@ -263,7 +246,6 @@ function adEditClik(){
       return false
       }
    })
-  
 }   
 
 //페이지 로딩시 바뀌는 함수
@@ -281,15 +263,9 @@ function ecc(){
 		success:function(result){
 			console.log(result)
 			result.forEach(sf => {
-				console.log(sf)
-				console.log(sf.sinum)
-				console.log(sf.ename)
-				console.log(sf.eposition)
-				$('#'+ sf.sinum).val(sf.ename)
+				$('#ename').val(sf.ename)
 				$('#eposition').val(sf.eposition)
 			})
-			console.log(result)
-			
 		},
 		error:function(){
 			console.log("실패")
@@ -299,9 +275,7 @@ function ecc(){
 }
 
 
-
-       
-            
+//하이차트         
 $(function(){
    for (i=1; i<30; i++){
    console.log(i)
