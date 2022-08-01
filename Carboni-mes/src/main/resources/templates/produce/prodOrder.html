@@ -581,6 +581,11 @@
 							align: 'center'
 						},
 						{
+							header: '제품명',
+							name: 'giname',
+							align: 'center'
+						},
+						{
 							header: '제품코드',
 							name: 'gicode',
 							align: 'center'
@@ -599,10 +604,16 @@
 							header: '불량량',
 							name: 'gegdam',
 							align: 'center'
+						},
+						{
+							header: '라인번호',
+							name: 'lineid',
+							align: 'center'
 						}
 					]
 				})
-				
+				reprodGrid.hideColumn('gicode');
+				reprodGrid.hideColumn('lineid');
 				
 
 				// 그리드끝-----------------------------------
@@ -722,16 +733,34 @@
 				$('#reprodBtn').on('click', function(){
 					modal5.dialog('open')
 					reprodGrid.refreshLayout();
-					makeAjaxCall('reprodList', function(result){
-						reprodGrid.resetData(result)
-						/*reprodGrid.on('click', e => {
-							
-						})*/
+					$.ajax({
+						url: 'reprodList',
+						method: 'POST',
+						success: function(result){
+							reprodGrid.resetData(result)
+							reprodGrid.on('click', e => {
+								for(i=0; i<reprodGrid.getRowCount(); i++) {
+									reprodGrid.removeRowClassName(i, 'rowSelect')
+								}
+								reprodGrid.addRowClassName(e.rowKey, 'rowSelect')
+								var giname = reprodGrid.getValue(e.rowKey, 'giname')
+								var gicode = reprodGrid.getValue(e.rowKey, 'gicode')
+								var lineid = reprodGrid.getValue(e.rowKey, 'lineid')
+								var pcdam = reprodGrid.getValue(e.rowKey, 'gegdam')
+								obj = {
+										'giname' : giname,
+										'gicode' : gicode,
+										'lineid' : lineid,
+										'pcdam' : pcdam,
+										'pcddiv' : '재생산'
+								}
+							})
+						}
 					})
-					
 				})
 				function addReprod() {
-					
+					pnGrid.appendRow(obj)
+					modal5.dialog('close')
 				}
 				
 
@@ -783,7 +812,7 @@
 						$('#goodsName').val(result[0].giname)
 						matlist.resetData(result)
 						for(i=0; i<matlist.getRowCount(); i++) {
-							matlist.setValue(i, 'pamount', (pnGrid.getValue(rk, 'ppadam')*matlist.getValue(i, 'bam')), false)
+							matlist.setValue(i, 'pamount', ((pnGrid.getValue(rk, 'ppadam')+(pnGrid.getValue(rk, 'pcdam')))*matlist.getValue(i, 'bam')), false)
 							if(matlist.getValue(i, 'pamount')-matlist.getValue(i, 'msciam') > 0) {
 								matlist.addCellClassName(i, 'msciam', 'matDanger')
 								matlist.on('dblclick', el => {
@@ -852,7 +881,15 @@
 					if($('#orderNum').val() == '') { // 등록
 						if($('#orderName').val() != '' && $('#employee').val() != '' && pnGrid.getData().length != 0) {
 							if($('td').hasClass('tui-grid-cell-invalid') == false) {
-								addProdOrder();
+								for(i=0; i<matlist.getRowCount(); i++) {
+									var classArr = matlist.getCellClassName(i, 'msciam')
+								}
+								var rs = classArr.some(x => {return x == 'matDanger'})
+								if(rs == false) {
+									addProdOrder();
+								} else {
+									swal('부족한 재료가 존재합니다.', '', 'warning')
+								}
 							} else {
 								swal('입력되지 않은 값이 있습니다.', '', 'warning')
 							}

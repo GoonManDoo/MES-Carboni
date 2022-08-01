@@ -22,9 +22,9 @@
       <!-- ================================================================================================================================== -->
 
       <th:block th:each=" sysvo :${divalign}">
-      
+     
       <script>
-         var checkSysnum = "[[${sysvo.sinum}]]";
+         var checkSysnum = "[[${sysvo.sinum[3]}]]";
          console.log("[checkSysnum] : " + checkSysnum )
       </script>
       
@@ -71,7 +71,8 @@
                            
                                </div>
                               
-                              <input type="hidden" th:value="${sysvo.sinum}" id="valsinum" name="valsinum">
+                              <input type="text" th:value="${sysvo.sinum}" th:id="'val'+(${sysvo.sinum})">
+                             
                            </div>
                               
                         </div>
@@ -96,22 +97,9 @@
                      <img style="width: 98px; margin-left: 58px; margin-top: -9px;" alt="자세히보기 버튼" src="/assets/img/detailBut.svg"></a>
                   </div>     
                </div>
-    
-         </th:block>
+
       
-            <!-- ================================================================================================================================== -->
-
-            <div sec:authorize="hasRole('ROLE_a')" id="NewProdSys"style="width: 100%; margin-top: 35px; display: flex; justify-content: center;">
-               <button type="button" class="btn btn-primary"
-                  data-bs-toggle="modal" data-bs-target="#exampleModal"
-                  style="background-color: white; border: none;">
-                  <img alt="설비추가버튼" src="/assets/img/newProdSys.svg">
-                  
-               </button>
-            </div>
-
-
-            <!-- ================================================================================================================================== -->
+          <!-- ================================================================================================================================== -->
 
 
             <!--    MODAL -->
@@ -150,7 +138,8 @@
      
      
           <!--   ========================================================= 관리자 편집 ========================================================================= -->                
-             <th:block th:each=" sysvo :${divalign}">
+          
+       
                 <div class="modal fade" id="adEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
@@ -163,8 +152,8 @@
                      
                              </div>   
                           <form  class="modal-footer"  style="display: flex; justify-content: center; border: none;">
-                                <input type="hidden" id="aaad">
-                                <input type="hidden" th:value="${sysvo.sinum}" id="aaac">
+                              
+                                <input type="text"  id="aaad">
                             <input type="button" class="btn btn-primary" data-bs-dismiss="modal" value="저장" style="text-align:center; width: 64px;" onclick="adEditClik()">
                         </form>
                      </div>
@@ -174,7 +163,21 @@
             
              </th:block>
            
+      
+            <!-- ================================================================================================================================== -->
+
+            <div sec:authorize="hasRole('ROLE_a')" id="NewProdSys"style="width: 100%; margin-top: 35px; display: flex; justify-content: center;">
+               <button type="button" class="btn btn-primary"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  style="background-color: white; border: none;">
+                  <img alt="설비추가버튼" src="/assets/img/newProdSys.svg">
+                  
+               </button>
             </div>
+
+
+        
+</div>
 
 
            
@@ -185,7 +188,7 @@
      <script type="text/javascript">         
     //설비 정보 입력 시
      function check(){
-      if($(siname).val() == '' || $(simaint).val() == '' || $(sisaftem).val() ==''){
+      if($(siname).val() == '' || $(picodeid).val() == '' || $(simaint).val() == '' || $(sisaftem).val() ==''){
          swal('정보를 입력하십시오', '각 값은 필수 입력 조건입니다.', 'warning');
       } else{
             document.insertSysForm.action="/systemInsert"
@@ -219,6 +222,7 @@ align : 'center',
 
 
 
+
 function addEdit(){
    reqG.refreshLayout();
    $.ajax({
@@ -227,10 +231,13 @@ function addEdit(){
       dataType: 'json',
       success: function(result){
          reqG.resetData(result)
+         aidi = $('#valSS-2').val()
+         console.log(aidi)
+            $('#aaad').val(aidi)
          reqG.on('click', ad =>{
             var ade = ad.rowKey
             ecod = reqG.getRow(ade).ecode
-            $('#aaad').val(ecod)
+            console.log('asdfdsa'+aidi)//이벤트 클릭 일어났
          })
       }
    })
@@ -272,10 +279,13 @@ function ecc(){
 		url:'rePosit',
 		data:{sinum:valsinum},
 		success:function(result){
+			console.log(result)
 			result.forEach(sf => {
+				console.log(sf)
+				console.log(sf.sinum)
 				console.log(sf.ename)
 				console.log(sf.eposition)
-				$('#ename').val(sf.ename)
+				$('#'+ sf.sinum).val(sf.ename)
 				$('#eposition').val(sf.eposition)
 			})
 			console.log(result)
@@ -354,7 +364,7 @@ title:{
     },
 
     tooltip: {
-      headerFormat: '<b>{series.name}</b><br/>',
+      headerFormat: '<b>{sysvo.siname}</b><br/>',
       pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
     },
 

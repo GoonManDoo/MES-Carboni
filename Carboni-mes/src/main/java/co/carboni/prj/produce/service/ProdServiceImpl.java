@@ -272,6 +272,18 @@ public class ProdServiceImpl implements ProdService {
 				return mapper.lineProd(vo);
 			}
 			
+			// 생산일자로 생산실적 검색
+			@Override
+			public List<ProcMoniterVO> lineProdDt(String prodDtS, String prodDtE, String lineid) {
+				return mapper.lineProdDt(prodDtS, prodDtE, lineid);
+			}
+			
+			// 불량내역 등록
+			@Override
+			public void errorInsert(ProcMoniterVO vo) {
+				mapper.errorInsert(vo);
+			}
+			
 			
 			
 			

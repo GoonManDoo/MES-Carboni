@@ -244,4 +244,9 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE('데이터가 없습니다.');
 END;
 
+-- 제품불량내역 시퀀스
+create sequence goods_err_genum_seq
+	increment by 1
+    start with 1
+    nocache;
    
