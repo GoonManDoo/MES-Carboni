@@ -82,35 +82,7 @@
 		
 		<!-- 출하등록 -->
 		<insert id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
-DECLARE
-			    v_sham ship.sham%TYPE;
-		        v_gsam goodsstk.gsam%TYPE;
-		        v_gicode goodsstk.gicode%TYPE;
-		        v_shnum ship.shnum%TYPE;
-			    v_minus number;
-			
-			BEGIN
-			
-				INSERT INTO ship
-				VALUES ( ('SH-'||to_char(ship_SHNUM_seq.nextval) ), #{cnnum}, #{sham}, #{shdate}, 'N' );
-		    
-		    
-			    SELECT  s.sham, g.gsam, g.gicode, s.shnum
-                INTO v_sham, v_gsam, v_gicode, v_shnum
-				FROM goodsstk g, contract c, ship s
-				WHERE g.gicode = c.gicode AND c.cnnum = s.cnnum
-				AND g.gsmnum = #{gsmnum};
-		   
-				v_minus := v_gsam - v_sham;
-				
-				UPDATE goodsstk
-				SET gsam = v_minus
-				WHERE  gsmnum = #{gsmnum};
-				  
-				
-  
-			END;
-            
+            <![CDATA[{call schedule(#{p_cnnum}, #{p_sham}, #{p_shdate}, #{p_gsmnum})}]]>
 		</insert>
 		
 	
