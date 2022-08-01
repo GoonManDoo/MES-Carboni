@@ -73,7 +73,12 @@ public interface MatMapper {
 	public List<MatVO> findOutList(@Param("startD") String startD, @Param("endD") String endD,
 			@Param("matCode") String matCode);
 	
-	//엑셀 용 
+	// 자재재고 전체 리스트엑셀
 		List<Map<String,Object>> listExel(MatVO vo);
+		
+		//발주 요청 엑셀 전체 리스트
+		List<Map<String,Object>> requestexel(MatVO vo);
+		
+		
 
 }

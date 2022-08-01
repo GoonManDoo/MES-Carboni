@@ -207,6 +207,17 @@ public class MatController {
 		return new ModelAndView(new CommonExcelView(),map);
 		
 	}
+	
+	@RequestMapping("requestexel")
+	public ModelAndView requestexel(MatVO vo) throws IOException{
+		List<Map<String,Object>> list = service.requestexel(vo);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		String[] header = {"발주일자","발주코드","요청번호","자재명","발주업체","발주요청량","주문수량","발주상태","비고"};
+		map.put("headers", header);
+		map.put("filename","MATERIAL REQUEST LIST");
+		map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(),map);
+	}
 
 
 
