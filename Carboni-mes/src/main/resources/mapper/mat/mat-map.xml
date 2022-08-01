@@ -218,4 +218,11 @@
 	<if test="startD != null and endD != null">AND (M.MSOUTDATE BETWEEN #{startD} AND #{endD})</if>
 	</select>
 	
+	<!-- =====엑셀============================================ -->
+	<!-- 자재재고 전체 리스트 -->
+	<select id="listExel" resultType="map">
+		SELECT S.MICODE AS "자재코드",M.MINAME AS "자재명",m.misafe AS "안전재고" ,S.MSCIAM AS "현재고"
+		FROM MATSTK S, MATINFO M 
+		WHERE S.MICODE=M.MICODE ORDER BY S.MATNUM
+	</select>
 </mapper>
