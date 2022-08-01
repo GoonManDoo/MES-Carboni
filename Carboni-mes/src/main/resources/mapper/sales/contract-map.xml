@@ -81,8 +81,8 @@
 		</update>
 		
 		<!-- 출하등록 -->
-		<insert id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
-            <![CDATA[{call schedule(#{p_cnnum}, #{p_sham}, #{p_shdate}, #{p_gsmnum})}]]>
+		<insert id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" statementType="CALLABLE">
+            <![CDATA[{call shippro(#{cnnum}, #{sham}, #{shdate}, #{gsmnum}, #{shnum})}]]>
 		</insert>
 		
 	
