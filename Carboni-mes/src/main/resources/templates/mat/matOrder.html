@@ -2,18 +2,19 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 <meta charset="UTF-8">
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
 	rel="stylesheet" />
-	
+
 <style>
 #modal {
 	display: none;
 }
+
 .nameing {
 	float: right;
 	font-size: medium;
@@ -64,10 +65,11 @@
 		<div>
 			<!-- 전체감싸는 div -->
 			<div class="container-fluid px-4">
-				<h1 class="mt-4">발주관리
-				<div class="nameing">
-					<a href="/" style="text-decoration-line: none; color: black">홈</a>>재고관리>발주관리
-				</div>
+			<div class="nameing">
+						<a href="/" style="text-decoration-line: none; color: black">홈</a>>재고관리>발주관리
+					</div>
+				<h1 class="mt-4">
+					발주관리	
 				</h1>
 				<!-- 상단 버튼 모음  -->
 				<div class="card mb-4">
@@ -75,12 +77,13 @@
 						<div style="display: flex; justify-content: flex-end;">
 							<button type="button" id="resetBtn" class="btn btn-secondary"
 								style="margin-right: 5px;">새자료</button>
+							<button type="button" id="exelBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">엑셀</button>
 							<button type="button" id="btnModal" class="btn btn-secondary"
 								style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">요청</button>
 							<button type="button" id="saveBtn" class="btn btn-secondary"
 								style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">주문</button>
-							<button type="button" id="exelBtn" class="btn btn-secondary"
-								style="margin-right: 5px;" >엑셀</button>
+
 						</div>
 					</div>
 				</div>
@@ -143,11 +146,14 @@
 									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="listBtn">조회</button>
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="addBtn" sec:authorize="hasRole('ROLE_a')">추가</button>
+										style="margin-right: 5px;" id="addBtn"
+										sec:authorize="hasRole('ROLE_a')">추가</button>
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="modiBtn" sec:authorize="hasRole('ROLE_a')">수정</button>
+										style="margin-right: 5px;" id="modiBtn"
+										sec:authorize="hasRole('ROLE_a')">수정</button>
 									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="removeBtn" sec:authorize="hasRole('ROLE_a')">삭제</button>
+										style="margin-right: 5px;" id="removeBtn"
+										sec:authorize="hasRole('ROLE_a')">삭제</button>
 								</div>
 							</div>
 						</form>
@@ -299,10 +305,20 @@
                             name: 'monote',
                             editor: 'text',
                             align: 'center'
+                        }, {
+                            header: 'max수량',
+                            name: 'mimax',
+                            align: 'center'
+                        }, {
+                            header: 'min수량',
+                            name: 'mimin',
+                            align: 'center'
                         }]
                     });
                     grid.hideColumn('micode')
                     grid.hideColumn('cscode')
+                    grid.hideColumn('mimax')
+                    grid.hideColumn('mimin')
 
                     /*발주 모달안의 그리드*/
                     const totaldata = [];
@@ -724,18 +740,29 @@
                             if (datas.length == 0) {
                                 return;
                             }
-                            $.ajax({
-                                url: 'addrequestlist',
-                                method: 'POST',
-                                data: JSON.stringify(datas),
-                                contentType: 'application/json',
-                                success: function (result) {
-                                    newClear();
-                                    grid.removeCheckedRows('')
-                                    grid.appendRows(result)
-                                    swal('성공', '발주가 완료되었습니다.', 'success')
-                                }
-                            })
+                           if(grid.getValue(datas,'mimax')>grid.getValue(datas,'moaskam')){
+                        	   if(grid.getValue(datas,'mimin')<grid.getValue(datas,'moaskam')){
+                        		   $.ajax({
+                                       url: 'addrequestlist',
+                                       method: 'POST',
+                                       data: JSON.stringify(datas),
+                                       contentType: 'application/json',
+                                       success: function (result) {
+                                           newClear();
+                                           grid.removeCheckedRows('')
+                                           grid.appendRows(result)
+                                           swal('성공', '발주가 완료되었습니다.', 'success')
+                                       }
+                                   })
+                        	   }else{
+                        		   swal('', '최소수량이 부족합니다.', 'warning')
+                        	   }
+                        		   
+                        	  
+                           }else{
+                        	   swal('', '최대수량을 초과했습니다.', 'warning')
+                           }
+                         
                         } else {
                             swal('', '이미 등록된 값이 있습니다.', 'warning')
                         }

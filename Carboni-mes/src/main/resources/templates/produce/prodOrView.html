@@ -2,84 +2,106 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
-		<th:block layout:fragment="main">
-<head>
+<th:block layout:fragment="main">
+	<head>
 <style>
-  h1 {
-    margin: 20px 10px 10px 20px;
-  }
+h1 {
+	margin: 20px 10px 10px 20px;
+}
 
-  #menu {
-    float: right;
-    margin-right: 20px;
-    text-align: right;
-  }
+#menu {
+	float: right;
+	margin-right: 20px;
+	text-align: right;
+}
 
-  #container {
-    clear: both;
-  }
-  
+#container {
+	clear: both;
+}
+
+.nameing {
+	float: right;
+	font-size: medium;
+	font-weight: normal;
+	margin-top: 15px;
+}
 </style>
-</head>
+	</head>
 
-<body>
+	<body class="sb-nav-fixed">
+		<div class="nameing">
+			<a href="/" style="text-decoration-line: none; color: black">홈</a>>생산관리>불량내역조회
+		</div>
+		<h1>생산지시조회</h1>
 
-<h1>생산지시조회</h1>
-  <div id="menu">
-    <a href="/">홈</a> > 생산관리 > <b>생산지시조회</b>
-  </div>
-    <div id="btns" class="card-header">
-      <input type="button" class="btn btn-secondary" value="갱신" onclick="window.location.reload()">
-    </div>
-  <div id="container">
-    <div class="card mb-4">
-      <div class="card-header">
-        <i class="fas fa-table me-1"></i> 지시상세
-      </div>
-      <div class="card-body">
-        <table id="datatablesSimple">
-          <thead>
-            <tr>
-              <th><input type="radio" name="list"></th>
-              <th>지시번호</th>
-              <th>제품코드</th>
-              <th>제품명</th>
-              <th>공정코드</th>
-              <th>1차 공정</th>
-              <th>2차 공정</th>
-              <th>3차 공정</th>
-              <th>4차 공정</th>
-              <th>지시수량</th>
-              <th>지시상태</th>
-              <th>작업시작일</th>
-              <th>작업마감일</th>
-            </tr>
-          </thead>
-          <tbody>
-          <tr th:each="p : ${list}">
-              <td><input type="radio" name="list"></th>
-              <td th:text="${p.PCNUM}"></th>
-              <td th:text="${p.GICODE}"></th>
-              <td th:text="${p.GINAME}"></th>
-              <td th:text="${p.PICODEID}"></th>
-              <td th:text="${p[PIONE]}"></th>
-              <td th:text="${p[PITWO]}"></th>
-              <td th:text="${p[PITHREE]}"></th>
-              <td th:text="${p[PIFOUR]}"></th>
-              <td th:text="${p.PCDAM}"></th>
-              <td th:text="${p.PCSTATUS}"></th>
-              <td th:text="${#strings.substring(p.PCDSDATE, 0, 10)}" class="date"></th>
-              <td th:text="${#strings.substring(p.PCDEDATE, 0, 10)}" class="date"></th>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-<script>
-
-</script>
+		<div id="btns" class="card-header">
+			<input type="button" class="btn btn-secondary" value="갱신"
+				onclick="window.location.reload()">
+		</div>
+		<div id="container">
+			<div class="card mb-4">
+				<div class="card-header">
+					<i class="fas fa-table me-1"></i> 지시상세
+				</div>
+				<div class="card-body">
+					<table id="datatablesSimple">
+						<thead>
+							<tr>
+								<th><input type="radio" name="list"></th>
+								<th>지시번호</th>
+								<th>제품코드</th>
+								<th>제품명</th>
+								<th>공정코드</th>
+								<th>1차 공정</th>
+								<th>2차 공정</th>
+								<th>3차 공정</th>
+								<th>4차 공정</th>
+								<th>지시수량</th>
+								<th>지시상태</th>
+								<th>작업시작일</th>
+								<th>작업마감일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p : ${list}">
+								<td><input type="radio" name="list">
+								</th>
+								<td th:text="${p.PCNUM}">
+								</th>
+								<td th:text="${p.GICODE}">
+								</th>
+								<td th:text="${p.GINAME}">
+								</th>
+								<td th:text="${p.PICODEID}">
+								</th>
+								<td th:text="${p[PIONE]}">
+								</th>
+								<td th:text="${p[PITWO]}">
+								</th>
+								<td th:text="${p[PITHREE]}">
+								</th>
+								<td th:text="${p[PIFOUR]}">
+								</th>
+								<td th:text="${p.PCDAM}">
+								</th>
+								<td th:text="${p.PCSTATUS}">
+								</th>
+								<td th:text="${#strings.substring(p.PCDSDATE, 0, 10)}"
+									class="date">
+								</th>
+								<td th:text="${#strings.substring(p.PCDEDATE, 0, 10)}"
+									class="date">
+								</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+	<script>
+		
+	</script>
 </th:block>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-				layout:decorate="~{layouts/layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
 <head>
 <style>
 .tui-datepicker {
@@ -14,19 +14,24 @@
 	min-height: 36px;
 	margin-bottom: 10px;
 }
+
 .ht {
 	height: 28px;
 }
+
 .mg5 {
-	margin-top:5px;
+	margin-top: 5px;
 }
- #modal {
+
+#modal {
 	display: none;
 }
+
 .cb {
-	text-align:center;
+	text-align: center;
 	margin-top: 10px;
 }
+
 .fw {
 	font-weight: 700;
 	margin-right: 10px;
@@ -35,73 +40,84 @@
 .tui-grid-cell.matDanger {
 	background-color: #ffe5e5;
 }
+
 .tui-grid-cell.rowSelect {
-	background-color: #ffffff;	
+	background-color: #ffffff;
+}
+
+.nameing {
+	float: right;
+	font-size: medium;
+	font-weight: normal;
+	margin-top: 15px;
 }
 </style>
 </head>
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
-	<div class="container-fluid px-4">
-		<h1 class="mt-4">생산계획관리</h1>
-		<div class="card mb-2">
-			<div class="card-header">
-				<div style="display: flex; justify-content: flex-end;">
-					<button type="button" id="searchBtn" class="btn btn-secondary"
-						style="margin-right: 5px;">조회</button>
-					<button type="button" id="resetBtn" class="btn btn-secondary"
-						style="margin-right: 5px;">새자료</button>
-					<button type="button" id="saveBtn" class="btn btn-secondary"
-						style="margin-right: 5px;">저장</button>
-					<button type="button" id="removeBtn" class="btn btn-secondary"
-						style="margin-right: 5px;">삭제</button>
+		<div class="container-fluid px-4">
+			<div class="nameing">
+				<a href="/" style="text-decoration-line: none; color: black">홈</a>>생산관리>생산계획관리
+			</div>
+			<h1 class="mt-4">생산계획관리</h1>
+			<div class="card mb-2">
+				<div class="card-header">
+					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" id="searchBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">조회</button>
+						<button type="button" id="resetBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">새자료</button>
+						<button type="button" id="saveBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">저장</button>
+						<button type="button" id="removeBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">삭제</button>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="card mb-2">
-			<div class="card-body">
-				<!-- 입력폼 -->
-				<form autocomplete="off" id="dataForm">
-					<input type="hidden" id="planNum" name="planNum">
-					<input type="hidden" id="planSt" name="planSt">
-					<div class="container-fluid"
-						style="display: flex; flex-flow: row wrap; justify-content: space-between;">
-						<!-- 계획일자, 생산계획명, 특이사항 -->
-						<div class="item col-6">
-							<table class="table table-bbs">
-								<tbody>
-									<tr>
-										<th><label style="width: 100px;">계획일자</label></th>
-										<td colspan="6">
-											<div
-												class="tui-datepicker-input tui-datetime-input tui-has-focus">
-												<input type="text" class="form-control" id="planDt"
-													aria-label="Date-Time" tabindex="1" required> <span
-													class="tui-ico-date"></span>
-											</div>
-											<div id="wrapper" style="margin-top: -1px;"></div>
-										</td>
-									</tr>
-									<tr>
-										<th>생산계획명</th>
-										<td><input type="text" id="planName" class="form-control ht"
-											style="width: 500px;" required></td>
-										<td colspan="5">
-									</tr>
-									<tr>
-										<th>비  고</th>
-										<td><input type="text" id="planNote" class="form-control ht"
-											style="width: 500px;"></td>
-										<td colspan="3">
-									</tr>
-								</tbody>
-							</table>
-						</div>
+			<div class="card mb-2">
+				<div class="card-body">
+					<!-- 입력폼 -->
+					<form autocomplete="off" id="dataForm">
+						<input type="hidden" id="planNum" name="planNum"> <input
+							type="hidden" id="planSt" name="planSt">
+						<div class="container-fluid"
+							style="display: flex; flex-flow: row wrap; justify-content: space-between;">
+							<!-- 계획일자, 생산계획명, 특이사항 -->
+							<div class="item col-6">
+								<table class="table table-bbs">
+									<tbody>
+										<tr>
+											<th><label style="width: 100px;">계획일자</label></th>
+											<td colspan="6">
+												<div
+													class="tui-datepicker-input tui-datetime-input tui-has-focus">
+													<input type="text" class="form-control" id="planDt"
+														aria-label="Date-Time" tabindex="1" required> <span
+														class="tui-ico-date"></span>
+												</div>
+												<div id="wrapper" style="margin-top: -1px;"></div>
+											</td>
+										</tr>
+										<tr>
+											<th>생산계획명</th>
+											<td><input type="text" id="planName"
+												class="form-control ht" style="width: 500px;" required></td>
+											<td colspan="5">
+										</tr>
+										<tr>
+											<th>비 고</th>
+											<td><input type="text" id="planNote"
+												class="form-control ht" style="width: 500px;"></td>
+											<td colspan="3">
+										</tr>
+									</tbody>
+								</table>
+							</div>
 
-						<!-- 미생산의뢰조회 -->
-						<div class="item col-5 border"
-							style="width: 600px; height: 100px; margin: 10px;">
-							<div class="grid-option-area mt-1">
+							<!-- 미생산의뢰조회 -->
+							<div class="item col-5 border"
+								style="width: 600px; height: 100px; margin: 10px;">
+								<div class="grid-option-area mt-1">
 									<ul style="list-style: none;">
 										<li>
 											<h3 class="subtitle"
@@ -116,143 +132,142 @@
 												<div
 													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
 													<input id="requestDtS" type="text" class="form-control"
-														aria-label="Date" name="requestDtS"> <span class="tui-ico-date"></span>
+														aria-label="Date" name="requestDtS"> <span
+														class="tui-ico-date"></span>
 													<div id="requestDtS-wapper" style="margin-left: -1px;"></div>
 												</div>
-	
+
 												<span class="mg5">~</span>
-	
+
 												<!-- 종료일 -->
 												<div
 													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
 													<input id="requestDtE" type="text" class="form-control"
-														aria-label="Date" name="requestDtE"> <span class="tui-ico-date"></span>
+														aria-label="Date" name="requestDtE"> <span
+														class="tui-ico-date"></span>
 													<div id="requestDtE-wapper" style="margin-left: -1px;"></div>
 												</div>
-												<button type="button" class="btn btn-secondary btn-block" id="unprodBtn">읽기</button>
+												<button type="button" class="btn btn-secondary btn-block"
+													id="unprodBtn">읽기</button>
 											</div>
 										</li>
 									</ul>
+								</div>
 							</div>
 						</div>
+					</form>
+					<!-- 입력폼 끝  -->
+				</div>
+			</div>
+		</div>
+
+		<!-- 전체 표 -->
+		<div class="container-fluid px-4 mt-4">
+			<div class="card mb-4">
+				<div class="card-header">
+					<i class="fas fa-table me-1"></i> 생산제품목록
+				</div>
+				<div class="card-body">
+					<div id="total"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 필요자재표  -->
+		<div class="container-fluid px-4">
+			<div class="card mb-4">
+				<div class="card-header">
+					<i class="fas fa-table me-1"></i> 필요자재체크
+				</div>
+				<div class="card-body">
+					<div id="matneed"></div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+		<!-- 모달 -->
+		<div id="modal">
+
+			<div id="planModal" style="padding: 20px;" title="생산계획조회">
+				<!-- 생산계획관리 - 생산계획조회 모달 -->
+				<!-- 작성일자 검색 -->
+				<form class="container-fluid" id="searchForm" name="searchForm">
+					<div class="search-area search-area-border" style="width: 100%;">
+						<ul style="list-style: none;">
+							<li><label class="fw">계획일자</label> <!-- 시작일 -->
+								<div
+									class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+									<input id="pplanDtS" type="text" class="form-control"
+										aria-label="Date" name="pplanDtS"> <span
+										class="tui-ico-date"></span>
+									<div id="pplanDtS-wapper" style="margin-left: -1px;"></div>
+								</div> <span class="mg5">~</span> <!-- 종료일 -->
+								<div
+									class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+									<input id="pplanDtE" type="text" class="form-control"
+										aria-label="Date" name="pplanDtE"> <span
+										class="tui-ico-date"></span>
+									<div id="pplanDtE-wapper" style="margin-left: -1px;"></div>
+								</div>
+								<button type="button" class="ml-1 mw50 btn-sm btn-secondary"
+									id="planBtn">검색</button></li>
+						</ul>
 					</div>
 				</form>
-				<!-- 입력폼 끝  -->
-			</div>
-		</div>
-	</div>
 
-	<!-- 전체 표 -->
-	<div class="container-fluid px-4 mt-4">
-		<div class="card mb-4">
-			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 생산제품목록
-			</div>
-			<div class="card-body">
-				<div id="total"></div>
-			</div>
-		</div>
-	</div>
-
-	<!-- 필요자재표  -->
-	<div class="container-fluid px-4">
-		<div class="card mb-4">
-			<div class="card-header">
-				<i class="fas fa-table me-1"></i> 필요자재체크
-			</div>
-			<div class="card-body">
-				<div id="matneed"></div>
-			</div>
-		</div>
-	</div>
-	
-	
-	
-	
-	
-	
-	<!-- 모달 -->
-	<div id="modal">
-	
-		<div id="planModal" style="padding:20px;" title="생산계획조회">
-			<!-- 생산계획관리 - 생산계획조회 모달 -->
-			<!-- 작성일자 검색 -->
-			<form class="container-fluid" id="searchForm" name="searchForm">
-				<div class="search-area search-area-border" style="width: 100%;">
-					<ul style="list-style: none;">
-						<li><label class="fw">계획일자</label> 
-						<!-- 시작일 -->
-							<div
-								class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-								<input id="pplanDtS" type="text" class="form-control"
-									aria-label="Date" name="pplanDtS"> <span
-									class="tui-ico-date"></span>
-								<div id="pplanDtS-wapper" style="margin-left: -1px;"></div>
-							</div> 
-							
-							<span class="mg5">~</span> 
-							
-							<!-- 종료일 -->
-							<div
-								class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-								<input id="pplanDtE" type="text" class="form-control"
-									aria-label="Date" name="pplanDtE"> <span
-									class="tui-ico-date"></span>
-								<div id="pplanDtE-wapper" style="margin-left: -1px;"></div>
-							</div>
-							<button type="button" class="ml-1 mw50 btn-sm btn-secondary"
-								id="planBtn">검색</button></li>
-					</ul>
+				<!-- 진행상태 구분 -->
+				<div class="container-fluid"
+					style="margin-top: 40px; margin-bottom: 10px;">
+					<div>
+						<label class="fw">진행상태</label> <select id="planStatus"
+							style="width: 100px; height: 28px; display: inline-block;">
+							<option value="미지시">미지시</option>
+							<option value="지시진행">지시진행</option>
+						</select>
+					</div>
 				</div>
-			</form>
-			
-			<!-- 진행상태 구분 -->
-			<div class="container-fluid" style="margin-top: 40px; margin-bottom: 10px;">
-				<div>
-					<label class="fw">진행상태</label>
-					<select id="planStatus" style="width:100px; height:28px; display: inline-block;">
-						<option value="미지시">미지시</option>
-						<option value="지시진행">지시진행</option>
-					</select>
+
+				<!-- 그리드 -->
+				<div id="planList"></div>
+			</div>
+
+			<div id="requestModal" style="padding: 20px;" title="미생산의뢰조회">
+				<div id="requestList"></div>
+			</div>
+
+			<div id="matorderModal" style="padding: 20px;" title="자재발주요청">
+				<div class="item col-6">
+					<table class="table table-bbs table-write">
+						<tbody>
+							<tr>
+								<th>자재코드</th>
+								<td><input type="text" id="matCode" class="form-control ht"
+									style="width: 200px;" readonly></td>
+							</tr>
+							<tr>
+								<th>발주요청량</th>
+								<td><input type="number" id="orderAmount"
+									class="form-control ht" style="width: 200px;"></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
-			
-			<!-- 그리드 -->
-	      <div id="planList"></div>
+
 		</div>
-		
-		<div id="requestModal" style="padding:20px;" title="미생산의뢰조회">
-			<div id="requestList"></div>
-		</div>
-		
-		<div id="matorderModal" style="padding:20px;" title="자재발주요청">
-			<div class="item col-6">
-			    <table class="table table-bbs table-write">
-			        <tbody>
-			            <tr>
-			                <th>자재코드</th>
-			                <td><input type="text" id="matCode" class="form-control ht"
-			                        style="width: 200px;" readonly></td>
-			            </tr>
-			            <tr>
-			                <th>발주요청량</th>
-			                <td><input type="number" id="orderAmount" class="form-control ht"
-			                        style="width: 200px;"></td>
-			            </tr>
-			        </tbody>
-			    </table>
-			</div>
-		</div>
-	
-	</div>
-	
-	
-	
-	
-	
-	
-	<!-- 스크립트 -->
-	<script type="text/javascript">
+
+
+
+
+
+
+		<!-- 스크립트 -->
+		<script type="text/javascript">
 		
 		$(function(){
 			
