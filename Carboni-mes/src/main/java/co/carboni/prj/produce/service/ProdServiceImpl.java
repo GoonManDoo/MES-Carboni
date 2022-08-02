@@ -1,12 +1,14 @@
 package co.carboni.prj.produce.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.carboni.prj.mat.vo.MatVO;
 import co.carboni.prj.produce.mapper.ProdMapper;
 import co.carboni.prj.produce.vo.ProcMoniterVO;
 import co.carboni.prj.produce.vo.ProdOrderVO;
@@ -282,6 +284,15 @@ public class ProdServiceImpl implements ProdService {
 			@Override
 			public void errorInsert(ProcMoniterVO vo) {
 				mapper.errorInsert(vo);
+			}
+			
+			
+		// 불량내역 조회
+			
+			// 생산실적 엑셀
+			@Override
+			public List<Map<String, Object>> errorExcel(MatVO vo) {
+				return mapper.errorExcel(vo);
 			}
 			
 			

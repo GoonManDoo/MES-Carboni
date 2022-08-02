@@ -113,6 +113,8 @@ table {
 							style="margin-right: 5px;">조회</button>
 						<button id="resetBtn" type="button" class="btn btn-secondary"
 							style="margin-right: 5px;">새자료</button>
+						<button type="button" id="excel"
+							class="btn btn-secondary btn-block">Excel</button>
 					</div>
 				</div>
 			</div>
@@ -208,8 +210,6 @@ table {
 				var startDtS = $('#procDtS').val()
 				var endDtE = $('#procDtE').val()
 				var errOpList = $("select[name=errOp] option:selected").val()
-				
-				
 				$.ajax({
 					url : 'prodErrList',
 					method: 'POST',
@@ -221,6 +221,11 @@ table {
 					}
 				})
 				
+			})
+			
+			/* 불량내역 엑셀 */
+			$('#excel').on('click', function(){
+				location.href="errorExcel"
 			})
 			
 		})

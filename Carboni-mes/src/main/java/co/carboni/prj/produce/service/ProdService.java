@@ -1,7 +1,9 @@
 package co.carboni.prj.produce.service;
 
 import java.util.List;
+import java.util.Map;
 
+import co.carboni.prj.mat.vo.MatVO;
 import co.carboni.prj.produce.vo.ProcMoniterVO;
 import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
@@ -136,6 +138,12 @@ public interface ProdService {
 			
 			// 불량내역 등록
 			public void errorInsert(ProcMoniterVO vo);
+
+			
+		// 불량내역조회
+			
+			// 불량내역 엑셀
+			public List<Map<String, Object>> errorExcel(MatVO vo);
 
 
 

@@ -1,9 +1,11 @@
 package co.carboni.prj.produce.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import co.carboni.prj.mat.vo.MatVO;
 import co.carboni.prj.produce.vo.ProcMoniterVO;
 import co.carboni.prj.produce.vo.ProdOrderVO;
 import co.carboni.prj.produce.vo.ProdPlanVO;
@@ -141,6 +143,12 @@ public interface ProdMapper {
 			
 			// 불량내역 등록
 			public void errorInsert(ProcMoniterVO vo);
+			
+			
+		// 불량내역조회
+			
+			// 생산실적 엑셀
+			public List<Map<String, Object>> errorExcel(MatVO vo);
 
 			
 
