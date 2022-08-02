@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layouts/layout}">
 <head>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -90,7 +91,7 @@ ul.tabs li.current {
 	opacity: .5;
 }
 
-th {
+#formData th {
 	width: 90px;
 }
 
@@ -146,8 +147,8 @@ th {
 							<h5>가동관리</h5>
 							<div id="manageBtn">
 								<input type="hidden" id="readyPcnum">									
-								<button type="button" id="start">시작</button>
-								<button type="button" id="end">종료</button>
+								<button type="button" id="start" sec:authorize="hasRole('ROLE_a')">시작</button>
+								<button type="button" id="end" sec:authorize="hasRole('ROLE_a')">종료</button>
 							</div>
 						</div>
 					</div>
@@ -188,7 +189,7 @@ th {
 							</div>
 						</div>
 						<div class="col-md-9">
-							<div class="card-body ig border" style="overflow:auto; height:400px;">
+							<div class="card-body ig border" style="overflow:auto; height:500px;">
 								<input type="hidden" id="cbn">
 								<h5>생산실적</h5>
 								<div>
@@ -241,13 +242,13 @@ th {
 			<div id="orderModal" style="padding: 20px;" title="생산지시조회">
 				<!-- 작성일자 검색 -->
 				<form class="container-fluid" id="searchForm" name="searchForm">
-					<div class="search-area search-area-border" style="width: 100%;">
+					<div class="search-area search-area-border">
 						<div style="margin-bottom: 10px;">
 							<label class="fw">작업일자</label>
 							<div
 								class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
 								<input type="text" class="form-control" id="workDt"
-									aria-label="Date-Time"> <span class="tui-ico-date"></span>
+									aria-label="Date-Time"><span class="tui-ico-date"></span>
 								<div id="wrapper" style="margin-top: -1px;"></div>
 							</div>
 							<button type="button" class="ml-1 mw50 btn-sm btn-secondary btn-block"
