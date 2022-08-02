@@ -1,7 +1,10 @@
 package co.carboni.prj.produce.web;
 
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import co.carboni.prj.CommonExcelView;
+import co.carboni.prj.mat.vo.MatVO;
 import co.carboni.prj.produce.service.ProdService;
 import co.carboni.prj.produce.service.Prodovservice;
 import co.carboni.prj.produce.vo.ProcMoniterVO;
@@ -21,10 +27,9 @@ import co.carboni.prj.produce.vo.ProdPlanVO;
 @Controller
 public class ProdController {
 	
-	@Autowired
-	ProdService service;
-   @Autowired
-   private Prodovservice prodovDAO;
+	@Autowired ProdService service;
+	@Autowired Scheduler scheduler;
+   @Autowired private Prodovservice prodovDAO;
 
 	
 	// 생산계획관리
@@ -279,6 +284,11 @@ public class ProdController {
 		@ResponseBody
 		public void insertSinum(ProcMoniterVO vo) {
 			service.insertSinum(vo);
+			if(scheduler.isAlive()) {
+		         scheduler.interrupt();
+		    }
+			scheduler = new Scheduler();
+		    scheduler.start();
 		}
 		
 		// 공정진행관리 - 더미테이블 시작시간, 종료시간 확인
@@ -330,6 +340,7 @@ public class ProdController {
 		public void errorInsert(ProcMoniterVO vo) {
 			service.errorInsert(vo);
 		}
+		
 	
 	// 생산지시일정조회
 	@RequestMapping("/prodOrderDate.do")
@@ -342,6 +353,19 @@ public class ProdController {
 	public String errorListView() {
 		return "produce/errorListView";
 	}
+	
+		// 불량내역조회 - 엑셀조회
+		@RequestMapping("errorExcel")
+		public ModelAndView errorExcel(MatVO vo) throws IOException {
+			List<Map<String, Object>> list = service.errorExcel(vo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			String[] header = { "불량내역번호", "공정코드", "제품명", "불량코드", "불량명", "불량내역", "불량량", "불량일자"};
+				map.put("headers", header);
+				map.put("filename", "error_list");
+				map.put("datas", list);
+			return new ModelAndView(new CommonExcelView(), map);
+
+		}
 	
 	
 

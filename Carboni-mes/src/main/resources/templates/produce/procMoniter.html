@@ -5,8 +5,7 @@
 	layout:decorate="~{layouts/layout}">
 <head>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
@@ -793,6 +792,14 @@ ul.tabs li.current {
 				}
 				
 				/* 해당 생산지시라인시작 */
+				let value;
+				
+				interval2 = setInterval(function(){
+					if(value == '완료') {
+						clearInterval(interval2)
+						//insertHead();
+					}
+				})
 				
 				function insertHead(){ // 공정진행, 공정진행상세 insert
 					var pcdnum = headGrid.getValue(0, 'pcdnum')
@@ -829,71 +836,26 @@ ul.tabs li.current {
 					   })
 					}
 				}
+				
 				var stop = []; // 종료버튼 interval stop 배열
 				$('#start').on('click', function(){
 					if($('#readyPcnum').val() != '') { // 시작버튼에 지시번호가 있을때
 						var pcnum = headGrid.getValue(1, 'pcnum') // 지시번호
 						makeAjaxCall('updateMat', {pcnum}, false, function(){
 								for(let i=0; i<headGrid.getRowCount(); i++) { // 그리드 행 수
-								(function(i){
-									var arr = []; // setInterval용 배열
+									//var arr = []; // setInterval용 배열
 									var pcnum = headGrid.getValue(i, 'pcnum') // 지시번호
+									var value = i;
 									var sinum = headGrid.getValue(i, 'sinum') // 설비번호
-									var lineid = headGrid.getValue(i, 'lineid') // 라인이름
+									var lineid = headGrid.getData()[0].lineid // 라인이름
 									var pcdam = headGrid.getData()[0].pcdam // 최초 지시량
-									var phderram = Math.floor(pcdam*(Math.random()*0.05)) // 불량량
+									var phderram = Math.floor(pcdam*(Math.random()*0.02)) // 불량량
 									headGrid.setValue(i, 'phdstat', '대기')
-									function loadProdLine(){ // 2번째 ajax
-										var timer = setInterval(function(){ // setInterval 시작
-											if(headGrid.getValue(i, 'phdstat') == '완료') {
-												arr.push(timer);
-												//stop.push(timer);
-												for(y=0; y<arr.length; y++) {
-													clearInterval(arr[y])
-												}
-												/*for(z=0; z<stop.length; z++) {
-													clearInterval(stop[z])
-												}*/
-												arr = [];
-												//stop = [];
-												
-												if(i==2) {
-													console.log(i, timer, 'setInterval 끝');
-													setTimeout(insertHead(), 3000);
-												}
-											} else {
-												makeAjaxCall('loadTime', {pcnum, sinum}, false, function(result) {
-													if(result.phdstime != null && result.phdetime == null) { // 시작시간만
-														headGrid.setValue(i, 'phdstime', result.phdstime)
-														headGrid.setValue(i, 'phdstat', '가동')
-														arr.push(timer)
-														//stop.push(timer);
-													} else if(result.phdstime != null) { // 종료시간 찍혔을때
-														headGrid.setValue(i, 'phdstime', result.phdstime)
-														headGrid.setValue(i, 'phdetime', result.phdetime)
-														headGrid.setValue(i, 'phdstat', '완료')
-														if(i==0) {
-															headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
-															headGrid.setValue(i, 'phderram', phderram) // 불량량
-															arr.push(timer)
-															//stop.push(timer);
-														} else {
-															var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
-															var prevRram = Math.floor(prevDam*(Math.random()*0.05))
-															headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
-															headGrid.setValue(i, 'phderram', prevRram)
-															arr.push(timer)
-															//stop.push(timer);
-														}
-													}
-												})
-											}
-										} , 2000)
-										arr.push(timer)
-										//stop.push(timer);
-									}
-									makeAjaxCall('insertSinum', {pcnum, sinum, "linenum" : i+1}, false, loadProdLine) // 1번째 ajax
-								})(i)
+									
+									makeAjaxCall('insertSinum', {pcnum, sinum, "linenum" : i+1}, false, function(){
+										let interval = setInterval(loadProdLine, 5000, value, sinum, pcdam, phderram, pcnum)
+										stop.push(interval)
+									}) /// 1번째 ajax
 							}
 						})
 					} else {
@@ -901,11 +863,61 @@ ul.tabs li.current {
 					}
 				})
 				
+				function loadProdLine(i, sinum, pcdam, phderram, pcnum){ // 2번째 ajax
+					//var timer = setInterval(function(){ // setInterval 시작
+						//if(headGrid.getValue(i, 'phdstat') == '완료') {
+						//	arr.push(timer);
+							//stop.push(timer);
+						//	for(y=0; y<arr.length; y++) {
+						//		clearInterval(arr[y])
+						//	}
+							/*for(z=0; z<stop.length; z++) {
+								clearInterval(stop[z])
+							}*/
+						//	arr = [];
+							//stop = [];
+							
+						//	if(i==2) {
+						//		console.log(i, timer, 'setInterval 끝');
+						//		setTimeout(insertHead(), 3000);
+						//	}
+						//} else {
+							makeAjaxCall('loadTime', {pcnum, sinum}, false, function(result) {
+								if(result.phdstime != null && result.phdetime == null) { // 시작시간만
+									headGrid.setValue(i, 'phdstime', result.phdstime)
+									headGrid.setValue(i, 'phdstat', '가동')
+									//arr.push(timer)
+									//stop.push(timer);
+									
+								} else if(result.phdstime != null) { // 종료시간 찍혔을때
+									//headGrid.setValue(i, 'phdstime', result.phdstime)
+									headGrid.setValue(i, 'phdetime', result.phdetime)
+									if(i==0) {
+										headGrid.setValue(i, 'phdmkam', pcdam-phderram) // 생산량
+										headGrid.setValue(i, 'phderram', phderram) // 불량량
+										headGrid.setValue(i, 'phdstat', '완료')
+										//arr.push(timer)
+										//stop.push(timer);
+									} else {
+										var prevDam = headGrid.getValue(i-1, 'phdmkam') // 그전행 생산량
+										var prevRram = Math.floor(prevDam*(Math.random()*0.02))
+										headGrid.setValue(i, 'phdmkam', prevDam-prevRram)
+										headGrid.setValue(i, 'phderram', prevRram)
+										headGrid.setValue(i, 'phdstat', '완료')
+										value = headGrid.getValue(i, 'phdstat')
+										//arr.push(timer)
+										//stop.push(timer);
+									}
+								}
+							})
+					//	}
+					//} , 2000)
+					//arr.push(timer)
+					//stop.push(timer);
+				}
+				
 				$('#end').on('click', function(){
-					/*for(i=0; i<stop.length; i++) {
-						clearInterval(stop[i])
-					}
-					stop = [];*/
+					
 				})
 				
 				/* 실적모니터링 - 라인번호 생산실적 */
@@ -915,6 +927,11 @@ ul.tabs li.current {
 					var phdate = $('#prodDt').val()
 					makeAjaxCall('lineProd', {lineid, phdate}, true, function(result){
 						produceList.resetData(result);
+						Grid3.clear();
+						var chart1 = new google.visualization.PieChart(document.getElementById('piechart'));
+						var chart2 = new google.visualization.PieChart(document.getElementById('clear'));
+					   chart1.clear();
+					   chart2.clear();
 					})
 				})
 				
@@ -927,8 +944,14 @@ ul.tabs li.current {
 					var lineid = $('#cbn').val()
 					makeAjaxCall('lineProdDt', {prodDtS, prodDtE, lineid}, true, function(result){
 						produceList.resetData(result)
+						Grid3.clear();
+						var chart1 = new google.visualization.PieChart(document.getElementById('piechart'));
+						var chart2 = new google.visualization.PieChart(document.getElementById('clear'));
+					   chart1.clear();
+					   chart2.clear();
 					})
 				})
+				
 				
 				// 버튼 이벤트 끝---------------------------------------
 				

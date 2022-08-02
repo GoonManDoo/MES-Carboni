@@ -357,4 +357,14 @@
 				VALUES ('GE-'||goods_err_genum_seq.nextval, #{phnum}, #{ccodeid}, #{gedate}, #{gedetail}, #{gicode}, #{gegdam}, 'N')
 			</insert>
 			
+			
+		<!-- 불량내역조회 -->
+			
+			<!-- 불량내역 엑셀 -->
+			<select id="errorExcel" resultType="map">
+				SELECT g.genum as "불량내역번호", f.giname as "제품명", c.ccodeid as "불량코드", c.cexplaind as "불량명", g.gedetail as "불량내역", g.gegdam as "불량량", to_char(g.gedate) as "불량일자"
+	         FROM goods_err g, common c, goodsinfo f
+	         WHERE (g.ccodeid = c.ccodeid AND f.gicode = g.gicode)
+			</select>
+			
 </mapper>

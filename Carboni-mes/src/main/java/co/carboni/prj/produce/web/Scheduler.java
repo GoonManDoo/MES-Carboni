@@ -18,11 +18,13 @@ public class Scheduler extends Thread {
 	
    @Override
    public void run() {
-      List<String> list = Arrays.asList(null, "SS-1","SS-5","SS-7");
-      for(int i=1 ; i<list.size(); i++) {
+      List<String> list = Arrays.asList(null, "SS-1", "SS-5", "SS-7");
+      for(int i=1; i<list.size(); i++) {
+    	 System.out.println(list.get(i-1));
+    	 System.out.println(list.get(i));
          service.schedule(list.get(i-1), list.get(i));
          try {
-            Thread.sleep(8000);
+            this.sleep(8000);
          } catch (InterruptedException e) {
             e.printStackTrace();
          }

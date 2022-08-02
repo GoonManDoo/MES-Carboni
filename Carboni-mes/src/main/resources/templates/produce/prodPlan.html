@@ -56,11 +56,11 @@
 </head>
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
-		<div class="container-fluid px-4">
-			<div class="nameing">
-				<a href="/" style="text-decoration-line: none; color: black">홈</a>>생산관리>생산계획관리
-			</div>
-			<h1 class="mt-4">생산계획관리</h1>
+	<div class="container-fluid px-4">
+		<div class="nameing">
+			<a href="/" style="text-decoration-line: none; color: black">홈</a>>생산관리>생산계획관리
+		</div>
+		<h1 class="mt-4">생산계획관리</h1>
 		<div class="card mb-2">
 			<div class="card-header">
 				<div style="display: flex; justify-content: flex-end;">
@@ -70,11 +70,12 @@
 						style="margin-right: 5px;">새자료</button>
 					<button type="button" id="saveBtn" class="btn btn-secondary"
 						style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">저장</button>
-					<button tpe="button" id="removeBtn" class="btn btn-secondary"
+					<button type="button" id="removeBtn" class="btn btn-secondary"
 						style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">삭제</button>
 				</div>
 			</div>
-			<div class="card mb-2">
+		</div>
+		<div class="card mb-2">
 				<div class="card-body">
 					<!-- 입력폼 -->
 					<form autocomplete="off" id="dataForm">
