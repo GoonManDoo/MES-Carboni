@@ -33,9 +33,6 @@ public class SystemController {
 		m1.addAttribute("syscon",service.selectSysCondition(vo));
 		m1.addAttribute("sysLife", service.selectSysLifespan(vo));
 		m1.addAttribute("maint", service.selectMaint(vo));
-		System.out.println("====================");
-		System.out.println(vo);
-		System.out.println("====================");
 		return "system/ProdDetail";
 	}
 	
@@ -105,6 +102,7 @@ public class SystemController {
 	@ResponseBody
 	public List<SystemVO> DetailView (SystemVO vo) {
 		List<SystemVO> DetailView = service.selectSysDetAll(vo);
+		System.out.println(DetailView);
 		return DetailView;	
 	}
 	
