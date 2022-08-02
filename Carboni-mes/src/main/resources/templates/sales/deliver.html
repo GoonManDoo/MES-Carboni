@@ -271,6 +271,9 @@ span {
 		var startSh = $('#startShdate').val()
 		var endSh = $('#endShdate').val()
 		var cnNumber = $('#leftinput').val()
+		if($('#startShdate').val()== '' && $('#endShdate').val()== '' && $('#leftinput').val()== '') {
+					  swal('다시 입력하세요!', "입력되지 않은 배송정보가 있습니다!", 'warning')
+		} else {
 		$.ajax({
 			url : 'deliverSearch',
 			method: 'POST',
@@ -280,6 +283,7 @@ span {
 				grid.resetData(result)
 			}
 		})
+		}
 	})
 	
 	/* 배송목록 삭제 */

@@ -98,9 +98,10 @@ public class SalesController {
 		@RequestMapping("prCloseList")
 		@ResponseBody
 		public List<SalesVO> prCloseList(@RequestParam("startCd") String startCd, @RequestParam("endCd") String endCd,
-										 @RequestParam("startPr") String startPr, @RequestParam("endCd") String endPr,
+										 @RequestParam("startPr") String startPr, @RequestParam("endPr") String endPr,
 										 @RequestParam("gsCode") String gsCode, @RequestParam("complete") String complete) {
 			List<SalesVO> prCloseList = service.findPrcloseList(startCd, endCd, startPr, endPr, gsCode, complete);
+			System.out.println(startCd + "" + endCd + "" + startPr + "" + endPr + "" + gsCode);
 			return prCloseList;
 		}
 		
