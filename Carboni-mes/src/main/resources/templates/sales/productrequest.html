@@ -311,22 +311,21 @@ margin-right : -500px;
 			var endPr = $('#endPrclose').val()
 		    var gsCode = $('#leftinput1').val() 
 			var complete = $("input:radio[name='compYN']:checked").val()
-			console.log($("input:radio[name='compYN']:checked").val())
-					 if($('#startCndate').val()== '' || $('#endCndate').val()== '' || 
-						$('#startPrclose').val() == '' || $('#endPrclose').val() == '' ||
-						$('#leftinput1').val() == '' || $('input:radio[name=compYN]').is('')) {
+					 if($('#startCndate').val()== '' && $('#endCndate').val()== '' && 
+						$('#startPrclose').val() == '' && $('#endPrclose').val() == '' &&
+						$('#leftinput1').val() == '' && $('input:radio[name=compYN]').is('')) {
 						  swal('다시 입력하세요!', "입력되지 않은 생산의뢰정보가 있습니다!", 'warning')
-					} 
-			
-			$.ajax({
-				url: 'prCloseList',
-				method: 'POST',
-				data : {startCd, endCd, startPr, endPr, gsCode, complete},
-				success: function(result) {
-					grid.refreshLayout();
-					grid.resetData(result)
+					} else {
+					$.ajax({
+						url: 'prCloseList',
+						method: 'POST',
+						data : {startCd, endCd, startPr, endPr, gsCode, complete},
+						success: function(result) {
+							grid.refreshLayout();
+							grid.resetData(result)
 				}
 			})
+					}
 		})
 		
 		/* 생산의뢰 삭제 버튼 */

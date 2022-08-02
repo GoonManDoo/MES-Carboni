@@ -356,12 +356,11 @@ span {
 				var startSd = $('#startShdate').val()
 				var endSd = $('#endShdate').val()
 			    var gsCode = $('#leftinput1').val() 
-						 if($('#startCnperiod').val()== '' || $('#endCnperiod').val()== '' || 
-							$('#startShdate').val() == '' || $('#endShdate').val() == '' ||
+						 if($('#startCnperiod').val()== '' && $('#endCnperiod').val()== '' && 
+							$('#startShdate').val() == '' && $('#endShdate').val() == '' &&
 							$('#leftinput1').val() == '') {
 							  swal('다시 입력하세요!', "입력되지 않은 출하정보가 있습니다!", 'warning')
-						} 
-				
+						} else {
 				$.ajax({
 					url: 'shipList',
 					method: 'POST',
@@ -369,10 +368,9 @@ span {
 					success: function(result) {
 						grid.refreshLayout();
 						grid.resetData(result)
-						
-						
 					}
 				})
+						} 
 			})
 			
 			/* 생산의뢰 삭제 버튼 */

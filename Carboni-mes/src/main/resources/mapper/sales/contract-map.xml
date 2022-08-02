@@ -29,12 +29,18 @@
 			SELECT m.cnnum, c.csname, g.giname, m.cnam, m.cnrest, m.cndate, m.cnperiod, m.cnstatus, g.giunit
 			FROM contract m, costomer c, goodsinfo g
 			WHERE (c.cscode = m.cscode AND g.gicode = m.gicode)
+			<if test="startDt != ''">
 			AND
 			(m.cndate BETWEEN #{startDt} AND #{endDt})
+			</if>
+			<if test="cusCode != ''">
 			AND
 			m.cscode = #{cusCode}
+			</if>
+			<if test="goodsCode != ''">
 			AND
 			m.gicode =#{goodsCode}
+			</if>
 		</select>
 		
 		<!-- 거래처모달 전체조회 -->
@@ -91,14 +97,22 @@
 			SELECT p.prnum, p.cnnum, g.giname, r.csname, c.cndate, c.cnperiod, p.prclose, p.prstatus
 			FROM contract c, prodreq p, costomer r, goodsinfo g
 			WHERE (c.cnnum = p.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
+			<if test="startCd != ''">
 			AND
 			(c.cndate BETWEEN #{startCd} AND #{endCd})
+			</if>
+			<if test="startPr != ''">
 			AND
 			(p.prclose BETWEEN #{startPr} AND #{endPr})
+			</if>
+			<if test="complete != ''">
 			AND
 			p.prstatus = #{complete}
+			</if>
+			<if test="gsCode != ''">
 			AND
 			c.gicode = #{gsCode}
+			</if>
 		</select>
 		
 		<!-- 생산의뢰목록 삭제 -->
@@ -148,12 +162,18 @@
 			SELECT s.shnum, c.cnnum, g.giname, r.csname, c.cnam, s.sham, s.shdate, c.cnperiod, s.shstatus
 			FROM contract c, ship s, costomer r, goodsinfo g
 			WHERE (c.cnnum = s.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
+			<if test="startCp != ''">
 			AND
 			(c.cnperiod BETWEEN #{startCp} AND #{endCp})
+			</if>
+			<if test="startSd != ''">
 			AND
 			(s.shdate BETWEEN #{startSd} AND #{endSd})
+			</if>
+			<if test="gsCode != ''">
 			AND
 			c.gicode = #{gsCode}
+			</if>
 		</select>
 		
 		<!-- 출하관리 미출고건 납기일자 조회 -->
@@ -249,11 +269,14 @@
 			SELECT d.dnum, s.cnnum, g.giname, r.csname, s.sham, s.shstatus, s.shdate, s.shnum, c.cnperiod
 			FROM deliver d, contract c, goodsinfo g, costomer r, ship s
 			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.cnnum = s.cnnum AND s.shnum = d.shnum)
+			<if test="startSh != ''">
 			AND
 			(s.shdate BETWEEN #{startSh} AND #{endSh})
+			</if>
+			<if test="cnNumber != ''">
 			AND
             c.cnnum = #{cnNumber}
-
+            </if>
 		</select>
 		
 		<!-- 배송목록 삭제 -->
