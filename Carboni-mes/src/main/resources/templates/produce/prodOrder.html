@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layouts/layout}">
 s
 <head>
@@ -81,9 +82,9 @@ s
 						<button type="button" id="resetBtn" class="btn btn-secondary"
 							style="margin-right: 5px;">새자료</button>
 						<button type="button" id="saveBtn" class="btn btn-secondary"
-							style="margin-right: 5px;">저장</button>
+							style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">저장</button>
 						<button type="button" id="removeBtn" class="btn btn-secondary"
-							style="margin-right: 5px;">삭제</button>
+							style="margin-right: 5px;" sec:authorize="hasRole('ROLE_a')">삭제</button>
 					</div>
 				</div>
 			</div>

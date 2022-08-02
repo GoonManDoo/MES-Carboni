@@ -10,5 +10,6 @@ public class EmployeeVO {
 	private String ehiredate;
 	private String eposition;
 	private String ename;
+	private String lid;
 
 }
