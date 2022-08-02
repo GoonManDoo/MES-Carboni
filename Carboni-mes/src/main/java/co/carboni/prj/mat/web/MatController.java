@@ -203,9 +203,9 @@ public class MatController {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String[] header = { "자재코드", "자재명", "현재고", "안전재고" };
-		map.put("headers", header);
-		map.put("filename", "MATERIAL LIST");
-		map.put("datas", list);
+			map.put("headers", header);
+			map.put("filename", "MATERIAL LIST");
+			map.put("datas", list);
 		return new ModelAndView(new CommonExcelView(), map);
 
 	}
@@ -215,9 +215,9 @@ public class MatController {
 		List<Map<String, Object>> list = service.requestexel(vo);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String[] header = { "발주일자", "발주코드", "요청번호", "자재명", "발주업체", "발주요청량", "주문수량", "발주상태", "비고" };
-		map.put("headers", header);
-		map.put("filename", "MATERIAL REQUEST LIST");
-		map.put("datas", list);
+			map.put("headers", header);
+			map.put("filename", "MATERIAL REQUEST LIST");
+			map.put("datas", list);
 		return new ModelAndView(new CommonExcelView(), map);
 	}
 
@@ -226,9 +226,9 @@ public class MatController {
 		List<Map<String, Object>> list = service.insertexel(vo);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String[] header = { "입고일자", "입출고번호", "발주일자", "입고업체", "자재명", "규격", "자재단위", "발주번호", "발주량", "입고량" };
-		map.put("headers", header);
-		map.put("filename", "MATERIAL INPUT LIST");
-		map.put("datas", list);
+			map.put("headers", header);
+			map.put("filename", "MATERIAL INPUT LIST");
+			map.put("datas", list);
 		return new ModelAndView(new CommonExcelView(), map);
 
 	}
@@ -238,9 +238,9 @@ public class MatController {
 		List<Map<String, Object>> list = service.outputexel(vo);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String[] header = {"자재코드","자재명","규격","자재단위","출고량","출고일자","비고"};
-		map.put("headers", header);
-		map.put("filename", "MATERIAL OUTPUT LIST");
-		map.put("datas", list);
+			map.put("headers", header);
+			map.put("filename", "MATERIAL OUTPUT LIST");
+			map.put("datas", list);	
 		return new ModelAndView(new CommonExcelView(), map);
 		
 	}
