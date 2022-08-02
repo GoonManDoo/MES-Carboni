@@ -203,9 +203,9 @@ Highcharts.chart('container', {
           var series = this.series[0];
           setInterval(function () {
             var x = (new Date()).getTime(), // current time
-              y = Math.random()*2+35
+              y = Math.random()*10-5
             series.addPoint([x, y], true, true);
-          }, 1000);
+          }, 2000);
         }
       }
     },
@@ -238,7 +238,7 @@ title:{
 
     yAxis: {
       title: {
-        text: 'Value'
+        text: 'Temp'
       },
       plotLines: [{
         value: 0,
@@ -269,10 +269,10 @@ title:{
           time = (new Date()).getTime(),
           i;
 
-        for (i = -19; i <= 0; i += 1) {
+        for (i = -9; i <= 0; i += 1) {
           data.push({
-            x: time + i * 1000,
-            y: Math.random()*1 + 35
+            x: time + i * 2000,
+            y: Math.random()*10-5
           });
         }
         return data;
