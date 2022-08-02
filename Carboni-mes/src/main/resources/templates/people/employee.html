@@ -68,6 +68,7 @@
                   <th>입사일</th>
                   <th>직책</th>
                   <th>권한코드</th>
+                  <th>Carboni ID</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,7 +78,10 @@
                   <td th:text="${e.ename}"></td>
                   <td th:text="${e.ehiredate}"></td>
                   <td th:text="${e.eposition}"></td>
-                  <td th:text="${e.acode}"></td>
+                  <td th:if="${e.acode} == null"> ==권한없음==</td>
+                  <td th:unless="${e.acode} == null" th:text="${e.acode}"></td>
+                  <td th:if="${e.lid} == null">==ID없음==</td>
+                  <td th:unless="${e.lid} == null" th:text="${e.lid}"></td>
                 </tr>
               </tbody>
             </table>
