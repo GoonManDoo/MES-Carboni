@@ -270,8 +270,18 @@ span {
 						align : 'center',
 						editor : 'datePicker',
 					    width: 240
+					}, {
+						header : '제품자재번호',
+						name : 'gsmnum',
+						align : 'center'
+					}, {
+						header : '출하번호',
+						name : 'shnum',
+						align : 'center'
 					} ]
 				});
+				ship.hideColumn('gsmnum'); //제품자재번호 숨기기
+				ship.hideColumn('shnum');  //출하번호 숨기기
 
 					/*미출고 모달 그리드*/
 					const totaldata = [];

@@ -131,6 +131,9 @@ public class SalesController {
 		@RequestMapping("shipInsert")
 		@ResponseBody
 		public void shipInsert(@RequestBody List<SalesVO> allship) {
+			System.out.println("=====================");
+			System.out.println(allship);
+			System.out.println("=====================");
 			service.shipInsert(allship);
 		}
 		
