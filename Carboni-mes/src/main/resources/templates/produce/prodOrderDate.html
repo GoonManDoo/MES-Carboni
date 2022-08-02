@@ -18,68 +18,79 @@
 a {
 	color: #4e4e4e;
 }
+
 #modal {
 	display: none;
 }
 /* 토요일 날짜 파란색 */
 .fc-day-sat a {
-  color: rgb(69, 123, 169);
-  text-decoration: none;
+	color: rgb(69, 123, 169);
+	text-decoration: none;
 }
 
 .fc-day-sun a {
-  color: rgb(184, 108, 111);
-  text-decoration: none;
+	color: rgb(184, 108, 111);
+	text-decoration: none;
+}
+
+.nameing {
+	float: right;
+	font-size: medium;
+	font-weight: normal;
+	margin-top: 15px;
 }
 </style>
 </head>
 <th:block layout:fragment="main">
 	<body class="sb-nav-fixed">
 		<div class="container-fluid px-4">
+			<div class="nameing">
+				<a href="/" style="text-decoration-line: none; color: black">홈</a>>생산관리>생산일정조회
+			</div>
 			<h1 class="mt-4">생산일정조회</h1>
 
 			<div style="width: 95%; margin: 20px auto;">
 				<div id='calendar'></div>
 			</div>
 		</div>
-		<div  id="modal">
+		<div id="modal">
 			<div id="alllist" title="상세 정보 " style="padding: 20px;">
 				<table class="table table-bordered">
 					<tr>
-					<th>지시번호</th>
-					<td id ="pcnum"></td>
+						<th>지시번호</th>
+						<td id="pcnum"></td>
 					</tr>
 					<tr>
-					<th>지시명</th>
-					<td id="name"></td>
+						<th>지시명</th>
+						<td id="name"></td>
 					</tr>
 					<tr>
-					<th>라인번호</th>
-					<td id="line"></td>
+						<th>라인번호</th>
+						<td id="line"></td>
 					</tr>
 					<tr>
-					<th>제품명</th>
-					<td id="giname"></td>
+						<th>제품명</th>
+						<td id="giname"></td>
 					</tr>
 					<tr>
-					<th>지시량</th>
-					<td id="pcdam"></td>
+						<th>지시량</th>
+						<td id="pcdam"></td>
 					</tr>
 					<tr>
-					<th>생산시작일</th>
-					<td id="pcdsdate"></td>
+						<th>생산시작일</th>
+						<td id="pcdsdate"></td>
 					</tr>
 					<tr>
-					<th>생산마감일</th>
-					<td id="pcdedate"></td>
+						<th>생산마감일</th>
+						<td id="pcdedate"></td>
 					</tr>
 					<tr>
-					<th>공정상태</th>
-					<td id="pcstatus"></td>
+						<th>공정상태</th>
+						<td id="pcstatus"></td>
 					</tr>
 					<tr>
-					<th>비고</th>
-					<td id="pcnote"></td>
+						<th>비고</th>
+						<td id="pcnote"></td>
 					</tr>
 				</table>
 			</div>

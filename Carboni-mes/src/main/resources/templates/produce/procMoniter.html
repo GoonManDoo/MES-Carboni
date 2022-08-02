@@ -5,13 +5,16 @@
 	layout:decorate="~{layouts/layout}">
 <head>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 <style>
 .tui-datepicker {
 	z-index: 99;
 }
+
 h5 {
 	font-weight: 700;
 	margin-bottom: 15px;
@@ -101,15 +104,23 @@ ul.tabs li.current {
 }
 
 /* 차트용 */
-.chart{
-    width: 400px;
-    height: 200px;
-    display: inline-block;
-    margin: 0 auto;
+.chart {
+	width: 400px;
+	height: 200px;
+	display: inline-block;
+	margin: 0 auto;
 }
-#gpchart{
+
+#gpchart {
 	background-color: white;
-    text-align: center;
+	text-align: center;
+}
+
+.nameing {
+	float: right;
+	font-size: medium;
+	font-weight: normal;
+	margin-top: 15px;
 }
 </style>
 </head>
@@ -117,6 +128,9 @@ ul.tabs li.current {
 	<th:block layout:fragment="main">
 
 		<div class="container-fluid px-4">
+			<div class="nameing">
+				<a href="/" style="text-decoration-line: none; color: black">홈</a>>생산관리>공정관리
+			</div>
 			<h1 class="mt-4" style="margin-bottom: 20px;">공정관리</h1>
 
 			<!-- 탭 -->
@@ -139,7 +153,7 @@ ul.tabs li.current {
 					</div>
 					<div class="content container-fluid"
 						style="display: flex; flex-flow: row wrap; justify-content: flex-start; align-items: stretch; padding-right: 0;">
-						<div class="item border box" style="width:900px; overflow:auto;">
+						<div class="item border box" style="width: 900px; overflow: auto;">
 							<h5>진행생산지시</h5>
 							<div id="orderGrid2"></div>
 						</div>
@@ -164,25 +178,27 @@ ul.tabs li.current {
 
 			<!-- 공정모니터링 -->
 			<div id="tab-2" class="tab-content">
-				
+
 				<div class="container-fluid" style="background: white;">
 					<div class="row">
-						<div class="col-md-3" style="min-width: 350px; overflow:auto;">
+						<div class="col-md-3" style="min-width: 350px; overflow: auto;">
 							<div class="card-body ig border">
 								<h5>생산라인</h5>
 								<div>
-									<div class="border ig proc" style="overflow:auto;">
+									<div class="border ig proc" style="overflow: auto;">
 										<input type="hidden" class="cbn" value="LIN-CBN-1">
 										<h5>LIN-CBN-1</h5>
-										<div style="text-align:center;">
-											<img class="line" src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
+										<div style="text-align: center;">
+											<img class="line" src="/assets/img/robot-arm.png"
+												alt="lineinfo" style="width: 200px; overflow: auto;">
 										</div>
 									</div>
-									<div class="border ig proc" style="overflow:auto;">
+									<div class="border ig proc" style="overflow: auto;">
 										<input type="hidden" class="cbn" value="LIN-CBN-2">
 										<h5>LIN-CBN-2</h5>
-										<div style="text-align:center;">
-											<img class="line" src="/assets/img/robot-arm.png" alt="lineinfo" style="width: 200px; overflow:auto;">
+										<div style="text-align: center;">
+											<img class="line" src="/assets/img/robot-arm.png"
+												alt="lineinfo" style="width: 200px; overflow: auto;">
 										</div>
 									</div>
 								</div>
@@ -215,18 +231,19 @@ ul.tabs li.current {
 										class="btn btn-secondary btn-block">검색</button>
 								</div>
 								<div style="padding: 10px;">
-									<div id="produce"></div>							
+									<div id="produce"></div>
 								</div>
 							</div>
-							<div class="card-body ig border" style="overflow:auto;">
+							<div class="card-body ig border" style="overflow: auto;">
 								<h5>공정별 생산내역</h5>
 								<div style="padding: 10px;">
 									<div id="process"></div>
 									<!-- 공정모니터링 밑에  -->
-								  <div id="gpchart" class="container-fluid" style="margin: 0 auto;">
-									  <div id="clear" class="chart"></div>
-						  			<div id="piechart" class="chart"></div>
-					  			</div>
+									<div id="gpchart" class="container-fluid"
+										style="margin: 0 auto;">
+										<div id="clear" class="chart"></div>
+										<div id="piechart" class="chart"></div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -251,7 +268,8 @@ ul.tabs li.current {
 									aria-label="Date-Time"><span class="tui-ico-date"></span>
 								<div id="wrapper" style="margin-top: -1px;"></div>
 							</div>
-							<button type="button" class="ml-1 mw50 btn-sm btn-secondary btn-block"
+							<button type="button"
+								class="ml-1 mw50 btn-sm btn-secondary btn-block"
 								id="orSearchBtn" style="margin-left: 5px;">검색</button>
 						</div>
 					</div>
@@ -259,7 +277,7 @@ ul.tabs li.current {
 				<!-- 그리드 -->
 				<div id="orderGrid1"></div>
 			</div>
-			
+
 			<!-- 불량내역 등록 모달 -->
 			<div id="errorModal" style="padding: 20px;" title="불량내역등록">
 				<form id="formData">
@@ -279,17 +297,18 @@ ul.tabs li.current {
 						</tr>
 						<tr>
 							<th>불량분류</th>
-							<td>
-								<select style="width: 100px; height: 28px; display: inline-block;" name="ccodeid">
+							<td><select
+								style="width: 100px; height: 28px; display: inline-block;"
+								name="ccodeid">
 									<option value="66">설비불량</option>
 									<option value="64">자재불량</option>
 									<option value="65">제품불량</option>
-								</select>
-							</td>
+							</select></td>
 						</tr>
 						<tr>
 							<th>불량내용</th>
-							<td><input id="gedetail" type="text" style="width:550px; border:none;"></td>
+							<td><input id="gedetail" type="text"
+								style="width: 550px; border: none;"></td>
 						</tr>
 						<tr>
 							<th>불량량</th>

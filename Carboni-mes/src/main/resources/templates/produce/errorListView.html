@@ -3,52 +3,63 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
 <head>
-	<style>
-			table {
-				border-collapse: separate;
-  				border-spacing: 0 10px;
-			}
-			.tui-datepicker {
-				z-index: 99;
-			}
-			
-			.grid-option-area {
-				-webkit-box-pack: justify;
-				justify-content: space-between;
-				min-height: 36px;
-				margin-bottom: 10px;
-			}
-			
-			.ht {
-				height: 28px;
-			}
-			
-			.tbold {
-				font-weight: 700;
-			}
-			
-			.mb5 {
-				margin-bottom: 5px;
-			}
-			
-			.mt5 {
-				margin-top: 5px;
-			}
-			
-			.mr5 {
-				margin-right: 5px;
-			}
-			
-			.mr10 {
-				margin-right: 10px;
-			}
-		</style>
+<style>
+table {
+	border-collapse: separate;
+	border-spacing: 0 10px;
+}
+
+.tui-datepicker {
+	z-index: 99;
+}
+
+.grid-option-area {
+	-webkit-box-pack: justify;
+	justify-content: space-between;
+	min-height: 36px;
+	margin-bottom: 10px;
+}
+
+.ht {
+	height: 28px;
+}
+
+.tbold {
+	font-weight: 700;
+}
+
+.mb5 {
+	margin-bottom: 5px;
+}
+
+.mt5 {
+	margin-top: 5px;
+}
+
+.mr5 {
+	margin-right: 5px;
+}
+
+.mr10 {
+	margin-right: 10px;
+}
+
+.nameing {
+	float: right;
+	font-size: medium;
+	font-weight: normal;
+	margin-top: 15px;
+}
+</style>
 </head>
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
 		<div class="container-fluid px-4">
+			<div class="nameing">
+				<a href="/" style="text-decoration-line: none; color: black">홈</a>>생산관리>불량내역조회
+			</div>
 			<h1 class="mt-4">불량내역조회</h1>
-			
+
 			<div class="card mb-2">
 				<div class="card-body">
 					<!-- 입력폼 -->
@@ -67,11 +78,7 @@
 													<input id="procDtS" type="text" class="form-control"
 														aria-label="Date"> <span class="tui-ico-date"></span>
 													<div id="procDtS-wapper" style="margin-left: -1px;"></div>
-												</div>
-
-												<span class="mt5">~</span>
-
-												<!-- 종료일 -->
+												</div> <span class="mt5">~</span> <!-- 종료일 -->
 												<div
 													class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
 													<input id="procDtE" type="text" class="form-control"
@@ -82,13 +89,12 @@
 										</tr>
 										<tr>
 											<th>불량상태</th>
-											<td>
-												<select name = "errOp" style="width:100px; height:28px; display: inline-block;">
+											<td><select name="errOp"
+												style="width: 100px; height: 28px; display: inline-block;">
 													<option value="66">설비불량</option>
 													<option value="64">자재불량</option>
 													<option value="65">제품불량</option>
-												</select>
-											</td>
+											</select></td>
 										</tr>
 									</tbody>
 								</table>
@@ -98,7 +104,7 @@
 					<!-- 입력폼 끝  -->
 				</div>
 			</div>
-			
+
 			<!-- 조회버튼 -->
 			<div class="card mb-2">
 				<div class="card-header">
@@ -110,18 +116,18 @@
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 
 		<!-- 전체 표 -->
-		<div class="container-fluid px-4" >
+		<div class="container-fluid px-4">
 			<div class="card mb-4">
 				<div class="card-body">
 					<div id="errorList"></div>
 				</div>
 			</div>
 		</div>
-		
+
 
 		<!-- 스크립트 -->
 		<script type="text/javascript">

@@ -62,13 +62,15 @@
 
 	<!-- 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 -->
 	<select id="findCode" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT MICODE,MINAME,
+		SELECT MICODE,MINAME,MIMAX,MIMIN,
 		(SELECT
 		CSNAME FROM COSTOMER WHERE CSCODE = #{cusCode}) AS CSNAME
 		,#{cusCode}
 		AS CSCODE
 		FROM MATINFO
 		WHERE MICODE= #{matCode}
+		
+		
 	</select>
 
 	<insert id="addRequestList"
@@ -93,6 +95,7 @@
 			select 'MO-'||max(TO_NUMBER(SUBSTR(monum,4))) as monum from
 			matord
 		</selectKey>
+		
 	</insert>
 
 	<select id="selectReqList"

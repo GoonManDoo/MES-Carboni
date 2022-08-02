@@ -72,6 +72,10 @@ public class MatVO {
 	private String matnum; //자재관리번호
 	private int msunam; //미달량(총자재량-안전재고)
 	
+	private int mimax; //최대수량
+	private int mimin; //최소수량
+	
+	
 	
 	
 
