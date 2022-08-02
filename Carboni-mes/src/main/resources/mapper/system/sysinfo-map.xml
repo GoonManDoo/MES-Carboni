@@ -5,7 +5,9 @@
 		SELECT 
             S.SINUM, S.SINAME, S.SISAFTEM, 
             P.PIONE, P.PITWO, P.PITHREE, P.PIFOUR,
-            M.SYSADMIN
+            M.SYSADMIN,
+            (select ename from employee where ecode = m.sysadmin)ename, 
+            (select eposition from employee where ecode = m.sysadmin)eposition
 			FROM SYSINFO S, PROCINFO P, SYSMAN M
 			WHERE S.PICODEID = P.PICODEID
             AND S.SINUM = M.SINUM

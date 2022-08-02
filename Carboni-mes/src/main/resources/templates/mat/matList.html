@@ -60,16 +60,6 @@
 						<a href="/" style="text-decoration-line: none; color: black">홈</a>>재고관리>재고조회
 					</div>
 				</h1>
-				<div class="card mb-2">
-					<div class="card-header">
-						<div style="display: flex; justify-content: flex-end;">
-							<button type="button" id="exelBtn" class="btn btn-secondary"
-								style="margin-right: 5px;">엑셀</button>
-						</div>
-					</div>
-				</div>
-
-
 				<div class="card mb-2 ">
 					<div class="card-body">
 						<form autocomplete="off" id="dataForm">
@@ -91,15 +81,21 @@
 								<div style="display: flex; justify-content: flex-end;">
 									<button type="button" class="btn btn-secondary"
 										style="margin-right: 5px;" id="showBtn">조회</button>
-
+									<button type="button" id="exelBtn" class="btn btn-secondary"
+										style="margin-right: 5px;">엑셀</button>
+											<!--  
+							<button type="button" id="pdfBtn" class="btn btn-secondary"
+								style="margin-right: 5px;">PDF</button>
+								-->
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
-			<div class="container-fluid px-4">
+			<div id="test" class="container-fluid px-4">
 				<div id="grid"></div>
+
 			</div>
 
 			<div id="modal">
@@ -112,6 +108,10 @@
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+		<script type="text/javascript"
+			src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 		<script>
             $(function () {
                 const gridData = [];
@@ -323,12 +323,28 @@
                 /*------------엑셀버튼 눌렀을때 ------------------------------------------------------*/
                 $('#exelBtn').on('click',function(){
                 	location.href="listexel"
-                	
-                	/*  $.ajax({
-                		url : 'listexel',
-                		
-                	})  */
                 })
+                /*------pdf-------------*/
+                /*
+                $('#pdfBtn').on('click',function(){
+                	
+                	 //pdf_wrap을 canvas객체로 변환
+                	   html2canvas($('#test')[0]).then(function(canvas) {
+                	     
+                	    var imgData = canvas.toDataURL('image/png'); //캔버스를 이미지로 변환
+                	    var imgWidth = 180; // 이미지 가로 길이(mm) / A4 기준 210mm
+                        var pageHeight = imgWidth * 1.3; // 출력 페이지 세로 길이 계산 A4 기준
+                        var imgHeight = canvas.height * imgWidth / canvas.width;
+                        var heightLeft = imgHeight;
+                        var margin = 10;
+                        var doc = new jsPDF('p', 'mm', 'a4'); //jspdf객체 생성
+                	    var position =0;
+                	    doc.addImage(imgData, 'PNG',margin,position,imgWidth,imgHeight); //이미지를 기반으로 pdf생성
+                	    heightLeft -=pageHeight;
+                	    doc.save('sample-file.pdf'); //pdf저장
+                	  });
+                })
+               */
             })
         </script>
 	</th:block>

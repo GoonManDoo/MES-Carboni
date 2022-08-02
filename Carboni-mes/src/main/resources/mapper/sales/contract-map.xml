@@ -82,7 +82,7 @@
 		
 		<!-- 출하등록 -->
 		<update id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" statementType="CALLABLE">
-            <![CDATA[{call shippro(#{cnnum}, #{sham}, #{shdate}, #{gsmnum}, #{shnum})}]]>
+            <![CDATA[{call shippro(#{cnnum}, #{sham}, #{shdate}, #{gsmnum})}]]>
 		</update>
 		
 	
@@ -134,9 +134,9 @@
 		
 		<!-- 출하관리 출하등록 수주일자 조회 -->
 		<select id="findScndateList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT c.cnnum, g.giname, r.csname, c.cnperiod, c.cndate, c.cnstatus, k.gsmnum, s.shnum
-			FROM contract c, costomer r, goodsinfo g, goodsstk k, ship s
-			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.gicode = k.gicode AND s.cnnum = c.cnnum)
+			SELECT c.cnnum, g.giname, r.csname, c.cnperiod, c.cndate, c.cnstatus, k.gsmnum
+			FROM contract c, costomer r, goodsinfo g, goodsstk k
+			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.gicode = k.gicode)
 			AND
 			(c.cndate BETWEEN #{startScd} AND #{endScd})
             AND
