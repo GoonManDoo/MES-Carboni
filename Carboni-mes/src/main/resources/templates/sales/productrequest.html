@@ -60,11 +60,12 @@ span {
     width:115px;
     }
         
-   .nameing{ 
-	float:right; 
+   .nameing {
+	float: right;
 	font-size: medium;
 	font-weight: normal;
-   }
+	margin-top: 15px;
+}
    #modal {
 	display: none;
 }
@@ -82,7 +83,8 @@ margin-right : -500px;
 <body class="sb-nav-fixed">
 <th:block layout:fragment="main">
 	<div class="container-fluid px-4">
-		 <h1 class="mt-4">생산의뢰관리<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>생산의뢰관리</div></h1>
+	<div class="nameing"><a href ="/" style=" text-decoration-line: none; color:black">홈</a>>영업관리>생산의뢰관리</div>
+		 <h1 class="mt-4">생산의뢰관리</h1>
 		
 		<!-- 메인화면 버튼 -->
 		<div class="card-header" id="btn">
@@ -105,7 +107,7 @@ margin-right : -500px;
 				            
 						      <a style="margin-right: 100px;">마감여부</a>
 						      <label style="margin-right: 20px;"><input type="radio" name="compYN" value="Y">완료</label>
-						      <label style="margin-right: 20px;"><input type="radio" name="compYN" value="N">미완료</label><br>
+						      <label style="margin-right: 20px;"><input type="radio" name="compYN" value="N" checked="checked">미완료</label><br>
 				            
 				        
 					   제품코드<input type="text" id="leftinput" class="input" placeholder="제품 검색" readonly="readonly">
