@@ -3,7 +3,10 @@
 <mapper namespace="co.carboni.prj.people.mapper.EmployeeMapper">
 
 	<select id="selectEmployee" resultType="co.carboni.prj.people.vo.EmployeeVO">
-		SELECT ECODE, ACODE, TO_CHAR(EHIREDATE, 'yyyy-MM-dd')EHIREDATE, EPOSITION, ENAME FROM EMPLOYEE
+		SELECT E.ECODE, E.ACODE, TO_CHAR(E.EHIREDATE, 'YYYY-MM-DD')EHIREDATE, E.EPOSITION, E.ENAME, L.LID
+		FROM EMPLOYEE E LEFT OUTER JOIN LOGIN L
+		ON E.ECODE = L.ECODE
+		ORDER BY 1
 	</select>
 	<update id="employeeupdate" parameterType="co.carboni.prj.people.vo.EmployeeVO">
 		BEGIN
