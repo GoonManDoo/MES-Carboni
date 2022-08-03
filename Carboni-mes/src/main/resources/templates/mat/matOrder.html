@@ -57,6 +57,9 @@
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
+.tui-grid-cell.rowcolor{
+	background-color:rgb(200, 200, 238);
+}
 </style>
 </head>
 <body>
@@ -445,11 +448,12 @@
                     /*인풋 박스 리셋*/
                     function newClear(){
                    	 document.getElementById('dataForm').reset();
+                   	var today = new Date();
                         picker.setStartDate(new Date());
-                        picker.setEndDate(new Date());
+                        picker.setEndDate(new Date(today.getFullYear(),today.getMonth(),today.getDate()+1));
                    }
 
-                    /*발주일자 조회 거래처코드 자재코드로 메인그리드 출력 R*/
+                    /*발주일자 조회 거래처코드 자재코드로 메인그리드 출력*/
                     $('#listBtn').on('click', function () {
                         var startD = $('#startpicker-input').val()
                         var endD = $('#endpicker-input').val()
@@ -505,6 +509,14 @@
                                     reqG.setValue(i, 'moaskam', reqG.getRow(i).mrreqam,
                                         false)
                                 }
+                                //체크된 셀 하이라이팅
+                               reqG.on('check',(ev)=>{
+                            	   reqG.addRowClassName(ev.rowKey,'rowcolor');
+                               });
+                                
+                               reqG.on('uncheck',(ev)=>{
+                            	   reqG.removeRowClassName(ev.rowKey,'rowcolor')
+                               })
                             }
                         })
                     })
@@ -545,20 +557,18 @@
                         clickmodal.dialog('close')
                     }
 
-                    /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 c*/
+                    /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 R*/
                     function check() {
                         var reqlists = reqG.getCheckedRows()
-                       /*
-                       var ek = reqlist.rewKey
-                       for (i = 0; i < reqG.getRowCount(); i++) {
-                    	   company.removeRowClassName(i,'rowSelect')
-                       }
-                        company.addRowClassName(rk, 'rowSelect')
-                      */
-                        
+                        if(reqlists.length==0){
+                        	reqG.removeRowClassName('rowSelect')
+                        }else{
+                        	reqG.addRowClassName('rowSelect')
+                        }
                         var reqcheckcode = reqlists.some(e => {
                             return e.cscode == null
                         })
+                        
                         /* cscode 가 null이 아닐떄 true  */
                         if (reqcheckcode == true) {
                         	
@@ -577,7 +587,7 @@
                         dia.dialog('close')
                     }
 
-                    /*기업체 검색 모달 시작R */
+                    /*기업체 검색 모달 시작 */
                     var log = makeModal("#searchmodal", giup)
 
                     /* 발주업체 모달 */
@@ -604,7 +614,7 @@
                         })
                     })
 
-                    //발주에서 거래처명모달을 불러와서 거래처명 검색 R 
+                    //발주에서 거래처명모달을 불러와서 거래처명 검색 
                     $("#cssearchBtn").on('click', function () {
                         var csname = $('#csSearchName').val()
                         $.ajax({
@@ -637,7 +647,7 @@
                     }
                     /*발주 업체 모달 끝!*/
 
-                    /*자재코드 검색 모달! R*/
+                    /*자재코드 검색 모달!*/
                     var cdmo = makeModal("#codemodal", cdcheck)
                     /*자재코드 모달*/
                     $("#codeBtn").on("click", function () {
@@ -663,7 +673,7 @@
                             }
                         })
                     })
-                    /*자재코드 모달안의 검색을 눌렀을때 R*/
+                    /*자재코드 모달안의 검색을 눌렀을때 */
                     $("#miSearchBtn").on('click', function () {
                         var miname = $('#miSearchName').val()
                         $.ajax({
@@ -696,33 +706,37 @@
                     /*-----발주 수정-진행중------------------------------------------*/
                     $('#modiBtn').on('click',function(){
                     	var modlist = grid.getCheckedRows()
+                    	console.log(modlist)
                     	$.ajax({
                     		url:'updatereqlist',
                     		method:'post',
                     		data: JSON.stringify(modlist),
                             contentType: 'application/json',
                     		success: function(result){
+                    			console.log(result)
                     			rk=result.rewKey
                     			pk= (grid.getRowCount()) -1
                     			for(i = 0; i < pk + 1; i++){
                     				grid.setValue(i,'moaskam',result.moaskam,false)
                     				grid.setValue(i,'monote',result.monote,false)
                     			}
-                    			newClear();
-                                grid.removeCheckedRows('')
-                                grid.appendRows(result)
-                    			 
+                    			
+                                if(modlist == ''){
+                                	swal('실패','수정할 행을 선택하세요','error')
+                                	 grid.resetData(result) //그내용 그대로 둘 방법 찾기
+                                	//grid.removeCheckedRows('')
+                               		 //grid.appendRows(result)
+                                }else{
+                                	newClear();
+                                	 grid.resetData(result)
+                                	 swal('성공', '수정이 완료되었습니다.', 'success')
+                                }
+                               
+                    		
                     		}
                     	})
                     })
-                    /*
-                       erow = result.rowKey
-                                prk = (reqG.getRowCount()) - 1
-                                for (i = 0; i < prk + 1; i++) {
-                                    reqG.setValue(i, 'moaskam', reqG.getRow(i).mrreqam,
-                                        false)
-                                }
-                    */
+              
                     //----------------------------------------------------
                     /*새자료 눌렀을때 리셋*/
                     $('#resetBtn').on('click', function () {
@@ -751,9 +765,14 @@
                             data: JSON.stringify(dellist),
                             contentType: 'application/json',
                             success: function () {
-                                grid.removeCheckedRows('')
-                                newClear();
-                                swal("삭제 완료", "선택한 발주내역이 삭제되었습니다.", "success");
+                            	if(delgrid == ''){
+                            		swal('실패','삭제할 행을 선택하세요','error')
+                            	}else{
+                            		 grid.removeCheckedRows('')
+                                     newClear();
+                                     swal("삭제 완료", "선택한 발주내역이 삭제되었습니다.", "success");
+                            	}
+                               
                             }
                         })
                     })
@@ -765,39 +784,42 @@
                         var checkNull = datas.some(e => {
                             return e.monum != null
                         })
-                        
-                        
-                        //발주 코드가 있으면 true
-                        if (checkNull == false) {
-                            if (datas.length == 0) {
-                                return;
+                        if(datas ==''){
+                        	swal('실패','발주할 행을 선택하세요','error')
+                        }else{
+                        	 //발주 코드가 있으면 true
+                            if (checkNull == false) {
+                                if (datas.length == 0) {
+                                    return;
+                                }
+                               if(grid.getValue(datas,'mimax')>grid.getValue(datas,'moaskam')){
+                            	   if(grid.getValue(datas,'mimin')<grid.getValue(datas,'moaskam')){
+                            		   $.ajax({
+                                           url: 'addrequestlist',
+                                           method: 'POST',
+                                           data: JSON.stringify(datas),
+                                           contentType: 'application/json',
+                                           success: function (result) {
+                                       		   newClear();
+                                                  grid.removeCheckedRows('')
+                                                  grid.appendRows(result)
+                                                  swal('성공', '발주가 완료되었습니다.', 'success')
+                                           }
+                                       })
+                            	   }else{
+                            		   swal('', '최소수량이 부족합니다.', 'warning')
+                            	   }
+                            		   
+                            	  
+                               }else{
+                            	   swal('', '최대수량을 초과했습니다.', 'warning')
+                               }
+                             
+                            } else {
+                                swal('', '이미 등록된 값이 있습니다.', 'warning')
                             }
-                           if(grid.getValue(datas,'mimax')>grid.getValue(datas,'moaskam')){
-                        	   if(grid.getValue(datas,'mimin')<grid.getValue(datas,'moaskam')){
-                        		   $.ajax({
-                                       url: 'addrequestlist',
-                                       method: 'POST',
-                                       data: JSON.stringify(datas),
-                                       contentType: 'application/json',
-                                       success: function (result) {
-                                           newClear();
-                                           grid.removeCheckedRows('')
-                                           grid.appendRows(result)
-                                           swal('성공', '발주가 완료되었습니다.', 'success')
-                                       }
-                                   })
-                        	   }else{
-                        		   swal('', '최소수량이 부족합니다.', 'warning')
-                        	   }
-                        		   
-                        	  
-                           }else{
-                        	   swal('', '최대수량을 초과했습니다.', 'warning')
-                           }
-                         
-                        } else {
-                            swal('', '이미 등록된 값이 있습니다.', 'warning')
                         }
+                       
                     })
                     
                      /*------------엑셀버튼 눌렀을때 ------------------------------------------------------*/
@@ -805,6 +827,13 @@
                 	location.href="requestexel"
                 	
                 })
+                //메인그리드 체크 하이라이트
+	                grid.on('check',(ev)=>{
+	                	grid.addRowClassName(ev.rowKey, 'rowcolor')
+	                })
+	                grid.on('uncheck',(ev)=>{
+	                	grid.removeRowClassName(ev.rowKey, 'rowcolor')
+	                })
                 })
             </script>
 		</div>
