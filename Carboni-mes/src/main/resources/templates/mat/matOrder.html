@@ -9,7 +9,6 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
 	rel="stylesheet" />
-
 <style>
 #modal {
 	display: none;
@@ -65,12 +64,12 @@
 		<div>
 			<!-- 전체감싸는 div -->
 			<div class="container-fluid px-4">
-			<div class="nameing">
-						<a href="/" style="text-decoration-line: none; color: black">홈</a>>재고관리>발주관리
-					</div>
-				<h1 class="mt-4">
-					발주관리	
-				</h1>
+				<div class="nameing">
+					<a href="/"
+						style="text-decoration-line: none; color: black; font-weight: 700;">
+						<i class="bi bi-house-door-fill"></i></a> > 재고관리> <b>발주관리</b>
+				</div>
+				<h1 class="mt-4">발주관리</h1>
 				<!-- 상단 버튼 모음  -->
 				<div class="card mb-4">
 					<div class="card-header">
@@ -221,16 +220,6 @@
                         return dialog;
                     }
                     /*메이크모달 끝*/
-                    /*=================공통 ajax 함수=================================*/
-                    function makeAjaxCall(url, data, callback, error) {
-                        $.ajax({
-                            url: url,
-                            method: 'POST',
-                            data: data,
-                            success: callback,
-                            error: error
-                        })
-                    }
                     /*===================================================*/
 
                     /* 입고일자 데이터 피커  */
@@ -465,8 +454,6 @@
                         var endD = $('#endpicker-input').val()
                         var cusCode = $('#rightcom').val()
                         var matCode = $('#rightmat').val()
-                        console.log(startD);
-                        console.log(endD);
                         $.ajax({
                             url: 'findreqdate',
                             method: 'POST',
@@ -478,24 +465,29 @@
                         })
                     })
 
-                    /*발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력*/
+                    /*발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 R*/
                     $('#addBtn').on('click', function () {
                         var cusCode = $('#rightcom').val()
                         var matCode = $('#rightmat').val()
-                        $.ajax({
-                            url: 'findcodelist',
-                            method: 'post',
-                            data: {cusCode,matCode},
-                            success: function (result) {
-                                grid.refreshLayout();
-                                grid.appendRows(result)
-                                var date1 = new Date(grid.setValue())
-                            }
-                        })
+                        if(cusCode=='' || matCode==''){
+                        	swal('다시입력하세요','입력되지 않은 정보가 있습니다.', 'warning')
+                        }else{
+                            $.ajax({
+                                url: 'findcodelist',
+                                method: 'post',
+                                data: {cusCode,matCode},
+                                success: function (result) {
+                                    grid.refreshLayout();
+                                    grid.appendRows(result)
+                                    var date1 = new Date(grid.setValue())
+                                }
+                            })
+                        }
+                    
                     })
                     var dia = makeModal("#reqmodal", check)
 
-                    /*생산에서 넘어오는 정보를 가지고있는 모달*/
+                    /*생산에서 넘어오는 정보를 가지고있는 모달 R*/
                     $("#btnModal").on("click", function () {
                         $("#reqmodal").css('display', '');
                         dia.dialog('open')
@@ -516,11 +508,10 @@
                         })
                     })
 
-                    //생산요청에서 업체를 더블클릭했을떄 
+                    //생산요청에서 업체를 더블클릭했을떄  R
                     var clickmodal = makeModal("#reqcommodal", dbclickfn)
                     reqG.on('dblclick', function (e) {
                         erow = e.rowKey
-                        //console.log(grid.getValue(e.rowKey, 'csname'))
                         if (e.columnName == 'csname' && reqG.getValue(erow, 'csname') == null) {
                             $("#reqcommodal").css('display', '')
                             clickmodal.dialog('open')
@@ -553,10 +544,18 @@
                         clickmodal.dialog('close')
                     }
 
-                    /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 */
+                    /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 R*/
                     function check() {
                         var reqlists = reqG.getCheckedRows()
-                        console.log(reqlists)
+                       
+                        /*
+                        var rk = e.rowKey
+                                        for (i = 0; i < company.getRowCount(); i++) {
+                                            company.removeRowClassName(i,'rowSelect')
+                                        }
+                                        company.addRowClassName(rk, 'rowSelect')
+                        */
+                        
                         var reqcheckcode = reqlists.some(e => {
                             return e.cscode == null
                         })

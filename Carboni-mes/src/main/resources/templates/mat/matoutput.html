@@ -62,7 +62,7 @@
 			<!-- 전체를 관통  -->
 			<div class="container-fluid px-4">
 				<div class="nameing">
-					<a href="/" style="text-decoration-line: none; color: black">홈</a>>재고관리>출고조회
+					<a href="/" style="text-decoration-line: none; color: black"><i class="bi bi-house-door-fill"></i></a> > 재고관리 > <b>출고조회</b>
 				</div>
 				<h1 class="mt-4">출고관리</h1>
 				<div class="card mb-2 ">
@@ -248,7 +248,7 @@
                 }
 
                 var outmo = makeModal("#listmodal", outcheck)
-
+				//R
                 $("#outBtn").on('click', function () {
                     outmo.dialog('open')
                     $.ajax({
@@ -271,7 +271,7 @@
                         }
                     })
                 })
-                /*자재코드 모달안의 검색을 눌렀을때 */
+                /*자재코드 모달안의 검색을 눌렀을때 R*/
                 $("#miSearchBtn").on('click', function () {
                     var miname = $('#miSearchName').val()
                     $.ajax({
@@ -311,7 +311,7 @@
                     }
                 })
                 /*======================================================================================*/
-                /*일자와 자재코드로 조회하기~*/
+                /*일자와 자재코드로 조회하기~ R*/
                 $('#researchBtn').on('click', function () {
                     var startD = $('#startpicker-input').val()
                     var endD = $('#endpicker-input').val()
