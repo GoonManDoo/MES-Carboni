@@ -23,6 +23,7 @@ public class SalesVO {
 	public String gestatus;  //여부
 	public String picodeid;  //공정코드
 	public String cexplaind; //불량명
+	public String phnum;     //작업번호
 	//public String gicode;    //제품코드
 	//public String giname;    //제품명
 	

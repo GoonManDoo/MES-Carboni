@@ -138,42 +138,42 @@ table {
 			// 그리드 ---------------------------------------
 			/* 지시목록 */
 			const totalPlan = [];
-	
-			const pdGrid = new tui.Grid({
-				el : document.getElementById('errorList'),
-				data : totalPlan,
-				scrollX : false,
-				columns : [ {
-					header: '불량내역번호',
-					name : 'genum',
-					align: 'center'
-				}, {
-					header : '공정코드',
-					name : 'picodeid',
-					align : 'center'
-				}, {
-					header : '제품명',
-					name : 'giname',
-					align : 'center'
-				}, {
-					header : '불량코드',
-					name : 'ccodeid',
-					align : 'center'
-				}, {
-					header : '불량명',
-					name : 'cexplaind',
-					align : 'center'
-				}, {
-					header : '불량내역',
-					name : 'gedetail',
-					align : 'center'
-				}, {
-					header : '불량일자',
-					name : 'gedate',
-					align : 'center'
-				} ]
-			});
-			
+   
+	         const pdGrid = new tui.Grid({
+	            el : document.getElementById('errorList'),
+	            data : totalPlan,
+	            scrollX : false,
+	            columns : [ {
+	               header: '불량내역번호',
+	               name : 'genum',
+	               align: 'center'
+	            }, {
+	               header : '작업번호',
+	               name : 'phnum',
+	               align : 'center'
+	            }, {
+	               header : '제품명',
+	               name : 'giname',
+	               align : 'center'
+	            }, {
+	               header : '불량코드',
+	               name : 'ccodeid',
+	               align : 'center'
+	            }, {
+	               header : '불량명',
+	               name : 'cexplaind',
+	               align : 'center'
+	            }, {
+	               header : '불량내역',
+	               name : 'gedetail',
+	               align : 'center'
+	            }, {
+	               header : '불량일자',
+	               name : 'gedate',
+	               align : 'center'
+	            } ]
+	         });
+	         pdGrid.hideColumn('ccodeid')
 			
 			// 달력-----------------------------------------
 			/* 작업일자 */
