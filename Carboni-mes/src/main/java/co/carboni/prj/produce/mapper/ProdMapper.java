@@ -128,6 +128,14 @@ public interface ProdMapper {
 
 			// 스케줄링
 			public void schedule(String sinum1, String sinum2);
+			
+			// 긴급중지
+			public void emerStop();
+			public List<ProcMoniterVO> selectEmer();
+			
+			// 재시작
+			public void restart();
+			//public List<ProcMoniterVO> selectEmer2();
 
 			
 		// 실적모니터링
@@ -149,6 +157,13 @@ public interface ProdMapper {
 			
 			// 생산실적 엑셀
 			public List<Map<String, Object>> errorExcel(MatVO vo);
+
+			
+
+			
+
+			
+
 
 			
 
