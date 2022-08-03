@@ -392,7 +392,8 @@ s
 						header: '작업시작일',
 						name: 'pcdsdate',
 						align: 'center',
-						editor: 'text',
+						editor : 'datePicker',
+						language : 'ko',
 						validation: {
 							required: true
 						}
@@ -818,12 +819,13 @@ s
 					pnGrid.addRowClassName(rk, 'rowSelect')
 					gic = pnGrid.getRow(rk).gicode
 					$('#goodsCode').val(gic)
+					var sum = pnGrid.getValue(rk, 'ppadam')+pnGrid.getValue(rk, 'pcdam')
 					/* 자재정보조회 콜백 */
 					var addMatFnc = function(result) {
 						$('#goodsName').val(result[0].giname)
 						matlist.resetData(result)
 						for(i=0; i<matlist.getRowCount(); i++) {
-							matlist.setValue(i, 'pamount', ((pnGrid.getValue(rk, 'ppadam')+(pnGrid.getValue(rk, 'pcdam')))*matlist.getValue(i, 'bam')), false)
+							matlist.setValue(i, 'pamount', (sum*matlist.getValue(i, 'bam')), false)
 							if(matlist.getValue(i, 'pamount')-matlist.getValue(i, 'msciam') > 0) {
 								matlist.addCellClassName(i, 'msciam', 'matDanger')
 								matlist.on('dblclick', el => {
