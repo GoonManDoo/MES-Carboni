@@ -2,6 +2,7 @@ package co.carboni.prj.produce.web;
 
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,6 @@ import co.carboni.prj.produce.vo.ProdPlanVO;
 public class ProdController {
 	
 	@Autowired ProdService service;
-	@Autowired Scheduler scheduler;
    @Autowired private Prodovservice prodovDAO;
 
 	
@@ -284,10 +284,7 @@ public class ProdController {
 		@ResponseBody
 		public void insertSinum(ProcMoniterVO vo) {
 			service.insertSinum(vo);
-			if(scheduler.isAlive()) {
-		         scheduler.interrupt();
-		    }
-			scheduler = new Scheduler();
+			Scheduler scheduler = new Scheduler();
 		    scheduler.start();
 		}
 		
@@ -368,5 +365,25 @@ public class ProdController {
 		}
 	
 	
+		
+		
+	public class Scheduler extends Thread {
+		
+	   @Override
+	   public void run() {
+	      List<String> list = Arrays.asList(null, "SS-1", "SS-5", "SS-7", null);
+	      for(int i=1; i<list.size(); i++) {
+	         service.schedule(list.get(i-1), list.get(i));
+	         try {
+	            this.sleep(8000);
+	         } catch (InterruptedException e) {
+	            e.printStackTrace();
+	         }
+	      }
+	   }
+	}
 
 }
+
+
+

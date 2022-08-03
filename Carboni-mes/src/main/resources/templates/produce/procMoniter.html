@@ -865,23 +865,23 @@ ul.tabs li.current {
 				
 				function loadProdLine(i, sinum, pcdam, phderram, pcnum){ // 2번째 ajax
 					//var timer = setInterval(function(){ // setInterval 시작
-						//if(headGrid.getValue(i, 'phdstat') == '완료') {
+						if(headGrid.getValue(2, 'phdstat') == '완료') {
 						//	arr.push(timer);
 							//stop.push(timer);
 						//	for(y=0; y<arr.length; y++) {
 						//		clearInterval(arr[y])
 						//	}
-							/*for(z=0; z<stop.length; z++) {
+							for(z=0; z<stop.length; z++) {
 								clearInterval(stop[z])
-							}*/
+							}
 						//	arr = [];
 							//stop = [];
 							
 						//	if(i==2) {
 						//		console.log(i, timer, 'setInterval 끝');
-						//		setTimeout(insertHead(), 3000);
+								setTimeout(insertHead(), 3000);
 						//	}
-						//} else {
+						} else {
 							makeAjaxCall('loadTime', {pcnum, sinum}, false, function(result) {
 								if(result.phdstime != null && result.phdetime == null) { // 시작시간만
 									headGrid.setValue(i, 'phdstime', result.phdstime)
@@ -910,7 +910,7 @@ ul.tabs li.current {
 									}
 								}
 							})
-					//	}
+						}
 					//} , 2000)
 					//arr.push(timer)
 					//stop.push(timer);
