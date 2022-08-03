@@ -1,6 +1,7 @@
 package co.carboni.prj.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,11 @@ public class ProcinfoServiceImpl implements Procinfoservice{
 	@Override
 	public List<ProcinfoVO> selectLine(ProcinfoVO vo) {
 		return map.selectLine(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> procinfoEx(ProcinfoVO vo) {
+		return map.procinfoEx(vo);
 	}
 
 }

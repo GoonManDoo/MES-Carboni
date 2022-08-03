@@ -1,6 +1,7 @@
 package co.carboni.prj.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,6 +34,11 @@ public class BomServiceImpl implements Bomservice{
 	@Override
 	public List<GoodsinfoVO> selectGoods(GoodsinfoVO vo) {
 		return map.selectGoods(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> bomEx(BomVO vo) {
+		return map.bomEx(vo);
 	}
 
 }

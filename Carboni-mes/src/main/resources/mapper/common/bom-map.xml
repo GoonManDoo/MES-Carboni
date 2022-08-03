@@ -34,5 +34,10 @@
 		DELETE FROM BOM
 		WHERE GICODE=#{gicode} AND MICODE=#{micode}
 	</delete>
+	
+	<select id="bomEx" resultType="map">
+		SELECT BCODE BOM번호, GICODE 제품코드, MICODE 자재코드, BAM 사용량, BNOTE 비고
+		FROM BOM ORDER BY TO_NUMBER(GICODE), MICODE
+	</select>
 
 </mapper>

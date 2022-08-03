@@ -46,10 +46,11 @@
     <h1>제품BOM정보 관리</h1>
     
     <div id="menu">
-      <a href="/">홈</a> > 기준정보관리 > 제품BOM정보관리
+      <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b>제품BOM정보관리</b>
     </div>
       <div id="btns" class="card-header">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
+        <button type="button" class="btn btn-secondary" id="ex">엑셀</button>
         <button type="button" class="btn btn-secondary" id="search">검색</button>
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
@@ -256,6 +257,10 @@
 		$('#bnote').val($('input[name=list]:checked').parent().parents().children().eq(5).text())
 	});
 	
+	//엑셀
+	$('#ex').on('click', function(){
+		location.href="bomEx"
+	});
 </script>
 </th:block>
 

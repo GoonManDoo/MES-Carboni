@@ -255,5 +255,26 @@ public class CommonController {
 		return new ModelAndView(new CommonExcelView(), map);
 	}
 	
+	@RequestMapping("bomEx")
+	public ModelAndView bomEx(BomVO vo) {
+		List<Map<String, Object>> list = bomDAO.bomEx(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = {"BOM번호","제품코드","자재코드","사용량","비고"};
+			map.put("headers", header);
+			map.put("filename", "BomList");
+			map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(), map);
+	}
+	
+	@RequestMapping("procinfoEx")
+	public ModelAndView procinfoEx(ProcinfoVO vo) {
+		List<Map<String, Object>> list = procinfoDAO.procinfoEx(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = {"공정코드","공정명","1차공정","2차공정","3차공정","4차공정","소요일수","할당설비"};
+			map.put("headers", header);
+			map.put("filename", "ProcinfoList");
+			map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(), map);
+	}
 
 }

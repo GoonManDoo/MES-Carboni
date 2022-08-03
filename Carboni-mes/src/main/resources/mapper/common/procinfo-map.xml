@@ -30,5 +30,10 @@
 		SELECT PIONE, PITWO, PITHREE, PIFOUR FROM PROCINFO
 		WHERE PICODEID = #{picodeid}
 	</select>
+	
+	<select id="procinfoEx" resultType="map">
+		SELECT PICODEID 공정코드, PINAME 공정명, PIONE "1차공정", PITWO "2차공정", PITHREE "3차공정", PIFOUR "4차공정", PIDATE 소요일수, SINUM 할당설비
+		FROM PROCINFO ORDER BY PICODEID
+	</select>
 
 </mapper>
