@@ -1,9 +1,9 @@
 package co.carboni.prj.sales.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import co.carboni.prj.sales.vo.SalesVO;
 
@@ -120,5 +120,8 @@ public interface SalesMapper {
 		
 		//생산관리 > 불량내역조회
 		public List<SalesVO> findProdErrList(@Param("startDtS") String startDtS, @Param("endDtE") String endDtE, @Param("errOpList") String errOpList);
+		
+		//수주관리 > 엑셀 다운로드
+		public List<Map<String, Object>> contractInsertExel(SalesVO vo);
 	
 }

@@ -1,6 +1,9 @@
 package co.carboni.prj.sales.web;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import co.carboni.prj.CommonExcelView;
 import co.carboni.prj.sales.service.SalesService;
 import co.carboni.prj.sales.vo.SalesVO;
 
@@ -84,7 +89,18 @@ public class SalesController {
 			return goodsList;
 		}
 		
-		
+		// 수주관리 > 엑셀다운로드
+		@RequestMapping("contractInsertExel")
+		public ModelAndView contractInsertExel(SalesVO vo) throws IOException{
+			List<Map<String, Object>> list = service.contractInsertExel(vo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			String[] header = {"수주번호", "거래처명", "제품명", "제품단위", "수주수량", "수주잔량", "수주일자", "납기일자", "진행상태"};
+				map.put("headers", header);
+				map.put("filename", "SALES CONTRACT LIST");
+				map.put("datas", list);
+			return new ModelAndView(new CommonExcelView(), map);
+			
+		}
 
 	
 

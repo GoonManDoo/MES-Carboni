@@ -1,6 +1,7 @@
 package co.carboni.prj.sales.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -206,6 +207,12 @@ public class SalesServiceImpl implements SalesService {
 			 @Override public List<SalesVO> findProdErrList(String startDtS, String endDtE, String errOpList) { 
 				 return mapper.findProdErrList(startDtS, endDtE, errOpList); 
 				 }
+
+			//수주관리 > 엑셀 다운로드
+			@Override
+			public List<Map<String, Object>> contractInsertExel(SalesVO vo) {
+				return mapper.contractInsertExel(vo);
+			}
 			 
 			
 			
