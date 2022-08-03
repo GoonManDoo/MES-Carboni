@@ -52,12 +52,13 @@
     
       <h1>공정코드 관리</h1>
       <div id="menu">
-        <a href="/">홈</a> > 기준정보관리 > 공정코드관리
+        <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b>공정코드관리</b>
       </div>
-      <div sec:authorize="hasRole('ROLE_a')" id="btns" class="card-header">
-        <input type="button" class="btn btn-secondary" value="신규" onclick="showit()">
-        <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
-        <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+      <div id="btns" class="card-header">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="신규" onclick="showit()">
+        <button type="button" class="btn btn-secondary" id="ex">엑셀</button>
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
+        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
       <form id="myf" name="myf">
         <label for="picodeid">공정코드</label> <input type="text" id="picodeid" name="picodeid" readonly>
@@ -177,6 +178,11 @@
         align: 'center'
       }]
      });
+	});
+	
+	//엑셀
+	$('#ex').on('click', function(){
+		location.href="procinfoEx"
 	});
     	
     </script>

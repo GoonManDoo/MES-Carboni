@@ -14,5 +14,11 @@
 			UPDATE LOGIN SET ACODE = #{acode} WHERE ECODE = #{ecode};
 		END;
 	</update>
+	
+	<select id="empEx" resultType="map">
+		SELECT E.ECODE 사원코드, TO_CHAR(E.EHIREDATE, 'YYYY-MM-DD') 입사일, E.EPOSITION 직책, E.ENAME 이름, L.LID 카보니ID
+		FROM EMPLOYEE E LEFT OUTER JOIN LOGIN L ON E.ECODE = L.ECODE
+		ORDER BY E.ECODE
+	</select>
 
 </mapper>

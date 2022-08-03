@@ -1,6 +1,7 @@
 package co.carboni.prj.people.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,11 @@ public class EmployeeServiceImpl implements Employeeservice{
 	@Override
 	public int employeeupdate(EmployeeVO vo) {
 		return map.employeeupdate(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> empEx(EmployeeVO vo) {
+		return map.empEx(vo);
 	}
 
 }
