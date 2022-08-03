@@ -66,6 +66,13 @@ public class MatController {
 		return "mat/matlistadd";
 	}
 
+	//발주 수정
+	@RequestMapping("updatereqlist")
+	@ResponseBody
+	public List<MatVO> updatereqlist(@RequestBody List<MatVO> list){
+		return service.updatereqlist(list);
+	}
+	
 	// 생산에서 넘어오는 발주
 	@RequestMapping("reqlist")
 	@ResponseBody

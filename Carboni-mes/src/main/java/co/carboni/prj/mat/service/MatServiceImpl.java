@@ -148,6 +148,20 @@ public class MatServiceImpl implements MatService {
 	public List<Map<String, Object>> outputexel(MatVO vo) {
 		return map.outputexel(vo);
 	}
+
+
+	@Override
+	public List<MatVO> updatereqlist(List<MatVO> list) {
+		List<MatVO> inList = new ArrayList<MatVO>();
+		for(MatVO vo : list) {
+			map.updatereqlist(vo);
+			map.selectReqList(vo);
+			inList.add(vo);
+		}
+		
+	return inList;
+		
+	}
 	
 	
 

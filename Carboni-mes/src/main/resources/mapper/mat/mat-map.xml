@@ -52,12 +52,12 @@
 	<select id="findReqDate"
 		resultType="co.carboni.prj.mat.vo.MatVO">
 		SELECT
-		O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,C.CSNAME,M.MINAME,O.MOASKAM
+		O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,C.CSNAME,M.MINAME,O.MOASKAM,O.MRREQAM,O.MONOTE
 		FROM MATORD O,COSTOMER C,MATINFO M
 		WHERE (O.MICODE=M.MICODE AND C.CSCODE=O.CSCODE)
 		<if test="cusCode != null and !cusCode.equals('')">AND (O.CSCODE = #{cusCode})</if>
 		<if test="matCode != null and !matCode.equals('')">AND (O.MICODE = #{matCode})</if>
-		<if test="startD != null and endD != null">AND (O.MOODATE BETWEEN #{startD} AND #{endD})</if>
+		<if test="startD != null and endD != null">AND (O.MOODATE BETWEEN to_date(#{startD}) AND to_date(#{endD}))</if>
 	</select>
 
 	<!-- 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 -->
@@ -136,6 +136,14 @@
 		where reqnum =#{reqnum}
 	</update>
 	
+	<update id="updatereqlist" parameterType="co.carboni.prj.mat.vo.MatVO">
+	update matord
+	<set>
+		moaskam=#{moaskam},monote=#{monote}
+	</set>
+	where monum =#{monum}
+	</update>
+	
 
 	<!-- ========================================================================= -->
 
@@ -147,7 +155,7 @@
 		FROM MATORD E , MATINFO D ,COSTOMER Z
 		WHERE (E.MICODE=D.MICODE AND
 		E.CSCODE=Z.CSCODE)
-		AND (E.MOODATE BETWEEN #{startD} AND #{endD})
+		AND (E.MOODATE BETWEEN to_date(#{startD}) AND to_date(#{endD}))
 		AND
 		E.MOSTATUS='발주중'
 	</select>
@@ -189,7 +197,7 @@
 		WHERE (S.MONUM = O.MONUM AND O.MICODE=M.MICODE AND O.CSCODE=C.CSCODE)
 		AND S.MSSTAT='입고'
 		<if test="cusCode != null and !cusCode.equals('')">AND (O.CSCODE = #{cusCode})</if>
-		<if test="startD != null and endD != null">AND (S.MSINDATE BETWEEN #{startD} AND #{endD})</if>
+		<if test="startD != null and endD != null">AND (S.MSINDATE BETWEEN to_date(#{startD}) AND to_date(#{endD}))</if>
 	</select>
 	
 	<!-- ===========자재관리=========================================================== -->
@@ -218,7 +226,7 @@
       WHERE M.MICODE = A.MICODE
       AND M.MSSTAT ='출고'
      <if test="matCode != null and !matCode.equals('')">AND (M.MICODE = #{matCode})</if>
-	<if test="startD != null and endD != null">AND (M.MSOUTDATE BETWEEN #{startD} AND #{endD})</if>
+	<if test="startD != null and endD != null">AND (M.MSOUTDATE BETWEEN to_date(#{startD}) AND to_date(#{endD}))</if>
 	</select>
 	
 	<!-- =====엑셀============================================ -->
