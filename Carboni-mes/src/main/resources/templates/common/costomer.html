@@ -22,17 +22,21 @@
     font-size: 80%;
     text-align: center;
   }
+  
   #myf>input{
     margin: 2px 0 0 0;
   }
   
-  
-
   #menu {
     float: right;
     margin-right: 20px;
     text-align: right;
   }
+  #menu > a {
+    text-decoration: none;
+    color: black;
+  }
+  
 </style>
 
 <body>
@@ -41,11 +45,12 @@
 
     <h1>거래처정보관리</h1>
     <div id="menu">
-      <a href="/">홈</a> > 기준정보관리 > <b>거래처정보관리</b>
+      <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b>거래처정보관리</b>
     </div>
     <form name="subform" id="subform">
     	<div id="btns" class="card-header">
       		<button type="button" class="btn btn-secondary" id="newthat">새자료</button>
+      		<button type="button" class="btn btn-secondary" id="ex">엑셀</button>
       		<input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
       		<input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
     	</div>
@@ -135,6 +140,12 @@
 			document.subform.submit();
 		}
 	}
+	
+	//엑셀
+	$('#ex').on('click', function(){
+		location.href="costEx"
+	});
+	
 </script>
 </th:block>
 </html>

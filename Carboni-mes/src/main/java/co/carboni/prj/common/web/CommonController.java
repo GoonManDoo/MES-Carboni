@@ -1,13 +1,17 @@
 package co.carboni.prj.common.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import co.carboni.prj.CommonExcelView;
 import co.carboni.prj.common.service.Bomservice;
 import co.carboni.prj.common.service.Ccodeservice;
 import co.carboni.prj.common.service.Costomerservice;
@@ -216,5 +220,40 @@ public class CommonController {
 		errinfoDAO.errinfodelete(vo);
 		return "redirect:errinfo.do";
 	}
+	
+	//엑셀
+	@RequestMapping("codeEx")
+	public ModelAndView codeEx(CcodeVO vo) {
+		List<Map<String, Object>> list = ccodeDAO.codeEx(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = {"코드ID","코드분류","코드소분류","코드명","코드상세","비고"};
+			map.put("headers", header);
+			map.put("filename", "CcodeList");
+			map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(), map);
+	}
+	
+	@RequestMapping("costEx")
+	public ModelAndView costEx(CostomerVO vo) {
+		List<Map<String, Object>> list = costomerDAO.costEx(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = {"거래처코드","거래처명","사업자번호","전화번호","거래처구분","비고"};
+			map.put("headers", header);
+			map.put("filename", "CostList");
+			map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(), map);
+	}
+	
+	@RequestMapping("matinfoEx")
+	public ModelAndView matinfoEx(MatinfoVO vo) {
+		List<Map<String, Object>> list = matinfoDAO.matinfoEx(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String[] header = {"자재코드","자재명","자재규격","자재단위","안전재고","MAX재고", "MIN재고"};
+			map.put("headers", header);
+			map.put("filename", "MatinfoList");
+			map.put("datas", list);
+		return new ModelAndView(new CommonExcelView(), map);
+	}
+	
 
 }

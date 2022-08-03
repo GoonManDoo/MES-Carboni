@@ -1,6 +1,7 @@
 package co.carboni.prj.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,6 +33,11 @@ public class CostomerServiceImpl implements Costomerservice{
 	@Override
 	public int costUpdate(CostomerVO vo) {
 		return map.costUpdate(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> costEx(CostomerVO vo) {
+		return map.costEx(vo);
 	}
 
 }

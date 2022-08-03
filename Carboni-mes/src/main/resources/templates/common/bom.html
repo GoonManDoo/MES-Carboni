@@ -32,6 +32,10 @@
     margin-right: 20px;
     text-align: right;
   }
+  #menu > a {
+    text-decoration: none;
+    color: black;
+  }
 
 </style>
 
@@ -42,13 +46,12 @@
     <h1>제품BOM정보 관리</h1>
     
     <div id="menu">
-      <a href="/">홈</a> > 기준정보관리 > <b>제품BOM정보관리</b>
+      <a href="/">홈</a> > 기준정보관리 > 제품BOM정보관리
     </div>
       <div id="btns" class="card-header">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
         <button type="button" class="btn btn-secondary" id="search">검색</button>
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
-        <!-- localDB에서 INSERT 문제 발생, 클라우드 지갑DB에서는 멀쩡히 동작함 -->
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
     <form id="myf" name="subform">

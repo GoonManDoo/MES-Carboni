@@ -115,13 +115,10 @@
 	WHERE SMNUM = #{smnum}
 	</update>
 	
-	<delete id="systemDelete" parameterType="co.carboni.prj.system.vo.SystemVO">
-		DELETE  FROM SYSINFO
-		WHERE SINUM = #{sinum}
-	</delete>
-	
-	<delete id="sysmanDelete" parameterType="co.carboni.prj.system.vo.SystemVO">
-		DELETE FROM SYSMAN
-		WHERE SINUM = #{sinum}
+	<delete id="systemDelete">
+		BEGIN
+			DELETE FROM SYSINFO WHERE SINUM = #{sinum};
+			DELETE FROM SYSMAN WHERE SINUM = #{sinum};
+		END;
 	</delete>
 </mapper>

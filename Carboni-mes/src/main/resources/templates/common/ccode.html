@@ -34,6 +34,11 @@
         margin-right: 20px;
         text-align: right;
       }
+      
+      #menu > a {
+      	text-decoration: none;
+      	color: black;
+      }
 
       #myf {
         margin: 10px;
@@ -55,11 +60,12 @@
   <body>
     <h1>공통코드 관리</h1>
     <div id="menu">
-      <a href="/">홈</a> > 기준정보관리 > <b>공통코드관리</b>
+      <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b> 공통코드관리 </b>
     </div>
     <form name="subform" id="subform">
       <div id="btns" class="card-header">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
+        <button type="button" class="btn btn-secondary" id="ex">엑셀</button>
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
@@ -197,6 +203,11 @@
 			document.subform.submit();
 		}
 	}
+	
+	//엑셀
+	$('#ex').on('click', function(){
+		location.href="codeEx"
+	});
 	
   </script>
 </th:block>

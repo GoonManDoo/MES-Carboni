@@ -11,24 +11,19 @@
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <meta charset="UTF-8">
 <title>설비 자세히 보기</title>
-</head>
 
 <style>
 
+#gobackdiv {
+	text-align: center;
+}
 
-.number {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto;
-  background-color: #ffb611;
-  font-size: 100px;
-  list-style: none;
-  text-align: center;
-  margin-top: 50px;
-  color: #333;
-  border-radius: 50%;
+#goback {
+	width: 80px;
+	height: 80px;
 }
 </style>
+</head>
 
 <body>
    <th:block layout:fragment="main">
@@ -120,8 +115,13 @@
                 					</button>
 		                        </div>
 		                  </div>
-      </div>
-   </div>
+      				</div>
+   				</div>
+		   <div id="gobackdiv">
+		   		<a href="productSysMain">
+		   			<img src="/assets/img/back.png" alt="goback" id="goback">
+		   		</a>
+		   </div>
   <!--======================================================================================================================================================-->    
   <!--======================================================================================================================================================--> 
         <div class="modal fade" id="deleteSystem" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
