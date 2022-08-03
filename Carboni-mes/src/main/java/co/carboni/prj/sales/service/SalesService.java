@@ -15,8 +15,7 @@ public interface SalesService {
 	
 	//수주관리
 	
-		// 수주관리 > 엑셀다운로드
-		public List<Map<String, Object>> contractInsertExel(SalesVO vo);
+		
 		
 		//수주관리 > 수주목록 삭제
 		public void findDelCnList(SalesVO vo);
@@ -113,6 +112,21 @@ public interface SalesService {
 		
 		//배송관리 > 배송등록
 		public void deliverInsert(List<SalesVO> inDelver);
+		
+		// 수주관리 > 엑셀다운로드
+		public List<Map<String, Object>> contractInsertExel(SalesVO vo);
+		
+		// 생산의뢰관리 > 엑셀다운로드
+		public List<Map<String, Object>> prodreqInsertExel(SalesVO vo);
+
+		// 출하관리 > 엑셀다운로드
+		public List<Map<String, Object>> shipInsertExel(SalesVO vo);
+
+		// 제품재고관리 > 엑셀다운로드
+		public List<Map<String, Object>> goodsstkInsertExel(SalesVO vo);
+
+		// 배송관리 > 엑셀다운로드
+		public List<Map<String, Object>> deliverInsertExel(SalesVO vo);
 		
 		
 		

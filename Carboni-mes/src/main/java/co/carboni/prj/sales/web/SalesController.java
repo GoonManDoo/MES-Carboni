@@ -89,18 +89,7 @@ public class SalesController {
 			return goodsList;
 		}
 		
-		// 수주관리 > 엑셀다운로드
-		@RequestMapping("contractInsertExel")
-		public ModelAndView contractInsertExel(SalesVO vo) throws IOException{
-			List<Map<String, Object>> list = service.contractInsertExel(vo);
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			String[] header = {"수주번호", "거래처명", "제품명", "제품단위", "수주수량", "수주잔량", "수주일자", "납기일자", "진행상태"};
-				map.put("headers", header);
-				map.put("filename", "SALES CONTRACT LIST");
-				map.put("datas", list);
-			return new ModelAndView(new CommonExcelView(), map);
-			
-		}
+		
 
 	
 
@@ -148,9 +137,6 @@ public class SalesController {
 		@RequestMapping("shipInsert")
 		@ResponseBody
 		public void shipInsert(@RequestBody List<SalesVO> allship) {
-			System.out.println("=====================");
-			System.out.println(allship);
-			System.out.println("=====================");
 			service.shipInsert(allship);
 		}
 		
@@ -315,6 +301,67 @@ public class SalesController {
 			return deliverSearch;
 		}
 	 
+	//엑셀 다운로드
+		
+		// 수주관리 > 엑셀다운로드
+		@RequestMapping("contractInsertExel")
+		public ModelAndView contractInsertExel(SalesVO vo) throws IOException{
+			List<Map<String, Object>> list = service.contractInsertExel(vo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			String[] header = {"수주번호", "거래처명", "제품명", "제품단위", "수주수량", "수주잔량", "수주일자", "납기일자", "진행상태"};
+				map.put("headers", header);
+				map.put("filename", "SALES CONTRACT LIST");
+				map.put("datas", list);
+			return new ModelAndView(new CommonExcelView(), map);
+		}
+				
+		// 생산의뢰관리 > 엑셀다운로드
+		@RequestMapping("prodreqInsertExel")
+		public ModelAndView prodreqInsertExel(SalesVO vo) throws IOException{
+			List<Map<String, Object>> list = service.prodreqInsertExel(vo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			String[] header = {"의뢰번호", "수주번호", "제품명", "거래처명", "수주일자", "납기일자", "마감일자", "생산의뢰여부"};
+				map.put("headers", header);
+				map.put("filename", "SALES PRODREQ LIST");
+				map.put("datas", list);
+			return new ModelAndView(new CommonExcelView(), map);
+		}
+		
+		// 출하관리 > 엑셀다운로드
+		@RequestMapping("shipInsertExel")
+		public ModelAndView shipInsertExel(SalesVO vo) throws IOException{
+			List<Map<String, Object>> list = service.shipInsertExel(vo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			String[] header = {"출하번호", "수주번호", "거래처명", "제품명", "출하수량", "출고일자", "납기일자", "출하진행상태"};
+				map.put("headers", header);
+				map.put("filename", "SALES SHIP LIST");
+				map.put("datas", list);
+			return new ModelAndView(new CommonExcelView(), map);
+		}
+		
+		// 제품재고관리 > 엑셀다운로드
+		@RequestMapping("goodsstkInsertExel")
+		public ModelAndView goodsstkInsertExel(SalesVO vo) throws IOException{
+			List<Map<String, Object>> list = service.goodsstkInsertExel(vo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			String[] header = {"제품재고관리번호", "제품명", "제품코드", "안전재고", "제품재고량", "제품단위"};
+				map.put("headers", header);
+				map.put("filename", "SALES GOODSSTK LIST");
+				map.put("datas", list);
+			return new ModelAndView(new CommonExcelView(), map);
+		}
+		
+		// 배송관리 > 엑셀다운로드
+		@RequestMapping("deliverInsertExel")
+		public ModelAndView deliverInsertExel(SalesVO vo) throws IOException{
+			List<Map<String, Object>> list = service.deliverInsertExel(vo);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			String[] header = {"수주번호", "출하번호", "제품명", "거래처명", "출고일자", "납기일자"};
+				map.put("headers", header);
+				map.put("filename", "SALES DELIVER LIST");
+				map.put("datas", list);
+			return new ModelAndView(new CommonExcelView(), map);
+		}
 
 
 }

@@ -123,5 +123,17 @@ public interface SalesMapper {
 		
 		//수주관리 > 엑셀 다운로드
 		public List<Map<String, Object>> contractInsertExel(SalesVO vo);
+		
+		//생산의뢰관리 > 엑셀 다운로드
+		public List<Map<String, Object>> prodreqInsertExel(SalesVO vo);
+
+		//출하관리 > 엑셀 다운로드
+		public List<Map<String, Object>> shipInsertExel(SalesVO vo);
+
+		//제품재고관리 > 엑셀 다운로드
+		public List<Map<String, Object>> goodsstkInsertExel(SalesVO vo);
+
+		//배송관리> 엑셀 다운로드
+		public List<Map<String, Object>> deliverInsertExel(SalesVO vo);
 	
 }

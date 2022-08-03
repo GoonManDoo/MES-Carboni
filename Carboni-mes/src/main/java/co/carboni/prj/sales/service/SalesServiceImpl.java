@@ -213,6 +213,30 @@ public class SalesServiceImpl implements SalesService {
 			public List<Map<String, Object>> contractInsertExel(SalesVO vo) {
 				return mapper.contractInsertExel(vo);
 			}
+
+			//출하관리 > 엑셀 다운로드
+			@Override
+			public List<Map<String, Object>> prodreqInsertExel(SalesVO vo) {
+				return mapper.prodreqInsertExel(vo);
+			}
+
+			//출하관리 > 엑셀 다운로드
+			@Override
+			public List<Map<String, Object>> shipInsertExel(SalesVO vo) {
+				return mapper.shipInsertExel(vo);
+			}
+
+			//제품재고관리 > 엑셀 다운로드
+			@Override
+			public List<Map<String, Object>> goodsstkInsertExel(SalesVO vo) {
+				return mapper.goodsstkInsertExel(vo);
+			}
+			
+			//배송관리 > 엑셀 다운로드
+			@Override
+			public List<Map<String, Object>> deliverInsertExel(SalesVO vo) {
+				return mapper.deliverInsertExel(vo);
+			}
 			 
 			
 			

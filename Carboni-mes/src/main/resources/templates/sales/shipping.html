@@ -86,6 +86,8 @@ span {
 					<button id="insertBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">등록</button>
 					<button id="deleteBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button>
 					<button id="clearBtn" class="btn btn-secondary">새자료</button>
+					<button type="button" id="exelBtn" class="btn btn-secondary">엑셀</button>
+					<button type="button" id="pdfBtn" class="btn btn-secondary">PDF</button>
 				</div>
 			</div>
 
@@ -111,7 +113,9 @@ span {
 				<div class="card-header">
 					<i class="fas fa-table me-1"></i> 출하관리
 				</div>
+				<div id="test" class="container-fluid px-4">
 				<div id="grid"></div>
+				</div>
 			</div>
 		</div>
 
@@ -546,6 +550,32 @@ span {
 			})
 			modal3.dialog('close')
 		}
+		
+		/* 엑셀버튼 눌렀을 때 */
+		$('#exelBtn').on('click', function() {
+			location.href="shipInsertExel"
+		})
+		
+		 /*------pdf-------------*/
+        $('#pdfBtn').on('click',function(){
+        	
+        	 //pdf_wrap을 canvas객체로 변환
+        	   html2canvas($('#test')[0]).then(function(canvas) {
+        	     
+        	    var imgData = canvas.toDataURL('image/png'); //캔버스를 이미지로 변환
+        	    var imgWidth = 180; // 이미지 가로 길이(mm) / A4 기준 210mm
+                var pageHeight = imgWidth * 1.3; // 출력 페이지 세로 길이 계산 A4 기준
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+                var margin = 10;
+                var doc = new jsPDF('p', 'mm', 'a4'); //jspdf객체 생성
+        	    var position =0;
+        	    doc.addImage(imgData, 'PNG',margin,position,imgWidth,imgHeight); //이미지를 기반으로 pdf생성
+        	    heightLeft -=pageHeight;
+        	    doc.save('ship.pdf'); //pdf저장
+        	  });
+        })
+		
 			})
 		</script>
 	</th:block>

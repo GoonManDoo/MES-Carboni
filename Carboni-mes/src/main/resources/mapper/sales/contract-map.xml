@@ -5,9 +5,9 @@
 	<!-- 생산관리 -->
 		<!-- 불량내역조회 -->
 		<select id="findProdErrList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			 SELECT g.genum, p.picodeid, f.giname, c.ccodeid, c.cexplaind, g.gedetail, g.gedate
-	         FROM goods_err g, common c, prochead_d p, goodsinfo f
-	         WHERE (g.ccodeid = c.ccodeid AND p.PHDNUM = g.PHDNUM AND f.gicode = g.gicode)
+			 select g.genum, g.phnum, f.giname, c.cexplaind, g.gedetail, g.gedate, g.ccodeid
+			FROM goods_err g, common c, goodsinfo f
+			WHERE (g.ccodeid = c.ccodeid and g.gicode = f.gicode)
 	         AND (g.gedate BETWEEN #{startDtS} AND #{endDtE})      
 	         AND c.ccodeid = #{errOpList}
 		</select>
@@ -15,13 +15,7 @@
 	
 	<!-- 수주관리 -->
 	
-		<!-- 수주목록 엑셀다운로드 -->
-		<select id="contractInsertExel" resultType="map">
-			SELECT m.cnnum AS "수주번호", c.csname AS "거래처명", g.giname AS "제품명", m.cnam AS "수주수량", m.cnrest AS "수주잔량", TO_CHAR(m.cndate) AS "수주일자", TO_CHAR(m.cnperiod) AS "납기일자", m.cnstatus AS "진행상태" , g.giunit AS "제품단위"
-			FROM contract m, costomer c, goodsinfo g
-			WHERE (c.cscode = m.cscode AND g.gicode = m.gicode)
-		</select>
-	
+		
 		<!-- 수주목록 삭제 -->
 		<delete id="findDelCnList" parameterType="co.carboni.prj.sales.vo.SalesVO">
 			DELETE FROM contract
@@ -93,10 +87,7 @@
 			WHERE cnnum = (SELECT cnnum FROM prodreq WHERE prnum =#{prnum})
 		</update>
 		
-		<!-- 출하등록 -->
-		<update id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" statementType="CALLABLE">
-            <![CDATA[{call shippro(#{cnnum}, #{sham}, #{shdate}, #{gsmnum})}]]>
-		</update>
+		
 		
 	
 		<!-- 생산의뢰 조회 -->
@@ -143,7 +134,11 @@
 	
 	<!-- 출하관리 -->
 	
-	
+		<!-- 출하등록 -->
+		<update id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" statementType="CALLABLE">
+            <![CDATA[{call shippro(#{cnnum}, #{sham}, #{shdate}, #{gsmnum})}]]>
+		</update>
+		
 		<!-- 출하목록 삭제 -->
 		<delete id="findDelShList" parameterType="co.carboni.prj.sales.vo.SalesVO">
 			DELETE FROM ship
@@ -313,40 +308,78 @@
 		
 		<!-- 배송등록 후 상태변경 PLSQL -->
 		<insert id="deliverInsert" parameterType="co.carboni.prj.sales.vo.SalesVO">
-	DECLARE
-	    v_cscode costomer.cscode%TYPE;
-	    v_cnrest contract.cnrest%TYPE;
-	    v_cnnum contract.cnnum%TYPE;
-	    v_sham ship.sham%TYPE;
-	    v_minus number;
-	BEGIN
-	    SELECT cscode INTO v_cscode FROM costomer WHERE csgb = '배송업체';
-	
-	    INSERT INTO deliver VALUES ('D-'||to_char(deliver_DNUM_seq.nextval), #{shnum}, v_cscode);
-	            
-	    UPDATE ship
-	    SET shstatus = 'Y'
-	    WHERE shnum = #{shnum};
-	    
-	    SELECT c.cnrest, c.cnnum, s.sham
-	    INTO v_cnrest, v_cnnum, v_sham
-	    FROM contract c JOIN ship s ON c.cnnum = s.cnnum
-	    WHERE s.shnum = #{shnum};
-	    
-	    v_minus := v_cnrest - v_sham;
-	    
-	    UPDATE contract
-	    SET cnrest = v_minus
-	    WHERE cnnum = v_cnnum;
-	    
-    IF v_minus = 0 THEN
-        UPDATE contract
-        SET cnstatus = '납품완료'
-        WHERE cnnum = v_cnnum;
-    END IF;
-	END;
-                
+			DECLARE
+			    v_cscode costomer.cscode%TYPE;
+			    v_cnrest contract.cnrest%TYPE;
+			    v_cnnum contract.cnnum%TYPE;
+			    v_sham ship.sham%TYPE;
+			    v_minus number;
+			BEGIN
+			    SELECT cscode INTO v_cscode FROM costomer WHERE csgb = '배송업체';
+			
+			    INSERT INTO deliver VALUES ('D-'||to_char(deliver_DNUM_seq.nextval), #{shnum}, v_cscode);
+			            
+			    UPDATE ship
+			    SET shstatus = 'Y'
+			    WHERE shnum = #{shnum};
+			    
+			    SELECT c.cnrest, c.cnnum, s.sham
+			    INTO v_cnrest, v_cnnum, v_sham
+			    FROM contract c JOIN ship s ON c.cnnum = s.cnnum
+			    WHERE s.shnum = #{shnum};
+			    
+			    v_minus := v_cnrest - v_sham;
+			    
+			    UPDATE contract
+			    SET cnrest = v_minus
+			    WHERE cnnum = v_cnnum;
+			    
+		    IF v_minus = 0 THEN
+		        UPDATE contract
+		        SET cnstatus = '납품완료'
+		        WHERE cnnum = v_cnnum;
+		    END IF;
+			END;
 		</insert>
+		
+	<!-- 엑셀 다운로드 -->
+		
+		<!-- 수주관리 엑셀다운로드 -->
+			<select id="contractInsertExel" resultType="map">
+				SELECT m.cnnum AS "수주번호", c.csname AS "거래처명", g.giname AS "제품명", m.cnam AS "수주수량", m.cnrest AS "수주잔량", TO_CHAR(m.cndate) AS "수주일자", TO_CHAR(m.cnperiod) AS "납기일자", m.cnstatus AS "진행상태" , g.giunit AS "제품단위"
+				FROM contract m, costomer c, goodsinfo g
+				WHERE (c.cscode = m.cscode AND g.gicode = m.gicode)
+			</select>
+			
+			<!-- 생산의뢰관리 엑셀다운로드 -->
+			<select id="prodreqInsertExel" resultType="map">
+				SELECT p.prnum AS "의뢰번호", p.cnnum  AS "수주번호", g.giname  AS "제품명", r.csname  AS "거래처명", TO_CHAR(c.cndate)  AS "수주일자", TO_CHAR(c.cnperiod)  AS "납기일자", TO_CHAR(p.prclose)  AS "마감일자", p.prstatus  AS "생산의뢰여부"
+				FROM contract c, prodreq p, costomer r, goodsinfo g
+				WHERE (c.cnnum = p.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
+			</select>
+			
+			<!-- 출하관리 엑셀다운로드 -->
+			<select id="shipInsertExel" resultType="map">
+				SELECT s.shnum  AS "출하번호", c.cnnum  AS "수주번호", g.giname  AS "제품명", r.csname  AS "거래처명", s.sham  AS "출하수량", TO_CHAR(s.shdate)  AS "출고일자", TO_CHAR(c.cnperiod)  AS "납기일자", s.shstatus  AS "출하진행상태"
+				FROM contract c, ship s, costomer r, goodsinfo g
+				WHERE (c.cnnum = s.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
+			</select>
+			
+			<!-- 제품재고 엑셀다운로드 -->
+			<select id="goodsstkInsertExel" resultType="map">
+				SELECT s.gsmnum  AS "제품재고관리번호", s.gsam  AS "제품재고량", s.gicode  AS "제품코드", i.giname  AS "제품명", i.giunit  AS "제품단위", i.gisafe  AS "안전재고"
+				FROM goodsinfo i, goodsstk s
+				WHERE (i.gicode = s.gicode)
+			</select>
+			
+			<!-- 배송관리 엑셀다운로드 -->
+			<select id="deliverInsertExel" resultType="map">
+				SELECT d.dnum  AS "배송번호", s.cnnum  AS "수주번호", g.giname  AS "제품명", r.csname  AS "거래처명", s.sham  AS "출고수량", TO_CHAR(s.shdate)  AS "출고일자", s.shnum  AS "출하번호", TO_CHAR(c.cnperiod)  AS "납기일자"
+				FROM deliver d, contract c, goodsinfo g, costomer r, ship s
+				WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.cnnum = s.cnnum AND s.shnum = d.shnum)
+			</select>
+			
+	
 		
 		
 </mapper>
