@@ -12,22 +12,22 @@ import co.carboni.prj.produce.service.ProdService;
 public class Scheduler extends Thread {
 
 	
-	@Autowired
-	ProdService service;
-	
-	
-   @Override
-   public void run() {
-      List<String> list = Arrays.asList(null, "SS-1", "SS-5", "SS-7", null);
-      for(int i=1; i<list.size(); i++) {
-         service.schedule(list.get(i-1), list.get(i));
-         try {
-            this.sleep(8000);
-         } catch (InterruptedException e) {
-            e.printStackTrace();
-         }
-      }
-   }
+//	@Autowired
+//	ProdService service;
+//	
+//	
+//   @Override
+//   public void run() {
+//      List<String> list = Arrays.asList(null, "SS-1", "SS-5", "SS-7", null);
+//      for(int i=1; i<list.size(); i++) {
+//         service.schedule(list.get(i-1), list.get(i));
+//         try {
+//            this.sleep(8000);
+//         } catch (InterruptedException e) {
+//            e.printStackTrace();
+//         }
+//      }
+//   }
 
 	
 	/*

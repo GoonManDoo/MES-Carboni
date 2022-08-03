@@ -259,6 +259,26 @@ public class ProdServiceImpl implements ProdService {
 				mapper.schedule(sinum1, sinum2);
 			}
 
+			// 긴급중지
+			@Override
+			public void emerStop() {
+				mapper.emerStop();
+			}
+			@Override
+			public List<ProcMoniterVO> selectEmer() {
+				return mapper.selectEmer();
+			}
+			
+			// 재시작
+			@Override
+			public void restart() {
+				mapper.restart();
+			}
+			//@Override
+			//public List<ProcMoniterVO> selectEmer2() {
+			//	return mapper.selectEmer2();
+			//}
+			
 			
 		// 실적모니터링
 
@@ -294,6 +314,11 @@ public class ProdServiceImpl implements ProdService {
 			public List<Map<String, Object>> errorExcel(MatVO vo) {
 				return mapper.errorExcel(vo);
 			}
+
+			
+
+			
+
 			
 			
 			

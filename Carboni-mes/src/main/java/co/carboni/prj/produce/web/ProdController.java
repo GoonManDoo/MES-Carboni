@@ -310,6 +310,23 @@ public class ProdController {
 			service.insertProcHeadD(heads);
 		}
 		
+		// 공정진행관리 - 긴급중지
+		@RequestMapping("emerStop")
+		@ResponseBody
+		public List<ProcMoniterVO> emerStop() {
+			service.emerStop();
+			return service.selectEmer();
+		}
+		
+		// 공정진행관리 - 재시작
+		@RequestMapping("restart")
+		@ResponseBody
+		public void restart() {
+			service.restart();
+			Scheduler scheduler = new Scheduler();
+		    scheduler.start();
+		}
+		
 		// 실적모니터링 - 생산실적 클릭시 공정별 생산내역 확인
 		@RequestMapping("searchHead")
 		@ResponseBody
@@ -337,6 +354,7 @@ public class ProdController {
 		public void errorInsert(ProcMoniterVO vo) {
 			service.errorInsert(vo);
 		}
+		
 		
 	
 	// 생산지시일정조회
@@ -373,9 +391,11 @@ public class ProdController {
 	   public void run() {
 	      List<String> list = Arrays.asList(null, "SS-1", "SS-5", "SS-7", null);
 	      for(int i=1; i<list.size(); i++) {
+	    	 System.out.println(list.get(i-1));
+	    	 System.out.println(list.get(i));
 	         service.schedule(list.get(i-1), list.get(i));
 	         try {
-	            this.sleep(8000);
+	            this.sleep(6000);
 	         } catch (InterruptedException e) {
 	            e.printStackTrace();
 	         }
