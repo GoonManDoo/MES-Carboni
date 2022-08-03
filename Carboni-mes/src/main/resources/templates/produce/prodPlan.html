@@ -605,13 +605,14 @@
 					pdGrid.removeRowClassName(i, 'rowSelect')
 				}
 				pdGrid.addRowClassName(rk, 'rowSelect')
+				var rest = pdGrid.getRow(rk).cnrest
 				makeAjaxCall('matCheck', { prn }, function(result){
 					matGrid.resetData(result)
 					mrk = matGrid.getRowCount()
 					// 그리드에 값 넣어주기
 					for(i=0; i<mrk; i++) {
 						// pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam = 제품그리드 수주잔량 * bom 소요량
-						matGrid.setValue(i, 'pamount', (pdGrid.getRow(rk).cnrest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
+						matGrid.setValue(i, 'pamount', (rest*matGrid.getRow(i).bam), false) // 필요량 -> 그리드 셀에 값을 넣는 함수 : setCoulumnValues(컬럼, 넣을값, 뭔지모르겠으니까 false)
 						if(matGrid.getRow(i).pamount-matGrid.getRow(i).msciam > 0) {
 							matGrid.setValue(i, 'lamount', (matGrid.getRow(i).pamount-matGrid.getRow(i).msciam), false)
 							matGrid.addCellClassName(i, 'lamount', 'matDanger')
