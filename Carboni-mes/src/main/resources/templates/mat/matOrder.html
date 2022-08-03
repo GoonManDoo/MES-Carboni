@@ -57,6 +57,9 @@
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
+.tui-grid-cell.rowcolor{
+	background-color:rgb(200, 200, 238);
+}
 </style>
 </head>
 <body>
@@ -506,6 +509,14 @@
                                     reqG.setValue(i, 'moaskam', reqG.getRow(i).mrreqam,
                                         false)
                                 }
+                                //체크된 셀 하이라이팅
+                               reqG.on('check',(ev)=>{
+                            	   reqG.addRowClassName(ev.rowKey,'rowcolor');
+                               });
+                                
+                               reqG.on('uncheck',(ev)=>{
+                            	   reqG.removeRowClassName(ev.rowKey,'rowcolor')
+                               })
                             }
                         })
                     })
@@ -549,17 +560,15 @@
                     /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 R*/
                     function check() {
                         var reqlists = reqG.getCheckedRows()
-                       /*
-                       var ek = reqlist.rewKey
-                       for (i = 0; i < reqG.getRowCount(); i++) {
-                    	   company.removeRowClassName(i,'rowSelect')
-                       }
-                        company.addRowClassName(rk, 'rowSelect')
-                      */
-                        
+                        if(reqlists.length==0){
+                        	reqG.removeRowClassName('rowSelect')
+                        }else{
+                        	reqG.addRowClassName('rowSelect')
+                        }
                         var reqcheckcode = reqlists.some(e => {
                             return e.cscode == null
                         })
+                        
                         /* cscode 가 null이 아닐떄 true  */
                         if (reqcheckcode == true) {
                         	
@@ -756,9 +765,14 @@
                             data: JSON.stringify(dellist),
                             contentType: 'application/json',
                             success: function () {
-                                grid.removeCheckedRows('')
-                                newClear();
-                                swal("삭제 완료", "선택한 발주내역이 삭제되었습니다.", "success");
+                            	if(delgrid == ''){
+                            		swal('실패','삭제할 행을 선택하세요','error')
+                            	}else{
+                            		 grid.removeCheckedRows('')
+                                     newClear();
+                                     swal("삭제 완료", "선택한 발주내역이 삭제되었습니다.", "success");
+                            	}
+                               
                             }
                         })
                     })
@@ -786,14 +800,10 @@
                                            data: JSON.stringify(datas),
                                            contentType: 'application/json',
                                            success: function (result) {
-                                        	   
-                                        	  
-                                        		   newClear();
-                                                   grid.removeCheckedRows('')
-                                                   grid.appendRows(result)
-                                                   swal('성공', '발주가 완료되었습니다.', 'success')
-                                        	   
-                                             
+                                       		   newClear();
+                                                  grid.removeCheckedRows('')
+                                                  grid.appendRows(result)
+                                                  swal('성공', '발주가 완료되었습니다.', 'success')
                                            }
                                        })
                             	   }else{
@@ -817,6 +827,13 @@
                 	location.href="requestexel"
                 	
                 })
+                //메인그리드 체크 하이라이트
+	                grid.on('check',(ev)=>{
+	                	grid.addRowClassName(ev.rowKey, 'rowcolor')
+	                })
+	                grid.on('uncheck',(ev)=>{
+	                	grid.removeRowClassName(ev.rowKey, 'rowcolor')
+	                })
                 })
             </script>
 		</div>

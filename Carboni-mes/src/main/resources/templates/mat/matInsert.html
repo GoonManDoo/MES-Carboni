@@ -69,7 +69,9 @@ ul {
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
-
+.tui-grid-cell.rowcolor{
+	background-color:rgb(200, 200, 238);
+}
 </style>
 
 </head>
@@ -425,6 +427,13 @@ ul {
 						}
 					})
 				})
+				//발주내역 모달 안의 체크값 하이라이트
+				inmod.on('check',(ev)=>{
+					inmod.addRowClassName(ev.rowKey, 'rowcolor')
+				})
+				inmod.on('uncheck',(ev)=>{
+					inmod.removeRowClassName(ev.rowKey, 'rowcolor')
+				})
 				
 				/*발주일자 성공했을때 메인 그리드에 나올내용업데이트*/
 				function inupdate() {
@@ -519,40 +528,44 @@ ul {
 					//입고일자가 비었으면 true
 					var subdate =detalists.some(e=> {return (new Date(e.msindate)-new Date(e.moodate)) > 0})
 					//입고일자에서 발주일자를 뻇을때 양수여야만 true
-					
-					//입고일자가 비었으면 경고창 
-					if(checkDate == true){
-						//그리드에 값이 없으면 swal안뜨게
-						swal('','입력하지않은 값이 있습니다', 'warning')
-						return;
-					} else {
-						//입고번호가 없다면 
-						if(checkNum == false){
-							if(detalists.length ==0){
-								return;
-							}
-							if(subdate == true){
-								/*입고 아작스!*/
-								$.ajax({
-									url: 'addinputlist',
-									method : 'POST',
-									data: JSON.stringify(detalists),
-									contentType:'application/json',
-									success :function(result){
-										grid.removeCheckedRows('')
-										grid.appendRows(result)
-										swal('성공', '입고입력이 완료되었습니다.', 'success')
-									}
-								})
-							}else {
-								swal('','입고일자를 다시 입력하세요', 'warning')
-								return;
-							}
-						}else{
-							swal('','이미 등록된 값이 있습니다.', 'warning')
+					if(detalists==''){
+						swal('실패','저장할 행을 선택하세요','error')
+					}else{
+						//입고일자가 비었으면 경고창 
+						if(checkDate == true){
+							//그리드에 값이 없으면 swal안뜨게
+							swal('','입력하지않은 값이 있습니다', 'warning')
 							return;
+						} else {
+							//입고번호가 없다면 
+							if(checkNum == false){
+								if(detalists.length ==0){
+									return;
+								}
+								if(subdate == true){
+									/*입고 아작스!*/
+									$.ajax({
+										url: 'addinputlist',
+										method : 'POST',
+										data: JSON.stringify(detalists),
+										contentType:'application/json',
+										success :function(result){
+											grid.removeCheckedRows('')
+											grid.appendRows(result)
+											swal('성공', '입고입력이 완료되었습니다.', 'success')
+										}
+									})
+								}else {
+									swal('','입고일자를 다시 입력하세요', 'warning')
+									return;
+								}
+							}else{
+								swal('','이미 등록된 값이 있습니다.', 'warning')
+								return;
+							}
 						}
 					}
+					
 				})
 				
 				/*-------------R---------------발주일자로 조회------------------------------------------*/
@@ -584,8 +597,13 @@ ul {
 									data:JSON.stringify(dellists),
 									contentType: 'application/json',
 									success :function(){
-										grid.removeCheckedRows('') 
-										swal("삭제 완료", "선택한 입고내역이 삭제되었습니다.", "success");
+										if(delgrid==''){
+											swal('실패','삭제할 행을 선택하세요','error')
+										}else{
+											grid.removeCheckedRows('') 
+											swal("삭제 완료", "선택한 입고내역이 삭제되었습니다.", "success");
+										}
+										
 									}
 							}) 
 						})
@@ -593,6 +611,14 @@ ul {
 						$('#exelBtn').on('click',function(){
 							location.href="insertexel"
 						})
+						
+						//메인그리드 체크 하이라이트
+	                grid.on('check',(ev)=>{
+	                	grid.addRowClassName(ev.rowKey, 'rowcolor')
+	                })
+	                grid.on('uncheck',(ev)=>{
+	                	grid.removeRowClassName(ev.rowKey, 'rowcolor')
+	                })
 			})
 		</script>
 	</th:block>
