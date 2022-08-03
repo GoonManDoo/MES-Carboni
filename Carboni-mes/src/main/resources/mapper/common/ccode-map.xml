@@ -31,5 +31,9 @@
 		</set>
 		WHERE CCODEID = #{ccodeid}
 	</update>
+	<select id="codeEx" resultType="map">
+		SELECT CCODEID 코드ID, CCLASS 코드분류, CCLASSD 코드소분류, CEXPLAIN 코드명, CEXPLAIND 코드상세, CNOTE 비고
+		FROM COMMON ORDER BY CCLASS, CCLASSD
+	</select>
 
 </mapper>

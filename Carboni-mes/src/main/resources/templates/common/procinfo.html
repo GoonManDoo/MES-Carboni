@@ -17,6 +17,10 @@
       margin-right: 20px;
       text-align: right;
     }
+  #menu > a {
+    text-decoration: none;
+    color: black;
+  }
     
     #container {
       clear: both;
@@ -48,7 +52,7 @@
     
       <h1>공정코드 관리</h1>
       <div id="menu">
-        <a href="/">홈</a> > 기준정보관리 > <b>공정코드관리</b>
+        <a href="/">홈</a> > 기준정보관리 > 공정코드관리
       </div>
       <div sec:authorize="hasRole('ROLE_a')" id="btns" class="card-header">
         <input type="button" class="btn btn-secondary" value="신규" onclick="showit()">

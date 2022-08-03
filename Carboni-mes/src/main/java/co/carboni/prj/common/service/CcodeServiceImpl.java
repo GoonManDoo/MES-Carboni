@@ -1,6 +1,7 @@
 package co.carboni.prj.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,6 +43,11 @@ public class CcodeServiceImpl implements Ccodeservice {
 	@Override
 	public int codeUpdate(CcodeVO vo) {
 		return map.codeUpdate(vo);
+	}
+
+	@Override
+	public List<Map<String, Object>> codeEx(CcodeVO vo) {
+		return map.codeEx(vo);
 	}
 
 }

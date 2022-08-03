@@ -1,9 +1,7 @@
 package co.carboni.prj.common.mapper;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import java.util.Map;
 
 import co.carboni.prj.common.vo.CcodeVO;
 
@@ -15,5 +13,6 @@ public interface CcodeMapper {
 	int codeInsertSmall(CcodeVO vo);
 	int codeDelete(CcodeVO vo);
 	int codeUpdate(CcodeVO vo);
+	List<Map<String,Object>> codeEx(CcodeVO vo);
 
 }

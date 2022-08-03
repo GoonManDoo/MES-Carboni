@@ -24,5 +24,10 @@
 		</set>
 		WHERE MICODE = #{micode}
 	</update>
+	
+	<select id="matinfoEx" resultType="map">
+		SELECT MICODE 자재코드, MINAME 자재명, MISTAND 자재규격, MIUNIT 자재단위, MISAFE 안전재고, MIMAX MAX재고, MIMIN MIN재고
+		FROM MATINFO ORDER BY TO_NUMBER(MICODE)
+	</select>
 
 </mapper>

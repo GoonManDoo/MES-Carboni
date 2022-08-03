@@ -24,6 +24,10 @@
 		</set>
 		WHERE CSCODE = #{cscode}
 	</update>
+	<select id="costEx" resultType="map">
+		SELECT CSCODE 거래처코드, CSNAME 거래처명, CSNUM 사업자번호, CSTEL 전화번호, CSGB 거래처구분, CSNOTE 비고
+		FROM COSTOMER ORDER BY TO_NUMBER(CSCODE)
+	</select>
 	
 	
 </mapper>
