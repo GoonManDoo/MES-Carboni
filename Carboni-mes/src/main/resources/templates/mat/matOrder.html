@@ -547,21 +547,20 @@
                     /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 R*/
                     function check() {
                         var reqlists = reqG.getCheckedRows()
-                       
-                        /*
-                        var rk = e.rowKey
-                                        for (i = 0; i < company.getRowCount(); i++) {
-                                            company.removeRowClassName(i,'rowSelect')
-                                        }
-                                        company.addRowClassName(rk, 'rowSelect')
-                        */
+                       /*
+                       var ek = reqlist.rewKey
+                       for (i = 0; i < reqG.getRowCount(); i++) {
+                    	   company.removeRowClassName(i,'rowSelect')
+                       }
+                        company.addRowClassName(rk, 'rowSelect')
+                      */
                         
                         var reqcheckcode = reqlists.some(e => {
                             return e.cscode == null
                         })
                         /* cscode 가 null이 아닐떄 true  */
                         if (reqcheckcode == true) {
-                            console.log(reqlists)
+                        	
                             swal('', '입력하지않은 값이 있습니다', 'warning')
                         } else {
                             $.ajax({
