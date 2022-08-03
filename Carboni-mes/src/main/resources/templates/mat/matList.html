@@ -107,10 +107,7 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript"
-			src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-		<script type="text/javascript"
-			src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 		<script>
             $(function () {
                 const gridData = [];
@@ -293,30 +290,35 @@
                 /*----------------------검색했을때 메인그리드에 조회------------------------*/
                 $('#showBtn').on('click', function () {
                     var matCode = $('#rightmat').val();
-                    $.ajax({
-                        url: 'matserchlist',
-                        method: 'POST',
-                        data: {
-                            matCode
-                        },
-                        dataType: 'JSON',
-                        success: function (result) {
-                            grid.resetData(result)
-                            for (i = 0; i < grid.getRowCount(); i++) {
-                                if (grid.getValue(i, 'misafe') - grid.getValue(i,
-                                    'msciam') > 0) {
-                                    grid.setValue(i, 'msunam', '-' + (grid.getValue(i,
-                                            'misafe') - grid.getValue(i, 'msciam')),
-                                        false)
+                    if(matCode ==''){
+                    	 swal('다시입력하세요', '입력하지않은 값이 있습니다', 'warning')
+                    }else{
+                    	  $.ajax({
+                              url: 'matserchlist',
+                              method: 'POST',
+                              data: {
+                                  matCode
+                              },
+                              dataType: 'JSON',
+                              success: function (result) {
+                                  grid.resetData(result)
+                                  for (i = 0; i < grid.getRowCount(); i++) {
+                                      if (grid.getValue(i, 'misafe') - grid.getValue(i,
+                                          'msciam') > 0) {
+                                          grid.setValue(i, 'msunam', '-' + (grid.getValue(i,
+                                                  'misafe') - grid.getValue(i, 'msciam')),
+                                              false)
 
-                                    grid.addRowClassName(i, 'matDanger')
-                                } else {
-                                    grid.setValue(i, 'msunam', 0, false)
-                                }
-                            }
+                                          grid.addRowClassName(i, 'matDanger')
+                                      } else {
+                                          grid.setValue(i, 'msunam', 0, false)
+                                      }
+                                  }
 
-                        }
-                    })
+                              }
+                          })
+                    }
+                  
                 })
                 
                 /*------------엑셀버튼 눌렀을때 ------------------------------------------------------*/

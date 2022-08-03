@@ -44,6 +44,9 @@ public interface MatMapper {
 	public void findDelreq(MatVO vo);
 
 	public void findDelrequest(MatVO vo);
+	
+	//발주에서 발주내용 수정
+	public int updatereqlist(MatVO vo);
 
 	// ---------------------------------------------
 

@@ -406,7 +406,7 @@ ul {
 				});
 				/*================그리드 끝===============================*/
 				/*발주일자 조회해서 메인그리드에 출력=============================*/
-				/*발주일자 검색 모달 안의 내용이 나와야함 */
+				/*발주일자 검색 모달 안의 내용이 나와야함  R*/
 				var inmo = makeModal("#inmodal", inupdate)
 				
 				$("#btnModal").on('click', function() {
@@ -441,7 +441,7 @@ ul {
 				/*입고처명 모달*/
 				var log = makeModal("#searchmodal", giupcheck)
 
-				/* 입고처명 모달 */
+				/* 입고처명 모달 R*/
 				$("#searchBtn").on("click", function() {
 					$("#searchmodal").css('display', '')
 					log.dialog('open')
@@ -464,7 +464,7 @@ ul {
 						}
 					})
 				})
-				/*모달박스안의 검색 눌렀을때*/
+				/*모달박스안의 검색 눌렀을때 R*/
 				$("#inpputComBtn").on('click',function(){
 					var csname= $("#inputComList").val()
 						$.ajax({
@@ -495,7 +495,7 @@ ul {
 				/*입고처명 모달 끝*/
 				
 				/*--------------------------------------------------*/
-				/*새자료 눌렀을때 리셋*/
+				/*새자료 눌렀을때 리셋 */
 					$('#resetBtn').on('click', function(){
 						fnFormClear();
 					})
@@ -509,7 +509,7 @@ ul {
 						}
 				/*--------------------------------------------*/
 				
-				/*저장버튼 눌렀을때 */
+				/*저장버튼 눌렀을때 C*/
 				$('#saveBtn').on('click',function(){
 					var detalists =grid.getCheckedRows()
 					console.log(detalists)
@@ -555,7 +555,7 @@ ul {
 					}
 				})
 				
-				/*----------------------------발주일자로 조회------------------------------------------*/
+				/*-------------R---------------발주일자로 조회------------------------------------------*/
 				$('#researchBtn').on('click',function(){
 					var startD = $('#startpicker-input').val()
 					var endD =$('#endpicker-input').val()
@@ -570,7 +570,7 @@ ul {
 							}
 						})
 				})
-					/*=---------삭제 하면서 상태 업데이트 ------------*/
+					/*=---D------삭제 하면서 상태 업데이트 ------------*/
 						/*삭제눌렀을때*/
 						$('#removeBtn').on('click', function(){
 							delgrid =grid.getCheckedRows()

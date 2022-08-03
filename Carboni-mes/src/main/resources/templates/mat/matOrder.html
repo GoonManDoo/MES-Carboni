@@ -67,7 +67,8 @@
 				<div class="nameing">
 					<a href="/"
 						style="text-decoration-line: none; color: black; font-weight: 700;">
-						<i class="bi bi-house-door-fill"></i></a> > 재고관리> <b>발주관리</b>
+						<i class="bi bi-house-door-fill"></i>
+					</a> > 재고관리> <b>발주관리</b>
 				</div>
 				<h1 class="mt-4">발주관리</h1>
 				<!-- 상단 버튼 모음  -->
@@ -448,7 +449,7 @@
                         picker.setEndDate(new Date());
                    }
 
-                    /*발주일자 조회 거래처코드 자재코드로 메인그리드 출력*/
+                    /*발주일자 조회 거래처코드 자재코드로 메인그리드 출력 R*/
                     $('#listBtn').on('click', function () {
                         var startD = $('#startpicker-input').val()
                         var endD = $('#endpicker-input').val()
@@ -544,7 +545,7 @@
                         clickmodal.dialog('close')
                     }
 
-                    /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 R*/
+                    /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 c*/
                     function check() {
                         var reqlists = reqG.getCheckedRows()
                        /*
@@ -576,7 +577,7 @@
                         dia.dialog('close')
                     }
 
-                    /*기업체 검색 모달 시작 */
+                    /*기업체 검색 모달 시작R */
                     var log = makeModal("#searchmodal", giup)
 
                     /* 발주업체 모달 */
@@ -603,7 +604,7 @@
                         })
                     })
 
-                    //발주에서 거래처명모달을 불러와서 거래처명 검색 
+                    //발주에서 거래처명모달을 불러와서 거래처명 검색 R 
                     $("#cssearchBtn").on('click', function () {
                         var csname = $('#csSearchName').val()
                         $.ajax({
@@ -636,7 +637,7 @@
                     }
                     /*발주 업체 모달 끝!*/
 
-                    /*자재코드 검색 모달!*/
+                    /*자재코드 검색 모달! R*/
                     var cdmo = makeModal("#codemodal", cdcheck)
                     /*자재코드 모달*/
                     $("#codeBtn").on("click", function () {
@@ -662,7 +663,7 @@
                             }
                         })
                     })
-                    /*자재코드 모달안의 검색을 눌렀을때 */
+                    /*자재코드 모달안의 검색을 눌렀을때 R*/
                     $("#miSearchBtn").on('click', function () {
                         var miname = $('#miSearchName').val()
                         $.ajax({
@@ -691,6 +692,37 @@
                         cdmo.dialog('close')
                     }
                     /*자재코드 검색 모달 끝!*/
+                    
+                    /*-----발주 수정-진행중------------------------------------------*/
+                    $('#modiBtn').on('click',function(){
+                    	var modlist = grid.getCheckedRows()
+                    	$.ajax({
+                    		url:'updatereqlist',
+                    		method:'post',
+                    		data: JSON.stringify(modlist),
+                            contentType: 'application/json',
+                    		success: function(result){
+                    			rk=result.rewKey
+                    			pk= (grid.getRowCount()) -1
+                    			for(i = 0; i < pk + 1; i++){
+                    				grid.setValue(i,'moaskam',result.moaskam,false)
+                    				grid.setValue(i,'monote',result.monote,false)
+                    			}
+                    			newClear();
+                                grid.removeCheckedRows('')
+                                grid.appendRows(result)
+                    			 
+                    		}
+                    	})
+                    })
+                    /*
+                       erow = result.rowKey
+                                prk = (reqG.getRowCount()) - 1
+                                for (i = 0; i < prk + 1; i++) {
+                                    reqG.setValue(i, 'moaskam', reqG.getRow(i).mrreqam,
+                                        false)
+                                }
+                    */
                     //----------------------------------------------------
                     /*새자료 눌렀을때 리셋*/
                     $('#resetBtn').on('click', function () {
@@ -733,6 +765,8 @@
                         var checkNull = datas.some(e => {
                             return e.monum != null
                         })
+                        
+                        
                         //발주 코드가 있으면 true
                         if (checkNull == false) {
                             if (datas.length == 0) {

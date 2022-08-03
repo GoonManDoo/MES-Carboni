@@ -52,7 +52,7 @@
 	<select id="findReqDate"
 		resultType="co.carboni.prj.mat.vo.MatVO">
 		SELECT
-		O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,C.CSNAME,M.MINAME,O.MOASKAM
+		O.MOSTATUS,O.MONUM,O.REQNUM,O.MOODATE,O.MICODE,O.CSCODE,C.CSNAME,M.MINAME,O.MOASKAM,O.MRREQAM,O.MONOTE
 		FROM MATORD O,COSTOMER C,MATINFO M
 		WHERE (O.MICODE=M.MICODE AND C.CSCODE=O.CSCODE)
 		<if test="cusCode != null and !cusCode.equals('')">AND (O.CSCODE = #{cusCode})</if>
@@ -134,6 +134,14 @@
 			mrstatus = '발주전'
 		</set>
 		where reqnum =#{reqnum}
+	</update>
+	
+	<update id="updatereqlist" parameterType="co.carboni.prj.mat.vo.MatVO">
+	update matord
+	<set>
+		moaskam=#{moaskam},monote=#{monote}
+	</set>
+	where monum =#{monum}
 	</update>
 	
 
