@@ -15,6 +15,13 @@
 	
 	<!-- 수주관리 -->
 	
+		<!-- 수주목록 엑셀다운로드 -->
+		<select id="contractInsertExel" resultType="map">
+			SELECT m.cnnum AS "수주번호", c.csname AS "거래처명", g.giname AS "제품명", m.cnam AS "수주수량", m.cnrest AS "수주잔량", TO_CHAR(m.cndate) AS "수주일자", TO_CHAR(m.cnperiod) AS "납기일자", m.cnstatus AS "진행상태" , g.giunit AS "제품단위"
+			FROM contract m, costomer c, goodsinfo g
+			WHERE (c.cscode = m.cscode AND g.gicode = m.gicode)
+		</select>
+	
 		<!-- 수주목록 삭제 -->
 		<delete id="findDelCnList" parameterType="co.carboni.prj.sales.vo.SalesVO">
 			DELETE FROM contract

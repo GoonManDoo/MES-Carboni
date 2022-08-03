@@ -2,8 +2,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
 <head>
 
 <style>
@@ -78,7 +77,7 @@ span {
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
 		<div class="container-fluid px-4">
-		<div class="nameing"><a href="/" style="text-decoration-line: none; color: black">홈</a>>영업관리>수주관리</div>
+		<div class="nameing"><a href="/" style="text-decoration-line: none; color: black"><i class="bi bi-house-door-fill"></i></a>>영업관리>수주관리</div>
 			<h1 class="mt-4">수주 관리</h1>
 			
 			<!-- 메인화면 버튼 -->
@@ -87,6 +86,9 @@ span {
 					<button type="button" id="searchBtn" class="btn btn-secondary">조회</button>
 					<button type="button" id="removeBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button>
 					<button type="button" id="clearBtn" class="btn btn-secondary">새자료</button>
+					<button type="button" id="exelBtn" class="btn btn-secondary">엑셀</button>
+					<button type="button" id="pdfBtn" class="btn btn-secondary">PDF</button>
+							
 				</div>
 			</div>
 
@@ -113,7 +115,9 @@ span {
 					<div class="card-header">
 						<i class="fas fa-table me-1"></i> 수주목록
 					</div>
-					<div id="grid"></div>
+					<div id="test" class="container-fluid px-4">
+						<div id="grid"></div>
+						</div>
 				</div>
 			</div>
 		</div>
@@ -164,55 +168,8 @@ span {
 				</div>
 			</div>
 		</div>
-		
-		<div id="pdfArea">
-	<span>make PDF</span>
-</div>
-<button type="button" onclick="savePDF()">PDF 다운</button>
-
-<!-- PDF -->
-<!-- <script type="text/javascript">
-  function savePDF(){
-    //저장 영역 div id
-    html2canvas($('#pdfArea')[0] ,{	
-      //logging : true,		// 디버그 목적 로그
-      //proxy: "html2canvasproxy.php",
-      allowTaint : true,	// cross-origin allow 
-      useCORS: true,		// CORS 사용한 서버로부터 이미지 로드할 것인지 여부
-      scale : 2			// 기본 96dpi에서 해상도를 두 배로 증가
-      
-    }).then(function(canvas) {	
-      // 캔버스를 이미지로 변환
-      var imgData = canvas.toDataURL('image/png');
-
-      var imgWidth = 190; // 이미지 가로 길이(mm) / A4 기준 210mm
-      var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
-      var margin = 10; // 출력 페이지 여백설정
-      var doc = new jsPDF('p', 'mm');
-      var position = 0;
-
-      // 첫 페이지 출력
-      doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      // 한 페이지 이상일 경우 루프 돌면서 출력
-      while (heightLeft >= 20) {			// 35
-      position = heightLeft - imgHeight;
-      position = position - 20 ;		// -25
-
-      doc.addPage();
-      doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      }
-
-      // 파일 저장
-      doc.save('filename.pdf');
-    });
-  }
-</script> -->
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 		<script>
 		
 			$(function() {
@@ -537,7 +494,33 @@ span {
 					$('#rightinput1').val(gic)
 					modal2.dialog('close')
 				}
-
+				
+				/* 엑셀버튼 눌렀을 때 */
+				$('#exelBtn').on('click', function() {
+					location.href="contractInsertExel"
+				})
+				
+				 /*------pdf-------------*/
+                
+                $('#pdfBtn').on('click',function(){
+                	
+                	 //pdf_wrap을 canvas객체로 변환
+                	   html2canvas($('#test')[0]).then(function(canvas) {
+                	     
+                	    var imgData = canvas.toDataURL('image/png'); //캔버스를 이미지로 변환
+                	    var imgWidth = 180; // 이미지 가로 길이(mm) / A4 기준 210mm
+                        var pageHeight = imgWidth * 1.3; // 출력 페이지 세로 길이 계산 A4 기준
+                        var imgHeight = canvas.height * imgWidth / canvas.width;
+                        var heightLeft = imgHeight;
+                        var margin = 10;
+                        var doc = new jsPDF('p', 'mm', 'a4'); //jspdf객체 생성
+                	    var position =0;
+                	    doc.addImage(imgData, 'PNG',margin,position,imgWidth,imgHeight); //이미지를 기반으로 pdf생성
+                	    heightLeft -=pageHeight;
+                	    doc.save('sample-file.pdf'); //pdf저장
+                	  });
+                })
+               
 				
 			
 			})
