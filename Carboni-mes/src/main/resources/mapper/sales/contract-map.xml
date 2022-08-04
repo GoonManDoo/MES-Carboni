@@ -42,6 +42,10 @@
 			AND
 			m.gicode =#{goodsCode}
 			</if>
+			<if test="cnCode != ''">
+			AND
+			m.cnnum = #{cnCode}
+			</if>
 		</select>
 		
 		<!-- 거래처모달 전체조회 -->
@@ -92,7 +96,7 @@
 	
 		<!-- 생산의뢰 조회 -->
 		<select id="findPrcloseList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT p.prnum, p.cnnum, g.giname, r.csname, c.cndate, c.cnperiod, p.prclose, p.prstatus
+			SELECT p.prnum, p.cnnum, g.giname, r.csname, c.cndate, c.cnperiod, p.prclose, p.prstatus, c.cnam
 			FROM contract c, prodreq p, costomer r, goodsinfo g
 			WHERE (c.cnnum = p.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
 			<if test="startCd != ''">

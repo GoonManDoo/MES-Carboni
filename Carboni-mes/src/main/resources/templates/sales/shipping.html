@@ -539,6 +539,7 @@ span {
 		/* 출하등록 모달 확인 눌렀을 때 */
 		function prodCheck() {
 			const allship = ship.getCheckedRows();
+				console.log(allship)
 			$.ajax({
 				url : 'shipInsert',
 				method: 'POST',

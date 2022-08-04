@@ -85,8 +85,8 @@ span {
 			<div style="display: flex; justify-content: flex-end;">
 				<button id="insertBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">등록</button>
 				<button id="searchBtn" class="btn btn-secondary">조회</button>
-				<button id="updateBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">수정</button>
-				<button id="deleteBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button>
+				<!-- <button id="updateBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">수정</button>
+				<button id="deleteBtn" class="btn btn-secondary" sec:authorize="hasRole('ROLE_a')">삭제</button> -->
 				<button id="clearBtn" class="btn btn-secondary">새자료</button>
 				<button type="button" id="exelBtn" class="btn btn-secondary">엑셀</button>
 				<button type="button" id="pdfBtn" class="btn btn-secondary">PDF</button>
@@ -210,8 +210,8 @@ span {
 			}, {
 				header : '제품재고량',
 				name : 'gsam',
-				align : 'center',
-				editor: 'text',
+				align : 'center'/* ,
+				editor: 'text', */
 			}, {
 				header : '단위',
 				name : 'giunit',
