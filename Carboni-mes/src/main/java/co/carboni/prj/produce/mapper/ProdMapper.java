@@ -97,6 +97,14 @@ public interface ProdMapper {
 		public void removeProdOrder(ProdOrderVO vo);
 
 		
+	// 생산지시조회
+		
+		// 생산지시
+		public List<ProdOrderVO> orderView(@Param("orderDtS")String orderDtS, @Param("orderDtE")String orderDtE, @Param("orderDiv")String orderDiv);
+		
+		// 생산지시상세
+		public List<ProdOrderVO> orderDView(ProdOrderVO vo);
+		
 	// 공정모니터링	
 		// 공정진행관리
 			
@@ -157,6 +165,10 @@ public interface ProdMapper {
 			
 			// 생산실적 엑셀
 			public List<Map<String, Object>> errorExcel(MatVO vo);
+
+
+
+			
 
 			
 
