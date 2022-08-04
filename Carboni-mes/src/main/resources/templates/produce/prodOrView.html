@@ -2,11 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout}">
-<th:block layout:fragment="main">
+
 	<head>
 <style>
+.tui-datepicker {
+	z-index: 99;
+}
 h1 {
-	margin: 20px 10px 10px 20px;
+	margin: 10px;
 }
 
 #menu {
@@ -22,6 +25,20 @@ h1 {
 #container {
 	clear: both;
 }
+
+.mg5 {
+	margin-top: 3px;
+}
+
+.rd {
+	margin-right: 10px;
+}
+
+
+.fw {
+	font-weight: 700;
+	margin-right: 10px;
+}
 /*
 .nameing {
 	float: right;
@@ -31,30 +48,72 @@ h1 {
 }
 */
 
+/* 그리드용 */
+.tui-grid-cell.rowSelect {
+	background-color: #ffffff;
+}
+
 </style>
 	</head>
 
 	<body class="sb-nav-fixed">
-		<h1>생산지시조회</h1>
+	<th:block layout:fragment="main">
+			<div class="container-fluid px-4">
 		<div id="menu">
 			<a href="/"><i class="bi bi-house-door-fill"></i></a> > 생산관리 > 생산지시조회
 		</div>
+		<h1>생산지시조회</h1>
 
-		<div id="btns" class="card-header">
-			<input type="button" class="btn btn-secondary" value="갱신"
-				onclick="window.location.reload()">
+			<div class="card mb-2">
+				<div class="card-body">
+			<div>
+				<label class="fw">지시일자</label>
+				<!-- 시작일 -->
+				<div class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+					<input id="orderDtS" type="text" class="form-control" aria-label="Date" name="orderDtS"> <span
+						class="tui-ico-date"></span>
+					<div id="orderDtS-wapper" style="margin-left: -1px;"></div>
+				</div> <span class="mg5">~</span>
+				<!-- 종료일 -->
+				<div class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+					<input id="orderDtE" type="text" class="form-control" aria-label="Date" name="orderDtE"> <span
+						class="tui-ico-date"></span>
+					<div id="orderDtE-wapper" style="margin-left: -1px;"></div>
+				</div>
+			</div>
+			<div style="margin-top: 5px;">
+				<label class="fw">지시상태</label>
+				<label class="rd"><input type="radio" name="orderDiv" value="미공정">미공정</label>
+				<label class="rd"><input type="radio" name="orderDiv" value="공정진행">공정진행</label>
+				<label class="rd"><input type="radio" name="orderDiv" value="공정완료">공정완료</label>
+			</div>
 		</div>
+			</div>
+			
+			<div class="card mb-2">
+				<div class="card-header">
+					<div style="display: flex; justify-content: flex-end;">
+						<button type="button" id="searchBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">조회</button>
+						<button type="button" id="resetBtn" class="btn btn-secondary"
+							style="margin-right: 5px;">새자료</button>
+					</div>
+				</div>
+			</div>
+			
 		<div id="container">
 			<div class="card mb-4">
 				<div class="card-header">
-					<i class="fas fa-table me-1"></i> 지시상세
+					<i class="fas fa-table me-1"></i> 생산지시목록
 				</div>
 				<div class="card-body">
-					<table id="datatablesSimple">
+					<div id="orderList"></div>
+					<!--<table id="datatablesSimple">
 						<thead>
 							<tr>
 								<th><input type="radio" name="list"></th>
 								<th>지시번호</th>
+								<th>지시일자</th>
 								<th>제품코드</th>
 								<th>제품명</th>
 								<th>공정코드</th>
@@ -74,6 +133,9 @@ h1 {
 								<td><input type="radio" name="list">
 								</th>
 								<td th:text="${p.PCNUM}">
+								</th>
+								</th>
+								<td th:text="${p.PCDATE}">
 								</th>
 								<td th:text="${p.GICODE}">
 								</th>
@@ -104,14 +166,212 @@ h1 {
 								</td>
 							</tr>
 						</tbody>
-					</table>
+					</table>-->
+				</div>
+				<div class="card-body">
+					<div id="orderDList"></div>
 				</div>
 			</div>
 		</div>
 		</div>
-	</body>
-	<script>
+	</div>
+
+	<script type="text/javascript">
+	
+		$(function(){
+			
+				// 공통 ajax 함수 -------------------------------
+				function makeAjaxCall(url, data, callback, error) {
+					$.ajax({
+						url: url,
+						method: 'POST',
+						data: data,
+						success: callback,
+						error: error
+					})
+				}
+				// --------------------------------------------
+				
+				// 그리드 --------------------------------------
+				/* 생산지시목록 그리드 */
+				const orderList = [];
+				
+				const orderGrid = new tui.Grid({
+			      el: document.getElementById('orderList'),
+			      data: orderList,
+			      columns: [
+			        {
+			          header: '지시일자',
+			          name: 'pcdate',
+			          align : 'center'
+			        },
+			        {
+			          header: '지시번호',
+			          name: 'pcnum',
+			          align : 'center'
+			        },
+			        {
+			          header: '지시명',
+			          name: 'pcname',
+			          align : 'center'
+			        },
+			        {
+			          header: '제품코드',
+			          name: 'gicode',
+			          align : 'center'
+			        },
+			        {
+			          header: '제품명',
+			          name: 'giname',
+			          align : 'center'
+			        },
+			        {
+			          header: '라인번호',
+			          name: 'lineid',
+			          align : 'center'
+			        },
+			        {
+			          header: '비고',
+			          name: 'pcnote',
+			          align : 'center'
+			        },
+			        {
+			          header: '지시량',
+			          name: 'pcdam',
+			          align : 'center'
+			        },
+			        {
+			          header: '지시상태',
+			          name: 'pcstatus',
+			          align : 'center'
+			        },
+			        {
+			          header: '작업시작일',
+			          name: 'pcdsdate',
+			          align : 'center'
+			        },
+			        {
+			          header: '작업마감일',
+			          name: 'pcdedate',
+			          align : 'center'
+			        },
+			        {
+			          header: '생산구분',
+			          name: 'pcddiv',
+			          align : 'center'
+			        }
+			      ]
+		    	});
+		    	orderGrid.hideColumn('gicode')
+		    	
+		    /* 생산지시상세 그리드 */
+				const orderDList = [];
+				
+				const orderDGrid = new tui.Grid({
+			      el: document.getElementById('orderDList'),
+			      data: orderList,
+			      columns: [
+			        {
+			          header: '지시번호',
+			          name: 'pcnum',
+			          align : 'center'
+			        },
+			        {
+			          header: '공정명',
+			          name: 'piname',
+			          align : 'center'
+			        },
+			        {
+			          header: '1차공정',
+			          name: 'pione',
+			          align : 'center'
+			        },
+			        {
+			          header: '2차공정',
+			          name: 'pitwo',
+			          align : 'center'
+			        },
+			        {
+			          header: '3차공정',
+			          name: 'pithree',
+			          align : 'center'
+			        },
+			        {
+			          header: '4차공정',
+			          name: 'pifour',
+			          align : 'center'
+			        }
+			      ]
+		    	});
+		   
+		   // ----------------------------------------------
+		   
+		   // 그리드 클릭이벤트----------------------------------
+		   
+		   	orderGrid.on('click', e => {
+					var rk = e.rowKey;
+					// 행 색바뀌는 addclass
+					for(i=0; i<orderGrid.getRowCount(); i++) {
+					orderGrid.removeRowClassName(i, 'rowSelect')
+					}
+					orderGrid.addRowClassName(rk, 'rowSelect')
+					orderGrid.getValue(rk, 'pcnum')
+					orderGrid.getValue(rk, 'gicode')
+					makeAjaxCall('orderDView', {pcnum, gicode}, function(result){
+						orderDGrid.resetData(result);
+					})
+				})
+		   
+		   // ----------------------------------------------
+		   
+		   // 버튼 클릭이벤트 ----------------------------------
+		   
+			   /* 새자료 */
+					$('#resetBtn').on('click', function () {
+						fnFormClear();
+					})
+	
+					function fnFormClear() {
+						picker.setStartDate(new Date());
+						picker.setEndDate(new Date());
+						orderGrid.clear();
+						orderDGrid.clear();
+					}
+					
+					/* 조회버튼 */
+					$('#searchBtn').on('click', function(){
+						var orderDtS = $('#orderDtS').val()
+						var orderDtE = $('#orderDtE').val()
+						var orderDiv = $("input:radio[name='orderDiv']:checked").val()
+						console.log(orderDiv)
+						makeAjaxCall('orderView', {orderDtS, orderDtE, orderDiv}, function(result) {
+							orderGrid.resetData(result);
+						})
+					})
+				
+		   // ---------------------------------------------
+				
+		})
+	
+			/* 생산지시 작성일자 모달 달력 */
+			var today = new Date();
+			var range = new Date(today.getFullYear() + 1, today.getMonth(),
+									today.getDate());
+			var picker = new tui.DatePicker.createRangePicker({
+				startpicker : {
+					date : today,
+					input : '#orderDtS',
+					container : '#orderDtS-wapper'
+				},
+				endpicker : {
+					date : today,
+					input : '#orderDtE',
+					container : '#orderDtE-wapper'
+				},
+				language : 'ko'
+			});
 		
 	</script>
+		</body>
 </th:block>
 </html>

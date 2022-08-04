@@ -197,6 +197,20 @@ public class ProdServiceImpl implements ProdService {
 		}
 
 		
+	// 생산지시조회
+		
+		// 생산지시
+		@Override
+		public List<ProdOrderVO> orderView(String orderDtS, String orderDtE, String orderDiv) {
+			return mapper.orderView(orderDtS, orderDtE, orderDiv);
+		}
+		
+		// 생산지시상세
+		@Override
+		public List<ProdOrderVO> orderDView(ProdOrderVO vo) {
+			return mapper.orderDView(vo);
+		}
+		
 	// 공정모니터링
 		
 		// 공정진행관리
@@ -314,6 +328,10 @@ public class ProdServiceImpl implements ProdService {
 			public List<Map<String, Object>> errorExcel(MatVO vo) {
 				return mapper.errorExcel(vo);
 			}
+
+
+
+			
 
 			
 

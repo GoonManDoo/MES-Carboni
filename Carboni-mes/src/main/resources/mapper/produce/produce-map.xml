@@ -247,6 +247,23 @@
 		</update>
 		
 		
+	<!-- 생산지시조회 -->
+		<!-- 생산지시 -->
+		<select id="orderView" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			select p.pcdate, p.pcnum, d.gicode, g.giname, d.lineid, p.pcnote, d.pcdam, p.pcstatus, d.pcdsdate, d.pcdedate, d.pcddiv
+			from prodcomm p, proccomm_d d, goodsinfo g
+			where (p.pcnum = d.pcnum and d.gicode = g.gicode)
+			and p.pcdate between to_date(#{orderDtS}, 'yyyy-MM-dd') and to_date(#{orderDtE}, 'yyyy-MM-dd')
+			and p.pcstatus = #{orderDiv, jdbcType=VARCHAR}
+		</select>
+			
+		<!-- 생산지시상세 -->	
+		<select id="orderDView" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
+			SELECT #{pcnum} as pcnum, piname, pione, pitwo, pithree, pifour
+			FROM procinfo
+			WHERE picodeid in (SELECT picodeid FROM lineinfo WHERE gicode = #{gicode})
+		</select>
+		
 	<!-- 공정모니터링 -->
 		<!-- 공정진행관리 -->
 

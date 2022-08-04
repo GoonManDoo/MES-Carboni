@@ -91,7 +91,14 @@ public interface ProdService {
 		// 생산지시삭제
 		public void removeProdOrder(ProdOrderVO vo);
 
+	
+	// 생산지시조회
 		
+		// 생산지시
+		public List<ProdOrderVO> orderView(String orderDtS, String orderDtE, String orderDiv);
+		
+		// 생산지시상세
+		public List<ProdOrderVO> orderDView(ProdOrderVO vo);
 		
 	// 공정모니터링
 		
@@ -151,6 +158,10 @@ public interface ProdService {
 			
 			// 불량내역 엑셀
 			public List<Map<String, Object>> errorExcel(MatVO vo);
+
+
+
+			
 
 
 

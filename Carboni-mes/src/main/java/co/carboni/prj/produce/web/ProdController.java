@@ -243,6 +243,23 @@ public class ProdController {
       model.addAttribute("list", prodovDAO.selectProdov());
       return "produce/prodOrView";
    }
+   
+   		// 생산지시조회 - 지시조회
+   		@RequestMapping("orderView")
+   		@ResponseBody
+   		public List<ProdOrderVO> orderView(@RequestParam String orderDtS, @RequestParam String orderDtE, @RequestParam String orderDiv) {
+			return service.orderView(orderDtS, orderDtE, orderDiv);
+   			
+   		}
+   		
+   		// 생산지시조회 - 지시상세조회
+   		@RequestMapping("orderDView")
+   		@ResponseBody
+   		public List<ProdOrderVO> orderDView(ProdOrderVO vo) {
+			return service.orderDView(vo);
+   			
+   		}
+   		
 	
 	// 공정관리
 	@RequestMapping("/procMoniter.do")
