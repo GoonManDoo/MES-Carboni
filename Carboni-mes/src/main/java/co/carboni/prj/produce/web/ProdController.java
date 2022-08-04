@@ -323,8 +323,8 @@ public class ProdController {
 		@ResponseBody
 		public void restart() {
 			service.restart();
-			Scheduler scheduler = new Scheduler();
-		    scheduler.start();
+			//Scheduler scheduler = new Scheduler();
+		    //scheduler.start();
 		}
 		
 		// 실적모니터링 - 생산실적 클릭시 공정별 생산내역 확인
