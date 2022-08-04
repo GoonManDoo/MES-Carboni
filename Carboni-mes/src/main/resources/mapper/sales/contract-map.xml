@@ -8,8 +8,8 @@
 			 select g.genum, g.phnum, f.giname, c.cexplaind, g.gedetail, g.gedate, g.ccodeid
 			FROM goods_err g, common c, goodsinfo f
 			WHERE (g.ccodeid = c.ccodeid and g.gicode = f.gicode)
-	         AND (g.gedate BETWEEN to_date(#{startDtS}, 'yyyy-MM-dd') AND to_date(#{endDtE}, 'yyyy-MM-dd'))      
-	         AND c.ccodeid = #{errOpList}
+	         AND (g.gedate BETWEEN to_date(#{startDtS}, 'yyyy-MM-dd') AND to_date(#{endDtE}, 'yyyy-MM-dd'))
+	         <if test="errOpList != ''">AND c.ccodeid = #{errOpList}</if>      
 		</select>
 		
 	

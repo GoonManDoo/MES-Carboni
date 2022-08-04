@@ -412,7 +412,7 @@ public class ProdController {
 	    	 System.out.println(list.get(i));
 	         service.schedule(list.get(i-1), list.get(i));
 	         try {
-	            this.sleep(6000);
+	            this.sleep(8000);
 	         } catch (InterruptedException e) {
 	            e.printStackTrace();
 	         }

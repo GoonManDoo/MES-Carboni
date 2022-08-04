@@ -293,6 +293,11 @@ s
 									style="width: 200px;" readonly></td>
 							</tr>
 							<tr>
+								<th>자재명</th>
+								<td><input type="text" id="matName" class="form-control ht"
+									style="width: 200px;" readonly></td>
+							</tr>
+							<tr>
 								<th>발주요청량</th>
 								<td><input type="number" id="orderAmount"
 									class="form-control ht" style="width: 200px;"></td>
@@ -771,8 +776,12 @@ s
 					})
 				})
 				function addReprod() {
-					pnGrid.appendRow(obj)
-					modal5.dialog('close')
+					if(pnGrid.getRowCount() > 0) {
+						swal('작성중인 내역이 존재합니다.', '', 'warning')
+					} else {
+						pnGrid.appendRow(obj)
+						modal5.dialog('close')
+					}
 				}
 				
 
@@ -831,8 +840,10 @@ s
 								matlist.on('dblclick', el => {
 								if(el.columnName == 'msciam') {
 										mc = matlist.getValue(el.rowKey, 'micode')
+										mn = matlist.getValue(el.rowKey, 'miname')
 										oa = matlist.getValue(el.rowKey, 'pamount')-matlist.getValue(el.rowKey, 'msciam')
 										$('#matCode').val(mc)
+										$('#matName').val(mn)
 										$('#orderAmount').val(oa)
 										modal3.dialog('open')
 									}
@@ -981,14 +992,14 @@ s
 				/* 생산지시 삭제 */
 				$('#removeBtn').on('click', function(){
 					if($('#orderNum').val() != '') {
-						if($('#orderSt').val() == '미공정') {
+						if($('#orderSt').val() == '공정진행' || $('#orderSt').val() == '공정완료') {
+							swal('공정이 시작된 지시내역입니다.', '', 'warning')
+						} else {
 							var pcnum = $('#orderNum').val()
 							makeAjaxCall('removeProdOrder', {pcnum}, function(){
 								swal('성공', '생산지시 삭제가 완료되었습니다.', 'success')
 								fnFormClear();
 							})
-						} else {
-							swal('공정이 시작된 지시내역입니다.', '', 'warning')
 						}
 					} else {
 						swal('삭제할 내역이 없습니다.', '', 'warning')
