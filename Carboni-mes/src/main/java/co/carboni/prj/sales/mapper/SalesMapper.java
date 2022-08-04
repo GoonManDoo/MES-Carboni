@@ -16,7 +16,7 @@ public interface SalesMapper {
 		
 		//수주관리 > 수주일자조회
 		public List<SalesVO> findCndateList(@Param("startDt") String startDt, @Param("endDt") String endDt, 
-				                            @Param("cusCode") String cusCode, @Param("goodsCode") String goodsCode);
+				                            @Param("cusCode") String cusCode, @Param("goodsCode") String goodsCode, @Param("cnCode") String cnCode);		
 
 		//수주관리 > 거래처모달 전체조회
 		public List<SalesVO> findAllCsList(SalesVO vo);

@@ -105,6 +105,8 @@ span {
 							
 						   제품정보<input type="text" id="rightinput" class="input" placeholder="제품 검색" readonly="readonly">
 						        <input type="text" id="rightinput1" class="input" placeholder="제품 코드" readonly="readonly"><br>
+				           수주번호<input type="text" id="cninput" class="input" placeholder="수주번호 입력"><br>
+
 					</span>
 				</div>
 			</div>
@@ -312,14 +314,15 @@ span {
 				var endDt = $('#endCndate').val()
 				var cusCode = $('#leftinput1').val()
 				var goodsCode = $('#rightinput1').val()
-				   if($('#startCndate').val()== '' && $('#endCndate').val()== '' && $('#leftinput').val()== '' && $('#rightinput').val() == '') {
+				var cnCode = $('#cninput').val()
+				   if($('#startCndate').val()== '' && $('#endCndate').val()== '' && $('#leftinput').val()== '' && $('#rightinput').val() == '' && $('#cninput').val() == '') {
 					  swal('다시 입력하세요!', "입력되지 않은 수주정보가 있습니다!", 'warning') 
 					  
 				} else {
 				$.ajax({
 					url: 'cndateList',
 					method: 'POST',
-					data : {startDt, endDt, cusCode, goodsCode},
+					data : {startDt, endDt, cusCode, goodsCode, cnCode},
 					success: function(result) {
 						grid.refreshLayout();
 						grid.resetData(result)

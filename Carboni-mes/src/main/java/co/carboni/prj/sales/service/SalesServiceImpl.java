@@ -25,8 +25,8 @@ public class SalesServiceImpl implements SalesService {
 			
 			//수주관리 > 수주일자조회
 			@Override
-			public List<SalesVO> findCndateList(String startDt, String endDt, String cusCode, String goodsCode) {
-				return mapper.findCndateList(startDt, endDt, cusCode, goodsCode);
+			public List<SalesVO> findCndateList(String startDt, String endDt, String cusCode, String goodsCode, String cnCode) {
+				return mapper.findCndateList(startDt, endDt, cusCode, goodsCode, cnCode);
 			}
 			
 			//수주관리 > 거래처모달 전체조회

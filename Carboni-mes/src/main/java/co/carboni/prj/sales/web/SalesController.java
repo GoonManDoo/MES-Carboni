@@ -42,8 +42,8 @@ public class SalesController {
 		@RequestMapping("cndateList")
 		@ResponseBody
 		public List<SalesVO> cndateList(@RequestParam String startDt, @RequestParam String endDt, 
-				                        @RequestParam String cusCode, @RequestParam String goodsCode) {
-			List<SalesVO> cndateList = service.findCndateList(startDt, endDt, cusCode, goodsCode);
+				                        @RequestParam String cusCode, @RequestParam String goodsCode, @RequestParam String cnCode) {
+			List<SalesVO> cndateList = service.findCndateList(startDt, endDt, cusCode, goodsCode, cnCode);
 			return cndateList;
 		}
 		
@@ -106,7 +106,6 @@ public class SalesController {
 										 @RequestParam("startPr") String startPr, @RequestParam("endPr") String endPr,
 										 @RequestParam("gsCode") String gsCode, @RequestParam("complete") String complete) {
 			List<SalesVO> prCloseList = service.findPrcloseList(startCd, endCd, startPr, endPr, gsCode, complete);
-			System.out.println(startCd + "" + endCd + "" + startPr + "" + endPr + "" + gsCode);
 			return prCloseList;
 		}
 		
@@ -133,12 +132,7 @@ public class SalesController {
 			service.prodReqInsert(allreq);
 		}
 		
-		//출하관리 > 출하등록
-		@RequestMapping("shipInsert")
-		@ResponseBody
-		public void shipInsert(@RequestBody List<SalesVO> allship) {
-			service.shipInsert(allship);
-		}
+		
 		
 				
 				
@@ -163,6 +157,13 @@ public class SalesController {
 			service.goodsStkInsert(gsamin, jepoomcoin);
 		}
 	
+		//출하관리 > 출하등록
+		@RequestMapping("shipInsert")
+		@ResponseBody
+		public void shipInsert(@RequestBody List<SalesVO> allship) {
+			service.shipInsert(allship);
+		}
+		
 		//제품재고관리 > 제품재고등록 제품검색조회
 		@RequestMapping("stkProdList")
 		@ResponseBody public List<SalesVO> stkProdList(@RequestParam("addStk") String addStk) { 
