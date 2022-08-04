@@ -58,6 +58,7 @@
 		<if test="cusCode != null and !cusCode.equals('')">AND (O.CSCODE = #{cusCode})</if>
 		<if test="matCode != null and !matCode.equals('')">AND (O.MICODE = #{matCode})</if>
 		<if test="startD != null and endD != null">AND (O.MOODATE BETWEEN to_date(#{startD},'yyyy-MM-dd') AND to_date(#{endD},'yyyy-MM-dd'))</if>
+		order by O.MONUM
 	</select>
 
 	<!-- 발주관리에서 자체발주할떄 자재코드,거래처명 검색해서 그리드에 출력 -->
@@ -158,6 +159,7 @@
 		AND (E.MOODATE BETWEEN to_date(#{startD},'yyyy-MM-dd') AND to_date(#{endD},'yyyy-MM-dd'))
 		AND
 		E.MOSTATUS='발주중'
+		
 	</select>
 	<!-- 입고관리에서 내용 삭제 -->
 	
