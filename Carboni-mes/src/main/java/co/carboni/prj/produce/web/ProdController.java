@@ -340,8 +340,8 @@ public class ProdController {
 		@ResponseBody
 		public void restart() {
 			service.restart();
-			//Scheduler scheduler = new Scheduler();
-		    //scheduler.start();
+			Scheduler scheduler = new Scheduler();
+		    scheduler.start();
 		}
 		
 		// 실적모니터링 - 생산실적 클릭시 공정별 생산내역 확인
@@ -412,7 +412,7 @@ public class ProdController {
 	    	 System.out.println(list.get(i));
 	         service.schedule(list.get(i-1), list.get(i));
 	         try {
-	            this.sleep(6000);
+	            this.sleep(8000);
 	         } catch (InterruptedException e) {
 	            e.printStackTrace();
 	         }

@@ -250,18 +250,20 @@
 	<!-- 생산지시조회 -->
 		<!-- 생산지시 -->
 		<select id="orderView" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
-			select p.pcdate, p.pcnum, d.gicode, g.giname, d.lineid, p.pcnote, d.pcdam, p.pcstatus, d.pcdsdate, d.pcdedate, d.pcddiv
+			select p.pcdate, p.pcnum, p.pcname, d.gicode, g.giname, p.pcnote, d.pcdam, p.pcstatus, d.pcdsdate, d.pcdedate, d.pcddiv
 			from prodcomm p, proccomm_d d, goodsinfo g
 			where (p.pcnum = d.pcnum and d.gicode = g.gicode)
 			and p.pcdate between to_date(#{orderDtS}, 'yyyy-MM-dd') and to_date(#{orderDtE}, 'yyyy-MM-dd')
-			and p.pcstatus = #{orderDiv, jdbcType=VARCHAR}
+			<if test="orderDiv != ''">and p.pcstatus = #{orderDiv}</if>
 		</select>
 			
 		<!-- 생산지시상세 -->	
 		<select id="orderDView" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
-			SELECT #{pcnum} as pcnum, piname, pione, pitwo, pithree, pifour
-			FROM procinfo
-			WHERE picodeid in (SELECT picodeid FROM lineinfo WHERE gicode = #{gicode})
+			SELECT p.pcnum, d.lineid, i.piname, i.pione, i.pitwo, i.pithree, i.pifour, p.pcdkeeper
+			FROM procinfo i, prodcomm p, proccomm_d d
+			WHERE (p.pcnum = d.pcnum)
+			and picodeid in (SELECT picodeid FROM lineinfo WHERE gicode = #{gicode})
+			and p.pcnum = #{pcnum}
 		</select>
 		
 	<!-- 공정모니터링 -->
@@ -313,7 +315,7 @@
 			
 			<!-- 생산완료되면 수주상태, 제품영업재고 update -->
 			<update id="updateConStk" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" statementType="CALLABLE">
-				<![CDATA[{call update_constk(#{pcdnum}, #{phdmkam})}]]>
+				<![CDATA[{call update_constk(#{pcdnum}, #{phmkam})}]]>
 			</update>
 			
 		
@@ -404,8 +406,8 @@
 			<!-- 불량내역 엑셀 -->
 			<select id="errorExcel" resultType="map">
 				SELECT g.genum as "불량내역번호", g.phnum as "작업번호", f.giname as "제품명", c.ccodeid as "불량코드", c.cexplaind as "불량명", g.gedetail as "불량내역", g.gegdam as "불량량", to_char(g.gedate) as "불량일자"
-        FROM goods_err g, common c, goodsinfo f
-        WHERE (g.ccodeid = c.ccodeid AND f.gicode = g.gicode)
+	        FROM goods_err g, common c, goodsinfo f
+	        WHERE (g.ccodeid = c.ccodeid AND f.gicode = g.gicode)
 			</select>
 			
 </mapper>

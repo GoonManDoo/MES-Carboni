@@ -251,6 +251,11 @@
 									style="width: 200px;" readonly></td>
 							</tr>
 							<tr>
+								<th>자재명</th>
+								<td><input type="text" id="matName" class="form-control ht"
+									style="width: 200px;" readonly></td>
+							</tr>
+							<tr>
 								<th>발주요청량</th>
 								<td><input type="number" id="orderAmount"
 									class="form-control ht" style="width: 200px;"></td>
@@ -619,8 +624,10 @@
 							matGrid.on('dblclick', el => {
 								if(el.columnName == 'lamount' && matGrid.getValue(el.rowKey, 'lamount') !== null) {
 									mc = matGrid.getRow(el.rowKey).micode
+									mn = matGrid.getRow(el.rowKey).miname
 									oa = matGrid.getRow(el.rowKey).lamount
 									$('#matCode').val(mc)
+									$('#matName').val(mn)
 									$('#orderAmount').val(oa)
 									modal3.dialog('open')
 								}
@@ -787,6 +794,7 @@
 						success: function(){
 							swal('성공', '생산계획 삭제가 완료되었습니다.', 'success')
 							fnFormClear();
+							$('#planNum').val('')
 						}
 					})
 				} else {

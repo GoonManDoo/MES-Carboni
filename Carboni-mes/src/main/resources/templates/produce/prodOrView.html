@@ -34,6 +34,9 @@ h1 {
 	margin-right: 10px;
 }
 
+.orderDiv {
+	margin-right: 5px;
+}
 
 .fw {
 	font-weight: 700;
@@ -56,123 +59,120 @@ h1 {
 </style>
 	</head>
 
-	<body class="sb-nav-fixed">
-	<th:block layout:fragment="main">
-			<div class="container-fluid px-4">
+<body class="sb-nav-fixed">
+<th:block layout:fragment="main">
+	<div class="container-fluid px-4">
 		<div id="menu">
 			<a href="/"><i class="bi bi-house-door-fill"></i></a> > 생산관리 > 생산지시조회
 		</div>
 		<h1>생산지시조회</h1>
 
-			<div class="card mb-2">
-				<div class="card-body">
-			<div>
-				<label class="fw">지시일자</label>
-				<!-- 시작일 -->
-				<div class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-					<input id="orderDtS" type="text" class="form-control" aria-label="Date" name="orderDtS"> <span
-						class="tui-ico-date"></span>
-					<div id="orderDtS-wapper" style="margin-left: -1px;"></div>
-				</div> <span class="mg5">~</span>
-				<!-- 종료일 -->
-				<div class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
-					<input id="orderDtE" type="text" class="form-control" aria-label="Date" name="orderDtE"> <span
-						class="tui-ico-date"></span>
-					<div id="orderDtE-wapper" style="margin-left: -1px;"></div>
-				</div>
-			</div>
-			<div style="margin-top: 5px;">
-				<label class="fw">지시상태</label>
-				<label class="rd"><input type="radio" name="orderDiv" value="미공정">미공정</label>
-				<label class="rd"><input type="radio" name="orderDiv" value="공정진행">공정진행</label>
-				<label class="rd"><input type="radio" name="orderDiv" value="공정완료">공정완료</label>
-			</div>
-		</div>
-			</div>
-			
-			<div class="card mb-2">
-				<div class="card-header">
-					<div style="display: flex; justify-content: flex-end;">
-						<button type="button" id="searchBtn" class="btn btn-secondary"
-							style="margin-right: 5px;">조회</button>
-						<button type="button" id="resetBtn" class="btn btn-secondary"
-							style="margin-right: 5px;">새자료</button>
+		<div class="card mb-2">
+			<div class="card-body">
+				<div>
+					<label class="fw">지시일자</label>
+					<!-- 시작일 -->
+					<div class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+						<input id="orderDtS" type="text" class="form-control" aria-label="Date" name="orderDtS"> <span
+							class="tui-ico-date"></span>
+						<div id="orderDtS-wapper" style="margin-left: -1px;"></div>
+					</div> <span class="mg5">~</span>
+					<!-- 종료일 -->
+					<div class="tui-datepicker-input tui-datetime-input tui-has-focus mg5">
+						<input id="orderDtE" type="text" class="form-control" aria-label="Date" name="orderDtE"> <span
+							class="tui-ico-date"></span>
+						<div id="orderDtE-wapper" style="margin-left: -1px;"></div>
 					</div>
 				</div>
-			</div>
-			
-		<div id="container">
-			<div class="card mb-4">
-				<div class="card-header">
-					<i class="fas fa-table me-1"></i> 생산지시목록
-				</div>
-				<div class="card-body">
-					<div id="orderList"></div>
-					<!--<table id="datatablesSimple">
-						<thead>
-							<tr>
-								<th><input type="radio" name="list"></th>
-								<th>지시번호</th>
-								<th>지시일자</th>
-								<th>제품코드</th>
-								<th>제품명</th>
-								<th>공정코드</th>
-								<th>1차 공정</th>
-								<th>2차 공정</th>
-								<th>3차 공정</th>
-								<th>4차 공정</th>
-								<th>지시수량</th>
-								<th>지시상태</th>
-								<th>작업시작일</th>
-								<th>작업마감일</th>
-								<th>작업지시일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="p : ${list}">
-								<td><input type="radio" name="list">
-								</th>
-								<td th:text="${p.PCNUM}">
-								</th>
-								</th>
-								<td th:text="${p.PCDATE}">
-								</th>
-								<td th:text="${p.GICODE}">
-								</th>
-								<td th:text="${p.GINAME}">
-								</th>
-								<td th:text="${p.PICODEID}">
-								</th>
-								<td th:text="${p[PIONE]}">
-								</th>
-								<td th:text="${p[PITWO]}">
-								</th>
-								<td th:text="${p[PITHREE]}">
-								</th>
-								<td th:text="${p[PIFOUR]}">
-								</th>
-								<td th:text="${p.PCDAM}">
-								</th>
-								<td th:text="${p.PCSTATUS}">
-								</th>
-								<td th:text="${#strings.substring(p.PCDSDATE, 0, 10)}"
-									class="date">
-								</th>
-								<td th:text="${#strings.substring(p.PCDEDATE, 0, 10)}"
-									class="date">
-								</th>
-								<td th:text="${#strings.substring(p.PCDATE, 0, 10)}"
-									class="date">
-								</td>
-							</tr>
-						</tbody>
-					</table>-->
-				</div>
-				<div class="card-body">
-					<div id="orderDList"></div>
+				<div style="margin-top: 5px;">
+					<label class="fw">지시상태</label>
+					<label class="rd"><input type="radio" class="orderDiv" name="orderDiv" value="미공정">미공정</label>
+					<label class="rd"><input type="radio" class="orderDiv" name="orderDiv" value="공정진행">공정진행</label>
+					<label class="rd"><input type="radio" class="orderDiv" name="orderDiv" value="공정완료">공정완료</label>
 				</div>
 			</div>
 		</div>
+		
+		<div class="card mb-2">
+			<div class="card-header">
+				<div style="display: flex; justify-content: flex-end;">
+					<button type="button" id="searchBtn" class="btn btn-secondary"
+						style="margin-right: 5px;">조회</button>
+					<button type="button" id="resetBtn" class="btn btn-secondary"
+						style="margin-right: 5px;">새자료</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table me-1"></i> 생산지시목록
+			</div>
+			<div class="card-body">
+				<div id="orderList" style="height:300px;"></div>
+				<!--<table id="datatablesSimple">
+					<thead>
+						<tr>
+							<th><input type="radio" name="list"></th>
+							<th>지시번호</th>
+							<th>지시일자</th>
+							<th>제품코드</th>
+							<th>제품명</th>
+							<th>공정코드</th>
+							<th>1차 공정</th>
+							<th>2차 공정</th>
+							<th>3차 공정</th>
+							<th>4차 공정</th>
+							<th>지시수량</th>
+							<th>지시상태</th>
+							<th>작업시작일</th>
+							<th>작업마감일</th>
+							<th>작업지시일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p : ${list}">
+							<td><input type="radio" name="list">
+							</th>
+							<td th:text="${p.PCNUM}">
+							</th>
+							</th>
+							<td th:text="${p.PCDATE}">
+							</th>
+							<td th:text="${p.GICODE}">
+							</th>
+							<td th:text="${p.GINAME}">
+							</th>
+							<td th:text="${p.PICODEID}">
+							</th>
+							<td th:text="${p[PIONE]}">
+							</th>
+							<td th:text="${p[PITWO]}">
+							</th>
+							<td th:text="${p[PITHREE]}">
+							</th>
+							<td th:text="${p[PIFOUR]}">
+							</th>
+							<td th:text="${p.PCDAM}">
+							</th>
+							<td th:text="${p.PCSTATUS}">
+							</th>
+							<td th:text="${#strings.substring(p.PCDSDATE, 0, 10)}"
+								class="date">
+							</th>
+							<td th:text="${#strings.substring(p.PCDEDATE, 0, 10)}"
+								class="date">
+							</th>
+							<td th:text="${#strings.substring(p.PCDATE, 0, 10)}"
+								class="date">
+							</td>
+						</tr>
+					</tbody>
+				</table>-->
+			</div>
+			<div class="card-body">
+				<div id="orderDList"></div>
+			</div>
 		</div>
 	</div>
 
@@ -199,6 +199,7 @@ h1 {
 				const orderGrid = new tui.Grid({
 			      el: document.getElementById('orderList'),
 			      data: orderList,
+			      scrollY: true,
 			      columns: [
 			        {
 			          header: '지시일자',
@@ -226,23 +227,13 @@ h1 {
 			          align : 'center'
 			        },
 			        {
-			          header: '라인번호',
-			          name: 'lineid',
-			          align : 'center'
-			        },
-			        {
-			          header: '비고',
-			          name: 'pcnote',
-			          align : 'center'
-			        },
-			        {
 			          header: '지시량',
 			          name: 'pcdam',
 			          align : 'center'
 			        },
 			        {
-			          header: '지시상태',
-			          name: 'pcstatus',
+			          header: '생산구분',
+			          name: 'pcddiv',
 			          align : 'center'
 			        },
 			        {
@@ -256,8 +247,13 @@ h1 {
 			          align : 'center'
 			        },
 			        {
-			          header: '생산구분',
-			          name: 'pcddiv',
+			          header: '비고',
+			          name: 'pcnote',
+			          align : 'center'
+			        },
+			        {
+			          header: '지시상태',
+			          name: 'pcstatus',
 			          align : 'center'
 			        }
 			      ]
@@ -274,6 +270,11 @@ h1 {
 			        {
 			          header: '지시번호',
 			          name: 'pcnum',
+			          align : 'center'
+			        },
+			        {
+			          header: '생산라인',
+			          name: 'lineid',
 			          align : 'center'
 			        },
 			        {
@@ -300,6 +301,11 @@ h1 {
 			          header: '4차공정',
 			          name: 'pifour',
 			          align : 'center'
+			        },
+			        {
+			          header: '담당자',
+			          name: 'pcdkeeper',
+			          align : 'center'
 			        }
 			      ]
 		    	});
@@ -315,8 +321,8 @@ h1 {
 					orderGrid.removeRowClassName(i, 'rowSelect')
 					}
 					orderGrid.addRowClassName(rk, 'rowSelect')
-					orderGrid.getValue(rk, 'pcnum')
-					orderGrid.getValue(rk, 'gicode')
+					var pcnum = orderGrid.getValue(rk, 'pcnum')
+					var gicode = orderGrid.getValue(rk, 'gicode')
 					makeAjaxCall('orderDView', {pcnum, gicode}, function(result){
 						orderDGrid.resetData(result);
 					})
@@ -342,10 +348,14 @@ h1 {
 					$('#searchBtn').on('click', function(){
 						var orderDtS = $('#orderDtS').val()
 						var orderDtE = $('#orderDtE').val()
-						var orderDiv = $("input:radio[name='orderDiv']:checked").val()
-						console.log(orderDiv)
+						if($("input:radio[name='orderDiv']:checked").val() == undefined) {
+							var orderDiv = ''
+						} else {
+							var orderDiv = $("input:radio[name='orderDiv']:checked").val()
+						}
 						makeAjaxCall('orderView', {orderDtS, orderDtE, orderDiv}, function(result) {
 							orderGrid.resetData(result);
+							console.log(result)
 						})
 					})
 				
