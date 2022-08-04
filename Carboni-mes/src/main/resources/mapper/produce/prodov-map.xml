@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.carboni.prj.produce.mapper.ProdovMapper">
 	<select id="selectProdov" resultType="map">
-		SELECT C.PCNUM, G.GICODE, G.GINAME, L.PICODEID, I.PIONE, I.PITWO, I.PITHREE, I.PIFOUR, C.PCDAM, P.PCSTATUS, C.PCDSDATE, C.PCDEDATE
+		SELECT C.PCNUM, G.GICODE, G.GINAME, L.PICODEID, I.PIONE, I.PITWO, I.PITHREE, I.PIFOUR, C.PCDAM, P.PCSTATUS, C.PCDSDATE, C.PCDEDATE, P.PCDATE
 		FROM PROCCOMM_D C JOIN GOODSINFO G ON C.GICODE = G.GICODE
 						  JOIN PRODCOMM P ON P.PCNUM = C.PCNUM
 						  JOIN LINEINFO L ON L.LINEID = C.LINEID
