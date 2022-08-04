@@ -41,7 +41,7 @@
 			FROM prodreq x, contract y, costomer z
 			WHERE x.cnnum = y.cnnum
 			AND y.cscode = z.cscode
-			AND (x.prclose BETWEEN #{startDt} AND #{endDt})
+			AND (x.prclose BETWEEN to_date(#{startDt}, 'yyyy-MM-dd') AND to_date(#{endDt}, 'yyyy-MM-dd'))
 			AND x.prstatus = 'N'
 		</select>
 		
@@ -130,7 +130,7 @@
 		<select id="unorderList" resultType="co.carboni.prj.produce.vo.ProdOrderVO">
 			SELECT ppnum, ppdate, ppname, ppnote
 			FROM prodplan
-			WHERE (ppdate BETWEEN #{startDt} AND #{endDt})
+			WHERE (ppdate BETWEEN to_date(#{startDt}, 'yyyy-MM-dd') AND to_date(#{endDt}, 'yyyy-MM-dd'))
 			AND
 			ppstatus = '미지시'
 		</select>
@@ -218,7 +218,7 @@
 		<select id="searchOrder"  resultType="co.carboni.prj.produce.vo.ProdOrderVO">
 			SELECT pcnum, pcdate, pcname, pcdkeeper, pcnote
 			FROM prodcomm
-			WHERE (pcdate BETWEEN #{ostartDt} AND #{oendDt})
+			WHERE (pcdate BETWEEN to_date(#{ostartDt}, 'yyyy-MM-dd') AND to_date(#{oendDt}, 'yyyy-MM-dd'))
 			AND pcstatus =
 			<if test="ostatus == '미공정'">'미공정'</if>
 			<if test="ostatus == '공정진행'">'공정진행'</if>
@@ -255,7 +255,7 @@
 				SELECT c.pcnum, c.pcname, g.giname, d.pcdam
 				FROM prodcomm c, proccomm_d d, goodsinfo g
 				WHERE (c.pcnum = d.pcnum and d.gicode = g.gicode)
-				AND (d.pcdsdate = #{workDt} and c.pcstatus = '미공정')
+				AND (d.pcdsdate = to_date(#{workDt}, 'yyyy-MM-dd') and c.pcstatus = '미공정')
 			</select>
 			
 			<!-- 진행생산지시 -->
@@ -303,7 +303,7 @@
 			<!-- 생산완료되면 공정진행에 insert -->
 			<insert id="insertProcHead" parameterType="co.carboni.prj.produce.vo.ProcMoniterVO" useGeneratedKeys="true" keyColumn="phnum" keyProperty="phnum">
 				INSERT INTO prochead
-				VALUES (('PH-'||prochead_PHNUM_seq.nextval), #{pcdnum}, to_char(sysdate, 'YYYY/MM/DD'), #{phmkam}, #{pherram})
+				VALUES (('PH-'||prochead_PHNUM_seq.nextval), #{pcdnum}, to_char(sysdate, 'yyyy-MM-dd'), #{phmkam}, #{pherram})
 				<selectKey resultType="string" keyProperty="phnum" order="AFTER">
 					SELECT 'PH-'||max(TO_NUMBER(SUBSTR(phnum, 4))) AS phnum FROM prochead
 				</selectKey>
@@ -363,7 +363,7 @@
 				from prochead h, prodcomm c, proccomm_d d, goodsinfo g
 				where (h.pcdnum = d.pcdnum and d.pcnum = c.pcnum and d.gicode = g.gicode)
 				and d.lineid = #{lineid}
-				and h.phdate >= to_date(sysdate-7, 'YYYY/MM/DD')
+				and h.phdate >= to_date(sysdate-7, 'yyyy-MM-dd')
 			</select>
 			
 			<!-- 생산일자로 생산실적 검색 -->
@@ -371,7 +371,7 @@
 				select c.pcnum, h.phdate, g.giname, d.gicode, d.lineid, h.phmkam, h.pherram, c.pcdkeeper, h.phnum, d.pcdam
 				from prochead h, prodcomm c, proccomm_d d, goodsinfo g
 				where (h.pcdnum = d.pcdnum and d.pcnum = c.pcnum and d.gicode = g.gicode)
-				and (h.phdate BETWEEN #{prodDtS} AND #{prodDtE})
+				and (h.phdate BETWEEN to_date(#{prodDtS}, 'yyyy-MM-dd') AND to_date(#{prodDtE}, 'yyyy-MM-dd'))
 				<if test="lineid != ''">and d.lineid = #{lineid}</if>
 			</select>
 			
