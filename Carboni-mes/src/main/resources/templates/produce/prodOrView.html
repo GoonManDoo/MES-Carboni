@@ -66,6 +66,7 @@ h1 {
 								<th>지시상태</th>
 								<th>작업시작일</th>
 								<th>작업마감일</th>
+								<th>작업지시일</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,6 +99,9 @@ h1 {
 								<td th:text="${#strings.substring(p.PCDEDATE, 0, 10)}"
 									class="date">
 								</th>
+								<td th:text="${#strings.substring(p.PCDATE, 0, 10)}"
+									class="date">
+								</td>
 							</tr>
 						</tbody>
 					</table>

@@ -36,6 +36,10 @@
     text-decoration: none;
     color: black;
   }
+  
+  #gname{
+  	font-weight: 400;
+  }
 
 </style>
 
@@ -61,10 +65,11 @@
       <label for="bam">사용량</label> <input type="text" id="bam" name="bam">
       <label for="bnote">비고</label> <input type="text" id="bnote" name="bnote">
     </form>
+    
 
     <div class="card mb-4">
       <div class="card-header">
-        <i class="fas fa-table me-1"></i> BOM상세
+        <i class="fas fa-table me-1"></i> <b id="bname">제품명</b>
       </div>
       <div class="card-body">
         <table id="datatablesSimple">
@@ -218,6 +223,7 @@
     					mktr.append($('<td>').html(ele.BAM))
     					mktr.append($('<td>').html(ele.BNOTE))
     					mktr.appendTo($('#tbody'))
+    					$('#bname').text(ele.GINAME)
 					})
 				}
 			})
