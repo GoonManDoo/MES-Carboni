@@ -40,11 +40,9 @@
 }
 
 .input {
-	height: 23px;
 	margin-left: 15px;
 	margin-top: 5px;
 	display: inline-block;
-	padding: 0 10px;
 	vertical-align: middle;
 	border: 1px solid #dddddd;
 	width: 20%;
@@ -723,12 +721,13 @@
                     			
                                 if(modlist == ''){
                                 	swal('실패','수정할 행을 선택하세요','error')
-                                	 grid.resetData(result) //그내용 그대로 둘 방법 찾기
+                                	//grid.setRequestParams(result)
+                                	// grid.resetData(result) //그내용 그대로 둘 방법 찾기
                                 	//grid.removeCheckedRows('')
                                		 //grid.appendRows(result)
                                 }else{
                                 	newClear();
-                                	 grid.resetData(result)
+                                	grid.setRequestParams(result)
                                 	 swal('성공', '수정이 완료되었습니다.', 'success')
                                 }
                                
