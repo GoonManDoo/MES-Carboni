@@ -8,7 +8,7 @@
 			 select g.genum, g.phnum, f.giname, c.cexplaind, g.gedetail, g.gedate, g.ccodeid
 			FROM goods_err g, common c, goodsinfo f
 			WHERE (g.ccodeid = c.ccodeid and g.gicode = f.gicode)
-	         AND (g.gedate BETWEEN #{startDtS} AND #{endDtE})      
+	         AND (g.gedate BETWEEN to_date(#{startDtS}, 'yyyy-MM-dd') AND to_date(#{endDtE}, 'yyyy-MM-dd'))      
 	         AND c.ccodeid = #{errOpList}
 		</select>
 		
@@ -32,7 +32,7 @@
 			WHERE (c.cscode = m.cscode AND g.gicode = m.gicode)
 			<if test="startDt != ''">
 			AND
-			(m.cndate BETWEEN #{startDt} AND #{endDt})
+			(m.cndate BETWEEN to_date(#{startDt}, 'yyyy-MM-dd') AND to_date(#{endDt}, 'yyyy-MM-dd'))
 			</if>
 			<if test="cusCode != ''">
 			AND
@@ -97,11 +97,11 @@
 			WHERE (c.cnnum = p.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
 			<if test="startCd != ''">
 			AND
-			(c.cndate BETWEEN #{startCd} AND #{endCd})
+			(c.cndate BETWEEN to_date(#{startCd}, 'yyyy-MM-dd') AND to_date(#{endCd}, 'yyyy-MM-dd'))
 			</if>
 			<if test="startPr != ''">
 			AND
-			(p.prclose BETWEEN #{startPr} AND #{endPr})
+			(p.prclose BETWEEN to_date(#{startPr}, 'yyyy-MM-dd') AND to_date(#{endPr}, 'yyyy-MM-dd'))
 			</if>
 			<if test="complete != ''">
 			AND
@@ -127,7 +127,7 @@
 	         SELECT c.cnnum, g.giname, m.csname, c.cndate, c.cnperiod
 	         FROM contract c, goodsinfo g, costomer m
 	         WHERE (c.gicode = g.gicode and c.cscode = m.cscode)
-	         AND (c.cndate BETWEEN #{startDt} AND #{endDt}) 
+	         AND (c.cndate BETWEEN to_date(#{startDt}, 'yyyy-MM-dd') AND to_date(#{endDt}, 'yyyy-MM-dd')) 
 	         AND c.cnstatus = '생산전' 
 		</select>
 		
@@ -154,7 +154,7 @@
 			FROM contract c, costomer r, goodsinfo g, goodsstk k
 			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.gicode = k.gicode)
 			AND
-			(c.cndate BETWEEN #{startScd} AND #{endScd})
+			(c.cndate BETWEEN to_date(#{startScd}, 'yyyy-MM-dd') AND to_date(#{endScd}, 'yyyy-MM-dd'))
             AND
             c.cnstatus = '납품전'
 		</select>
@@ -166,11 +166,11 @@
 			WHERE (c.cnnum = s.cnnum AND c.gicode = g.gicode AND c.cscode = r.cscode)
 			<if test="startCp != ''">
 			AND
-			(c.cnperiod BETWEEN #{startCp} AND #{endCp})
+			(c.cnperiod BETWEEN to_date(#{startCp}, 'yyyy-MM-dd') AND to_date(#{endCp}, 'yyyy-MM-dd'))
 			</if>
 			<if test="startSd != ''">
 			AND
-			(s.shdate BETWEEN #{startSd} AND #{endSd})
+			(s.shdate BETWEEN to_date(#{startSd}, 'yyyy-MM-dd') AND to_date(#{endSd}, 'yyyy-MM-dd'))
 			</if>
 			<if test="gsCode != ''">
 			AND
@@ -184,7 +184,7 @@
 			FROM contract c, costomer r, goodsinfo g
 			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode)
 			AND
-			(c.cnperiod BETWEEN #{startCpd} AND #{endCpd})
+			(c.cnperiod BETWEEN to_date(#{startCpd}, 'yyyy-MM-dd') AND to_date(#{endCpd}, 'yyyy-MM-dd'))
 			AND
 			c.cnrest > 0
 
@@ -273,7 +273,7 @@
 			WHERE (c.gicode = g.gicode AND c.cscode = r.cscode AND c.cnnum = s.cnnum AND s.shnum = d.shnum)
 			<if test="startSh != ''">
 			AND
-			(s.shdate BETWEEN #{startSh} AND #{endSh})
+			(s.shdate BETWEEN to_date(#{startSh}, 'yyyy-MM-dd') AND to_date(#{endSh}, 'yyyy-MM-dd'))
 			</if>
 			<if test="cnNumber != ''">
 			AND
