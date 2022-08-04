@@ -7,7 +7,7 @@
 		<select id="searchPlan" resultType="co.carboni.prj.produce.vo.ProdPlanVO">
 			SELECT ppdate, ppnum, ppname, ppnote
 			FROM prodplan
-			WHERE (ppdate BETWEEN #{pstartDt} AND #{pendDt})
+			WHERE (ppdate BETWEEN to_date(#{pstartDt}, 'yyyy-MM-dd') AND to_date(#{pendDt}, 'yyyy-MM-dd'))
 			AND ppstatus =
 			<if test="pstatus == '미지시'">'미지시'</if>
 			<if test="pstatus == '지시진행'">'지시진행'</if>
