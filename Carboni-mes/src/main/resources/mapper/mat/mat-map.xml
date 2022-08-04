@@ -10,6 +10,7 @@
 		MATINFO D
 		ON E.MICODE=D.MICODE
 		WHERE E.MRSTATUS ='발주전'
+		order by E.REQNUM
 	</select>
 	<!-- 발주 메인에서 기업 검색 모달안의 내용 전체조회 -->
 	<!-- 입고에서 기업 검색 모달안의 내용 조회 -->
@@ -200,6 +201,7 @@
 		AND S.MSSTAT='입고'
 		<if test="cusCode != null and !cusCode.equals('')">AND (O.CSCODE = #{cusCode})</if>
 		<if test="startD != null and endD != null">AND (S.MSINDATE BETWEEN to_date(#{startD},'yyyy-MM-dd') AND to_date(#{endD},'yyyy-MM-dd'))</if>
+		order by S.MSNUM
 	</select>
 	
 	<!-- ===========자재관리=========================================================== -->
