@@ -31,11 +31,20 @@
     float: right;
     margin-right: 20px;
     text-align: right;
-  }
+    margin-top: 20px;
+   }
+      
+   .btn-secondary {
+	 margin-left: 5px;
+   }
+    
   #menu > a {
     text-decoration: none;
     color: black;
   }
+      .dataTable-selector{
+        width: 60px !important;
+      }
   
 </style>
 
@@ -43,16 +52,18 @@
 
   <div id="container">
 
-    <h1>거래처정보관리</h1>
     <div id="menu">
       <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b>거래처정보관리</b>
     </div>
+    <h1>거래처정보관리</h1>
     <form name="subform" id="subform">
-    	<div id="btns" class="card-header">
+    	<div id="btn" class="card-header">
+    	<div style="display: flex; justify-content: flex-end;">
       		<button type="button" class="btn btn-secondary" id="newthat">새자료</button>
       		<button type="button" class="btn btn-secondary" id="ex">엑셀</button>
       		<input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
       		<input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+    	</div>
     	</div>
     	<div id="myf">
       		<label for="cscode">거래처코드</label> <input type="text" id="cscode" name="cscode" readonly>
