@@ -207,11 +207,11 @@
 	<!-- ===========자재관리=========================================================== -->
 	
 	<select id="matListAll" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE S.MICODE=M.MICODE ORDER BY S.MATNUM
+		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE S.MICODE=M.MICODE ORDER BY S.MICODE
 	</select>
 	
 	<select id="matSerchList" resultType="co.carboni.prj.mat.vo.MatVO">
-		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE (S.MICODE=M.MICODE) AND S.MICODE=#{matCode}
+		SELECT S.MATNUM,S.MICODE,S.MSCIAM,M.MINAME,m.misafe FROM MATSTK S, MATINFO M WHERE (S.MICODE=M.MICODE) AND S.MICODE=#{matCode} 
 	</select>
 	
 	<!-- ====출고============================================================================== -->
@@ -221,6 +221,7 @@
       FROM MATSAR M,MATINFO A
       WHERE m.micode = a.micode
       and  M.MSSTAT ='출고'
+      order by M.MSOUTDATE
 	</select>
 	
 	<select id="findOutList" resultType="co.carboni.prj.mat.vo.MatVO">
@@ -231,6 +232,7 @@
       AND M.MSSTAT ='출고'
      <if test="matCode != null and !matCode.equals('')">AND (M.MICODE = #{matCode})</if>
 	<if test="startD != null and endD != null">AND (M.MSOUTDATE BETWEEN to_date(#{startD},'yyyy-MM-dd') AND to_date(#{endD},'yyyy-MM-dd'))</if>
+	order by M.MSOUTDATE
 	</select>
 	
 	<!-- =====엑셀============================================ -->
