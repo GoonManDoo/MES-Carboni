@@ -36,8 +36,10 @@
 	</delete>
 	
 	<select id="bomEx" resultType="map">
-		SELECT BCODE BOM번호, GICODE 제품코드, MICODE 자재코드, BAM 사용량, BNOTE 비고
-		FROM BOM ORDER BY TO_NUMBER(GICODE), MICODE
+		SELECT b.BCODE BOM번호, g.GICODE 제품코드, g.GINAME 제품명, m.MICODE 자재코드, m.MINAME 자재명, b.BAM 사용량, b.BNOTE 비고
+		FROM BOM b JOIN GOODSINFO g ON b.GICODE = g.GICODE
+                   JOIN MATINFO m ON b.MICODE = m.MICODE
+        ORDER BY TO_NUMBER(b.GICODE), b.MICODE
 	</select>
 
 </mapper>
