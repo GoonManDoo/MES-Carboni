@@ -373,7 +373,7 @@
 				AND m.pcnum = c.pcnum
 				AND d.picodeid = i.picodeid(+)
 				AND d.phnum = #{phnum}
-				ORDER BY d.phdnum
+				ORDER BY d.phnum desc
 			</select>
 			
 			<!-- 라인번호 클릭시 최근 1주일 생산실적 --> 

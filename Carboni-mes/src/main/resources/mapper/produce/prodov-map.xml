@@ -23,6 +23,7 @@
 		from prochead h, prodcomm c, proccomm_d d, goodsinfo g
 		where (h.pcdnum = d.pcdnum and d.pcnum = c.pcnum and d.gicode = g.gicode)
 		and h.phdate >= to_date(sysdate-7, 'YYYY/MM/DD')
+		ORDER BY h.phnum desc
 	</select>
 	
 	<select id="detailList" resultType="co.carboni.prj.produce.vo.PrododVO">
