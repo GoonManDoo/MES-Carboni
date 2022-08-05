@@ -259,7 +259,7 @@ public class CommonController {
 	public ModelAndView bomEx(BomVO vo) {
 		List<Map<String, Object>> list = bomDAO.bomEx(vo);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		String[] header = {"BOM번호","제품코드","자재코드","사용량","비고"};
+		String[] header = {"BOM번호","제품코드","제품명","자재코드","자재명","사용량","비고"};
 			map.put("headers", header);
 			map.put("filename", "BomList");
 			map.put("datas", list);

@@ -56,8 +56,10 @@
     		<label for="acode">부여권한</label>
     		<select name="acode" id="acode" form="myf">
     			<option value=""></option>
-    			<option value="a">관리자</option>
-    			<option value="u">사용자</option>
+    			<option value="관리자">관리자</option>
+    			<option value="사용자">사용자</option>
+    			<option style="display:none" value="a"></option>
+    			<option style="display:none" value="u"></option>
 			</select>
   		</form>
     
@@ -71,7 +73,7 @@
                   <th>이름</th>
                   <th>입사일</th>
                   <th>직책</th>
-                  <th>권한코드</th>
+                  <th>권한</th>
                   <th>Carboni ID</th>
                 </tr>
               </thead>
@@ -82,8 +84,9 @@
                   <td th:text="${e.ename}"></td>
                   <td th:text="${e.ehiredate}"></td>
                   <td th:text="${e.eposition}"></td>
+                  <td th:if="${e.acode} == 'a'" th:text="관리자"></td>
+                  <td th:if="${e.acode} == 'u'" th:text="사용자"></td>
                   <td th:if="${e.acode} == null"> ==권한없음==</td>
-                  <td th:unless="${e.acode} == null" th:text="${e.acode}"></td>
                   <td th:if="${e.lid} == null">==ID없음==</td>
                   <td th:unless="${e.lid} == null" th:text="${e.lid}"></td>
                 </tr>
@@ -106,6 +109,11 @@
       swal('항목을 입력하십시오', '사원코드는 필수 입력 항목입니다.', 'warning');
     } else {
       document.myf.action = 'employeeupdate';
+      	if($('#acode').val() == '관리자'){
+      		$('#acode').val('a');
+      	} else if($('#acode').val() == '사용자'){
+      		$('#acode').val('u');
+      	}
       document.myf.submit();
     }
   }
@@ -118,6 +126,7 @@
 	$('#ex').on('click', function(){
 		location.href="empEx"
 	});
+	
     
     </script>
     
