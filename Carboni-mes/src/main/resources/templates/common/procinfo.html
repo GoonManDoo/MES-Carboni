@@ -16,10 +16,14 @@
       float: right;
       margin-right: 20px;
       text-align: right;
+      margin-top: 40px;
     }
   #menu > a {
     text-decoration: none;
     color: black;
+  }
+  .btn-secondary {
+	margin-left: 5px;
   }
     
     #container {
@@ -50,15 +54,17 @@
     
     <body>
     
-      <h1>공정코드 관리</h1>
       <div id="menu">
         <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b>공정코드관리</b>
       </div>
+      <h1>공정코드 관리</h1>
       <div id="btns" class="card-header">
+      <div style="display: flex; justify-content: flex-end;">
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="신규" onclick="showit()">
         <button type="button" class="btn btn-secondary" id="ex">엑셀</button>
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+      </div>
       </div>
       <form id="myf" name="myf">
         <label for="picodeid">공정코드</label> <input type="text" id="picodeid" name="picodeid" readonly>

@@ -33,7 +33,12 @@
         float: right;
         margin-right: 20px;
         text-align: right;
+        margin-top: 40px;
       }
+      
+	  .btn-secondary {
+		margin-left: 5px;
+	  }
       
       #menu > a {
       	text-decoration: none;
@@ -54,21 +59,29 @@
       #myf>input{
       	margin: 2px 0 0 0;
       }
+      
+      .dataTable-selector{
+        width: 60px !important;
+      }
+
     </style>
   </head>
 
   <body>
-    <h1>공통코드 관리</h1>
     <div id="menu">
       <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b> 공통코드관리 </b>
     </div>
-    <form name="subform" id="subform">
-      <div id="btns" class="card-header">
+    <h1>공통코드 관리</h1>
+    <!--메인버튼-->
+      <div class="card-header" id="btn">
+      <div style="display: flex; justify-content: flex-end;">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
         <button type="button" class="btn btn-secondary" id="ex">엑셀</button>
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
         <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
       </div>
+      </div>
+    <form name="subform" id="subform">
       <div id="myf">
         <label for="ccodeid">코드ID</label> <input type="text" id="ccodeid" name="ccodeid" readonly>
         <label for="cclass">코드분류</label> <input type="text" id="cclass" name="cclass">

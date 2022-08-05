@@ -37,11 +37,16 @@
       float: right;
       margin-right: 20px;
       text-align: right;
+      margin-top: 40px;
     }
   	#menu > a {
       text-decoration: none;
       color: black;
   	}
+  	
+  	.btn-secondary {
+	  margin-left: 5px;
+    }
     
     label {
       width: 80px;
@@ -61,18 +66,23 @@
       vertical-align: middle;
       margin-top: 10px;
     }
+      .dataTable-selector{
+        width: 60px !important;
+      }
     </style>
     
     <body>
-      <h1>자재정보관리</h1>
       <div id="menu">
         <a href="/"><i class="bi bi-house-door-fill"></i></a> > 기준정보관리 > <b>자재정보관리</b>
       </div>
-      <div id="btns" class="card-header">
+      <h1>자재정보관리</h1>
+      <div id="btn" class="card-header">
+      <div style="display: flex; justify-content: flex-end;">
         <button type="button" class="btn btn-secondary" id="newthat">새자료</button>
         <button type="button" class="btn btn-secondary" id="ex">엑셀</button>
-        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="저장" onclick="check()">
-        <input sec:authorize="hasRole('ROLE_a')" type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+        <button type="button" sec:authorize="hasRole('ROLE_a')" class="btn btn-secondary" onclick="check()">저장</button>
+        <button type="button" sec:authorize="hasRole('ROLE_a')" class="btn btn-secondary" onclick="del()">삭제</button>
+      </div>
       </div>
       <div id="container">
         <div class="left">
@@ -130,6 +140,11 @@
     //새자료
     $('#newthat').click(function () {
       $('#matmain>*>input').val('');
+    })
+    
+    //글자삭제
+    $(function(){
+    	$('.dataTable-selector')[0].nextSibling.remove()
     })
     
     //라디오입력

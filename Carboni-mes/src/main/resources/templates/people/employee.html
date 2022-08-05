@@ -12,10 +12,15 @@
       float: right;
       margin-right: 20px;
       text-align: right;
+      margin-top: 40px;
     }
   #menu > a {
     text-decoration: none;
     color: black;
+  }
+  
+  .btn-secondary {
+	margin-left: 5px;
   }
     
     #container {
@@ -37,19 +42,21 @@
     </style>
     <body>
     
-      <h1>사원 관리</h1>
       <div id="menu">
         <a href="/"><i class="bi bi-house-door-fill"></i></a> > 사원 > <b>사원관리</b>
       </div>
-      <br>
+      <h1>사원 관리</h1>
       <div sec:authorize="hasRole('ROLE_u')">
+      	<br>
       	　관리자 권한이 없는 계정으로 조회하실 수 없습니다.
       </div>
       <div id="container" sec:authorize="hasRole('ROLE_a')">
-      <div id="btns" class="card-header">
+      <div id="btn" class="card-header">
+      <div style="display: flex; justify-content: flex-end;">
       <button type="button" class="btn btn-secondary" id="ex">엑셀</button>
       <input type="button" class="btn btn-secondary" value="저장" onclick="check()">
       <input type="button" class="btn btn-secondary" value="삭제" onclick="del()">
+      </div>
       </div>
   		<form id="myf" name="myf">
     		<label for="ecode">사원코드</label> <input type="text" id="ecode" name="ecode" readonly>
