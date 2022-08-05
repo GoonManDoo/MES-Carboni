@@ -75,7 +75,7 @@ span {
 <body class="sb-nav-fixed">
 	<th:block layout:fragment="main">
 		<div class="container-fluid px-4">
-		<div class="nameing"><a href="/" style="text-decoration-line: none; color: black">홈</a>>영업관리>출하관리</div>
+		<div class="nameing"><a href="/" style="text-decoration-line: none; color: black"><i class="bi bi-house-door-fill"></i></a>>영업관리>수주관리</div>
 			<h1 class="mt-4">출하 관리</h1>
 
 			<!-- 메인화면 버튼 -->
@@ -539,7 +539,8 @@ span {
 		/* 출하등록 모달 확인 눌렀을 때 */
 		function prodCheck() {
 			const allship = ship.getCheckedRows();
-				console.log(allship)
+			console.log(allship)
+				
 			$.ajax({
 				url : 'shipInsert',
 				method: 'POST',
@@ -548,7 +549,7 @@ span {
 				success: function() {
 					swal("등록 성공!", "출하등록이 완료되었습니다.", "success");
 				}
-			})
+			}) 
 			modal3.dialog('close')
 		}
 		

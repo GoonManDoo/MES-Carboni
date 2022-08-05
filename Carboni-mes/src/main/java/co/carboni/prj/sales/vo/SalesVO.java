@@ -11,6 +11,10 @@ import lombok.Data;
 
 @Data
 public class SalesVO {
+	
+	public String check1;
+	public String check2;
+	public String check3;
 
 	//제품불량내역
 	public String genum;     //불량내역번호
