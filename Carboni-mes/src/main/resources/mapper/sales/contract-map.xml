@@ -140,7 +140,7 @@
 	
 		<!-- 출하등록 -->
 		<update id="shipInsert" parameterType="co.carboni.prj.sales.vo.SalesVO" statementType="CALLABLE">
-            <![CDATA[{call shippro(#{cnnum}, #{sham}, #{shdate}, #{gsmnum})}]]>
+            <![CDATA[{call shippro(#{cnnum}, #{sham}, #{shdate}, #{gsmnum}, #{check1, mode=OUT, jdbcType=VARCHAR}, #{check2, mode=OUT, jdbcType=VARCHAR}, #{check3, mode=OUT, jdbcType=VARCHAR})}]]>
 		</update>
 		
 		<!-- 출하목록 삭제 -->
@@ -200,11 +200,12 @@
 		
 		<!-- 제품재고 조회 -->
 		<select id="findStkList" resultType="co.carboni.prj.sales.vo.SalesVO">
-			SELECT s.gsmnum, s.gsam, s.gicode, i.giname, i.giunit, i.gisafe
-			FROM goodsinfo i, goodsstk s
-			WHERE (i.gicode = s.gicode)
-			AND
-			s.gicode = #{gssCode}
+			SELECT s.gsmnum, s.gsam, s.gicode, i.giname, i.giunit, i.gisafe, sum(c.cnrest) AS cnrest
+			FROM goodsinfo i, goodsstk s, contract c
+			WHERE (i.gicode = s.gicode AND s.gicode = c.gicode)
+			AND (s.gicode = #{gssCode} AND c.cnstatus NOT IN ('납품완료'))
+			GROUP BY s.gsmnum, s.gsam, s.gicode, i.giname, i.giunit, i.gisafe
+			ORDER BY s.gsmnum
 		</select>
 		
 		<!-- 제품재고 삭제 -->
