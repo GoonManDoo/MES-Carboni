@@ -67,9 +67,6 @@ ul {
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
-.tui-grid-cell.rowcolor{
-	background-color:rgb(200, 200, 238);
-}
 </style>
 
 </head>
@@ -427,10 +424,10 @@ ul {
 				})
 				//발주내역 모달 안의 체크값 하이라이트
 				inmod.on('check',(ev)=>{
-					inmod.addRowClassName(ev.rowKey, 'rowcolor')
+					inmod.addRowClassName(ev.rowKey, 'rowSelect')
 				})
 				inmod.on('uncheck',(ev)=>{
-					inmod.removeRowClassName(ev.rowKey, 'rowcolor')
+					inmod.removeRowClassName(ev.rowKey, 'rowSelect')
 				})
 				
 				/*발주일자 성공했을때 메인 그리드에 나올내용업데이트*/
@@ -612,10 +609,10 @@ ul {
 						
 						//메인그리드 체크 하이라이트
 	                grid.on('check',(ev)=>{
-	                	grid.addRowClassName(ev.rowKey, 'rowcolor')
+	                	grid.addRowClassName(ev.rowKey, 'rowSelect')
 	                })
 	                grid.on('uncheck',(ev)=>{
-	                	grid.removeRowClassName(ev.rowKey, 'rowcolor')
+	                	grid.removeRowClassName(ev.rowKey, 'rowSelect')
 	                })
 			})
 		</script>
