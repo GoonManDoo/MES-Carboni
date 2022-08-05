@@ -55,9 +55,6 @@
 .tui-grid-cell.rowSelect {
 	background-color: #ffffff;
 }
-.tui-grid-cell.rowcolor{
-	background-color:rgb(200, 200, 238);
-}
 </style>
 </head>
 <body>
@@ -141,23 +138,27 @@
 									</tbody>
 								</table>
 							</div>
-							<!-- 버튼 -->
-							<div class="container-fluid px-4 mb-2">
-								<div style="display: flex; justify-content: flex-end;">
-									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="listBtn">조회</button>
-									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="addBtn"
-										sec:authorize="hasRole('ROLE_a')">추가</button>
-									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="modiBtn"
-										sec:authorize="hasRole('ROLE_a')">수정</button>
-									<button type="button" class="btn btn-secondary"
-										style="margin-right: 5px;" id="removeBtn"
-										sec:authorize="hasRole('ROLE_a')">삭제</button>
-								</div>
-							</div>
+
+
 						</form>
+					</div>
+				</div>
+				<!-- 버튼 -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<div style="display: flex; justify-content: flex-end;">
+							<button type="button" class="btn btn-secondary"
+								style="margin-right: 5px;" id="listBtn">조회</button>
+							<button type="button" class="btn btn-secondary"
+								style="margin-right: 5px;" id="addBtn"
+								sec:authorize="hasRole('ROLE_a')">추가</button>
+							<button type="button" class="btn btn-secondary"
+								style="margin-right: 5px;" id="modiBtn"
+								sec:authorize="hasRole('ROLE_a')">수정</button>
+							<button type="button" class="btn btn-secondary"
+								style="margin-right: 5px;" id="removeBtn"
+								sec:authorize="hasRole('ROLE_a')">삭제</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -509,11 +510,11 @@
                                 }
                                 //체크된 셀 하이라이팅
                                reqG.on('check',(ev)=>{
-                            	   reqG.addRowClassName(ev.rowKey,'rowcolor');
+                            	   reqG.addRowClassName(ev.rowKey,'rowSelect');
                                });
                                 
                                reqG.on('uncheck',(ev)=>{
-                            	   reqG.removeRowClassName(ev.rowKey,'rowcolor')
+                            	   reqG.removeRowClassName(ev.rowKey,'rowSelect')
                                })
                             }
                         })
@@ -721,13 +722,15 @@
                     			
                                 if(modlist == ''){
                                 	swal('실패','수정할 행을 선택하세요','error')
+                                	grid.resetData(result)
                                 	//grid.setRequestParams(result)
                                 	// grid.resetData(result) //그내용 그대로 둘 방법 찾기
                                 	//grid.removeCheckedRows('')
                                		 //grid.appendRows(result)
                                 }else{
                                 	newClear();
-                                	grid.setRequestParams(result)
+                                	//grid.setRequestParams(result)
+                                	grid.resetData(result)
                                 	 swal('성공', '수정이 완료되었습니다.', 'success')
                                 }
                                
@@ -828,10 +831,10 @@
                 })
                 //메인그리드 체크 하이라이트
 	                grid.on('check',(ev)=>{
-	                	grid.addRowClassName(ev.rowKey, 'rowcolor')
+	                	grid.addRowClassName(ev.rowKey, 'rowSelect')
 	                })
 	                grid.on('uncheck',(ev)=>{
-	                	grid.removeRowClassName(ev.rowKey, 'rowcolor')
+	                	grid.removeRowClassName(ev.rowKey, 'rowSelect')
 	                })
                 })
             </script>
