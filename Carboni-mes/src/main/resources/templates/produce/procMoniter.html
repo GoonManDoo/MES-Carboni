@@ -521,6 +521,10 @@ ul.tabs li.current {
 						name : 'pcnum',
 						align : 'center'
 					}, {
+						header : '지시명',
+						name : 'pcname',
+						align : 'center'
+					}, {
 						header : '생산일자',
 						name : 'phdate',
 						align : 'center'
@@ -554,6 +558,7 @@ ul.tabs li.current {
 						align : 'center'
 					} ]
 				});
+				produceList.hideColumn('pcnum')
 				produceList.hideColumn('gicode')
 	
 				/* 실적모니터링 - 공정별 생산내역 */

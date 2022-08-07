@@ -828,7 +828,7 @@ s
 					pnGrid.addRowClassName(rk, 'rowSelect')
 					gic = pnGrid.getRow(rk).gicode
 					$('#goodsCode').val(gic)
-					var sum = pnGrid.getValue(rk, 'ppadam')+pnGrid.getValue(rk, 'pcdam')
+					var sum = pnGrid.getValue(rk, 'pcdam')
 					/* 자재정보조회 콜백 */
 					var addMatFnc = function(result) {
 						$('#goodsName').val(result[0].giname)
