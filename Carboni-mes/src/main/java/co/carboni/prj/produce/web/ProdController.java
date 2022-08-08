@@ -401,9 +401,10 @@ public class ProdController {
 	
 	
 		
-		
+	// 공정진행관리 - 시간입력용 내부클래스	
 	public class Scheduler extends Thread {
 		
+	   // 8초마다 설비번호 순서대로 시작시간과 종료시간 입력 + 설비 가동상태 변경
 	   @Override
 	   public void run() {
 	      List<String> list = Arrays.asList(null, "SS-1", "SS-5", "SS-7", null);
