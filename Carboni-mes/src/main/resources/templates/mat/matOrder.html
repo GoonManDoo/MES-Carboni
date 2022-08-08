@@ -250,9 +250,11 @@
                         bodyHeight: 500,
                         rowHeaders: ['checkbox'],
                         columns: [ {
-                            header: '발주코드',
+                            header: '발주코드',  
+                            sortingType: 'desc',
                             name: 'monum',
-                            align: 'center'
+                            align: 'center',
+                            sortable: true
                         },{
                             header: '발주일자',
                             sortingType: 'desc',
@@ -559,31 +561,39 @@
                     /*생산에서 넘어오는 정보를 가지고있는 모달 확인버튼 눌렀을떄 R*/
                     function check() {
                         var reqlists = reqG.getCheckedRows()
+                       
+                        var reqcheckcode = reqlists.some((e) => {
+                            return e.cscode ==null
+                        })
+                        console.log(reqcheckcode)
+                       
                         if(reqlists.length==0){
                         	reqG.removeRowClassName('rowSelect')
                         }else{
                         	reqG.addRowClassName('rowSelect')
                         }
-                        var reqcheckcode = reqlists.some(e => {
-                            return e.cscode == null
-                        })
                         
                         /* cscode 가 null이 아닐떄 true  */
-                        if (reqcheckcode == true) {
-                        	
-                            swal('', '입력하지않은 값이 있습니다', 'warning')
-                        } else {
-                            $.ajax({
-                                url: 'addrequestlist',
-                                method: 'POST',
-                                data: JSON.stringify(reqlists),
-                                contentType: 'application/json',
-                                success: function (result) {
-                                    swal('성공', '발주가 완료되었습니다.', 'success')
-                                }
-                            })
+                        if (reqlists==''){
+                        	swal('실패','행을 선택하세요','error')
+                        }else{
+                        	   if (reqcheckcode == true) {
+                                   swal('', '입력하지않은 값이 있습니다', 'warning')
+                               } else {
+                                   $.ajax({
+                                       url: 'addrequestlist',
+                                       method: 'POST',
+                                       data: JSON.stringify(reqlists),
+                                       contentType: 'application/json',
+                                       success: function (result) {
+                                           swal('성공', '발주가 완료되었습니다.', 'success')
+                                       }
+                                   })
+                                   dia.dialog('close')
+                               }
+                               
                         }
-                        dia.dialog('close')
+                     
                     }
 
                     /*기업체 검색 모달 시작 */
