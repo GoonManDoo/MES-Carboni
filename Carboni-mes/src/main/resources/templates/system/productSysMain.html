@@ -284,22 +284,26 @@ function ecc(){
 //하이차트         
 $(function(){
    for (i=1; i<30; i++){
+	//설비의 갯수만큼 차트를 반복해서 보여줍니다. 각 차트가 랜덤 데이타를 쓰기에 가능한 구문입니다.
+	//최대 30개까지만 설정했으나 앞으로 쓰이기 위해선 개선의 여지가 있습니다.
   Highcharts.chart({
     chart: {
      renderTo : 'SS-'+ i,
       type: 'spline',
-      animation: Highcharts.svg, // don't animate in old IE
+      animation: Highcharts.svg, 
+      // 오래된 익스플로러에서는 작동하지 않는 애니매이션이지만 IE의 지원이 종료됨에 따라 제약이 사라졌습니다.
       marginRight: 10,
       events: {
         load: function () {
-
-          // set up the updating of the chart each second
+          
           var series = this.series[0];
           setInterval(function () {
-            var x = (new Date()).getTime(), // current time
+            var x = (new Date()).getTime(), 
+            // 시간과 데이터의 증감값을 조절합니다.
               y = Math.random()*10-5
             series.addPoint([x, y], true, true);
           }, 2000);
+          // 설정된 시간마다 차트를 새로 업데이트합니다.
         }
       }
     },
@@ -343,6 +347,7 @@ title:{
 
     tooltip: {
       headerFormat: '<b>{sysvo.siname}</b><br/>',
+      //sysvo의 데이터에서 설비 이름을 가져옵니다.
       pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
     },
 
@@ -356,9 +361,9 @@ title:{
     },
 
     series: [{
-      name: 'Random data',
+      name: 'randata',
       data: (function () {
-        // generate an array of random data
+        //실제 설비가 없으므로 랜덤데이타로 대체합니다.
         var data = [],
           time = (new Date()).getTime(),
           i;
