@@ -12,5 +12,23 @@
 |CI/CD|<img src="https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=Apache Maven&logoColor=white"> <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white">|
 
 ### 화면구현
-><h4>메인페이지</h4>
+><h4>로그인 페이지</h4>
 ![image](https://user-images.githubusercontent.com/98007769/184278387-3c59dd73-c6d4-4a72-986a-3c289a288387.png)
+
+><h4>메인페이지</h4>
+![image](https://user-images.githubusercontent.com/98007769/184278575-db2891b0-da96-48b7-b533-693923c56710.png)
+
+><h4>공통코드관리</h4>
+![image](https://user-images.githubusercontent.com/98007769/184278623-af981315-6b46-4bd1-b556-00d5174d633a.png)
+
+><h4>생산의뢰관리</h4>
+![image](https://user-images.githubusercontent.com/98007769/184278659-adb64771-0f1e-471d-be3f-3c364394b0f6.png)
+
+><h4>자재입고관리</h4>
+![image](https://user-images.githubusercontent.com/98007769/184278729-856c568a-fa42-4a5e-976b-0b034c963680.png)
+
+><h4>생산지시관리</h4>
+![image](https://user-images.githubusercontent.com/98007769/184278745-1ce8a912-6afc-4640-82c9-e6cd95a4cb83.png)
+
+><h4>설비관리</h4>
+![image](https://user-images.githubusercontent.com/98007769/184278790-1b076c9c-e30a-469a-86e3-4e1fa8050a0a.png)
